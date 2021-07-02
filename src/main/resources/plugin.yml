@@ -1,4 +1,5 @@
 name: ClansAU-Clans
 author: Trae
 main: net.clansau.clans.Clans
+depend: [ ClansAU-Core ]
 version: 1.0.0
