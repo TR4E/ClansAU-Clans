@@ -26,6 +26,7 @@ public class OptionsManager extends IOptionsManager {
     private void handleConfig(final YamlConfiguration yml, final ConfigManager.ConfigType type) {
         switch (type) {
             case MAIN_CONFIG: {
+                addData("Clans.Pillage-Length", yml.getInt("Clans.Pillage-Length"));
                 break;
             }
         }
@@ -53,5 +54,9 @@ public class OptionsManager extends IOptionsManager {
         config.loadFile();
         config.getConfig().set(key.replace("-", "."), enabled);
         config.saveFile();
+    }
+
+    public final int getPillageLength() {
+        return this.getData("Clans.Pillage-Length");
     }
 }

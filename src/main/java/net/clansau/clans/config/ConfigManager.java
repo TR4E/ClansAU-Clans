@@ -74,6 +74,7 @@ public class ConfigManager extends Manager {
     private void handleConfig(final YamlConfiguration yml, final ConfigType type) {
         switch (type) {
             case MAIN_CONFIG: {
+                yml.set("Clans.Pillage-Length", 10);
                 break;
             }
         }
