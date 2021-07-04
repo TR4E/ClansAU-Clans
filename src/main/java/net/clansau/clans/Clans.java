@@ -8,7 +8,7 @@ import net.clansau.clans.server.ServerManager;
 import net.clansau.clans.server.events.ServerStartEvent;
 import net.clansau.clans.server.events.ServerStopEvent;
 import net.clansau.clans.world.WorldManager;
-import net.clansau.core.config.IOptionsManager;
+import net.clansau.core.config.framework.IConfigManager;
 import net.clansau.core.framework.Plugin;
 import org.bukkit.Bukkit;
 
@@ -35,7 +35,7 @@ public class Clans extends Plugin {
     }
 
     @Override
-    public IOptionsManager getOptionsManager() {
-        return getManager(OptionsManager.class);
+    public final IConfigManager getConfigManager() {
+        return getManager(ConfigManager.class);
     }
 }

@@ -1,7 +1,7 @@
 package net.clansau.clans.world;
 
 import net.clansau.clans.Clans;
-import net.clansau.core.world.IWorldManager;
+import net.clansau.core.world.framework.IWorldManager;
 import org.bukkit.Location;
 
 public class WorldManager extends IWorldManager {

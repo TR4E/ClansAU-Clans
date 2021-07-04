@@ -119,7 +119,7 @@ public class ClanManager extends Manager {
     }
 
     public final long getMaxPillageLength() {
-        return (getInstance().getManager(OptionsManager.class).getPillageLength() * 60000L);
+        return (getInstance().getManager(OptionsManager.class).getClansPillageLength() * 60000L);
     }
 
     public final boolean isNameAllowed(final String name) {
