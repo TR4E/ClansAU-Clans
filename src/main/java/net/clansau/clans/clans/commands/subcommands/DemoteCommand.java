@@ -4,6 +4,7 @@ import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.clans.events.MemberDemoteEvent;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilFormat;
@@ -11,10 +12,13 @@ import net.clansau.core.utility.UtilMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class DemoteCommand extends IClanCommand {
+public class DemoteCommand extends IClanCommand implements Listener {
 
     public DemoteCommand(final ClanManager manager) {
         super(manager);
@@ -46,14 +50,7 @@ public class DemoteCommand extends IClanCommand {
             UtilMessage.message(player, "Clans", ChatColor.AQUA + target.getName() + ChatColor.GRAY + " cannot be demoted any further.");
             return;
         }
-        clan.setClanRole(target.getUUID(), ClanRole.getClanRole(clan.getClanRole(target.getUUID()).ordinal() - 1));
-        getManager().getRepository().updateMembers(clan);
-        UtilMessage.message(player, "Clans", "You demoted " + ChatColor.AQUA + target.getName() + ChatColor.GRAY + " to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".");
-        clan.messageClan("Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " demoted " + ChatColor.AQUA + target.getName() + ChatColor.GRAY + " to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".", new UUID[]{player.getUniqueId(), target.getUUID()});
-        final Player targetPlayer = Bukkit.getPlayer(target.getUUID());
-        if (targetPlayer != null && !(target.equals(client))) {
-            UtilMessage.message(targetPlayer, "Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " demoted you to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".");
-        }
+        Bukkit.getServer().getPluginManager().callEvent(new MemberDemoteEvent(player, client, target, clan));
     }
 
     private boolean canDemoteMember(final Player player, final Client client, final Client target, final Clan clan) {
@@ -72,5 +69,24 @@ public class DemoteCommand extends IClanCommand {
             }
         }
         return true;
+    }
+
+    private void demoteMember(final Player player, final Client client, final Client target, final Clan clan) {
+        clan.setClanRole(target.getUUID(), ClanRole.getClanRole(clan.getClanRole(target.getUUID()).ordinal() - 1));
+        getManager().getRepository().updateMembers(clan);
+        UtilMessage.message(player, "Clans", "You demoted " + ChatColor.AQUA + target.getName() + ChatColor.GRAY + " to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".");
+        clan.messageClan("Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " demoted " + ChatColor.AQUA + target.getName() + ChatColor.GRAY + " to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".", new UUID[]{player.getUniqueId(), target.getUUID()});
+        final Player targetPlayer = Bukkit.getPlayer(target.getUUID());
+        if (targetPlayer != null && !(target.equals(client))) {
+            UtilMessage.message(targetPlayer, "Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " demoted you to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onMemberDemote(final MemberDemoteEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        this.demoteMember(e.getPlayer(), e.getClient(), e.getTarget(), e.getClan());
     }
 }

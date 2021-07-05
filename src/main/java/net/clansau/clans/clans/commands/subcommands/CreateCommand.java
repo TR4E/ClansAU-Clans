@@ -85,6 +85,9 @@ public class CreateCommand extends IClanCommand implements Listener {
             return;
         }
         final Player player = e.getPlayer();
+        if (!(getInstance().getManager(RechargeManager.class).add(player, "Create Clan", 300000L, true))) {
+            return;
+        }
         final Clan clan = e.getClan();
         clan.setFounder(player.getUniqueId());
         clan.getMembersMap().put(player.getUniqueId(), ClanRole.LEADER);

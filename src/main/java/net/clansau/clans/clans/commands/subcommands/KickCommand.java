@@ -4,16 +4,20 @@ import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.clans.events.MemberKickEvent;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class KickCommand extends IClanCommand {
+public class KickCommand extends IClanCommand implements Listener {
 
     public KickCommand(final ClanManager manager) {
         super(manager);
@@ -45,15 +49,7 @@ public class KickCommand extends IClanCommand {
         if (!(this.canKickMember(player, client, target, clan))) {
             return;
         }
-        clan.getMembersMap().remove(target.getUUID());
-        getManager().getRepository().updateMembers(clan);
-        getManager().removeClanChat(target.getUUID());
-        UtilMessage.message(player, "Clans", "You kicked " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " from the Clan.");
-        clan.messageClan("Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " kicked " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " from the Clan.", new UUID[]{player.getUniqueId()});
-        final Player targetPlayer = Bukkit.getPlayer(target.getUUID());
-        if (targetPlayer != null && !(target.equals(client))) {
-            UtilMessage.message(targetPlayer, "Clans", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " kicked you from " + ChatColor.YELLOW + getManager().getName(clan, true) + ChatColor.GRAY + ".");
-        }
+        Bukkit.getServer().getPluginManager().callEvent(new MemberKickEvent(player, client, target, clan));
     }
 
     private boolean canKickMember(final Player player, final Client client, final Client target, final Clan clan) {
@@ -79,5 +75,25 @@ public class KickCommand extends IClanCommand {
             }
         }
         return true;
+    }
+
+    private void kickMember(final Player player, final Client client, final Client target, final Clan clan) {
+        clan.getMembersMap().remove(target.getUUID());
+        getManager().getRepository().updateMembers(clan);
+        getManager().removeClanChat(target.getUUID());
+        UtilMessage.message(player, "Clans", "You kicked " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " from the Clan.");
+        clan.messageClan("Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " kicked " + ChatColor.YELLOW + target.getName() + ChatColor.GRAY + " from the Clan.", new UUID[]{player.getUniqueId()});
+        final Player targetPlayer = Bukkit.getPlayer(target.getUUID());
+        if (targetPlayer != null && !(target.equals(client))) {
+            UtilMessage.message(targetPlayer, "Clans", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " kicked you from " + ChatColor.YELLOW + getManager().getName(clan, true) + ChatColor.GRAY + ".");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onMemberKick(final MemberKickEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        this.kickMember(e.getPlayer(), e.getClient(), e.getTarget(), e.getClan());
     }
 }

@@ -2,6 +2,7 @@ package net.clansau.clans.clans;
 
 import net.clansau.clans.Clans;
 import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilLocation;
@@ -219,7 +220,7 @@ public class Clan {
     public final String getMembersString() {
         final List<String> list = new ArrayList<>();
         final List<UUID> members = new ArrayList<>(this.getMembersMap().keySet());
-        members.sort(Comparator.comparingInt(o -> this.getClanRole(o).ordinal()));
+        members.sort((o1, o2) -> this.getClanRole(o2).ordinal() - this.getClanRole(o1).ordinal());
         for (final UUID member : members) {
             final Client client = getInstance().getManager(ClientManager.class).tryGetOnlineClient(member);
             if (client == null) {
@@ -268,10 +269,6 @@ public class Clan {
             }
             return clan.getDomString(enemy);
         }
-        return "";
-    }
-
-    public final String getTNTProtection() {
         return "";
     }
 
@@ -333,5 +330,39 @@ public class Clan {
                 UtilMessage.message(player, prefix, message);
             }
         }
+    }
+
+    public final long getTNTProtected() {
+        final long z = ((this.getLastOnline() + (getInstance().getManager(OptionsManager.class).getClansTNTProtection() * 60000L)) - System.currentTimeMillis());
+        System.out.println(z);
+        return z;
+    }
+
+    public final boolean isTNTProtected() {
+        if (this instanceof AdminClan) {
+            return true;
+        }
+        if (getInstance().getManager(OptionsManager.class).isClansLastDay()) {
+            return false;
+        }
+        if (this.isOnline()) {
+            return false;
+        }
+        return (this.getTNTProtected() < 0L);
+    }
+
+    public final String getTNTProtectionString() {
+        if (!(this instanceof AdminClan)) {
+            if (getInstance().getManager(OptionsManager.class).isClansLastDay()) {
+                return ChatColor.GOLD + "LAST DAY OF MAP - NO PROTECTION.";
+            }
+            if (this.isOnline()) {
+                return ChatColor.GOLD + "No, clan members are online.";
+            }
+            if (this.getTNTProtected() > 0L) {
+                return ChatColor.GOLD + "No, " + UtilTime.getTime(this.getTNTProtected(), UtilTime.TimeUnit.BEST, 1) + " until protection.";
+            }
+        }
+        return ChatColor.GREEN + "Yes, TNT protected";
     }
 }

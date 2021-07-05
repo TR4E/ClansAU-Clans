@@ -15,12 +15,10 @@ import net.clansau.core.framework.blockrestore.BlockRestoreManager;
 import net.clansau.core.utility.UtilBlock;
 import net.clansau.core.utility.UtilLocation;
 import net.clansau.core.utility.UtilMessage;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -46,6 +44,7 @@ public class ClanManager extends Manager {
 
     private void registerCommands() {
         addModule(new ListCommand(this));
+        addModule(new TopCommand(this));
         addModule(new CreateCommand(this));
         addModule(new DisbandCommand(this));
         addModule(new InviteCommand(this));
@@ -273,5 +272,73 @@ public class ClanManager extends Manager {
 //        if (gamer != null && (gamer.getChatType().equals(Gamer.ChatType.CLAN_CHAT) || gamer.getChatType().equals(Gamer.ChatType.ALLY_CHAT))) {
 //            gamer.setChatType(Gamer.ChatType.GLOBAL_CHAT);
 //        }
+    }
+
+    public final boolean isSafe(final Location location) {
+        final Clan land = this.getClan(location);
+        if (land == null) {
+            return false;
+        }
+        if (land instanceof AdminClan && ((AdminClan) land).isSafe()) {
+            if (land.getName().toLowerCase().contains("spawn")) {
+                return location.getY() >= 100.0D;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public final boolean isSafe(final Player player) {
+        return (this.isSafe(player.getLocation())/* && !(getInstance().getManager(CombatManager.class).isInCombat(player)*/);
+    }
+
+    public final boolean canCast(final Location location) {
+        return !(this.isSafe(location));
+    }
+
+    public final boolean canCast(final Player player) {
+        final Client client = getInstance().getManager(ClientManager.class).getOnlineClient(player.getUniqueId());
+        if (client == null) {
+            return false;
+        }
+        if (client.isAdministrating()) {
+            return true;
+        }
+        if (!(this.canCast(player.getLocation()))) {
+            UtilMessage.message(player, "Restrictions", "You are not allowed to cast abilities in safe zones!");
+            return false;
+        }
+        return true;
+    }
+
+    public final boolean canHurt(final Player damager, final Player damagee) {
+        if (damager.equals(damagee)) {
+            return false;
+        }
+        if (damagee.getGameMode().equals(GameMode.CREATIVE) || damagee.getGameMode().equals(GameMode.SPECTATOR) || ((CraftPlayer) damagee).getHandle().isSpectator()) {
+            return false;
+        }
+        final Clan damagerClan = this.getClan(damager.getUniqueId());
+        final Clan damageeClan = this.getClan(damagee.getUniqueId());
+        if (damagerClan != null && damageeClan != null) {
+            if (damagerClan.equals(damageeClan) || damagerClan.isAllied(damageeClan)) {
+                return false;
+            }
+        }
+        return (!(this.isSafe(damager) && this.isSafe(damagee)));
+    }
+
+    public final boolean hasAccess(final Player player, final Location location) {
+        final Client client = getInstance().getManager(ClientManager.class).getOnlineClient(player.getUniqueId());
+        if (client == null) {
+            return false;
+        }
+        if (client.isAdministrating()) {
+            return true;
+        }
+        final Clan clan = this.getClan(player.getUniqueId());
+        final Clan land = this.getClan(location);
+        final ClanRelation relation = this.getClanRelation(clan, land);
+        return (land == null || relation.equals(ClanRelation.SELF) || relation.equals(ClanRelation.TRUSTED_ALLY) || relation.equals(ClanRelation.PILLAGE));
     }
 }

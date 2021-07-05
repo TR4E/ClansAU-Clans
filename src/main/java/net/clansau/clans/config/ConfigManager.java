@@ -16,7 +16,10 @@ public class ConfigManager extends IConfigManager {
     protected void handleConfig(final String type, final YamlConfiguration yml) {
         switch (type) {
             case "Config": {
+                yml.set("Clans.First-Day", false);
+                yml.set("Clans.Last-Day", false);
                 yml.set("Clans.Pillage-Length", 10);
+                yml.set("Clans.TNT-Protection", 30);
                 yml.set("Clans.Name-Length.Max", 14);
                 yml.set("Clans.Name-Length.Min", 3);
                 yml.set("Clans.Max-Clan-Members", 8);

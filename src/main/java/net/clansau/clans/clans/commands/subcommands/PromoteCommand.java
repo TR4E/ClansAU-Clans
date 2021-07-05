@@ -4,6 +4,7 @@ import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.clans.events.MemberPromoteEvent;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilFormat;
@@ -11,10 +12,13 @@ import net.clansau.core.utility.UtilMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class PromoteCommand extends IClanCommand {
+public class PromoteCommand extends IClanCommand implements Listener {
 
     public PromoteCommand(final ClanManager manager) {
         super(manager);
@@ -46,17 +50,7 @@ public class PromoteCommand extends IClanCommand {
             UtilMessage.message(player, "Clans", ChatColor.AQUA + target.getName() + ChatColor.GRAY + " cannot be promoted any further.");
             return;
         }
-        if (!(client.isAdministrating()) && clan.getClanRole(player.getUniqueId()).equals(ClanRole.LEADER) && clan.getClanRole(target.getUUID()).equals(ClanRole.ADMIN)) {
-            clan.setClanRole(player.getUniqueId(), ClanRole.ADMIN);
-        }
-        clan.setClanRole(target.getUUID(), ClanRole.getClanRole(clan.getClanRole(target.getUUID()).ordinal() + 1));
-        getManager().getRepository().updateMembers(clan);
-        UtilMessage.message(player, "Clans", "You promoted " + ChatColor.AQUA + target.getName() + ChatColor.GRAY + " to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".");
-        clan.messageClan("Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " promoted " + ChatColor.AQUA + target.getName() + ChatColor.GRAY + " to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".", new UUID[]{player.getUniqueId(), target.getUUID()});
-        final Player targetPlayer = Bukkit.getPlayer(target.getUUID());
-        if (targetPlayer != null && !(target.equals(client))) {
-            UtilMessage.message(targetPlayer, "Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " promoted you to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".");
-        }
+        Bukkit.getServer().getPluginManager().callEvent(new MemberPromoteEvent(player, client, target, clan));
     }
 
     private boolean canPromoteMember(final Player player, final Client client, final Client target, final Clan clan) {
@@ -75,5 +69,27 @@ public class PromoteCommand extends IClanCommand {
             }
         }
         return true;
+    }
+
+    private void promoteMember(final Player player, final Client client, final Client target, final Clan clan) {
+        if (!(client.isAdministrating()) && clan.getClanRole(player.getUniqueId()).equals(ClanRole.LEADER) && clan.getClanRole(target.getUUID()).equals(ClanRole.ADMIN)) {
+            clan.setClanRole(player.getUniqueId(), ClanRole.ADMIN);
+        }
+        clan.setClanRole(target.getUUID(), ClanRole.getClanRole(clan.getClanRole(target.getUUID()).ordinal() + 1));
+        getManager().getRepository().updateMembers(clan);
+        UtilMessage.message(player, "Clans", "You promoted " + ChatColor.AQUA + target.getName() + ChatColor.GRAY + " to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".");
+        clan.messageClan("Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " promoted " + ChatColor.AQUA + target.getName() + ChatColor.GRAY + " to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".", new UUID[]{player.getUniqueId(), target.getUUID()});
+        final Player targetPlayer = Bukkit.getPlayer(target.getUUID());
+        if (targetPlayer != null && !(target.equals(client))) {
+            UtilMessage.message(targetPlayer, "Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " promoted you to " + ChatColor.GREEN + UtilFormat.cleanString(clan.getClanRole(target.getUUID()).name()) + ChatColor.GRAY + ".");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onMemberPromote(final MemberPromoteEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        this.promoteMember(e.getPlayer(), e.getClient(), e.getTarget(), e.getClan());
     }
 }

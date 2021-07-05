@@ -52,7 +52,7 @@ public class DisbandCommand extends IClanCommand implements Listener {
         if (!(this.canDisbandClan(player, client, clan))) {
             return;
         }
-        Bukkit.getServer().getPluginManager().callEvent(new ClanDisbandEvent(player, clan, ClanDisbandEvent.Cause.PLAYER));
+        Bukkit.getServer().getPluginManager().callEvent(new ClanDisbandEvent(player, clan, ClanDisbandEvent.Reason.PLAYER));
     }
 
     private boolean canDisbandClan(final Player player, final Client client, final Clan clan) {

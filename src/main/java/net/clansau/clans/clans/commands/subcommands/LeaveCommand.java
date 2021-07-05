@@ -5,13 +5,18 @@ import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.clans.events.MemberLeaveEvent;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
-public class LeaveCommand extends IClanCommand {
+public class LeaveCommand extends IClanCommand implements Listener {
 
     public LeaveCommand(final ClanManager manager) {
         super(manager);
@@ -37,11 +42,7 @@ public class LeaveCommand extends IClanCommand {
                 return;
             }
         }
-        clan.getMembersMap().remove(player.getUniqueId());
-        getManager().getRepository().updateMembers(clan);
-        getManager().removeClanChat(player.getUniqueId());
-        UtilMessage.message(player, "Clans", "You left " + ChatColor.YELLOW + getManager().getName(clan, !(clan instanceof AdminClan)) + ChatColor.GRAY + ".");
-        clan.messageClan("Clans", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " left the Clan.", null);
+        Bukkit.getServer().getPluginManager().callEvent(new MemberLeaveEvent(player, clan));
     }
 
     private boolean canLeaveClan(final Player player, final Client client, final Clan clan) {
@@ -61,5 +62,21 @@ public class LeaveCommand extends IClanCommand {
             }
         }
         return true;
+    }
+
+    private void leaveClan(final Player player, final Clan clan) {
+        clan.getMembersMap().remove(player.getUniqueId());
+        getManager().getRepository().updateMembers(clan);
+        getManager().removeClanChat(player.getUniqueId());
+        UtilMessage.message(player, "Clans", "You left " + ChatColor.YELLOW + getManager().getName(clan, !(clan instanceof AdminClan)) + ChatColor.GRAY + ".");
+        clan.messageClan("Clans", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " left the Clan.", null);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onMemberLeave(final MemberLeaveEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        this.leaveClan(e.getPlayer(), e.getClan());
     }
 }

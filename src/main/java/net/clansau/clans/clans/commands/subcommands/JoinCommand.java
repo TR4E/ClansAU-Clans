@@ -5,17 +5,22 @@ import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.clans.events.ClanJoinEvent;
 import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.framework.recharge.RechargeManager;
 import net.clansau.core.utility.UtilMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class JoinCommand extends IClanCommand {
+public class JoinCommand extends IClanCommand implements Listener {
 
     public JoinCommand(final ClanManager manager) {
         super(manager);
@@ -42,15 +47,7 @@ public class JoinCommand extends IClanCommand {
         if (!(this.canJoinClan(player, client, clan))) {
             return;
         }
-        if (client.isAdministrating()) {
-            clan.getMembersMap().put(player.getUniqueId(), ClanRole.LEADER);
-        } else {
-            clan.getMembersMap().put(player.getUniqueId(), ClanRole.RECRUIT);
-        }
-        getManager().getRepository().updateMembers(clan);
-        clan.getInviteeReqMap().remove(player.getUniqueId());
-        UtilMessage.message(player, "Clans", "You joined " + ChatColor.AQUA + getManager().getName(clan, !(clan instanceof AdminClan)) + ChatColor.GRAY + ".");
-        clan.messageClan("Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " joined the Clan.", new UUID[]{player.getUniqueId()});
+        Bukkit.getServer().getPluginManager().callEvent(new ClanJoinEvent(player, clan, client.isAdministrating()));
     }
 
     private boolean canJoinClan(final Player player, final Client client, final Clan clan) {
@@ -72,5 +69,25 @@ public class JoinCommand extends IClanCommand {
             }
         }
         return true;
+    }
+
+    private void joinClan(final Player player, final Clan clan, final boolean administrating) {
+        if (administrating) {
+            clan.getMembersMap().put(player.getUniqueId(), ClanRole.LEADER);
+        } else {
+            clan.getMembersMap().put(player.getUniqueId(), ClanRole.RECRUIT);
+        }
+        getManager().getRepository().updateMembers(clan);
+        clan.getInviteeReqMap().remove(player.getUniqueId());
+        UtilMessage.message(player, "Clans", "You joined " + ChatColor.AQUA + getManager().getName(clan, !(clan instanceof AdminClan)) + ChatColor.GRAY + ".");
+        clan.messageClan("Clans", ChatColor.AQUA + player.getName() + ChatColor.GRAY + " joined the Clan.", new UUID[]{player.getUniqueId()});
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onClanJoin(final ClanJoinEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        this.joinClan(e.getPlayer(), e.getClan(), e.isForced());
     }
 }

@@ -5,15 +5,20 @@ import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.clans.events.ClanNeutralEvent;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class NeutralCommand extends IClanCommand {
+public class NeutralCommand extends IClanCommand implements Listener {
 
     public NeutralCommand(final ClanManager manager) {
         super(manager);
@@ -50,7 +55,7 @@ public class NeutralCommand extends IClanCommand {
             return;
         }
         if (target.isAllied(clan) || client.isAdministrating()) {
-            this.forceNeutral(clan, target);
+            Bukkit.getServer().getPluginManager().callEvent(new ClanNeutralEvent(player, clan, target, true));
             return;
         }
         if (clan.getNeutralReqMap().containsKey(target.getName()) && clan.getNeutralReqMap().get(target.getName()) > System.currentTimeMillis()) {
@@ -58,7 +63,7 @@ public class NeutralCommand extends IClanCommand {
             return;
         }
         if (target.getNeutralReqMap().containsKey(clan.getName())) {
-            this.acceptNeutral(player, clan, target);
+            Bukkit.getServer().getPluginManager().callEvent(new ClanNeutralEvent(player, clan, target, false));
             return;
         }
         this.requestNeutral(player, clan, target);
@@ -120,5 +125,17 @@ public class NeutralCommand extends IClanCommand {
             }
         }
         return true;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onClanNeutral(final ClanNeutralEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        if (e.isForced()) {
+            this.forceNeutral(e.getClan(), e.getTarget());
+        } else {
+            this.acceptNeutral(e.getPlayer(), e.getClan(), e.getTarget());
+        }
     }
 }

@@ -5,16 +5,21 @@ import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.clans.events.ClanAllyEvent;
 import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class AllyCommand extends IClanCommand {
+public class AllyCommand extends IClanCommand implements Listener {
 
     public AllyCommand(final ClanManager manager) {
         super(manager);
@@ -51,7 +56,7 @@ public class AllyCommand extends IClanCommand {
             return;
         }
         if (client.isAdministrating()) {
-            this.forceAlliance(clan, target);
+            Bukkit.getServer().getPluginManager().callEvent(new ClanAllyEvent(player, clan, target, true));
             return;
         }
         if (clan.getAllianceReqMap().containsKey(target.getName()) && clan.getAllianceReqMap().get(target.getName()) > System.currentTimeMillis()) {
@@ -59,7 +64,7 @@ public class AllyCommand extends IClanCommand {
             return;
         }
         if (target.getAllianceReqMap().containsKey(clan.getName())) {
-            this.acceptAlliance(player, clan, target);
+            Bukkit.getServer().getPluginManager().callEvent(new ClanAllyEvent(player, clan, target, false));
             return;
         }
         this.requestAlliance(player, clan, target);
@@ -131,5 +136,17 @@ public class AllyCommand extends IClanCommand {
             }
         }
         return true;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onClanAlly(final ClanAllyEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        if (e.isForced()) {
+            this.forceAlliance(e.getClan(), e.getTarget());
+        } else {
+            this.acceptAlliance(e.getPlayer(), e.getClan(), e.getTarget());
+        }
     }
 }

@@ -111,6 +111,9 @@ public class ClanRepository extends Repository {
             clan.setHome(doc.getString("Home").equals("None") ? null : UtilLocation.fileToLoc(doc.getString("Home")));
             clan.setFounder(UUID.fromString(doc.getString("Founder")));
             clan.setTerritory(new HashSet<>(doc.getList("Territory", String.class)));
+            clan.setLastOnline(doc.getLong("Last-Online"));
+            clan.setLastTNTed(doc.getLong("Last-TNTed"));
+            clan.setPoints(doc.getInteger("Points"));
             clanManager.addClan(clan);
         }
         UtilMessage.log("Database", "Loaded " + ChatColor.YELLOW + clanManager.getClans().size() + ChatColor.GRAY + " Clans. (" + ChatColor.GREEN + UtilTime.getTime(System.currentTimeMillis() - then, UtilTime.TimeUnit.BEST, 1) + ChatColor.GRAY + ")");

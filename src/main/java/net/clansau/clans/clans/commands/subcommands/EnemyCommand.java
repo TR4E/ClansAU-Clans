@@ -5,15 +5,20 @@ import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.clans.events.ClanEnemyEvent;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class EnemyCommand extends IClanCommand {
+public class EnemyCommand extends IClanCommand implements Listener {
 
     public EnemyCommand(final ClanManager manager) {
         super(manager);
@@ -49,6 +54,10 @@ public class EnemyCommand extends IClanCommand {
             UtilMessage.message(player, "Clans", "You are already enemies with " + ChatColor.RED + getManager().getName(target, true) + ChatColor.GRAY + ".");
             return;
         }
+        Bukkit.getServer().getPluginManager().callEvent(new ClanEnemyEvent(player, clan, target));
+    }
+
+    private void enemyClan(final Player player, final Clan clan, final Clan target) {
         if (target.isAllied(clan)) {
             clan.getAlliesMap().remove(target.getName());
             target.getAlliesMap().remove(clan.getName());
@@ -79,5 +88,13 @@ public class EnemyCommand extends IClanCommand {
             }
         }
         return true;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onClanEnemy(final ClanEnemyEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        this.enemyClan(e.getPlayer(), e.getClan(), e.getTarget());
     }
 }

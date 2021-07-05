@@ -37,6 +37,10 @@ public class ClanCommand extends Command<ClanManager, Player> {
                 getCommand(ListCommand.class).execute(player, args);
                 break;
             }
+            case "top": {
+                getCommand(TopCommand.class).execute(player, args);
+                break;
+            }
             case "create": {
                 getCommand(CreateCommand.class).execute(player, args);
                 break;
@@ -164,9 +168,9 @@ public class ClanCommand extends Command<ClanManager, Player> {
         list.add(ChatColor.WHITE + "Allies: " + clan.getAlliesString(pClan));
         list.add(ChatColor.WHITE + "Enemies: " + clan.getEnemiesString(pClan));
         list.add(ChatColor.WHITE + "Members: " + clan.getMembersString());
-        list.add(ChatColor.WHITE + "TNT Protection: " + clan.getTNTProtection());
+        list.add(ChatColor.WHITE + "TNT Protection: " + clan.getTNTProtectionString());
 //        list.add(ChatColor.WHITE + "Energy: " + clan.getEnergyString());
-//        list.add(ChatColor.WHITE + "Points: " + ChatColor.RED.toString() + ChatColor.BOLD + clan.getPoints());
+        list.add(ChatColor.WHITE + "Points: " + ChatColor.RED + ChatColor.BOLD + clan.getPoints());
         return list;
     }
 
