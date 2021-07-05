@@ -5,6 +5,7 @@ import net.clansau.clans.clans.commands.ClanCommand;
 import net.clansau.clans.clans.commands.subcommands.*;
 import net.clansau.clans.clans.enums.ClanRelation;
 import net.clansau.clans.clans.listeners.ChatListener;
+import net.clansau.clans.clans.listeners.ConnectionListener;
 import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
@@ -37,6 +38,7 @@ public class ClanManager extends Manager {
     @Override
     protected void registerModules() {
         addModule(new ChatListener(this));
+        addModule(new ConnectionListener(this));
 
         addModule(new ClanCommand(this));
         this.registerCommands();

@@ -26,24 +26,26 @@ public class Clan {
     private final Map<String, Integer> enemiesMap;
     private final Map<UUID, Long> inviteeReqMap;
     private final Map<String, Long> neutralReqMap, allianceReqMap, trustReqMap, pillagingMap;
-    private long created;
+    private long created, lastOnline, lastTNTed;
     private Location home;
     private UUID founder;
     private Set<String> territory;
+    private int points;
 
     public Clan(final Clans instance, final String name) {
         this.instance = instance;
         this.name = name;
-        this.created = System.currentTimeMillis();
         this.membersMap = new HashMap<>();
         this.alliesMap = new HashMap<>();
         this.enemiesMap = new HashMap<>();
-        this.territory = new HashSet<>();
         this.inviteeReqMap = new HashMap<>();
         this.neutralReqMap = new HashMap<>();
         this.allianceReqMap = new HashMap<>();
         this.trustReqMap = new HashMap<>();
         this.pillagingMap = new HashMap<>();
+        this.created = System.currentTimeMillis();
+        this.territory = new HashSet<>();
+        this.points = 0;
     }
 
     protected Clans getInstance() {
@@ -52,18 +54,6 @@ public class Clan {
 
     public final String getName() {
         return this.name;
-    }
-
-    public final long getCreated() {
-        return this.created;
-    }
-
-    public void setCreated(final long created) {
-        this.created = created;
-    }
-
-    public final String getAge() {
-        return UtilTime.getTime(System.currentTimeMillis() - this.getCreated(), UtilTime.TimeUnit.BEST, 1);
     }
 
     public final Map<UUID, ClanRole> getMembersMap() {
@@ -86,22 +76,6 @@ public class Clan {
         this.home = home;
     }
 
-    public final UUID getFounder() {
-        return this.founder;
-    }
-
-    public void setFounder(final UUID founder) {
-        this.founder = founder;
-    }
-
-    public final Set<String> getTerritory() {
-        return this.territory;
-    }
-
-    public void setTerritory(final Set<String> territory) {
-        this.territory = territory;
-    }
-
     public final Map<UUID, Long> getInviteeReqMap() {
         return this.inviteeReqMap;
     }
@@ -120,6 +94,58 @@ public class Clan {
 
     public final Map<String, Long> getPillagingMap() {
         return this.pillagingMap;
+    }
+
+    public final long getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(final long created) {
+        this.created = created;
+    }
+
+    public final long getLastOnline() {
+        return this.lastOnline;
+    }
+
+    public void setLastOnline(final long lastOnline) {
+        this.lastOnline = lastOnline;
+    }
+
+    public final long getLastTNTed() {
+        return this.lastTNTed;
+    }
+
+    public void setLastTNTed(final long lastTNTed) {
+        this.lastTNTed = lastTNTed;
+    }
+
+    public final String getAge() {
+        return UtilTime.getTime(System.currentTimeMillis() - this.getCreated(), UtilTime.TimeUnit.BEST, 1);
+    }
+
+    public final UUID getFounder() {
+        return this.founder;
+    }
+
+    public void setFounder(final UUID founder) {
+        this.founder = founder;
+    }
+
+    public final Set<String> getTerritory() {
+        return this.territory;
+    }
+
+    public void setTerritory(final Set<String> territory) {
+        this.territory = territory;
+    }
+
+    public final int getPoints() {
+        return this.points;
+    }
+
+    public void setPoints(final int points) {
+        this.points = points;
     }
 
     public final Set<Player> getOnlineMembers() {
@@ -192,17 +218,14 @@ public class Clan {
 
     public final String getMembersString() {
         final List<String> list = new ArrayList<>();
-        for (final Map.Entry<UUID, ClanRole> entry : this.getMembersMap().entrySet()) {
-            final Player player = Bukkit.getPlayer(entry.getKey());
-            if (player == null) {
-                continue;
-            }
-            final Client client = getInstance().getManager(ClientManager.class).getOnlineClient(player.getUniqueId());
+        final List<UUID> members = new ArrayList<>(this.getMembersMap().keySet());
+        members.sort(Comparator.comparingInt(o -> this.getClanRole(o).ordinal()));
+        for (final UUID member : members) {
+            final Client client = getInstance().getManager(ClientManager.class).tryGetOnlineClient(member);
             if (client == null) {
                 continue;
             }
-            list.sort(Comparator.comparing(s -> this.getClanRole(client.getUUID())));
-            list.add(ChatColor.YELLOW + this.getClanRolePrefix(client.getUUID()) + ChatColor.WHITE + "." + UtilPlayer.getOnlineStatus(client.getUUID()) + client.getName());
+            list.add(ChatColor.YELLOW + this.getClanRolePrefix(member) + ChatColor.WHITE + "." + UtilPlayer.getOnlineStatus(member) + client.getName());
         }
         return list.stream().collect(Collectors.joining(ChatColor.WHITE + ", "));
     }

@@ -42,6 +42,9 @@ public class ClanRepository extends Repository {
         doc.append("Territory", new ArrayList<>(clan.getTerritory()));
         doc.append("Admin", (clan instanceof AdminClan ? 1 : 0));
         doc.append("Safe", (clan instanceof AdminClan && ((AdminClan) clan).isSafe() ? 1 : 0));
+        doc.append("Last-Online", clan.getLastOnline());
+        doc.append("Last-TNTed", clan.getLastTNTed());
+        doc.append("Points", clan.getPoints());
         getManager().addQuery(new InsertQuery(doc, this));
     }
 
@@ -75,6 +78,18 @@ public class ClanRepository extends Repository {
 
     public void updateSafe(final Clan clan) {
         getManager().addQuery(new UpdateQuery(new Document().append("Safe", (clan instanceof AdminClan && ((AdminClan) clan).isSafe() ? 1 : 0)), this, new Document("Name", clan.getName())));
+    }
+
+    public void updateLastOnline(final Clan clan) {
+        getManager().addQuery(new UpdateQuery(new Document().append("Last-Online", clan.getLastOnline()), this, new Document("Name", clan.getName())));
+    }
+
+    public void updateLastTNTed(final Clan clan) {
+        getManager().addQuery(new UpdateQuery(new Document().append("Last-TNTed", clan.getLastTNTed()), this, new Document("Name", clan.getName())));
+    }
+
+    public void updatePoints(final Clan clan) {
+        getManager().addQuery(new UpdateQuery(new Document().append("Points", clan.getPoints()), this, new Document("Name", clan.getName())));
     }
 
     @Override
