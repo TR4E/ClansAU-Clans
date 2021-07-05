@@ -28,7 +28,7 @@ public abstract class IClanCommand extends Module<ClanManager> {
 
     public void execute(final Player player, final String[] args) {
         if (!(isEnabled())) {
-            UtilMessage.message(player, "Clans", "This Command is not currently enabled.");
+            UtilMessage.message(player, "Clans", "That Clan Command is currently not enabled.");
             return;
         }
         this.run(player, args);
