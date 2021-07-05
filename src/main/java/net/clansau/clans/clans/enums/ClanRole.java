@@ -1,4 +1,4 @@
-package net.clansau.clans.clans;
+package net.clansau.clans.clans.enums;
 
 public enum ClanRole {
 

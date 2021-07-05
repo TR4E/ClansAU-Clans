@@ -3,22 +3,31 @@ package net.clansau.clans.clans.commands.subcommands;
 import net.clansau.clans.clans.AdminClan;
 import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
-import net.clansau.clans.clans.commands.IClanCommand;
+import net.clansau.clans.clans.commands.framework.IClanCommand;
+import net.clansau.clans.clans.enums.ClanRole;
+import net.clansau.clans.clans.events.ClanCreateEvent;
+import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
+import net.clansau.core.client.Rank;
 import net.clansau.core.framework.recharge.RechargeManager;
 import net.clansau.core.utility.UtilFormat;
 import net.clansau.core.utility.UtilMessage;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
-public class CreateCommand extends IClanCommand {
+public class CreateCommand extends IClanCommand implements Listener {
 
-    public CreateCommand(final ClanManager manager, final Player player, final String[] args) {
-        super(manager, player, args);
+    public CreateCommand(final ClanManager manager) {
+        super(manager);
     }
 
     @Override
-    protected void run(final Player player, final String[] args) {
+    public void run(final Player player, final String[] args) {
         if (getManager().getClan(player.getUniqueId()) != null) {
             UtilMessage.message(player, "Clans", "You are already in a Clan.");
             return;
@@ -40,28 +49,47 @@ public class CreateCommand extends IClanCommand {
         if (client == null) {
             return;
         }
+        if (!(this.canCreateClan(player, client, name))) {
+            return;
+        }
+        Clan clan = new Clan(getInstance(), name);
+        if (client.hasRank(Rank.OWNER, false) && client.isAdministrating()) {
+            clan = new AdminClan(getInstance(), name);
+        }
+        Bukkit.getServer().getPluginManager().callEvent(new ClanCreateEvent(player, clan));
+    }
+
+    private boolean canCreateClan(final Player player, final Client client, final String name) {
         if (!(client.isAdministrating())) {
             if (!(getManager().isNameAllowed(name))) {
                 UtilMessage.message(player, "Clans", "You cannot use that as your Clan name.");
-                return;
+                return false;
             }
-//            final OptionsManager optionsManager = getInstance().getManager(OptionsManager.class);
-//            if (name.length() > optionsManager.getMaxClanNameLength()) {
-//                UtilMessage.message(player, "Clans", "Clan name is too long. Maximum length is " + ChatColor.YELLOW + optionsManager.getMaxClanNameLength() + ChatColor.GRAY + ".");
-//                return;
-//            }
-//            if (name.length() < optionsManager.getMinClanNameLength()) {
-//                UtilMessage.message(player, "Clans", "Clan name is too long. Minimum length is " + ChatColor.YELLOW + optionsManager.getMinClanNameLength() + ChatColor.GRAY + ".");
-//                return;
-//            }
-            if (!(getInstance().getManager(RechargeManager.class).add(player, "Clan Create", 600000L, true))) {
-                return;
+            final OptionsManager optionsManager = getInstance().getManager(OptionsManager.class);
+            if (name.length() > optionsManager.getClansMaxLengthName()) {
+                UtilMessage.message(player, "Clans", "Clan name is too long. Maximum length is " + ChatColor.YELLOW + optionsManager.getClansMaxLengthName() + ChatColor.GRAY + ".");
+                return false;
             }
-            Clan clan = new Clan(getInstance(), name);
-            if (client.isAdministrating()) {
-                clan = new AdminClan(getInstance(), name);
+            if (name.length() < optionsManager.getClansMinLengthName()) {
+                UtilMessage.message(player, "Clans", "Clan name is too short. Minimum length is " + ChatColor.YELLOW + optionsManager.getClansMinLengthName() + ChatColor.GRAY + ".");
+                return false;
             }
-//            Bukkit.getServer().getPluginManager().callEvent(new ClanCreateEvent(player, clan));
+            return !(getInstance().getManager(RechargeManager.class).isCooling(player, "Clan Create", true));
         }
+        return true;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onClanCreate(final ClanCreateEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        final Player player = e.getPlayer();
+        final Clan clan = e.getClan();
+        clan.setFounder(player.getUniqueId());
+        clan.getMembersMap().put(player.getUniqueId(), ClanRole.LEADER);
+        getManager().addClan(clan);
+        getManager().getRepository().saveClan(clan);
+        UtilMessage.broadcast("Clans", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " formed " + ChatColor.YELLOW + (clan instanceof AdminClan ? "Admin Clan " : "Clan ") + clan.getName() + ChatColor.GRAY + ".", null);
     }
 }

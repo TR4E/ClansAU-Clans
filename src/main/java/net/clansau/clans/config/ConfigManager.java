@@ -17,6 +17,9 @@ public class ConfigManager extends IConfigManager {
         switch (type) {
             case "Config": {
                 yml.set("Clans.Pillage-Length", 10);
+                yml.set("Clans.Name-Length.Max", 14);
+                yml.set("Clans.Name-Length.Min", 3);
+                yml.set("Clans.Max-Clan-Members", 8);
             }
         }
     }

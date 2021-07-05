@@ -1,8 +1,11 @@
 package net.clansau.clans.clans;
 
 import net.clansau.clans.Clans;
+import net.clansau.clans.clans.enums.ClanRole;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
+import net.clansau.core.utility.UtilLocation;
+import net.clansau.core.utility.UtilMessage;
 import net.clansau.core.utility.UtilPlayer;
 import net.clansau.core.utility.UtilTime;
 import org.bukkit.Bukkit;
@@ -139,7 +142,10 @@ public class Clan {
     }
 
     public final boolean isNeutraled(final Clan target) {
-        return !(this.isAllied(target) && this.isEnemied(target));
+        if (this.isAllied(target)) {
+            return false;
+        }
+        return !(this.isEnemied(target));
     }
 
     public final boolean isAllied(final Clan target) {
@@ -174,6 +180,16 @@ public class Clan {
         return target.isPillaging(this);
     }
 
+    public final boolean canDomAvoid() {
+        for (final Clan other : getInstance().getManager(ClanManager.class).getClans().values()) {
+            if (!(other.isEnemied(this)) || (other.getEnemiesMap().get(this.getName()) <= 8)) {
+                continue;
+            }
+            return true;
+        }
+        return false;
+    }
+
     public final String getMembersString() {
         final List<String> list = new ArrayList<>();
         for (final Map.Entry<UUID, ClanRole> entry : this.getMembersMap().entrySet()) {
@@ -189,6 +205,69 @@ public class Clan {
             list.add(ChatColor.YELLOW + this.getClanRolePrefix(client.getUUID()) + ChatColor.WHITE + "." + UtilPlayer.getOnlineStatus(client.getUUID()) + client.getName());
         }
         return list.stream().collect(Collectors.joining(ChatColor.WHITE + ", "));
+    }
+
+    public final String getAlliesString(final Clan clan) {
+        final List<String> list = new ArrayList<>();
+        final ClanManager manager = getInstance().getManager(ClanManager.class);
+        for (final String clanName : this.getAlliesMap().keySet()) {
+            final Clan ally = manager.getClan(clanName);
+            if (ally == null) {
+                continue;
+            }
+            list.add(manager.getClanRelation(clan, ally).getSuffix() + ally.getName());
+        }
+        return list.stream().collect(Collectors.joining(ChatColor.WHITE + ", "));
+    }
+
+    public final String getEnemiesString(final Clan clan) {
+        final List<String> list = new ArrayList<>();
+        final ClanManager manager = getInstance().getManager(ClanManager.class);
+        for (final String clanName : this.getEnemiesMap().keySet()) {
+            final Clan enemy = manager.getClan(clanName);
+            if (enemy == null) {
+                continue;
+            }
+            list.add(manager.getClanRelation(clan, enemy).getSuffix() + enemy.getName() + (clan != null && clan.isEnemied(enemy) ? " " + clan.getDomString(enemy) : ""));
+        }
+        return list.stream().collect(Collectors.joining(ChatColor.WHITE + ", "));
+    }
+
+    public final String getDomString(final Clan target) {
+        return ChatColor.GRAY + "(" + ChatColor.GREEN + this.getEnemiesMap().get(target.getName()) + ChatColor.GRAY + ":" + ChatColor.RED + target.getEnemiesMap().get(this.getName()) + ChatColor.GRAY + ")";
+    }
+
+    public final String getDominanceString(final Clan clan) {
+        for (final String clanName : this.getEnemiesMap().keySet()) {
+            final Clan enemy = getInstance().getManager(ClanManager.class).getClan(clanName);
+            if (enemy == null || !(clan.isEnemied(enemy))) {
+                continue;
+            }
+            return clan.getDomString(enemy);
+        }
+        return "";
+    }
+
+    public final String getTNTProtection() {
+        return "";
+    }
+
+    public final String getHomeString() {
+        if (this.getHome() == null) {
+            return ChatColor.RED + "Not set";
+        }
+        return UtilLocation.locToString(this.getHome());
+    }
+
+    public final String getTerritoryString() {
+        if (this instanceof AdminClan) {
+            return this.getTerritory().size() + "/-1";
+        }
+        return this.getTerritory().size() + "/" + this.getMaxClaimLimit();
+    }
+
+    public final int getMaxClaimLimit() {
+        return (this.getMembersMap().size() + 3);
     }
 
     public final ClanRole getClanRole(final UUID uuid) {
@@ -211,5 +290,25 @@ public class Clan {
 
     public final String getClanRolePrefix(final UUID uuid) {
         return this.getClanRole(uuid).name().substring(0, 1);
+    }
+
+    public void messageClan(final String prefix, final String message, final UUID[] ignore) {
+        for (final Player player : this.getOnlineMembers()) {
+            if (ignore != null && Arrays.asList(ignore).contains(player.getUniqueId())) {
+                continue;
+            }
+            UtilMessage.message(player, prefix, message);
+        }
+    }
+
+    public void messageAllies(final String prefix, final String message, final UUID[] ignore) {
+        for (final String ally : this.getAlliesMap().keySet()) {
+            for (final Player player : getInstance().getManager(ClanManager.class).getClan(ally).getOnlineMembers()) {
+                if (ignore != null && Arrays.asList(ignore).contains(player.getUniqueId())) {
+                    continue;
+                }
+                UtilMessage.message(player, prefix, message);
+            }
+        }
     }
 }

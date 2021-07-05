@@ -2,6 +2,7 @@ package net.clansau.clans.clans;
 
 import com.mongodb.client.FindIterable;
 import net.clansau.clans.Clans;
+import net.clansau.clans.clans.enums.ClanRole;
 import net.clansau.core.database.Repository;
 import net.clansau.core.database.queries.DeleteQuery;
 import net.clansau.core.database.queries.InsertQuery;
@@ -31,11 +32,12 @@ public class ClanRepository extends Repository {
     public void saveClan(final Clan clan) {
         final Document doc = new Document();
         doc.append("Name", clan.getName());
+        doc.append("Founder", clan.getFounder().toString());
         doc.append("Created", clan.getCreated());
         doc.append("Members", clan.getMembersMap().entrySet().stream().map(m -> m.getKey().toString() + ":" + m.getValue().name()).collect(Collectors.toList()));
         doc.append("Allies", clan.getAlliesMap().entrySet().stream().map(a -> a.getKey() + ":" + UtilFormat.getNumberFromBoolean(a.getValue())).collect(Collectors.toList()));
         doc.append("Enemies", clan.getEnemiesMap().entrySet().stream().map(e -> e.getKey() + ":" + e.getValue()).collect(Collectors.toList()));
-        doc.append("Home", UtilLocation.locToFile(clan.getHome()));
+        doc.append("Home", (clan.getHome() != null ? UtilLocation.locToFile(clan.getHome()) : "None"));
         doc.append("UUID", clan.getFounder().toString());
         doc.append("Territory", new ArrayList<>(clan.getTerritory()));
         doc.append("Admin", (clan instanceof AdminClan ? 1 : 0));
@@ -91,13 +93,13 @@ public class ClanRepository extends Repository {
             this.addMembers(clan, doc);
             this.addAllies(clan, doc);
             this.addEnemies(clan, doc);
-            clan.setHome(UtilLocation.fileToLoc(doc.getString("Home")));
+            clan.setHome(doc.getString("Home").equals("None") ? null : UtilLocation.fileToLoc(doc.getString("Home")));
             clan.setFounder(UUID.fromString(doc.getString("Founder")));
             clan.setTerritory(new HashSet<>(doc.getList("Territory", String.class)));
             clanManager.addClan(clan);
         }
-        setDataLoaded(true);
         UtilMessage.log("Database", "Loaded " + ChatColor.YELLOW + clanManager.getClans().size() + ChatColor.GRAY + " Clans. (" + ChatColor.GREEN + UtilTime.getTime(System.currentTimeMillis() - then, UtilTime.TimeUnit.BEST, 1) + ChatColor.GRAY + ")");
+        setDataLoaded(true);
     }
 
     private void addMembers(final Clan clan, final Document doc) {

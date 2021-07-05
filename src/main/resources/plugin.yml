@@ -3,3 +3,6 @@ author: Trae
 main: net.clansau.clans.Clans
 depend: [ ClansAU-Core ]
 version: 1.0.0
+commands:
+  clan:
+    aliases: [ c, f, g, fac, faction, gang ]
