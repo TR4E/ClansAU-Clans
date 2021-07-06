@@ -1,6 +1,5 @@
 package net.clansau.clans.clans;
 
-import com.mongodb.client.FindIterable;
 import net.clansau.clans.Clans;
 import net.clansau.clans.clans.enums.ClanRole;
 import net.clansau.core.database.Repository;
@@ -95,10 +94,9 @@ public class ClanRepository extends Repository {
     @Override
     protected void loadData() {
         final long then = System.currentTimeMillis();
-        final FindIterable<Document> documents = getCollection().find();
         final ClanManager clanManager = getInstance().getManager(ClanManager.class);
         clanManager.getClans().clear();
-        for (final Document doc : documents) {
+        for (final Document doc : getCollection().find()) {
             Clan clan = new Clan((Clans) getInstance(), doc.getString("Name"));
             if (doc.getInteger("Admin") == 1) {
                 clan = new AdminClan((Clans) getInstance(), doc.getString("Name"));

@@ -12,13 +12,14 @@ public class ClanUnClaimEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final Player player;
-    private final Clan clan;
+    private final Clan clan, land;
     private final Chunk chunk;
     private boolean cancelled;
 
-    public ClanUnClaimEvent(final Player player, final Clan clan, final Chunk chunk) {
+    public ClanUnClaimEvent(final Player player, final Clan clan, final Clan land, final Chunk chunk) {
         this.player = player;
         this.clan = clan;
+        this.land = land;
         this.chunk = chunk;
     }
 
@@ -36,6 +37,10 @@ public class ClanUnClaimEvent extends Event implements Cancellable {
 
     public final Clan getClan() {
         return this.clan;
+    }
+
+    public final Clan getLand() {
+        return this.land;
     }
 
     public final Chunk getChunk() {

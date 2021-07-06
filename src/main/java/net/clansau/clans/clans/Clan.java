@@ -11,6 +11,7 @@ import net.clansau.core.utility.UtilPlayer;
 import net.clansau.core.utility.UtilTime;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -139,6 +140,22 @@ public class Clan {
 
     public void setTerritory(final Set<String> territory) {
         this.territory = territory;
+    }
+
+    public void addTerritory(final Chunk chunk) {
+        this.getTerritory().add(UtilLocation.chunkToFile(chunk));
+    }
+
+    public void removeTerritory(final Chunk chunk) {
+        this.getTerritory().remove(UtilLocation.chunkToFile(chunk));
+    }
+
+    public final List<Chunk> getTerritoryChunks() {
+        final List<Chunk> list = new ArrayList<>();
+        for (final String territory : this.getTerritory()) {
+            list.add(UtilLocation.stringToChunk(territory));
+        }
+        return list;
     }
 
     public final int getPoints() {

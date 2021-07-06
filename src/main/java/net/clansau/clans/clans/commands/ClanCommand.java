@@ -89,6 +89,26 @@ public class ClanCommand extends Command<ClanManager, Player> {
                 getCommand(EnemyCommand.class).execute(player, args);
                 break;
             }
+            case "claim": {
+                getCommand(ClaimCommand.class).execute(player, args);
+                break;
+            }
+            case "unclaim": {
+                getCommand(UnClaimCommand.class).execute(player, args);
+                break;
+            }
+            case "unclaimall": {
+                getCommand(UnClaimAllCommand.class).execute(player, args);
+                break;
+            }
+            case "sethome": {
+                getCommand(SetHomeCommand.class).execute(player, args);
+                break;
+            }
+            case "home": {
+                getCommand(HomeCommand.class).execute(player, args);
+                break;
+            }
             default: {
                 this.clanCommand(player, args);
                 break;

@@ -15,16 +15,16 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockBreakEvent;
 
-public class PreventBlockPlaceInTerritory extends CoreListener<WorldManager> {
+public class ClanBlockBreak extends CoreListener<WorldManager> {
 
-    public PreventBlockPlaceInTerritory(final WorldManager manager) {
-        super(manager, "Disable Block Place In Territory");
+    public ClanBlockBreak(final WorldManager manager) {
+        super(manager, "Clan Block Break");
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onBlockPlace(final BlockPlaceEvent e) {
+    public void onBlockBreak(final BlockBreakEvent e) {
         if (e.isCancelled()) {
             return;
         }
@@ -33,10 +33,10 @@ public class PreventBlockPlaceInTerritory extends CoreListener<WorldManager> {
             return;
         }
         final Player player = e.getPlayer();
-        final ClanManager clanManager = getInstance().getManager(ClanManager.class);
+        final ClanManager clanManager = getManager().getClanManager();
         final Clan land = clanManager.getClan(block.getLocation());
         final Clan clan = clanManager.getClan(player.getUniqueId());
-        if (this.canPlaceBlock(player, clan, land)) {
+        if (this.canBreakBlock(player, clan, land)) {
             return;
         }
         final Client client = getInstance().getManager(ClientManager.class).getOnlineClient(player.getUniqueId());
@@ -47,10 +47,10 @@ public class PreventBlockPlaceInTerritory extends CoreListener<WorldManager> {
             return;
         }
         e.setCancelled(true);
-        UtilMessage.message(player, "Clans", "You cannot place " + ChatColor.GREEN + UtilFormat.cleanString(block.getType().name()) + ChatColor.GRAY + " in " + clanManager.getClanRelation(clan, land).getSuffix() + clanManager.getName(land, !(land instanceof AdminClan)) + ChatColor.GRAY + ".");
+        UtilMessage.message(player, "Clans", "You cannot break " + ChatColor.GREEN + UtilFormat.cleanString(block.getType().name()) + ChatColor.GRAY + " in " + clanManager.getClanRelation(clan, land).getSuffix() + clanManager.getName(land, !(land instanceof AdminClan)) + ChatColor.GRAY + ".");
     }
 
-    private boolean canPlaceBlock(final Player player, final Clan clan, final Clan land) {
+    private boolean canBreakBlock(final Player player, final Clan clan, final Clan land) {
         if (land == null) {
             return true;
         }

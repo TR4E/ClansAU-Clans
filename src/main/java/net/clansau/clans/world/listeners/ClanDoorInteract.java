@@ -1,6 +1,5 @@
 package net.clansau.clans.world.listeners;
 
-import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.world.WorldManager;
 import net.clansau.core.framework.modules.CoreListener;
 import net.clansau.core.framework.recharge.RechargeManager;
@@ -14,16 +13,23 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class InteractIronDoors extends CoreListener<WorldManager> {
+public class ClanDoorInteract extends CoreListener<WorldManager> {
 
-    public InteractIronDoors(final WorldManager manager) {
-        super(manager, "Interact Iron Doors");
+    public ClanDoorInteract(final WorldManager manager) {
+        super(manager, "Clan Door Interact");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDoorInteract(final PlayerInteractEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        if (!(e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+            return;
+        }
         Block block = e.getClickedBlock();
         if (block == null) {
             return;
@@ -32,7 +38,7 @@ public class InteractIronDoors extends CoreListener<WorldManager> {
             return;
         }
         final Player player = e.getPlayer();
-        if (!(getInstance().getManager(ClanManager.class).hasAccess(player, block.getLocation()))) {
+        if (!(getManager().getClanManager().hasAccess(player, block.getLocation()))) {
             if (getInstance().getManager(RechargeManager.class).add(player, "Door Knock", 450L, false)) {
                 block.getWorld().playEffect(block.getLocation(), Effect.ZOMBIE_CHEW_WOODEN_DOOR, 0);
             }

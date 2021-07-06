@@ -1,26 +1,25 @@
 package net.clansau.clans.clans.events;
 
 import net.clansau.clans.clans.Clan;
-import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class ClanClaimEvent extends Event implements Cancellable {
+public class ClanSetHomeEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
     private final Player player;
-    private final Clan clan, land;
-    private final Chunk chunk;
+    private final Clan clan;
+    private final Location home;
     private boolean cancelled;
 
-    public ClanClaimEvent(final Player player, final Clan clan, final Clan land, final Chunk chunk) {
+    public ClanSetHomeEvent(final Player player, final Clan clan, final Location home) {
         this.player = player;
         this.clan = clan;
-        this.land = land;
-        this.chunk = chunk;
+        this.home = home;
     }
 
     public static HandlerList getHandlerList() {
@@ -39,12 +38,8 @@ public class ClanClaimEvent extends Event implements Cancellable {
         return this.clan;
     }
 
-    public final Clan getLand() {
-        return this.land;
-    }
-
-    public final Chunk getChunk() {
-        return this.chunk;
+    public final Location getHome() {
+        return this.home;
     }
 
     public final boolean isCancelled() {

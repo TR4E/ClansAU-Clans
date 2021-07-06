@@ -19,10 +19,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class PreventBlockInteractInTerritory extends CoreListener<WorldManager> {
+public class ClanBlockInteract extends CoreListener<WorldManager> {
 
-    public PreventBlockInteractInTerritory(final WorldManager manager) {
-        super(manager, "Prevent Block Interact In Territory");
+    public ClanBlockInteract(final WorldManager manager) {
+        super(manager, "Clan Block Interact");
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -37,14 +37,14 @@ public class PreventBlockInteractInTerritory extends CoreListener<WorldManager> 
         if (block == null) {
             return;
         }
-        if (!(UtilBlock.isUsable(block.getType()) || block.getType().equals(Material.GLOWING_REDSTONE_ORE))) {
+        if (!(UtilBlock.isUsable(block.getType())) || block.getType().equals(Material.GLOWING_REDSTONE_ORE)) {
             return;
         }
         final Player player = e.getPlayer();
-        final ClanManager clanManager = getInstance().getManager(ClanManager.class);
+        final ClanManager clanManager = getManager().getClanManager();
         final Clan clan = clanManager.getClan(player.getUniqueId());
         final Clan land = clanManager.getClan(block.getLocation());
-        if (this.canInteractBlock(player, block, clan, land, clanManager)) {
+        if (this.canInteractBlock(block, clan, land)) {
             return;
         }
         final Client client = getInstance().getManager(ClientManager.class).getOnlineClient(player.getUniqueId());
@@ -58,7 +58,7 @@ public class PreventBlockInteractInTerritory extends CoreListener<WorldManager> 
         UtilMessage.message(player, "Clans", "You cannot use " + ChatColor.GREEN + UtilFormat.cleanString(block.getType().name()) + ChatColor.GRAY + " in " + clanManager.getClanRelation(clan, land).getSuffix() + clanManager.getName(land, !(land instanceof AdminClan)) + ChatColor.GRAY + ".");
     }
 
-    private boolean canInteractBlock(final Player player, final Block block, final Clan clan, final Clan land, final ClanManager clanManager) {
+    private boolean canInteractBlock(final Block block, final Clan clan, final Clan land) {
         if (land == null) {
             return true;
         }
@@ -69,7 +69,7 @@ public class PreventBlockInteractInTerritory extends CoreListener<WorldManager> 
             if (clan.isPillaging(land)) {
                 return true;
             }
-            if (clanManager.hasAccess(player, block.getLocation())) {
+            if (clan.isTrusted(land)) {
                 return block.getType().name().contains("DOOR") || block.getType().name().contains("BUTTON") || block.getType().name().contains("LEVER");
             }
         }

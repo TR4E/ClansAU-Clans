@@ -21,6 +21,7 @@ public class OptionsManager extends IOptionsManager {
                 addData("Clans.Name-Length.Max", yml.getInt("Clans.Name-Length.Max"));
                 addData("Clans.Name-Length.Min", yml.getInt("Clans.Name-Length.Min"));
                 addData("Clans.Max-Clan-Members", yml.getInt("Clans.Max-Clan-Members"));
+                addData("Clans.Max-Clan-Claims", yml.getInt("Clans.Max-Clan-Claims"));
             }
         }
     }
@@ -51,5 +52,9 @@ public class OptionsManager extends IOptionsManager {
 
     public final int getClansMaxMembers() {
         return getData("Clans.Max-Clan-Members");
+    }
+
+    public final int getClansMaxClaims() {
+        return getData("Clans.Max-Clan-Claims");
     }
 }

@@ -6,12 +6,14 @@ import net.clansau.clans.clans.commands.subcommands.*;
 import net.clansau.clans.clans.enums.ClanRelation;
 import net.clansau.clans.clans.listeners.ChatListener;
 import net.clansau.clans.clans.listeners.ConnectionListener;
+import net.clansau.clans.clans.listeners.DisplayTerritoryOwner;
 import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.framework.Manager;
 import net.clansau.core.framework.blockrestore.BlockRestoreData;
 import net.clansau.core.framework.blockrestore.BlockRestoreManager;
+import net.clansau.core.utility.TitleManager;
 import net.clansau.core.utility.UtilBlock;
 import net.clansau.core.utility.UtilLocation;
 import net.clansau.core.utility.UtilMessage;
@@ -37,6 +39,7 @@ public class ClanManager extends Manager {
     protected void registerModules() {
         addModule(new ChatListener(this));
         addModule(new ConnectionListener(this));
+        addModule(new DisplayTerritoryOwner(this));
 
         addModule(new ClanCommand(this));
         this.registerCommands();
@@ -57,6 +60,11 @@ public class ClanManager extends Manager {
         addModule(new AllyCommand(this));
         addModule(new TrustCommand(this));
         addModule(new EnemyCommand(this));
+        addModule(new ClaimCommand(this));
+        addModule(new UnClaimCommand(this));
+        addModule(new UnClaimAllCommand(this));
+        addModule(new SetHomeCommand(this));
+        addModule(new HomeCommand(this));
     }
 
     public final ClanRepository getRepository() {
@@ -156,8 +164,8 @@ public class ClanManager extends Manager {
     }
 
     public void disbandClan(final Clan clan) {
-        for (final String territory : clan.getTerritory()) {
-            this.unOutlineChunk(UtilLocation.stringToChunk(territory));
+        for (final Chunk chunk : clan.getTerritoryChunks()) {
+            this.unOutlineChunk(chunk);
         }
         for (final String a : clan.getAlliesMap().keySet()) {
             final Clan ally = this.getClan(a);
@@ -340,5 +348,39 @@ public class ClanManager extends Manager {
         final Clan land = this.getClan(location);
         final ClanRelation relation = this.getClanRelation(clan, land);
         return (land == null || relation.equals(ClanRelation.SELF) || relation.equals(ClanRelation.TRUSTED_ALLY) || relation.equals(ClanRelation.PILLAGE));
+    }
+
+    public void displayOwner(final Player player, final Location location) {
+        String append = "";
+        final Clan clan = this.getClan(player.getUniqueId());
+        final Clan land = this.getClan(location);
+        if (land != null) {
+            if (land instanceof AdminClan) {
+                if (((AdminClan) land).isSafe()) {
+                    append = ChatColor.GRAY + " (" + ChatColor.AQUA + "Safe" + ChatColor.GRAY + ")";
+                } else if (land.getName().equalsIgnoreCase("fields")) {
+                    append = ChatColor.GRAY + " (" + ChatColor.RED + ChatColor.BOLD + "PvP Hotspot" + ChatColor.GRAY + ")";
+                }
+            } else {
+                if (clan != null) {
+                    if (clan.isTrusted(land)) {
+                        append = ChatColor.GRAY + " (" + ChatColor.YELLOW + "Trusted" + ChatColor.GRAY + ")";
+                    } else if (clan.isEnemied(land)) {
+                        append = " " + clan.getDomString(land);
+                    }
+                }
+            }
+        }
+        final String name = (land != null ? (this.getClanRelation(clan, land).getSuffix() + this.getName(land, false) + append) : ChatColor.YELLOW + "Wilderness");
+        getInstance().getManager(TitleManager.class).sendPlayer(player, " ", name, 2);
+        UtilMessage.message(player, "Territory", name);
+    }
+
+    public void handleClanChat(final Player player, final Clan clan, final String message) {
+        clan.messageClan(null, ChatColor.AQUA + player.getName() + ChatColor.DARK_GRAY + " " + message, null);
+    }
+
+    public void handleAllyChat(final Player player, final Clan clan, final String message) {
+        clan.messageAllies(null, ChatColor.DARK_GREEN + clan.getName() + " " + player.getName() + ChatColor.GREEN + " " + message, null);
     }
 }
