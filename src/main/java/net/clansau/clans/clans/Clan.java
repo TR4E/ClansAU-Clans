@@ -9,10 +9,7 @@ import net.clansau.core.utility.UtilLocation;
 import net.clansau.core.utility.UtilMessage;
 import net.clansau.core.utility.UtilPlayer;
 import net.clansau.core.utility.UtilTime;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -346,6 +343,15 @@ public class Clan {
                 }
                 UtilMessage.message(player, prefix, message);
             }
+        }
+    }
+
+    public void soundClan(final Sound sound, final float v1, final float v2, final UUID[] ignore) {
+        for (final Player player : this.getOnlineMembers()) {
+            if (ignore != null && Arrays.asList(ignore).contains(player.getUniqueId())) {
+                continue;
+            }
+            player.playSound(player.getLocation(), sound, v1, v2);
         }
     }
 

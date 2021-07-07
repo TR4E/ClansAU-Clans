@@ -46,7 +46,7 @@ public class DisbandCommand extends IClanCommand implements Listener {
             return;
         }
         if (clan instanceof AdminClan && !(client.isAdministrating())) {
-            UtilMessage.message(player, "Clans", "You need to be in Client Admin to disband Admin Clans.");
+            UtilMessage.message(player, "Clans", "You must be Administrating to disband Admin Clans.");
             return;
         }
         if (!(this.canDisbandClan(player, client, clan))) {

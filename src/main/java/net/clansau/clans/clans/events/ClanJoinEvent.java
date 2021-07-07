@@ -1,32 +1,19 @@
 package net.clansau.clans.clans.events;
 
 import net.clansau.clans.clans.Clan;
+import net.clansau.core.framework.event.CustomCancellableEvent;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
-public class ClanJoinEvent extends Event implements Cancellable {
-
-    private static final HandlerList handlers = new HandlerList();
+public class ClanJoinEvent extends CustomCancellableEvent {
 
     private final Player player;
     private final Clan clan;
     private final boolean forced;
-    private boolean cancelled;
 
     public ClanJoinEvent(final Player player, final Clan clan, final boolean forced) {
         this.player = player;
         this.clan = clan;
         this.forced = forced;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public final HandlerList getHandlers() {
-        return handlers;
     }
 
     public final Player getPlayer() {
@@ -41,11 +28,4 @@ public class ClanJoinEvent extends Event implements Cancellable {
         return this.forced;
     }
 
-    public final boolean isCancelled() {
-        return this.cancelled;
-    }
-
-    public void setCancelled(final boolean cancelled) {
-        this.cancelled = cancelled;
-    }
 }

@@ -1,20 +1,9 @@
 package net.clansau.clans.server.events;
 
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
+import net.clansau.core.framework.event.CustomEvent;
 
-public class ServerStartEvent extends Event {
-
-    private static final HandlerList handlers = new HandlerList();
+public class ServerStartEvent extends CustomEvent {
 
     public ServerStartEvent() {
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public final HandlerList getHandlers() {
-        return handlers;
     }
 }

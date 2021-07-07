@@ -4,9 +4,7 @@ import net.clansau.clans.Clans;
 import net.clansau.clans.clans.commands.ClanCommand;
 import net.clansau.clans.clans.commands.subcommands.*;
 import net.clansau.clans.clans.enums.ClanRelation;
-import net.clansau.clans.clans.listeners.ChatListener;
-import net.clansau.clans.clans.listeners.ConnectionListener;
-import net.clansau.clans.clans.listeners.DisplayTerritoryOwner;
+import net.clansau.clans.clans.listeners.*;
 import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
@@ -40,6 +38,12 @@ public class ClanManager extends Manager {
         addModule(new ChatListener(this));
         addModule(new ConnectionListener(this));
         addModule(new DisplayTerritoryOwner(this));
+        addModule(new ExplosionListener(this));
+        addModule(new HandleDominance(this));
+        addModule(new PillageDisableBlockBreak(this));
+        addModule(new PillageDisableBlockPlace(this));
+        addModule(new PillageDisableItemDespawn(this));
+        addModule(new PillageListener(this));
 
         addModule(new ClanCommand(this));
         this.registerCommands();
