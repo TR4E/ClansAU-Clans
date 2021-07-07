@@ -2,7 +2,7 @@ package net.clansau.clans.clans.commands.chat;
 
 import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
-import net.clansau.clans.clans.events.ClanChatEvent;
+import net.clansau.clans.clans.events.AllyChatEvent;
 import net.clansau.core.client.Rank;
 import net.clansau.core.framework.command.Command;
 import net.clansau.core.gamer.Gamer;
@@ -17,10 +17,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-public class ClanChatCommand extends Command<ClanManager, Player> implements Listener {
+public class AllyChatCommand extends Command<ClanManager, Player> implements Listener {
 
-    public ClanChatCommand(final ClanManager manager) {
-        super(manager, Player.class, "clanchat", new String[]{"cc"}, Rank.PLAYER);
+    public AllyChatCommand(final ClanManager manager) {
+        super(manager, Player.class, "allychat", new String[]{"ac"}, Rank.PLAYER);
     }
 
     @Override
@@ -35,16 +35,16 @@ public class ClanChatCommand extends Command<ClanManager, Player> implements Lis
             if (gamer == null) {
                 return;
             }
-            if (gamer.getChatType().equals(ChatType.CLAN_CHAT)) {
+            if (gamer.getChatType().equals(ChatType.ALLY_CHAT)) {
                 gamer.setChatType(ChatType.GLOBAL_CHAT);
-                UtilMessage.message(player, "Clans", "Clan Chat: " + ChatColor.RED + "Disabled");
+                UtilMessage.message(player, "Clans", "Ally Chat: " + ChatColor.RED + "Disabled");
             } else {
-                gamer.setChatType(ChatType.CLAN_CHAT);
-                UtilMessage.message(player, "Clans", "Clan Chat: " + ChatColor.GREEN + "Enabled");
+                gamer.setChatType(ChatType.ALLY_CHAT);
+                UtilMessage.message(player, "Clans", "Ally Chat: " + ChatColor.GREEN + "Enabled");
             }
             return;
         }
-        Bukkit.getServer().getPluginManager().callEvent(new ClanChatEvent(player, clan, UtilFormat.getFinalArg(args, 0)));
+        Bukkit.getServer().getPluginManager().callEvent(new AllyChatEvent(player, clan, UtilFormat.getFinalArg(args, 0)));
     }
 
     @Override
@@ -52,13 +52,14 @@ public class ClanChatCommand extends Command<ClanManager, Player> implements Lis
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onClanChat(final ClanChatEvent e) {
+    public void onAllyChat(final AllyChatEvent e) {
         if (e.isCancelled()) {
             return;
         }
         final Player player = e.getPlayer();
         final Clan clan = e.getClan();
         final String message = e.getMessage();
-        clan.messageClan(null, ChatColor.AQUA + player.getName() + ChatColor.DARK_AQUA + " " + message, null);
+        clan.messageClan(null, ChatColor.DARK_GREEN + clan.getName() + " " + player.getName() + ChatColor.GREEN + " " + message, null);
+        clan.messageAllies(null, ChatColor.DARK_GREEN + clan.getName() + " " + player.getName() + ChatColor.GREEN + " " + message, null);
     }
 }

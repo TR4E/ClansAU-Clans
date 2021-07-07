@@ -9,6 +9,7 @@ import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.client.Rank;
 import net.clansau.core.framework.recharge.RechargeManager;
+import net.clansau.core.general.combat.CombatManager;
 import net.clansau.core.teleport.Teleport;
 import net.clansau.core.teleport.TeleportManager;
 import net.clansau.core.utility.UtilMessage;
@@ -74,6 +75,10 @@ public class HomeCommand extends IClanCommand implements Listener {
             final Clan land = getManager().getClan(player.getLocation());
             if (land == null || !(land instanceof AdminClan && getManager().isSafe(player.getLocation()) && land.getName().toLowerCase().contains("spawn"))) {
                 UtilMessage.message(player, "Clans", "You can only use Clan Home from " + ChatColor.WHITE + "Spawn" + ChatColor.GRAY + ".");
+                return false;
+            }
+            if (getInstance().getManager(CombatManager.class).isInCombat(player)) {
+                UtilMessage.message(player, "Clans", "You cannot teleport to Clan Home while in Combat!");
                 return false;
             }
             return getInstance().getManager(RechargeManager.class).add(player, "Clan Home", 30000L, true);

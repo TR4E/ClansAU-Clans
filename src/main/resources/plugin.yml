@@ -6,3 +6,7 @@ version: 1.0.0
 commands:
   clan:
     aliases: [ c, f, g, fac, faction, gang ]
+  clanchat:
+    aliases: [ cc ]
+  allychat:
+    aliases: [ ac ]
