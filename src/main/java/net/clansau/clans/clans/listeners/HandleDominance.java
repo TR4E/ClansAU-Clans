@@ -3,17 +3,34 @@ package net.clansau.clans.clans.listeners;
 import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.core.framework.modules.CoreListener;
+import net.clansau.core.general.combat.events.CustomDeathEvent;
 import net.clansau.core.utility.UtilMessage;
 import net.clansau.core.utility.UtilTime;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 
 public class HandleDominance extends CoreListener<ClanManager> {
 
     public HandleDominance(final ClanManager manager) {
         super(manager, "Handle Dominance");
+    }
+
+    @EventHandler
+    public void onCustomDeath(final CustomDeathEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        if (!(e.getKiller() instanceof Player)) {
+            return;
+        }
+        final Player killer = (Player) e.getKiller();
+        final Player player = e.getPlayer();
+        final Clan kClan = getManager().getClan(killer.getUniqueId());
+        final Clan pClan = getManager().getClan(player.getUniqueId());
+        this.handleFunction(pClan, kClan);
     }
 
     private void handleFunction(final Clan pClan, final Clan kClan) {

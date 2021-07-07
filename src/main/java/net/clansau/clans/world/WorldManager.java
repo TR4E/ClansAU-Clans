@@ -23,6 +23,7 @@ public class WorldManager extends IWorldManager {
         addModule(new ClanDisableLeavesDecay(this));
         addModule(new ClanDoorInteract(this));
         addModule(new ClanGamemodeHandler(this));
+        addModule(new DisableArmorDurabilityInFields(this));
         addModule(new DisableArmorStandInteract(this));
     }
 

@@ -37,6 +37,7 @@ public class ClanManager extends Manager {
     protected void registerModules() {
         addModule(new ChatListener(this));
         addModule(new ConnectionListener(this));
+        addModule(new DeathListener(this));
         addModule(new DisplayTerritoryOwner(this));
         addModule(new ExplosionListener(this));
         addModule(new HandleDominance(this));
