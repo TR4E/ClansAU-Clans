@@ -24,6 +24,9 @@ public class ConfigManager extends IConfigManager {
                 yml.set("Clans.Name-Length.Min", 3);
                 yml.set("Clans.Max-Clan-Members", 8);
                 yml.set("Clans.Max-Clan-Claims", 8);
+                yml.set("Game.Farming.Enabled", true);
+                yml.set("Game.Farming-Levels.Max", 60);
+                yml.set("Game.Farming-Levels.Min", 44);
             }
         }
     }

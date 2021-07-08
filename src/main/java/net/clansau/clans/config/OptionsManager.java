@@ -22,6 +22,9 @@ public class OptionsManager extends IOptionsManager {
                 addData("Clans.Name-Length.Min", yml.getInt("Clans.Name-Length.Min"));
                 addData("Clans.Max-Clan-Members", yml.getInt("Clans.Max-Clan-Members"));
                 addData("Clans.Max-Clan-Claims", yml.getInt("Clans.Max-Clan-Claims"));
+                addData("Game.Farming.Enabled", yml.getBoolean("Game.Farming.Enabled"));
+                addData("Game.Farming-Levels.Max", yml.getInt("Game.Farming-Levels.Max"));
+                addData("Game.Farming-Levels.Min", yml.getInt("Game.Farming-Levels.Min"));
             }
         }
     }
@@ -56,5 +59,17 @@ public class OptionsManager extends IOptionsManager {
 
     public final int getClansMaxClaims() {
         return getData("Clans.Max-Clan-Claims");
+    }
+
+    public final boolean isGameFarmingEnabled() {
+        return getData("Game.Farming.Enabled");
+    }
+
+    public final int getGameMaxFarmingLevel() {
+        return getData("Game.Farming-Levels.Max");
+    }
+
+    public final int getGameMinFarmingLevel() {
+        return getData("Game.Farming-Levels.Min");
     }
 }

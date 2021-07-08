@@ -4,6 +4,7 @@ import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.ClanRepository;
 import net.clansau.clans.config.ConfigManager;
 import net.clansau.clans.config.OptionsManager;
+import net.clansau.clans.farming.FarmingManager;
 import net.clansau.clans.server.ServerManager;
 import net.clansau.clans.server.events.ServerStartEvent;
 import net.clansau.clans.server.events.ServerStopEvent;
@@ -30,6 +31,7 @@ public class Clans extends Plugin {
         addManager(new OptionsManager(this));
         addManager(new ClanRepository(this));
         addManager(new ClanManager(this));
+        addManager(new FarmingManager(this));
         addManager(new ServerManager(this));
         addManager(new WorldManager(this));
     }
