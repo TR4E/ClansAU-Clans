@@ -171,7 +171,7 @@ public class ClanManager extends Manager {
         if (list.size() == 1) {
             return list.get(0);
         } else if (inform) {
-            UtilMessage.message(player, "Member Search", ChatColor.YELLOW.toString() + list.size() + ChatColor.GRAY + " matches found [" + (list.size() == 0 ? ChatColor.YELLOW + name : list.stream().map(c -> ChatColor.AQUA + c.getName()).collect(Collectors.toList())) + ChatColor.GRAY + "].");
+            UtilMessage.message(player, "Member Search", ChatColor.YELLOW.toString() + list.size() + ChatColor.GRAY + " matches found [" + (list.size() == 0 ? ChatColor.YELLOW + name : list.stream().map(c -> ChatColor.AQUA + c.getName()).collect(Collectors.joining(ChatColor.GRAY + ", "))) + ChatColor.GRAY + "].");
         }
         return null;
     }
