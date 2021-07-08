@@ -72,13 +72,13 @@ public class HomeCommand extends IClanCommand implements Listener {
 
     private boolean canTeleportHome(final Player player, final Client client) {
         if (!(client.isAdministrating())) {
+            if (getInstance().getManager(CombatManager.class).isInCombat(player)) {
+                UtilMessage.message(player, "Clans", "You cannot teleport to Clan Home while in Combat!");
+                return false;
+            }
             final Clan land = getManager().getClan(player.getLocation());
             if (land == null || !(land instanceof AdminClan && getManager().isSafe(player.getLocation()) && land.getName().toLowerCase().contains("spawn"))) {
                 UtilMessage.message(player, "Clans", "You can only use Clan Home from " + ChatColor.WHITE + "Spawn" + ChatColor.GRAY + ".");
-                return false;
-            }
-            if (getInstance().getManager(CombatManager.class).isInCombat(player)) {
-                UtilMessage.message(player, "Clans", "You cannot teleport to Clan Home while in Combat!");
                 return false;
             }
             return getInstance().getManager(RechargeManager.class).add(player, "Clan Home", 30000L, true);

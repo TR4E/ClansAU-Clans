@@ -39,8 +39,11 @@ public class ClanManager extends Manager {
     @Override
     protected void registerModules() {
         addModule(new ChatListener(this));
+        addModule(new CombatRemainingTitle(this));
         addModule(new ConnectionListener(this));
         addModule(new DeathListener(this));
+        addModule(new DisableSafeZoneDamage(this));
+        addModule(new DisableTeammateDamage(this));
         addModule(new DisplayTerritoryOwner(this));
         addModule(new ExplosionListener(this));
         addModule(new HandleDominance(this));
@@ -330,6 +333,9 @@ public class ClanManager extends Manager {
     }
 
     public final boolean canHurt(final Player damager, final Player damagee) {
+        if (damager == null || damagee == null) {
+            return false;
+        }
         if (damager.equals(damagee)) {
             return false;
         }

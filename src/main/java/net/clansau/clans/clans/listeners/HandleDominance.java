@@ -23,11 +23,17 @@ public class HandleDominance extends CoreListener<ClanManager> {
         if (e.isCancelled()) {
             return;
         }
+        if (e.getEntity() == null || e.getKiller() == null) {
+            return;
+        }
+        if (!(e.getEntity() instanceof Player)) {
+            return;
+        }
         if (!(e.getKiller() instanceof Player)) {
             return;
         }
-        final Player killer = (Player) e.getKiller();
-        final Player player = e.getPlayer();
+        final Player killer = e.getKillerPlayer();
+        final Player player = e.getEntityPlayer();
         final Clan kClan = getManager().getClan(killer.getUniqueId());
         final Clan pClan = getManager().getClan(player.getUniqueId());
         this.handleFunction(pClan, kClan);
