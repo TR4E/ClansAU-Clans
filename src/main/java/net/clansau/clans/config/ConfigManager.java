@@ -27,6 +27,7 @@ public class ConfigManager extends IConfigManager {
                 yml.set("Game.Farming.Enabled", true);
                 yml.set("Game.Farming-Levels.Max", 60);
                 yml.set("Game.Farming-Levels.Min", 44);
+                break;
             }
         }
     }

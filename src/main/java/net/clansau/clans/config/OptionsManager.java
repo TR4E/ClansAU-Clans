@@ -25,6 +25,7 @@ public class OptionsManager extends IOptionsManager {
                 addData("Game.Farming.Enabled", yml.getBoolean("Game.Farming.Enabled"));
                 addData("Game.Farming-Levels.Max", yml.getInt("Game.Farming-Levels.Max"));
                 addData("Game.Farming-Levels.Min", yml.getInt("Game.Farming-Levels.Min"));
+                break;
             }
         }
     }
