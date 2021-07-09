@@ -30,5 +30,13 @@
             <scope>system</scope>
             <systemPath>E:/Repositories/Output/ClansAU/ClansAU-Core.jar</systemPath>
         </dependency>
+        <!-- ClansAU-Champions -->
+        <dependency>
+            <groupId>net.clansau</groupId>
+            <artifactId>champions</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>E:/Repositories/Output/ClansAU/ClansAU-Champions.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

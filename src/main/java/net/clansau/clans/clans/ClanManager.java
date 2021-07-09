@@ -35,6 +35,7 @@ public class ClanManager extends Manager {
 
     @Override
     protected void registerModules() {
+        addModule(new ChampionsListener(this));
         addModule(new ChatListener(this));
         addModule(new CombatRemainingTitle(this));
         addModule(new ConnectionListener(this));
