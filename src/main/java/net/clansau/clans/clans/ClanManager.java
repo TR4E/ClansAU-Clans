@@ -14,10 +14,7 @@ import net.clansau.core.framework.Manager;
 import net.clansau.core.framework.blockrestore.BlockRestoreData;
 import net.clansau.core.framework.blockrestore.BlockRestoreManager;
 import net.clansau.core.general.combat.CombatManager;
-import net.clansau.core.utility.TitleManager;
-import net.clansau.core.utility.UtilBlock;
-import net.clansau.core.utility.UtilLocation;
-import net.clansau.core.utility.UtilMessage;
+import net.clansau.core.utility.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -180,6 +177,7 @@ public class ClanManager extends Manager {
         for (final Chunk chunk : clan.getTerritoryChunks()) {
             this.unOutlineChunk(chunk);
         }
+        clan.getTerritory().clear();
         for (final String a : clan.getAlliesMap().keySet()) {
             final Clan ally = this.getClan(a);
             ally.getAlliesMap().remove(clan.getName());
@@ -383,6 +381,8 @@ public class ClanManager extends Manager {
                         append = ChatColor.GRAY + " (" + ChatColor.YELLOW + "Trusted" + ChatColor.GRAY + ")";
                     } else if (clan.isEnemied(land)) {
                         append = " " + clan.getDomString(land);
+                    } else if (clan.isPillaging(land)) {
+                        append = ChatColor.GRAY + " (" + ChatColor.GREEN + UtilTime.getTime(clan.getPillagingMap().get(land.getName()) - System.currentTimeMillis(), UtilTime.TimeUnit.BEST, 1) + ChatColor.GRAY + ")";
                     }
                 }
             }

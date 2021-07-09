@@ -10,6 +10,7 @@ import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.framework.updater.UpdateEvent;
 import net.clansau.core.framework.updater.Updater;
+import net.clansau.core.utility.UtilLocation;
 import net.clansau.core.utility.UtilMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -52,7 +53,7 @@ public class DisbandCommand extends IClanCommand implements Listener {
         if (!(this.canDisbandClan(player, client, clan))) {
             return;
         }
-        Bukkit.getServer().getPluginManager().callEvent(new ClanDisbandEvent(player, clan, ClanDisbandEvent.Reason.PLAYER));
+        Bukkit.getServer().getPluginManager().callEvent(new ClanDisbandEvent(player, clan, ClanDisbandEvent.DisbandCause.PLAYER));
     }
 
     private boolean canDisbandClan(final Player player, final Client client, final Clan clan) {
@@ -91,6 +92,11 @@ public class DisbandCommand extends IClanCommand implements Listener {
         }
         final Clan clan = e.getClan();
         getManager().disbandClan(clan);
+        if (e.getCause().equals(ClanDisbandEvent.DisbandCause.ENERGY)) {
+            final String home = (clan.getHome() == null ? "" : " " + UtilLocation.locToString(clan.getHome()));
+            UtilMessage.broadcast("Clans", ChatColor.YELLOW + clan.getName() + ChatColor.GRAY + " has disbanded due to running out of energy. " + home, null);
+            return;
+        }
         final Player player = e.getPlayer();
         UtilMessage.broadcast("Clans", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " has disbanded " + ChatColor.YELLOW + (clan instanceof AdminClan ? "Admin Clan " : "Clan ") + clan.getName() + ChatColor.GRAY + ".", null);
     }

@@ -108,6 +108,9 @@ public class NeutralCommand extends IClanCommand implements Listener {
             target.getAlliesMap().remove(clan.getName());
             getManager().getRepository().updateAllies(clan);
             getManager().getRepository().updateAllies(target);
+        } else if (target.isPillaging(clan) || clan.isPillaging(target)) {
+            clan.getPillagingMap().remove(target.getName());
+            target.getPillagingMap().remove(clan.getName());
         }
         clan.messageClan("Clans", "You are now neutral with " + ChatColor.YELLOW + getManager().getName(target, true) + ChatColor.GRAY + ".", null);
         target.messageClan("Clans", "You are now neutral with " + ChatColor.YELLOW + getManager().getName(clan, true) + ChatColor.GRAY + ".", null);
@@ -121,6 +124,10 @@ public class NeutralCommand extends IClanCommand implements Listener {
             }
             if (target instanceof AdminClan) {
                 UtilMessage.message(player, "Clans", "You cannot request neutrality with Admin Clans.");
+                return false;
+            }
+            if (target.isPillaging(clan) || clan.isPillaging(target)) {
+                UtilMessage.message(player, "Clans", "You are not neutral with " + ChatColor.LIGHT_PURPLE + getManager().getName(target, true) + ChatColor.GRAY + " until the pillage is over.");
                 return false;
             }
         }

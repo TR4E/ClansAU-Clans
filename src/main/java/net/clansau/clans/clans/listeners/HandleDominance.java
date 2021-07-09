@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 
 public class HandleDominance extends CoreListener<ClanManager> {
 
@@ -18,7 +19,7 @@ public class HandleDominance extends CoreListener<ClanManager> {
         super(manager, "Handle Dominance");
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onCustomDeath(final CustomDeathEvent e) {
         if (e.isCancelled()) {
             return;

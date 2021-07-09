@@ -103,6 +103,9 @@ public class AllyCommand extends IClanCommand implements Listener {
             target.getEnemiesMap().remove(clan.getName());
             getManager().getRepository().updateEnemies(clan);
             getManager().getRepository().updateEnemies(target);
+        } else if (target.isPillaging(clan) || clan.isPillaging(target)) {
+            clan.getPillagingMap().remove(target.getName());
+            target.getPillagingMap().remove(clan.getName());
         }
         clan.getAlliesMap().put(target.getName(), false);
         target.getAlliesMap().put(clan.getName(), false);
@@ -122,7 +125,7 @@ public class AllyCommand extends IClanCommand implements Listener {
                 UtilMessage.message(player, "Clans", "You cannot request an alliance with Admin Clans.");
                 return false;
             }
-            if (target.isEnemied(clan) || target.isBeingPillagedBy(clan) || clan.isBeingPillagedBy(target)) {
+            if (target.isEnemied(clan) || target.isPillaging(clan) || clan.isPillaging(target)) {
                 UtilMessage.message(player, "Clans", "You must be neutral with " + getManager().getClanRelation(clan, target).getSuffix() + getManager().getName(target, true) + ChatColor.GRAY + ".");
                 return false;
             }

@@ -8,9 +8,9 @@ public class ClanDisbandEvent extends CustomCancellableEvent {
 
     private final Player player;
     private final Clan clan;
-    private final Reason cause;
+    private final DisbandCause cause;
 
-    public ClanDisbandEvent(final Player player, final Clan clan, final Reason cause) {
+    public ClanDisbandEvent(final Player player, final Clan clan, final DisbandCause cause) {
         this.player = player;
         this.clan = clan;
         this.cause = cause;
@@ -24,11 +24,11 @@ public class ClanDisbandEvent extends CustomCancellableEvent {
         return this.clan;
     }
 
-    public final Reason getCause() {
+    public final DisbandCause getCause() {
         return this.cause;
     }
 
-    public enum Reason {
+    public enum DisbandCause {
         PLAYER, ENERGY, FORCE
     }
 }

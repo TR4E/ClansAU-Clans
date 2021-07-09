@@ -43,15 +43,15 @@ public class TrustCommand extends IClanCommand implements Listener {
             UtilMessage.message(player, "Clans", "You cannot request trust with yourself.");
             return;
         }
+        if (!(target.isAllied(clan))) {
+            UtilMessage.message(player, "Clans", "You are not allies with " + getManager().getClanRelation(clan, target).getSuffix() + getManager().getName(target, true) + ChatColor.GRAY + ".");
+            return;
+        }
         final Client client = getInstance().getManager(ClientManager.class).getOnlineClient(player.getUniqueId());
         if (client == null) {
             return;
         }
         if (!(this.canTrustClan(player, client, clan, target))) {
-            return;
-        }
-        if (!(target.isAllied(clan))) {
-            UtilMessage.message(player, "Clans", "You are not allies with " + getManager().getClanRelation(clan, target).getSuffix() + getManager().getName(target, true) + ChatColor.GRAY + ".");
             return;
         }
         if (client.isAdministrating() && target.isAllied(clan) && !(target.isTrusted(clan))) {
