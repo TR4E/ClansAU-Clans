@@ -8,7 +8,7 @@ import net.clansau.clans.world.WorldManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.framework.modules.CoreListener;
-import net.clansau.core.utility.UtilFormat;
+import net.clansau.core.utility.UtilBlock;
 import net.clansau.core.utility.UtilMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -47,7 +47,7 @@ public class ClanBlockPlace extends CoreListener<WorldManager> {
             return;
         }
         e.setCancelled(true);
-        UtilMessage.message(player, "Clans", "You cannot place " + ChatColor.GREEN + UtilFormat.cleanString(block.getType().name()) + ChatColor.GRAY + " in " + clanManager.getClanRelation(clan, land).getSuffix() + clanManager.getName(land, !(land instanceof AdminClan)) + ChatColor.GRAY + ".");
+        UtilMessage.message(player, "Clans", "You cannot place " + ChatColor.GREEN + UtilBlock.getCleanName(block) + ChatColor.GRAY + " in " + clanManager.getClanRelation(clan, land).getSuffix() + clanManager.getName(land, !(land instanceof AdminClan)) + ChatColor.GRAY + ".");
     }
 
     private boolean canPlaceBlock(final Player player, final Clan clan, final Clan land) {
