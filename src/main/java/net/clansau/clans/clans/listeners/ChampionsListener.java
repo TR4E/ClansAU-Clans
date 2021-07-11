@@ -3,6 +3,7 @@ package net.clansau.clans.clans.listeners;
 import net.clansau.champions.classes.skill.events.SkillEffectEvent;
 import net.clansau.champions.classes.skill.events.SkillFriendlyFireEvent;
 import net.clansau.champions.classes.skill.events.SkillLocationEvent;
+import net.clansau.champions.classes.skill.events.SkillPreActivateEvent;
 import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.core.framework.modules.CoreListener;
@@ -44,8 +45,23 @@ public class ChampionsListener extends CoreListener<ClanManager> {
 
     @EventHandler
     public void onSkillLocation(final SkillLocationEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
         final Location location = e.getLocation();
         if (getManager().canCast(location)) {
+            return;
+        }
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onCanCastSkill(final SkillPreActivateEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        final Player player = e.getPlayer();
+        if (getManager().canCast(player)) {
             return;
         }
         e.setCancelled(true);
