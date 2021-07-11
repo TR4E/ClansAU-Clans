@@ -25,6 +25,7 @@ public class WorldManager extends IWorldManager {
         addModule(new ClanGamemodeHandler(this));
         addModule(new DisableArmorDurabilityInFields(this));
         addModule(new DisableArmorStandInteract(this));
+        addModule(new DisableShootingArrowsInSafeZones(this));
         addModule(new DisableSoilChange(this));
     }
 
