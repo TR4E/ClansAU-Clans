@@ -10,3 +10,4 @@ commands:
     aliases: [ cc ]
   allychat:
     aliases: [ ac ]
+  spawn:
