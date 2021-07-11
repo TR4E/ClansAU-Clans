@@ -2,6 +2,7 @@ package net.clansau.clans.world;
 
 import net.clansau.clans.Clans;
 import net.clansau.clans.clans.ClanManager;
+import net.clansau.clans.world.commands.SpawnCommand;
 import net.clansau.clans.world.listeners.*;
 import net.clansau.core.world.interfaces.IWorldManager;
 import org.bukkit.Location;
@@ -17,6 +18,8 @@ public class WorldManager extends IWorldManager {
 
     @Override
     protected void registerModules() {
+        addModule(new SpawnCommand(this));
+
         addModule(new ClanBlockBreak(this));
         addModule(new ClanBlockInteract(this));
         addModule(new ClanBlockPlace(this));
