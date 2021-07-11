@@ -118,7 +118,7 @@ public class ClaimCommand extends IClanCommand implements Listener {
             land.removeTerritory(chunk);
             getManager().getRepository().updateTerritory(land);
         }
-        getManager().outlineChunk(chunk, Material.GLOWSTONE, 120000L);
+        getManager().outlineChunk(clan, chunk, Material.GLOWSTONE, 120000L);
         clan.addTerritory(chunk);
         getManager().getRepository().updateTerritory(clan);
         UtilMessage.message(player, "Clans", "You claimed Territory " + UtilLocation.chunkToString(chunk) + ChatColor.GRAY + ".");

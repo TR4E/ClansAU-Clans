@@ -138,7 +138,9 @@ public class ClanManager extends Manager {
         if (client != null) {
             final Clan clan = this.getClan(client.getUUID());
             if (clan != null) {
-                list.add(clan);
+                if (!(list.contains(clan))) {
+                    list.add(clan);
+                }
             }
         }
         if (list.size() == 1) {
@@ -197,7 +199,7 @@ public class ClanManager extends Manager {
         getRepository().deleteClan(clan);
     }
 
-    public void outlineChunk(final Chunk chunk, final Material material, final long expire) {
+    public void outlineChunk(final Clan clan, final Chunk chunk, final Material material, final long expire) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 if (z == 15 || z == 0 || x == 15 | x == 0) {
@@ -209,7 +211,7 @@ public class ClanManager extends Manager {
                         continue;
                     }
                     if (expire > 0L) {
-                        new BlockRestoreData(getInstance(), block, material, (byte) 0, expire, null);
+                        new BlockRestoreData(getInstance(), clan.getName() + " Claim", block, material, (byte) 0, expire, null);
                     } else {
                         block.setType(material);
                     }
