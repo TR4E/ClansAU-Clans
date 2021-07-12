@@ -50,8 +50,10 @@ public class ChatListener extends CoreListener<ClanManager> {
             return;
         }
         if (gamer.getChatType().equals(ChatType.CLAN_CHAT)) {
+            e.setCancelled(true);
             Bukkit.getServer().getPluginManager().callEvent(new ClanChatEvent(player, clan, e.getMessage()));
         } else if (gamer.getChatType().equals(ChatType.ALLY_CHAT)) {
+            e.setCancelled(true);
             Bukkit.getServer().getPluginManager().callEvent(new AllyChatEvent(player, clan, e.getMessage()));
         }
     }
