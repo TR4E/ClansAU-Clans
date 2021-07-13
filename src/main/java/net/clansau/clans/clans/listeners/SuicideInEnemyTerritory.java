@@ -16,7 +16,6 @@ public class SuicideInEnemyTerritory extends CoreListener<ClanManager> {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerSuicide(final PlayerSuicideEvent e) {
-        System.out.println("1111");
         if (e.isCancelled()) {
             return;
         }
