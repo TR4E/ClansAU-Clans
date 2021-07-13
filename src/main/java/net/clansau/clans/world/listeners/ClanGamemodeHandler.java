@@ -63,7 +63,7 @@ public class ClanGamemodeHandler extends CoreListener<WorldManager> {
         final Clan clan = getManager().getClanManager().getClan(player.getUniqueId());
         final Clan land = getManager().getClanManager().getClan(location);
         final ClanRelation relation = getManager().getClanManager().getClanRelation(clan, land);
-        if (relation.equals(ClanRelation.PILLAGE)) {
+        if (relation.equals(ClanRelation.SELF) || relation.equals(ClanRelation.PILLAGE)) {
             if (player.getGameMode().equals(GameMode.ADVENTURE)) {
                 player.setGameMode(GameMode.SURVIVAL);
             }

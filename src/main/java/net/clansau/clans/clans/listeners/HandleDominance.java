@@ -40,7 +40,7 @@ public class HandleDominance extends CoreListener<ClanManager> {
         this.handleFunction(pClan, kClan);
     }
 
-    private void handleFunction(final Clan pClan, final Clan kClan) {
+    public void handleFunction(final Clan pClan, final Clan kClan) {
         if (pClan == null || kClan == null) {
             return;
         }

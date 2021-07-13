@@ -49,6 +49,7 @@ public class ClanManager extends Manager {
         addModule(new PillageDisableBlockPlace(this));
         addModule(new PillageDisableItemDespawn(this));
         addModule(new PillageListener(this));
+        addModule(new SuicideInEnemyTerritory(this));
 
         addModule(new ClanCommand(this));
         addModule(new ClanChatCommand(this));
