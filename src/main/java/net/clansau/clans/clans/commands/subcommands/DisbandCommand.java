@@ -10,6 +10,7 @@ import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.framework.updater.UpdateEvent;
 import net.clansau.core.framework.updater.Updater;
+import net.clansau.core.scoreboard.events.ScoreboardUpdateEvent;
 import net.clansau.core.utility.UtilLocation;
 import net.clansau.core.utility.UtilMessage;
 import org.bukkit.Bukkit;
@@ -99,6 +100,7 @@ public class DisbandCommand extends IClanCommand implements Listener {
         }
         final Player player = e.getPlayer();
         UtilMessage.broadcast("Clans", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " has disbanded " + ChatColor.YELLOW + (clan instanceof AdminClan ? "Admin Clan " : "Clan ") + clan.getName() + ChatColor.GRAY + ".", null);
+        Bukkit.getServer().getPluginManager().callEvent(new ScoreboardUpdateEvent(player));
     }
 
     @EventHandler

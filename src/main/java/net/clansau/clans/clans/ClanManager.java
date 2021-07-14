@@ -7,13 +7,17 @@ import net.clansau.clans.clans.commands.chat.ClanChatCommand;
 import net.clansau.clans.clans.commands.subcommands.*;
 import net.clansau.clans.clans.enums.ClanRelation;
 import net.clansau.clans.clans.listeners.*;
+import net.clansau.clans.scoreboard.ScoreboardListener;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.framework.Manager;
 import net.clansau.core.framework.blockrestore.BlockRestoreData;
 import net.clansau.core.framework.blockrestore.BlockRestoreManager;
 import net.clansau.core.general.combat.CombatManager;
-import net.clansau.core.utility.*;
+import net.clansau.core.utility.UtilBlock;
+import net.clansau.core.utility.UtilLocation;
+import net.clansau.core.utility.UtilMessage;
+import net.clansau.core.utility.UtilTime;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -36,6 +40,7 @@ public class ClanManager extends Manager {
     protected void registerModules() {
         addModule(new ClanModule(this));
 
+        addModule(new ScoreboardListener(this));
         addModule(new ChampionsListener(this));
         addModule(new ChatListener(this));
         addModule(new CombatRemainingTitle(this));
@@ -373,7 +378,7 @@ public class ClanManager extends Manager {
         return (land == null || relation.equals(ClanRelation.SELF) || relation.equals(ClanRelation.TRUSTED_ALLY) || relation.equals(ClanRelation.PILLAGE));
     }
 
-    public void displayOwner(final Player player, final Location location) {
+    public final String getTerritoryName(final Player player, final Location location) {
         String append = "";
         final Clan clan = this.getClan(player.getUniqueId());
         final Clan land = this.getClan(location);
@@ -396,8 +401,6 @@ public class ClanManager extends Manager {
                 }
             }
         }
-        final String name = (land != null ? (this.getClanRelation(clan, land).getSuffix() + this.getName(land, false) + append) : ChatColor.YELLOW + "Wilderness");
-        getInstance().getManager(TitleManager.class).sendPlayer(player, " ", name, 2);
-        UtilMessage.message(player, "Territory", name);
+        return (land != null ? (this.getClanRelation(clan, land).getSuffix() + this.getName(land, false) + append) : ChatColor.YELLOW + "Wilderness");
     }
 }

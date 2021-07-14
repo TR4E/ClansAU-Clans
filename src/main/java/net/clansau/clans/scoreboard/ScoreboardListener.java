@@ -1,8 +1,7 @@
-package net.clansau.clans.clans.listeners;
+package net.clansau.clans.scoreboard;
 
 import net.clansau.clans.Clans;
 import net.clansau.clans.clans.ClanManager;
-import net.clansau.clans.scoreboard.ClanScoreboard;
 import net.clansau.core.framework.modules.CoreListener;
 import net.clansau.core.scoreboard.events.ScoreboardUpdateEvent;
 import org.bukkit.event.EventHandler;
@@ -18,6 +17,9 @@ public class ScoreboardListener extends CoreListener<ClanManager> {
         if (e.isCancelled()) {
             return;
         }
-        e.setScoreboard(new ClanScoreboard((Clans) getInstance()));
+        if (e.getLocation() == null) {
+            return;
+        }
+        e.setScoreboard(new ClanScoreboard((Clans) getInstance(), e.getPlayer(), e.getLocation()));
     }
 }

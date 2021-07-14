@@ -11,6 +11,7 @@ import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.client.Rank;
 import net.clansau.core.framework.recharge.RechargeManager;
+import net.clansau.core.scoreboard.events.ScoreboardUpdateEvent;
 import net.clansau.core.utility.UtilFormat;
 import net.clansau.core.utility.UtilMessage;
 import org.bukkit.Bukkit;
@@ -95,5 +96,6 @@ public class CreateCommand extends IClanCommand implements Listener {
         getManager().addClan(clan);
         getManager().getRepository().saveClan(clan);
         UtilMessage.broadcast("Clans", ChatColor.YELLOW + player.getName() + ChatColor.GRAY + " formed " + ChatColor.YELLOW + (clan instanceof AdminClan ? "Admin Clan " : "Clan ") + clan.getName() + ChatColor.GRAY + ".", null);
+        Bukkit.getServer().getPluginManager().callEvent(new ScoreboardUpdateEvent(player));
     }
 }
