@@ -19,7 +19,12 @@ import java.util.List;
 public class ClanCommand extends Command<ClanManager, Player> {
 
     public ClanCommand(final ClanManager manager) {
-        super(manager, Player.class, "clan", new String[]{"c", "f", "fac", "faction", "gang", "g"}, Rank.PLAYER);
+        super(manager, Player.class, "clan", new String[]{"c", "f", "fac", "faction", "gang", "g"});
+    }
+
+    @Override
+    public Rank getDefaultRequiredRank() {
+        return Rank.PLAYER;
     }
 
     @Override
