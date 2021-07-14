@@ -1,6 +1,5 @@
 package net.clansau.clans.server.listeners;
 
-import net.clansau.clans.config.ConfigManager;
 import net.clansau.clans.server.ServerManager;
 import net.clansau.clans.server.events.ServerStartEvent;
 import net.clansau.clans.server.events.ServerStopEvent;
@@ -17,7 +16,7 @@ public class ServerListener extends CoreListener<ServerManager> {
 
     @EventHandler
     public void onServerStart(final ServerStartEvent e) {
-        getInstance().getManager(ConfigManager.class).updateModules();
+        getInstance().getConfigManager().updateModules();
         UtilMessage.log("ClansAU-Clans", "Plugin Status: " + ChatColor.GREEN + "Enabled");
     }
 
