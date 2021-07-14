@@ -3,13 +3,13 @@ package net.clansau.clans.clans.commands.subcommands;
 import net.clansau.clans.clans.AdminClan;
 import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
+import net.clansau.clans.clans.ClanModule;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
 import net.clansau.clans.clans.events.ClanCreateEvent;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.client.Rank;
-import net.clansau.core.framework.Primitive;
 import net.clansau.core.framework.recharge.RechargeManager;
 import net.clansau.core.utility.UtilFormat;
 import net.clansau.core.utility.UtilMessage;
@@ -24,8 +24,6 @@ public class CreateCommand extends IClanCommand implements Listener {
 
     public CreateCommand(final ClanManager manager) {
         super(manager);
-        addPrimitive("MaxNameLength", new Primitive<>(14));
-        addPrimitive("MinNameLength", new Primitive<>(3));
     }
 
     @Override
@@ -67,12 +65,12 @@ public class CreateCommand extends IClanCommand implements Listener {
                 UtilMessage.message(player, "Clans", "You cannot use that as your Clan name.");
                 return false;
             }
-            final int maxNameLength = getPrimitiveCasted(Integer.class, "MaxNameLength");
+            final int maxNameLength = getManager().getModule(ClanModule.class).getPrimitiveCasted(Integer.class, "MaxNameLength");
             if (name.length() > maxNameLength) {
                 UtilMessage.message(player, "Clans", "Clan name is too long. Maximum length is " + ChatColor.YELLOW + maxNameLength + ChatColor.GRAY + ".");
                 return false;
             }
-            final int minNameLength = getPrimitiveCasted(Integer.class, "MinNameLength");
+            final int minNameLength = getManager().getModule(ClanModule.class).getPrimitiveCasted(Integer.class, "MinNameLength");
             if (name.length() < minNameLength) {
                 UtilMessage.message(player, "Clans", "Clan name is too short. Minimum length is " + ChatColor.YELLOW + minNameLength + ChatColor.GRAY + ".");
                 return false;
