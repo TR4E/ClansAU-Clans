@@ -20,7 +20,12 @@ import org.bukkit.event.Listener;
 public class AllyChatCommand extends Command<ClanManager, Player> implements Listener {
 
     public AllyChatCommand(final ClanManager manager) {
-        super(manager, Player.class, "allychat", new String[]{"ac"}, Rank.PLAYER);
+        super(manager, Player.class, "allychat", new String[]{"ac"});
+    }
+
+    @Override
+    public Rank getDefaultRequiredRank() {
+        return Rank.PLAYER;
     }
 
     @Override
