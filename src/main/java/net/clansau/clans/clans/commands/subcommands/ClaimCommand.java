@@ -6,7 +6,6 @@ import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
 import net.clansau.clans.clans.events.ClanClaimEvent;
-import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilLocation;
@@ -79,7 +78,7 @@ public class ClaimCommand extends IClanCommand implements Listener {
                 UtilMessage.message(player, "Clans", "You cannot claim land containing enemies.");
                 return false;
             }
-            if ((clan.getTerritory().size() >= (clan.getMembersMap().size() + 3)) || clan.getTerritory().size() >= getInstance().getManager(OptionsManager.class).getClansMaxClaims()) {
+            if ((clan.getTerritory().size() >= (clan.getMembersMap().size() + 3)) || clan.getTerritory().size() >= getManager().getClanModule().getPrimitiveCasted(Integer.class, "MaxClanClaims")) {
                 UtilMessage.message(player, "Clans", "Your Clan cannot claim any more land.");
                 return false;
             }

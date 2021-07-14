@@ -6,7 +6,6 @@ import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
 import net.clansau.clans.clans.events.ClanJoinEvent;
-import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.framework.recharge.RechargeManager;
@@ -56,7 +55,7 @@ public class JoinCommand extends IClanCommand implements Listener {
                 UtilMessage.message(player, "Clans", "You cannot join Admin Clans.");
                 return false;
             }
-            if (clan.getMembersMap().size() + clan.getAlliesMap().size() >= getInstance().getManager(OptionsManager.class).getClansMaxMembers()) {
+            if (clan.getMembersMap().size() + clan.getAlliesMap().size() >= getManager().getClanModule().getPrimitiveCasted(Integer.class, "MaxClanMembers")) {
                 UtilMessage.message(player, "Clans", ChatColor.YELLOW + getManager().getName(clan, true) + ChatColor.GRAY + " has too many members/allies.");
                 return false;
             }

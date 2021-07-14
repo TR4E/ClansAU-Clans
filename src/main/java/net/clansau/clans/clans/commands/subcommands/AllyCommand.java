@@ -6,7 +6,6 @@ import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
 import net.clansau.clans.clans.events.ClanAllyEvent;
-import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilMessage;
@@ -129,11 +128,12 @@ public class AllyCommand extends IClanCommand implements Listener {
                 UtilMessage.message(player, "Clans", "You must be neutral with " + getManager().getClanRelation(clan, target).getSuffix() + getManager().getName(target, true) + ChatColor.GRAY + ".");
                 return false;
             }
-            if (clan.getMembersMap().size() + clan.getAlliesMap().size() >= getInstance().getManager(OptionsManager.class).getClansMaxMembers()) {
+            final int maxClanMembers = getManager().getClanModule().getPrimitiveCasted(Integer.class, "MaxClanMembers");
+            if (clan.getMembersMap().size() + clan.getAlliesMap().size() >= maxClanMembers) {
                 UtilMessage.message(player, "Clans", "Your Clan has too many members/allies.");
                 return false;
             }
-            if (target.getMembersMap().size() + target.getAlliesMap().size() >= getInstance().getManager(OptionsManager.class).getClansMaxMembers()) {
+            if (target.getMembersMap().size() + target.getAlliesMap().size() >= maxClanMembers) {
                 UtilMessage.message(player, "Clans", getManager().getClanRelation(clan, target).getSuffix() + getManager().getName(target, true) + ChatColor.GRAY + " has too many members/allies.");
                 return false;
             }

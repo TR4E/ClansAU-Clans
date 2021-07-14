@@ -6,7 +6,6 @@ import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.commands.framework.IClanCommand;
 import net.clansau.clans.clans.enums.ClanRole;
 import net.clansau.clans.clans.events.ClanUnClaimEvent;
-import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilLocation;
@@ -53,7 +52,7 @@ public class UnClaimCommand extends IClanCommand implements Listener {
     private boolean canUnClaimLand(final Player player, final Client client, final Clan clan, final Clan land) {
         if (!(client.isAdministrating())) {
             if (!(land.equals(clan))) {
-                if (!((land.getTerritory().size() >= (land.getMembersMap().size() + 3)) || land.getTerritory().size() >= getInstance().getManager(OptionsManager.class).getClansMaxClaims())) {
+                if (!((land.getTerritory().size() >= (land.getMembersMap().size() + 3)) || land.getTerritory().size() >= getManager().getClanModule().getPrimitiveCasted(Integer.class, "MaxClanClaims"))) {
                     UtilMessage.message(player, "Clans", "This Territory is not owned by you.");
                     return false;
                 }
@@ -74,7 +73,7 @@ public class UnClaimCommand extends IClanCommand implements Listener {
         getManager().unOutlineChunk(chunk);
         land.removeTerritory(chunk);
         getManager().getRepository().updateTerritory(land);
-        if (!(land instanceof AdminClan && land.equals(clan)) && ((land.getTerritory().size() >= (land.getMembersMap().size() + 3)) || land.getTerritory().size() >= getInstance().getManager(OptionsManager.class).getClansMaxClaims())) {
+        if (!(land instanceof AdminClan && land.equals(clan)) && ((land.getTerritory().size() >= (land.getMembersMap().size() + 3)) || land.getTerritory().size() >= getManager().getClanModule().getPrimitiveCasted(Integer.class, "MaxClanClaims"))) {
             UtilMessage.message(player, "Clans", "You unclaimed Territory " + UtilLocation.chunkToString(chunk) + ChatColor.GRAY + " from " + getManager().getClanRelation(clan, land).getSuffix() + getManager().getName(land, true) + ChatColor.GRAY + ".");
             land.messageClan("Clans", getManager().getClanRelation(land, clan).getSuffix() + getManager().getName(clan, true) + ChatColor.GRAY + " unclaimed your Territory " + UtilLocation.chunkToString(chunk) + ChatColor.GRAY + ".", null);
             return;

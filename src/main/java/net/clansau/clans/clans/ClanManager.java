@@ -7,7 +7,6 @@ import net.clansau.clans.clans.commands.chat.ClanChatCommand;
 import net.clansau.clans.clans.commands.subcommands.*;
 import net.clansau.clans.clans.enums.ClanRelation;
 import net.clansau.clans.clans.listeners.*;
-import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.framework.Manager;
@@ -35,6 +34,8 @@ public class ClanManager extends Manager {
 
     @Override
     protected void registerModules() {
+        addModule(new ClanModule(this));
+
         addModule(new ChampionsListener(this));
         addModule(new ChatListener(this));
         addModule(new CombatRemainingTitle(this));
@@ -81,6 +82,10 @@ public class ClanManager extends Manager {
 
     public final ClanRepository getRepository() {
         return getInstance().getManager(ClanRepository.class);
+    }
+
+    public final ClanModule getClanModule() {
+        return getModule(ClanModule.class);
     }
 
     public final Map<String, Clan> getClans() {
@@ -240,7 +245,7 @@ public class ClanManager extends Manager {
     }
 
     public final long getMaxPillageLength() {
-        return (getInstance().getManager(OptionsManager.class).getClansPillageLength() * 60000L);
+        return (getClanModule().getPrimitiveCasted(Integer.class, "PillageLength") * 60000L);
     }
 
     public final boolean isNameAllowed(final String name) {

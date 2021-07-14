@@ -3,6 +3,7 @@ package net.clansau.clans.farming.listeners;
 import net.clansau.clans.farming.FarmingManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
+import net.clansau.core.framework.Primitive;
 import net.clansau.core.framework.modules.CoreListener;
 import net.clansau.core.utility.UtilMessage;
 import org.bukkit.ChatColor;
@@ -18,6 +19,9 @@ public class FarmingListener extends CoreListener<FarmingManager> {
 
     public FarmingListener(final FarmingManager manager) {
         super(manager, "Farming Listener");
+        addPrimitive("Enabled", new Primitive<>(true));
+        addPrimitive("MaxYLevel", new Primitive<>(60));
+        addPrimitive("MinYLevel", new Primitive<>(44));
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -40,13 +44,13 @@ public class FarmingListener extends CoreListener<FarmingManager> {
         if (client.isAdministrating()) {
             return;
         }
-        if (!(getManager().isFarmingEnabled())) {
+        if (!(getPrimitiveCasted(Boolean.class, "Enabled"))) {
             e.setCancelled(true);
             UtilMessage.message(player, "Game", ChatColor.YELLOW + "Farming" + ChatColor.GRAY + " is currently not enabled.");
             return;
         }
-        final int maxYLevel = getManager().getMaxYLevel();
-        final int minYLevel = getManager().getMinYLevel();
+        final int maxYLevel = getPrimitiveCasted(Integer.class, "MaxYLevel");
+        final int minYLevel = getPrimitiveCasted(Integer.class, "MinYLevel");
         if (block.getLocation().getY() > minYLevel && block.getLocation().getY() < maxYLevel) {
             return;
         }
@@ -80,13 +84,13 @@ public class FarmingListener extends CoreListener<FarmingManager> {
         if (client.isAdministrating()) {
             return;
         }
-        if (!(getManager().isFarmingEnabled())) {
+        if (!(getPrimitiveCasted(Boolean.class, "Enabled"))) {
             e.setCancelled(true);
             UtilMessage.message(player, "Game", ChatColor.YELLOW + "Farming" + ChatColor.GRAY + " is currently not enabled.");
             return;
         }
-        final int maxYLevel = getManager().getMaxYLevel();
-        final int minYLevel = getManager().getMinYLevel();
+        final int maxYLevel = getPrimitiveCasted(Integer.class, "MaxYLevel");
+        final int minYLevel = getPrimitiveCasted(Integer.class, "MinYLevel");
         if (block.getLocation().getY() > minYLevel && block.getLocation().getY() < maxYLevel) {
             return;
         }

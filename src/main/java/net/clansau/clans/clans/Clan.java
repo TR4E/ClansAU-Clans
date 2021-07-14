@@ -2,7 +2,6 @@ package net.clansau.clans.clans;
 
 import net.clansau.clans.Clans;
 import net.clansau.clans.clans.enums.ClanRole;
-import net.clansau.clans.config.OptionsManager;
 import net.clansau.core.client.Client;
 import net.clansau.core.client.ClientManager;
 import net.clansau.core.utility.UtilLocation;
@@ -49,6 +48,10 @@ public class Clan {
 
     protected Clans getInstance() {
         return this.instance;
+    }
+
+    private ClanManager getManager() {
+        return getInstance().getManager(ClanManager.class);
     }
 
     public final String getName() {
@@ -356,7 +359,7 @@ public class Clan {
     }
 
     public final long getTNTProtected() {
-        final long z = ((this.getLastOnline() + (getInstance().getManager(OptionsManager.class).getClansTNTProtection() * 60000L)) - System.currentTimeMillis());
+        final long z = ((this.getLastOnline() + (getManager().getClanModule().getPrimitiveCasted(Integer.class, "TNTProtection") * 60000L)) - System.currentTimeMillis());
         System.out.println(z);
         return z;
     }
@@ -365,7 +368,7 @@ public class Clan {
         if (this instanceof AdminClan) {
             return true;
         }
-        if (getInstance().getManager(OptionsManager.class).isClansLastDay()) {
+        if (getManager().getClanModule().getPrimitiveCasted(Boolean.class, "LastDay")) {
             return false;
         }
         if (this.isOnline()) {
@@ -376,7 +379,7 @@ public class Clan {
 
     public final String getTNTProtectionString() {
         if (!(this instanceof AdminClan)) {
-            if (getInstance().getManager(OptionsManager.class).isClansLastDay()) {
+            if (getManager().getClanModule().getPrimitiveCasted(Boolean.class, "LastDay")) {
                 return ChatColor.GOLD + "LAST DAY OF MAP - NO PROTECTION.";
             }
             if (this.isOnline()) {

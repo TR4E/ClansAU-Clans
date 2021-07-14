@@ -1,7 +1,6 @@
 package net.clansau.clans.farming;
 
 import net.clansau.clans.Clans;
-import net.clansau.clans.config.OptionsManager;
 import net.clansau.clans.farming.listeners.FarmingListener;
 import net.clansau.core.framework.Manager;
 import org.bukkit.Material;
@@ -28,17 +27,5 @@ public class FarmingManager extends Manager {
 
     public final boolean isFarming(final Player player, final Block block) {
         return ((player.getInventory().getItemInHand().getType().name().endsWith("_HOE") && (block.getType() == Material.GRASS || block.getType().name().contains("DIRT"))) || this.isAgriculture(player.getInventory().getItemInHand().getType(), false) && (block.getType() == Material.SOIL || block.getType() == Material.SOUL_SAND));
-    }
-
-    public final boolean isFarmingEnabled() {
-        return getInstance().getManager(OptionsManager.class).isGameFarmingEnabled();
-    }
-
-    public final int getMaxYLevel() {
-        return getInstance().getManager(OptionsManager.class).getGameMaxFarmingLevel();
-    }
-
-    public final int getMinYLevel() {
-        return getInstance().getManager(OptionsManager.class).getGameMinFarmingLevel();
     }
 }
