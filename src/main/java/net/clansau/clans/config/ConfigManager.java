@@ -1,10 +1,10 @@
 package net.clansau.clans.config;
 
 import net.clansau.clans.Clans;
+import net.clansau.core.config.Config;
 import net.clansau.core.config.OptionsManager;
 import net.clansau.core.config.framework.IConfigManager;
 import net.clansau.core.config.framework.IOptionsManager;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class ConfigManager extends IConfigManager {
 
@@ -13,21 +13,17 @@ public class ConfigManager extends IConfigManager {
     }
 
     @Override
-    protected void handleConfig(final String type, final YamlConfiguration yml) {
-        switch (type) {
-            case "Config": {
-                break;
-            }
-        }
+    public void handleConfig(final String type, final Config config) {
+
     }
 
     @Override
-    protected final String[] getTypes() {
+    protected String[] getConfigTypes() {
         return new String[0];
     }
 
     @Override
-    public final IOptionsManager getOptionsManager() {
+    public IOptionsManager getOptionsManager() {
         return getInstance().getManager(OptionsManager.class);
     }
 }

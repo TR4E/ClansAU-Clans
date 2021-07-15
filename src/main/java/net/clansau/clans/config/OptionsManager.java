@@ -1,21 +1,16 @@
 package net.clansau.clans.config;
 
-import net.clansau.clans.Clans;
+import net.clansau.core.config.Config;
 import net.clansau.core.config.framework.IOptionsManager;
-import org.bukkit.configuration.file.YamlConfiguration;
+import net.clansau.core.framework.Plugin;
 
 public class OptionsManager extends IOptionsManager {
 
-    public OptionsManager(final Clans instance) {
+    public OptionsManager(final Plugin instance) {
         super(instance);
     }
 
     @Override
-    protected void handleConfig(final String type, final YamlConfiguration yml) {
-        switch (type) {
-            case "Config": {
-                break;
-            }
-        }
+    protected void handleConfig(final String type, final Config config) {
     }
 }
