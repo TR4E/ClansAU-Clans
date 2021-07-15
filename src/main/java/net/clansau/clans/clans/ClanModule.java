@@ -6,7 +6,7 @@ import net.clansau.core.framework.Primitive;
 public class ClanModule extends Module<ClanManager> {
 
     public ClanModule(final ClanManager manager) {
-        super(manager, "ClanModule");
+        super(manager, "Clan Module");
         addPrimitive("FirstDay", new Primitive<>(false));
         addPrimitive("LastDay", new Primitive<>(false));
         addPrimitive("PillageLength", new Primitive<>(10));

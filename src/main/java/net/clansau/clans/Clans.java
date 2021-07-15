@@ -8,6 +8,7 @@ import net.clansau.clans.farming.FarmingManager;
 import net.clansau.clans.server.ServerManager;
 import net.clansau.clans.server.events.ServerStartEvent;
 import net.clansau.clans.server.events.ServerStopEvent;
+import net.clansau.clans.weapon.WeaponManager;
 import net.clansau.clans.world.WorldManager;
 import net.clansau.core.config.framework.IConfigManager;
 import net.clansau.core.framework.Plugin;
@@ -33,6 +34,7 @@ public class Clans extends Plugin {
         addManager(new ClanManager(this));
         addManager(new FarmingManager(this));
         addManager(new ServerManager(this));
+        addManager(new WeaponManager(this));
         addManager(new WorldManager(this));
     }
 
