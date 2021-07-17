@@ -300,13 +300,6 @@ public class ClanManager extends Manager {
         return clan.getName();
     }
 
-    public void removeClanChat(final UUID uuid) {
-//        final Gamer gamer = getInstance().getManager(GamerManager.class).getGamer(uuid);
-//        if (gamer != null && (gamer.getChatType().equals(Gamer.ChatType.CLAN_CHAT) || gamer.getChatType().equals(Gamer.ChatType.ALLY_CHAT))) {
-//            gamer.setChatType(Gamer.ChatType.GLOBAL_CHAT);
-//        }
-    }
-
     public final boolean isSafe(final Location location) {
         final Clan land = this.getClan(location);
         if (land == null) {
@@ -322,7 +315,10 @@ public class ClanManager extends Manager {
     }
 
     public final boolean isSafe(final Player player) {
-        return (this.isSafe(player.getLocation()) && !(getInstance().getManager(CombatManager.class).isInCombat(player)));
+        if (getInstance().getManager(CombatManager.class).isInCombat(player)) {
+            return false;
+        }
+        return this.isSafe(player.getLocation());
     }
 
     public final boolean canCast(final Location location) {
@@ -361,7 +357,10 @@ public class ClanManager extends Manager {
                 return false;
             }
         }
-        return (!(this.isSafe(damager) && this.isSafe(damagee)));
+        if (this.isSafe(damager)) {
+            return false;
+        }
+        return !(this.isSafe(damagee));
     }
 
     public final boolean hasAccess(final Player player, final Location location) {
@@ -402,5 +401,8 @@ public class ClanManager extends Manager {
             }
         }
         return (land != null ? (this.getClanRelation(clan, land).getSuffix() + this.getName(land, false) + append) : ChatColor.YELLOW + "Wilderness");
+    }
+
+    public void removeClanChat(final UUID uuid) {
     }
 }

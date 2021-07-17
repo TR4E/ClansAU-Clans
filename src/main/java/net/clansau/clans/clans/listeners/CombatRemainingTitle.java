@@ -1,7 +1,5 @@
 package net.clansau.clans.clans.listeners;
 
-import net.clansau.clans.clans.AdminClan;
-import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.core.framework.modules.CoreListener;
 import net.clansau.core.general.combat.Combat;
@@ -27,13 +25,6 @@ public class CombatRemainingTitle extends CoreListener<ClanManager> {
             return;
         }
         final Player player = e.getPlayer();
-        final Clan clan = getManager().getClan(player.getUniqueId());
-        if (clan == null) {
-            return;
-        }
-        if (!(clan instanceof AdminClan)) {
-            return;
-        }
         if (!(getManager().isSafe(player.getLocation()))) {
             return;
         }
