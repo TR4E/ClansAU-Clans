@@ -11,15 +11,12 @@ public class ReceiveLegendaryCooldown extends CoreListener<WeaponManager> {
 
     public ReceiveLegendaryCooldown(final WeaponManager manager) {
         super(manager, "Receive Legendary Cooldown");
-        addPrimitive("Cooldown", new Primitive<>(86400000L)); // 2 Hour Cooldown
+        addPrimitive("Cooldown", new Primitive<>(86400000)); // 1 Day Cooldown
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onLegendaryCommand(final LegendaryCommandEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        if (e.hasCooldown()) {
+        if (e.isCancelled() || e.hasCooldown()) {
             return;
         }
         e.setCooldown(getPrimitiveCasted(Long.class, "Cooldown"));
