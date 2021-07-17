@@ -18,7 +18,7 @@ public class DisableSafeZoneDamage extends CoreListener<ClanManager> {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onSafeZoneDamage(final CustomDamageEvent e) {
-        if (!(e.getDamager() instanceof Player)) {
+        if (!(e.getDamagee() instanceof Player)) {
             return;
         }
         final Player damagee = e.getDamageePlayer();
