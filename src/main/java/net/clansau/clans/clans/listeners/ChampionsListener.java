@@ -7,6 +7,8 @@ import net.clansau.champions.classes.skill.events.SkillPreActivateEvent;
 import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.core.framework.modules.CoreListener;
+import net.clansau.core.weapon.events.WeaponEffectEvent;
+import net.clansau.core.weapon.events.WeaponFriendlyFireEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -62,6 +64,25 @@ public class ChampionsListener extends CoreListener<ClanManager> {
         }
         final Player player = e.getPlayer();
         if (getManager().canCast(player)) {
+            return;
+        }
+        e.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onWeaponEffect(final WeaponEffectEvent e) {
+        if (e.getPlayer() == null || e.getTarget() == null) {
+            return;
+        }
+        e.setPlayerName(this.getName(e.getPlayer(), e.getTarget()));
+        e.setTargetName(this.getName(e.getTarget(), e.getPlayer()));
+    }
+
+    @EventHandler
+    public void onWeaponFriendlyFire(final WeaponFriendlyFireEvent e) {
+        final Player player = e.getPlayer();
+        final Player target = e.getTarget();
+        if (getInstance().getManager(ClanManager.class).canHurt(player, target)) {
             return;
         }
         e.setCancelled(true);
