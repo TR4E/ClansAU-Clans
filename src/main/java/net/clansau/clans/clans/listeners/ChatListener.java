@@ -5,7 +5,7 @@ import net.clansau.clans.clans.ClanManager;
 import net.clansau.clans.clans.enums.ClanRelation;
 import net.clansau.clans.clans.events.AllyChatEvent;
 import net.clansau.clans.clans.events.ClanChatEvent;
-import net.clansau.core.client.events.CustomChatEvent;
+import net.clansau.core.chat.events.CustomChatEvent;
 import net.clansau.core.framework.modules.CoreListener;
 import net.clansau.core.gamer.Gamer;
 import net.clansau.core.gamer.GamerManager;
