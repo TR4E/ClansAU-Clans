@@ -4,6 +4,7 @@ import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
 import net.clansau.core.framework.modules.CoreListener;
 import net.clansau.core.general.combat.events.CustomDeathMessageEvent;
+import net.clansau.core.general.combat.multikill.events.MultiKillEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
@@ -19,6 +20,14 @@ public class DeathListener extends CoreListener<ClanManager> {
         if (e.getKiller() != null) {
             e.setKillerName(this.getName(e.getKiller(), e.getTarget()));
         }
+    }
+
+    @EventHandler
+    public void onMultiKill(final MultiKillEvent e) {
+        if (e.getKillerName() == null) {
+            return;
+        }
+        e.setKillerName(this.getName(e.getKiller(), e.getPlayer()));
     }
 
     private String getName(final Player player, final Player target) {
