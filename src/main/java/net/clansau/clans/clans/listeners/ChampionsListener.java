@@ -39,7 +39,7 @@ public class ChampionsListener extends CoreListener<ClanManager> {
     public void onSkillFriendlyFire(final SkillFriendlyFireEvent e) {
         final Player player = e.getPlayer();
         final Player target = e.getTarget();
-        if (getManager().canHurt(player, target)) {
+        if (this.canHurt(player, target)) {
             return;
         }
         e.setCancelled(true);
@@ -82,9 +82,18 @@ public class ChampionsListener extends CoreListener<ClanManager> {
     public void onWeaponFriendlyFire(final WeaponFriendlyFireEvent e) {
         final Player player = e.getPlayer();
         final Player target = e.getTarget();
-        if (getInstance().getManager(ClanManager.class).canHurt(player, target)) {
+        if (this.canHurt(player, target)) {
             return;
         }
         e.setCancelled(true);
+    }
+
+    private boolean canHurt(final Player player, final Player target) {
+        final Clan pClan = getManager().getClan(player.getUniqueId());
+        final Clan tClan = getManager().getClan(target.getUniqueId());
+        if (pClan != null && tClan != null) {
+            return !pClan.equals(tClan) && !pClan.isAllied(tClan);
+        }
+        return true;
     }
 }
