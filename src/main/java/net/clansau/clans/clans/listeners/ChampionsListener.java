@@ -6,9 +6,13 @@ import net.clansau.champions.classes.skill.events.SkillLocationEvent;
 import net.clansau.champions.classes.skill.events.SkillPreActivateEvent;
 import net.clansau.clans.clans.Clan;
 import net.clansau.clans.clans.ClanManager;
+import net.clansau.core.client.Client;
+import net.clansau.core.client.ClientManager;
 import net.clansau.core.framework.modules.CoreListener;
 import net.clansau.core.weapon.events.WeaponEffectEvent;
 import net.clansau.core.weapon.events.WeaponFriendlyFireEvent;
+import net.clansau.core.weapon.events.WeaponPreUseEvent;
+import net.clansau.core.weapon.events.WeaponUsingEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -64,6 +68,37 @@ public class ChampionsListener extends CoreListener<ClanManager> {
         }
         final Player player = e.getPlayer();
         if (getManager().canCast(player)) {
+            return;
+        }
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onWeaponPreUse(final WeaponPreUseEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        final Player player = e.getPlayer();
+        if (getManager().canCast(player)) {
+            return;
+        }
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onWeaponUsing(final WeaponUsingEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        final Player player = e.getPlayer();
+        if (getManager().canCast(player.getLocation())) {
+            return;
+        }
+        final Client client = getInstance().getManager(ClientManager.class).getOnlineClient(player.getUniqueId());
+        if (client == null) {
+            return;
+        }
+        if (client.isAdministrating()) {
             return;
         }
         e.setCancelled(true);
