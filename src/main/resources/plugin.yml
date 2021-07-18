@@ -11,3 +11,6 @@ commands:
   allychat:
     aliases: [ ac ]
   spawn:
+  fields:
+  fish:
+    aliases: [ fishing ]
