@@ -26,6 +26,9 @@ public class Clans extends Plugin {
 
     @Override
     protected void onPluginDisable() {
+        if (isSettingTrue(SettingType.FORCED_STOPPED)) {
+            return;
+        }
         Bukkit.getServer().getPluginManager().callEvent(new ServerStopEvent());
     }
 
