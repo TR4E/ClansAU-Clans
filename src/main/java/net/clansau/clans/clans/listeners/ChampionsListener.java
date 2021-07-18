@@ -70,6 +70,13 @@ public class ChampionsListener extends CoreListener<ClanManager> {
         if (getManager().canCast(player)) {
             return;
         }
+        final Client client = getInstance().getManager(ClientManager.class).getOnlineClient(player.getUniqueId());
+        if (client == null) {
+            return;
+        }
+        if (client.isAdministrating()) {
+            return;
+        }
         e.setCancelled(true);
     }
 
@@ -80,6 +87,13 @@ public class ChampionsListener extends CoreListener<ClanManager> {
         }
         final Player player = e.getPlayer();
         if (getManager().canCast(player)) {
+            return;
+        }
+        final Client client = getInstance().getManager(ClientManager.class).getOnlineClient(player.getUniqueId());
+        if (client == null) {
+            return;
+        }
+        if (client.isAdministrating()) {
             return;
         }
         e.setCancelled(true);

@@ -66,7 +66,7 @@ public class FieldsCommand extends Command<FieldsManager, CommandSender> {
     private String[] getInfo() {
         return new String[]{
                 ChatColor.GREEN + "Status: " + ChatColor.WHITE + UtilFormat.getStatus(getManager().getModule(FieldsModule.class).isEnabled(), false),
-                ChatColor.GREEN + "Blocks: " + ChatColor.WHITE + (getManager().getSavedBlocks().size() - getManager().getGameBlocks().size()),
+                ChatColor.GREEN + "Blocks: " + ChatColor.WHITE + getManager().getBlocksLeft(),
                 ChatColor.GREEN + "Last Replenished: " + ChatColor.WHITE + getManager().getLastReplenished()
         };
     }

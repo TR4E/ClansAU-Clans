@@ -31,6 +31,7 @@ public class WorldManager extends IWorldManager {
         addModule(new DisableShootingArrowsInSafeZones(this));
         addModule(new DisableSoilChange(this));
         addModule(new ReceiveKitCooldown(this));
+        addModule(new StarterKitPerMap(this));
     }
 
     @Override

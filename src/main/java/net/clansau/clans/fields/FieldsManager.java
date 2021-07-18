@@ -123,6 +123,10 @@ public class FieldsManager extends Manager {
         return (material.name().endsWith("_ORE") || material.equals(Material.ENDER_CHEST));
     }
 
+    public final int getBlocksLeft() {
+        return (this.getSavedBlocks().size() - this.getGameBlocks().size());
+    }
+
     public final long getRecharge() {
         final int size = Bukkit.getOnlinePlayers().size();
         if (size > 65) {
