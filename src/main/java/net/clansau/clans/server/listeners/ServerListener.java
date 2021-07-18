@@ -31,6 +31,6 @@ public class ServerListener extends CoreListener<ServerManager> {
     @EventHandler
     public void onCoreShutdown(final CoreShutdownEvent e) {
         getInstance().setSettingTrue(Plugin.SettingType.FORCED_STOPPED, true);
-        Bukkit.getServer().getPluginManager().callEvent(new net.clansau.champions.server.events.ServerStopEvent());
+        Bukkit.getServer().getPluginManager().callEvent(new ServerStopEvent());
     }
 }
