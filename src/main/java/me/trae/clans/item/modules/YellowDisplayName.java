@@ -16,17 +16,13 @@ public class YellowDisplayName extends SpigotListener<Clans, ItemManager> {
         super(manager);
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemUpdate(final ItemUpdateEvent event) {
+        if (event.isUpdated()) {
+            return;
+        }
+
         final ItemBuilder builder = event.getBuilder();
-
-        if (!(builder.hasDisplayName())) {
-            return;
-        }
-
-        if (UtilColor.isColorized(builder.getDisplayName())) {
-            return;
-        }
 
         builder.setDisplayName(UtilColor.applyIfNotMatched(ChatColor.YELLOW, builder.getDisplayName()));
     }
