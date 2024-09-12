@@ -8,7 +8,6 @@ import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.command.types.SubCommand;
-import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -29,7 +28,9 @@ public abstract class ClanSubCommand extends SubCommand<Clans, ClanCommand> impl
 
     @Override
     public ChatColor getUsageChatColor() {
-        return UtilJava.getOrDefault(this.getRequiredMemberRole().getChatColor(), ChatColor.YELLOW);
+        final MemberRole requiredMemberRole = this.getRequiredMemberRole();
+
+        return requiredMemberRole != null ? requiredMemberRole.getChatColor() : ChatColor.YELLOW;
     }
 
     @Override

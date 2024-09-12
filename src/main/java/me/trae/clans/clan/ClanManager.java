@@ -29,6 +29,11 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
     public ClanManager(final Clans instance) {
         super(instance);
 
+        this.addPrimitive("Max-Squad-Count", 8);
+        this.addPrimitive("Max-Claim-Limit", 8);
+        this.addPrimitive("SOTW", false);
+        this.addPrimitive("EOTW", false);
+
         this.addClan(new Clan("Reckoning"));
     }
 
@@ -37,7 +42,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
         // Commands
         addModule(new ClanCommand(this));
 
-        // Listeners
+        // Modules
         addModule(new HandleChatReceiver(this));
     }
 
@@ -154,7 +159,26 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
 
     @Override
     public LinkedHashMap<String, String> getClanInformation(final Player player, final Client client, final Clan playerClan, final Clan targetClan) {
-        return new LinkedHashMap<>();
+        final LinkedHashMap<String, String> map = new LinkedHashMap<>();
+
+        if (client.isAdministrating()) {
+            map.put("Founder", targetClan.getFounderString());
+        }
+
+        map.put("Age", String.format("<yellow>%s", targetClan.getCreatedString()));
+        map.put("Territory", String.format("<yellow>%s", targetClan.getTerritoryString(this)));
+
+        if (playerClan == targetClan || client.isAdministrating()) {
+            map.put("Home", targetClan.getHomeString());
+        }
+
+        map.put("Allies", "");
+        map.put("Enemies", "");
+        map.put("Pillages", "");
+        map.put("Members", targetClan.getMembersString(player));
+        map.put("TNT Protected", targetClan.getTNTProtectionString(this, player));
+
+        return map;
     }
 
     @Override

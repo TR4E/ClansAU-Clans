@@ -6,16 +6,22 @@ import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.commands.subcommands.CreateCommand;
 import me.trae.clans.clan.commands.subcommands.DisbandCommand;
 import me.trae.clans.clan.commands.subcommands.HelpCommand;
+import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
+import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.command.types.Command;
+import me.trae.core.command.types.interfaces.ISharedCommand;
 import me.trae.core.command.types.models.PlayerCommandType;
 import me.trae.core.utility.UtilCommand;
+import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilString;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCommandType {
@@ -39,6 +45,22 @@ public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCo
     @Override
     public String getHelpPrefix() {
         return "Clans";
+    }
+
+    @Override
+    public void sortHelpList(final List<? extends ISharedCommand> list) {
+        super.sortHelpList(list);
+        list.sort(Comparator.comparingInt(subCommand -> {
+            if (subCommand instanceof ClanSubCommand) {
+                final MemberRole requiredMemberRole = UtilJava.cast(ClanSubCommand.class, subCommand).getRequiredMemberRole();
+
+                if (requiredMemberRole != null) {
+                    return requiredMemberRole.ordinal();
+                }
+            }
+
+            return -1;
+        }));
     }
 
     @Override

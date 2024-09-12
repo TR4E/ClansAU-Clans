@@ -3,11 +3,8 @@ package me.trae.clans.clan;
 import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.interfaces.IClan;
-import me.trae.core.Core;
-import me.trae.core.client.ClientManager;
-import me.trae.core.utility.UtilChunk;
-import me.trae.core.utility.UtilLocation;
-import me.trae.core.utility.UtilPlugin;
+import me.trae.core.utility.*;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -25,6 +22,7 @@ public class Clan implements IClan {
 
     private final LinkedHashMap<UUID, Member> members = new LinkedHashMap<>();
 
+    private long created;
     private UUID founder;
     private Location home;
 
@@ -35,6 +33,7 @@ public class Clan implements IClan {
     public Clan(final String name, final Player player) {
         this(name);
 
+        this.created = System.currentTimeMillis();
         this.founder = player.getUniqueId();
 
         this.addMember(new Member(player, MemberRole.LEADER));
@@ -90,6 +89,22 @@ public class Clan implements IClan {
     }
 
     @Override
+    public int getMaxClaims(final ClanManager manager) {
+        final int maxClaims = 3 + this.getMembers().size();
+
+        return UtilMath.getMinAndMax(Integer.class, 0, manager.getPrimitiveCasted(Integer.class, "Max-Claim-Limit"), maxClaims);
+    }
+
+    @Override
+    public String getTerritoryString(final ClanManager manager) {
+        if (this.isAdmin()) {
+            return String.format("%s/∞", this.getTerritory().size());
+        }
+
+        return String.format("%s/%s", this.getTerritory().size(), this.getMaxClaims(manager));
+    }
+
+    @Override
     public LinkedHashMap<UUID, Member> getMembers() {
         return this.members;
     }
@@ -125,13 +140,73 @@ public class Clan implements IClan {
     }
 
     @Override
+    public String getMembersString(final Player receiverPlayer) {
+        final List<String> list = new ArrayList<>();
+
+        for (final Member member : this.getMembers().values()) {
+            final ChatColor chatColor = (member.isOnline() && receiverPlayer.canSee(member.getOnlinePlayer()) ? ChatColor.GREEN : ChatColor.RED);
+            final String name = UtilPlayer.getPlayerNameByUUID(member.getUUID());
+
+            list.add(String.format("<yellow>%s<gray>.%s", member.getRole().getPrefix(), chatColor + name));
+        }
+
+        return String.join("<white>, ", list);
+    }
+
+    @Override
+    public boolean isOnline() {
+        return this.getMembers().values().stream().anyMatch(Member::isOnline);
+    }
+
+    @Override
+    public boolean isOnline(final Player receiverPlayer) {
+        return this.getMembers().values().stream().filter(Member::isOnline).anyMatch(member -> receiverPlayer.canSee(member.getOnlinePlayer()));
+    }
+
+    @Override
+    public boolean isSquadFull(final ClanManager manager) {
+        return this.getMembers().size() >= manager.getPrimitiveCasted(Integer.class, "Max-Squad-Count");
+    }
+
+    @Override
+    public long getCreated() {
+        return this.created;
+    }
+
+    @Override
+    public String getCreatedString() {
+        return UtilTime.getTime(System.currentTimeMillis() - this.getCreated());
+    }
+
+    @Override
+    public String getTNTProtectionString(final ClanManager manager, final Player receiverPlayer) {
+        if (manager.getPrimitiveCasted(Boolean.class, "SOTW")) {
+            return "<green>Yes, start of the world.";
+        }
+
+        if (manager.getPrimitiveCasted(Boolean.class, "EOTW")) {
+            return "<red>No, end of the world.";
+        }
+
+        if (!(this.isOnline(receiverPlayer))) {
+            return "<green>Yes, members are not online.";
+        }
+
+        return "<gold>No, members are online.";
+    }
+
+    @Override
     public UUID getFounder() {
         return this.founder;
     }
 
     @Override
     public String getFounderString() {
-        return String.format("<yellow>%s", UtilPlugin.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByUUID(this.getFounder()).getName());
+        if (this.getFounder() == null) {
+            return "<red>N/A";
+        }
+
+        return String.format("<yellow>%s", UtilPlayer.getPlayerNameByUUID(this.getFounder()));
     }
 
     @Override

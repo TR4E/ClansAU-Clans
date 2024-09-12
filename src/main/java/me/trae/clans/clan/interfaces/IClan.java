@@ -1,5 +1,6 @@
 package me.trae.clans.clan.interfaces;
 
+import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.types.AdminClan;
 import org.bukkit.Chunk;
@@ -22,6 +23,10 @@ public interface IClan {
 
     String getDisplayName();
 
+    /*
+
+     */
+
     List<String> getTerritory();
 
     List<Chunk> getTerritoryChunks();
@@ -33,6 +38,14 @@ public interface IClan {
     boolean isTerritory(final Chunk chunk);
 
     boolean hasTerritory();
+
+    int getMaxClaims(final ClanManager manager);
+
+    String getTerritoryString(final ClanManager manager);
+
+    /*
+
+     */
 
     LinkedHashMap<UUID, Member> getMembers();
 
@@ -47,6 +60,28 @@ public interface IClan {
     boolean isMemberByUUID(final UUID uuid);
 
     boolean isMemberByPlayer(final Player player);
+
+    String getMembersString(final Player receiverPlayer);
+
+    /*
+
+     */
+
+    boolean isOnline();
+
+    boolean isOnline(final Player receiverPlayer);
+
+    boolean isSquadFull(final ClanManager manager);
+
+    /*
+
+     */
+
+    long getCreated();
+
+    String getCreatedString();
+
+    String getTNTProtectionString(final ClanManager manager, final Player receiverPlayer);
 
     UUID getFounder();
 
