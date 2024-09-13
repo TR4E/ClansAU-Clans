@@ -38,6 +38,11 @@ public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCo
     }
 
     @Override
+    public boolean sortHelpList() {
+        return true;
+    }
+
+    @Override
     public String getDescription() {
         return "Clan management";
     }
@@ -49,7 +54,6 @@ public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCo
 
     @Override
     public void sortHelpList(final List<? extends ISharedCommand> list) {
-        super.sortHelpList(list);
         list.sort(Comparator.comparingInt(subCommand -> {
             if (subCommand instanceof ClanSubCommand) {
                 final MemberRole requiredMemberRole = UtilJava.cast(ClanSubCommand.class, subCommand).getRequiredMemberRole();
@@ -61,6 +65,8 @@ public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCo
 
             return -1;
         }));
+
+        super.sortHelpList(list);
     }
 
     @Override
