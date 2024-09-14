@@ -1,7 +1,11 @@
 package me.trae.clans.clan;
 
+import me.trae.clans.clan.data.Alliance;
+import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
+import me.trae.clans.clan.data.Pillage;
 import me.trae.clans.clan.data.enums.MemberRole;
+import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.interfaces.IClan;
 import me.trae.core.utility.*;
 import org.bukkit.ChatColor;
@@ -21,6 +25,9 @@ public class Clan implements IClan {
     private final List<String> territory = new ArrayList<>();
 
     private final LinkedHashMap<UUID, Member> members = new LinkedHashMap<>();
+    private final LinkedHashMap<String, Alliance> alliances = new LinkedHashMap<>();
+    private final LinkedHashMap<String, Enemy> enemies = new LinkedHashMap<>();
+    private final LinkedHashMap<String, Pillage> pillages = new LinkedHashMap<>();
 
     private long created;
     private UUID founder;
@@ -151,6 +158,153 @@ public class Clan implements IClan {
         }
 
         return String.join("<white>, ", list);
+    }
+
+    @Override
+    public LinkedHashMap<String, Alliance> getAlliances() {
+        return this.alliances;
+    }
+
+    @Override
+    public void addAlliance(final Alliance alliance) {
+        this.getAlliances().put(alliance.getName().toLowerCase(), alliance);
+    }
+
+    @Override
+    public void removeAlliance(final Alliance alliance) {
+        this.getAlliances().remove(alliance.getName().toLowerCase());
+    }
+
+    @Override
+    public Alliance getAllianceByClan(final Clan clan) {
+        return this.getAlliances().getOrDefault(clan.getName().toLowerCase(), null);
+    }
+
+    @Override
+    public boolean isAllianceByClan(final Clan clan) {
+        return this.getAlliances().containsKey(clan.getName().toLowerCase());
+    }
+
+    @Override
+    public boolean isTrustedByClan(final Clan clan) {
+        return this.isAllianceByClan(clan) && this.getAllianceByClan(clan).isTrusted();
+    }
+
+    @Override
+    public String getAlliesString(final ClanManager manager, final Clan receiverClan) {
+        final List<String> list = new ArrayList<>();
+
+        for (final Alliance alliance : this.getAlliances().values()) {
+            final Clan allianceClan = manager.getClanByName(alliance.getName());
+            if (allianceClan == null) {
+                continue;
+            }
+
+            final ClanRelation clanRelation = manager.getClanRelationByClan(receiverClan, allianceClan);
+
+            list.add(clanRelation.getSuffix() + allianceClan.getName());
+        }
+
+        return String.join("<gray>, ", list);
+    }
+
+    @Override
+    public LinkedHashMap<String, Enemy> getEnemies() {
+        return this.enemies;
+    }
+
+    @Override
+    public void addEnemy(final Enemy enemy) {
+        this.getEnemies().put(enemy.getName().toLowerCase(), enemy);
+    }
+
+    @Override
+    public void removeEnemy(final Enemy enemy) {
+        this.getEnemies().remove(enemy.getName().toLowerCase());
+    }
+
+    @Override
+    public Enemy getEnemyByClan(final Clan clan) {
+        return this.getEnemies().getOrDefault(clan.getName().toLowerCase(), null);
+    }
+
+    @Override
+    public boolean isEnemyByClan(final Clan clan) {
+        return this.getEnemies().containsKey(clan.getName().toLowerCase());
+    }
+
+    @Override
+    public String getEnemiesString(final ClanManager manager, final Clan receiverClan) {
+        final List<String> list = new ArrayList<>();
+
+        for (final Enemy enemy : this.getEnemies().values()) {
+            final Clan enemyClan = manager.getClanByName(enemy.getName());
+            if (enemyClan == null) {
+                continue;
+            }
+
+            final ClanRelation clanRelation = manager.getClanRelationByClan(receiverClan, enemyClan);
+
+            list.add(clanRelation.getSuffix() + enemyClan.getName());
+        }
+
+        return String.join("<gray>, ", list);
+    }
+
+    @Override
+    public LinkedHashMap<String, Pillage> getPillages() {
+        return this.pillages;
+    }
+
+    @Override
+    public void addPillage(final Pillage pillage) {
+        this.getPillages().put(pillage.getName().toLowerCase(), pillage);
+    }
+
+    @Override
+    public void removePillage(final Pillage pillage) {
+        this.getPillages().remove(pillage.getName().toLowerCase());
+    }
+
+    @Override
+    public Pillage getPillageByClan(final Clan clan) {
+        return this.getPillages().getOrDefault(clan.getName().toLowerCase(), null);
+    }
+
+    @Override
+    public boolean isPillageByClan(final Clan clan) {
+        return this.getPillages().containsKey(clan.getName().toLowerCase());
+    }
+
+    @Override
+    public String getPillagesString(final ClanManager manager, final Clan receiverClan) {
+        final List<String> list = new ArrayList<>();
+
+        for (final Pillage pillage : this.getPillages().values()) {
+            final Clan pillageClan = manager.getClanByName(pillage.getName());
+            if (pillageClan == null) {
+                continue;
+            }
+
+            final ClanRelation clanRelation = manager.getClanRelationByClan(receiverClan, pillageClan);
+
+            list.add(clanRelation.getSuffix() + pillageClan.getName());
+        }
+
+        return String.join("<gray>, ", list);
+    }
+
+    @Override
+    public boolean isBeingPillaged(final ClanManager manager) {
+        for (final Clan clan : manager.getClans().values()) {
+            if (!(clan.isPillageByClan(this))) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     @Override

@@ -174,9 +174,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
             map.put("Home", targetClan.getHomeString());
         }
 
-        map.put("Allies", "");
-        map.put("Enemies", "");
-        map.put("Pillages", "");
+        map.put("Allies", targetClan.getAlliesString(this, playerClan));
+        map.put("Enemies", targetClan.getEnemiesString(this, playerClan));
+        map.put("Pillages", targetClan.getPillagesString(this, playerClan));
         map.put("Members", targetClan.getMembersString(player));
         map.put("TNT Protected", targetClan.getTNTProtectionString(this, player));
 

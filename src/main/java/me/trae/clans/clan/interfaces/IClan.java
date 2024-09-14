@@ -1,7 +1,11 @@
 package me.trae.clans.clan.interfaces;
 
+import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
+import me.trae.clans.clan.data.Alliance;
+import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
+import me.trae.clans.clan.data.Pillage;
 import me.trae.clans.clan.types.AdminClan;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -62,6 +66,58 @@ public interface IClan {
     boolean isMemberByPlayer(final Player player);
 
     String getMembersString(final Player receiverPlayer);
+
+    /*
+
+     */
+
+    LinkedHashMap<String, Alliance> getAlliances();
+
+    void addAlliance(final Alliance alliance);
+
+    void removeAlliance(final Alliance alliance);
+
+    Alliance getAllianceByClan(final Clan clan);
+
+    boolean isAllianceByClan(final Clan clan);
+
+    boolean isTrustedByClan(final Clan clan);
+
+    String getAlliesString(final ClanManager manager, final Clan receiverClan);
+
+    /*
+
+     */
+
+    LinkedHashMap<String, Enemy> getEnemies();
+
+    void addEnemy(final Enemy enemy);
+
+    void removeEnemy(final Enemy enemy);
+
+    Enemy getEnemyByClan(final Clan clan);
+
+    boolean isEnemyByClan(final Clan clan);
+
+    String getEnemiesString(final ClanManager manager, final Clan receiverClan);
+
+    /*
+
+     */
+
+    LinkedHashMap<String, Pillage> getPillages();
+
+    void addPillage(final Pillage pillage);
+
+    void removePillage(final Pillage pillage);
+
+    Pillage getPillageByClan(final Clan clan);
+
+    boolean isPillageByClan(final Clan clan);
+
+    String getPillagesString(final ClanManager manager, final Clan receiverClan);
+
+    boolean isBeingPillaged(final ClanManager manager);
 
     /*
 
