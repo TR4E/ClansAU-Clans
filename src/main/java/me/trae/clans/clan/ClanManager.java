@@ -5,6 +5,7 @@ import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.interfaces.IClanManager;
 import me.trae.clans.clan.modules.HandleChatReceiver;
+import me.trae.clans.clan.modules.HandleClansDeathMessageFormat;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
@@ -44,6 +45,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
 
         // Modules
         addModule(new HandleChatReceiver(this));
+        addModule(new HandleClansDeathMessageFormat(this));
     }
 
     @Override
