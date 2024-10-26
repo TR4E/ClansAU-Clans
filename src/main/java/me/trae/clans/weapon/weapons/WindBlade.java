@@ -17,10 +17,11 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class WindBlade extends ChannelLegendary<Clans, WeaponManager, WeaponData> {
+public class WindBlade extends ChannelLegendary<Clans, WeaponManager, WeaponData> implements Listener {
 
     public WindBlade(final WeaponManager manager) {
         super(manager, new ItemStack(Material.DIAMOND_SWORD));

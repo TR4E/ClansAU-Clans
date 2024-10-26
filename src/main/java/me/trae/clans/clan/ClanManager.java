@@ -14,6 +14,7 @@ import me.trae.core.framework.SpigotManager;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.objects.Pair;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -87,6 +88,24 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
     }
 
     @Override
+    public Clan getClanByChunk(final Chunk chunk) {
+        for (final Clan clan : this.getClans().values()) {
+            if (!(clan.isTerritory(chunk))) {
+                continue;
+            }
+
+            return clan;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Clan getClanByLocation(final Location location) {
+        return this.getClanByChunk(location.getChunk());
+    }
+
+    @Override
     public boolean isClanByName(final String name) {
         return this.getClans().containsKey(name.toLowerCase());
     }
@@ -99,6 +118,16 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
     @Override
     public boolean isClanByPlayer(final Player player) {
         return this.isClanByUUID(player.getUniqueId());
+    }
+
+    @Override
+    public boolean isClanByChunk(final Chunk chunk) {
+        return this.getClanByChunk(chunk) != null;
+    }
+
+    @Override
+    public boolean isClanByLocation(final Location location) {
+        return this.getClanByLocation(location) != null;
     }
 
     @Override

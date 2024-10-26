@@ -4,6 +4,7 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.core.client.Client;
 import me.trae.core.utility.objects.Pair;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,11 +27,19 @@ public interface IClanManager {
 
     Clan getClanByPlayer(final Player player);
 
+    Clan getClanByChunk(final Chunk chunk);
+
+    Clan getClanByLocation(final Location location);
+
     boolean isClanByName(final String name);
 
     boolean isClanByUUID(final UUID uuid);
 
     boolean isClanByPlayer(final Player player);
+
+    boolean isClanByChunk(final Chunk chunk);
+
+    boolean isClanByLocation(final Location location);
 
     /*
 
