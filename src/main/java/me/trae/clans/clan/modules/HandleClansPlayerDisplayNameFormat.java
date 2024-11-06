@@ -21,6 +21,6 @@ public class HandleClansPlayerDisplayNameFormat extends SpigotListener<Clans, Cl
 
         final ClanRelation clanRelation = this.getManager().getClanRelationByPlayer(target, player);
 
-        event.setPlayerName(clanRelation + player.getName());
+        event.setPlayerName(clanRelation.getSuffix() + player.getName());
     }
 }
