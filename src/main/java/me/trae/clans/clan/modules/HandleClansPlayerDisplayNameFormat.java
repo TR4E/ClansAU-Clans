@@ -2,6 +2,7 @@ package me.trae.clans.clan.modules;
 
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
+import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.player.events.PlayerDisplayNameEvent;
 import org.bukkit.entity.Player;
@@ -18,6 +19,8 @@ public class HandleClansPlayerDisplayNameFormat extends SpigotListener<Clans, Cl
         final Player player = event.getPlayer();
         final Player target = event.getTarget();
 
-        event.setPlayerName(this.getManager().getClanRelationByPlayer(target, player) + player.getName());
+        final ClanRelation clanRelation = this.getManager().getClanRelationByPlayer(target, player);
+
+        event.setPlayerName(clanRelation + player.getName());
     }
 }
