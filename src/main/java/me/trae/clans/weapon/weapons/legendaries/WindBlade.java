@@ -1,4 +1,4 @@
-package me.trae.clans.weapon.weapons;
+package me.trae.clans.weapon.weapons.legendaries;
 
 import me.trae.api.damage.events.CustomDamageEvent;
 import me.trae.clans.Clans;
