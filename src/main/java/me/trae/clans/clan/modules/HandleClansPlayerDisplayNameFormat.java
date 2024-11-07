@@ -7,6 +7,7 @@ import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.player.events.PlayerDisplayNameEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 
 public class HandleClansPlayerDisplayNameFormat extends SpigotListener<Clans, ClanManager> {
 
@@ -14,7 +15,7 @@ public class HandleClansPlayerDisplayNameFormat extends SpigotListener<Clans, Cl
         super(manager);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerDisplayName(final PlayerDisplayNameEvent event) {
         final Player player = event.getPlayer();
         final Player target = event.getTarget();
