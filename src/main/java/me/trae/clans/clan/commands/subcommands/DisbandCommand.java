@@ -1,11 +1,13 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.api.combat.CombatManager;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
 import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.ClanDisbandEvent;
+import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
@@ -55,16 +57,21 @@ public class DisbandCommand extends ClanSubCommand implements EventContainer<Cla
                 return false;
             }
 
-//            final Clan territoryClan = this.getModule().getManager().getClanByLocation(player.getLocation());
-//            if (territoryClan != null && clan.isEnemyByClan(territoryClan)) {
-//                UtilMessage.message(player, "Clans", "You cannot disband the clan while in enemy territory!");
-//                return false;
-//            }
-//
-//            if (clan.isBeingPillaged(this.getModule().getManager())) {
-//                UtilMessage.message(player, "Clans", "You cannot disband the clan while being conquered by another clan!");
-//                return false;
-//            }
+            if (this.getInstance(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
+                UtilMessage.message(player, "Clans", "You cannot disband the clan while in combat!");
+                return false;
+            }
+
+            final Clan territoryClan = this.getModule().getManager().getClanByLocation(player.getLocation());
+            if (territoryClan != null && clan.isEnemyByClan(territoryClan)) {
+                UtilMessage.message(player, "Clans", "You cannot disband the clan while in enemy territory!");
+                return false;
+            }
+
+            if (clan.isBeingPillaged(this.getModule().getManager())) {
+                UtilMessage.message(player, "Clans", "You cannot disband the clan while being conquered by another clan!");
+                return false;
+            }
         }
 
         return true;

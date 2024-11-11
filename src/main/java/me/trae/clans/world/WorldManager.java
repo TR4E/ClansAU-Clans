@@ -14,10 +14,11 @@ public class WorldManager extends AbstractWorldManager<Clans> {
 
     @Override
     public void registerModules() {
-        // Listeners
+        // Core Modules
         addModule(new DisableSaturation<>(this));
         addModule(new DisableWeather<>(this));
 
+        // Disable Block Interaction
         addModule(new DisableAnvilInteraction(this));
         addModule(new DisableBeaconInteraction(this));
         addModule(new DisableBrewingStandInteraction(this));
@@ -26,7 +27,11 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         addModule(new DisableEnderChestInteraction(this));
         addModule(new DisableEnderPortalFrameInteraction(this));
 
+        // Disable Block
         addModule(new DisableBedrock(this));
         addModule(new DisableObsidian(this));
+
+        // Clans Modules
+        addModule(new FasterNighttimeCycle(this));
     }
 }

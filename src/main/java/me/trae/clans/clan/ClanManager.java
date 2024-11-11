@@ -6,6 +6,8 @@ import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.interfaces.IClanManager;
 import me.trae.clans.clan.modules.HandleChatReceiver;
 import me.trae.clans.clan.modules.HandleClansPlayerDisplayNameFormat;
+import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardSetup;
+import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
@@ -43,6 +45,10 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
     public void registerModules() {
         // Commands
         addModule(new ClanCommand(this));
+
+        // Scoreboard Modules
+        addModule(new HandleClansScoreboardSetup(this));
+        addModule(new HandleClansScoreboardUpdate(this));
 
         // Modules
         addModule(new HandleChatReceiver(this));
