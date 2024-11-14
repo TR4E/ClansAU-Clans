@@ -6,7 +6,7 @@ public interface ICurrencyItemType {
 
     String getDisplayName();
 
-    Material getMaterial();
-
     int getPrice();
+
+    Material getMaterial();
 }

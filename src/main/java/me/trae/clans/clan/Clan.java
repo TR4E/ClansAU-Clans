@@ -5,24 +5,29 @@ import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.data.Pillage;
 import me.trae.clans.clan.data.enums.MemberRole;
+import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
+import me.trae.clans.clan.enums.RequestType;
 import me.trae.clans.clan.interfaces.IClan;
+import me.trae.core.database.containers.DataContainer;
+import me.trae.core.database.query.constants.DefaultProperty;
 import me.trae.core.utility.*;
+import me.trae.core.utility.objects.EnumData;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class Clan implements IClan {
+public class Clan implements IClan, DataContainer<ClanProperty> {
 
     private final String name;
 
     private final List<String> territory = new ArrayList<>();
+
+    private final LinkedHashMap<RequestType, LinkedHashMap<String, Long>> requests = new LinkedHashMap<>();
 
     private final LinkedHashMap<UUID, Member> members = new LinkedHashMap<>();
     private final LinkedHashMap<String, Alliance> alliances = new LinkedHashMap<>();
@@ -44,6 +49,30 @@ public class Clan implements IClan {
         this.founder = player.getUniqueId();
 
         this.addMember(new Member(player, MemberRole.LEADER));
+    }
+
+    public Clan(final EnumData<ClanProperty> data) {
+        this(data.get(String.class, DefaultProperty.KEY));
+
+        data.getList(String.class, ClanProperty.TERRITORY).forEach(string -> this.addTerritory(UtilChunk.fileToChunk(string)));
+
+        data.getList(String.class, ClanProperty.REQUESTS).forEach(string -> {
+            final String[] tokens = string.split(":");
+
+            final RequestType requestType = RequestType.valueOf(tokens[0]);
+
+            if (!(this.getRequests().containsKey(requestType))) {
+                this.getRequests().put(requestType, new LinkedHashMap<>());
+            }
+
+            this.getRequests().get(requestType).put(tokens[1], Long.parseLong(tokens[2]));
+        });
+
+        data.getList(String.class, ClanProperty.MEMBERS).forEach(string -> this.addMember(new Member(string.split(":"))));
+        data.getList(String.class, ClanProperty.ALLIANCES).forEach(string -> this.addAlliance(new Alliance(string.split(":"))));
+
+        this.created = data.get(Long.class, ClanProperty.CREATED);
+        this.founder = UUID.fromString(data.get(String.class, ClanProperty.FOUNDER));
     }
 
     @Override
@@ -112,6 +141,30 @@ public class Clan implements IClan {
     }
 
     @Override
+    public LinkedHashMap<RequestType, LinkedHashMap<String, Long>> getRequests() {
+        return this.requests;
+    }
+
+    @Override
+    public void addRequest(final RequestType requestType, final String key) {
+        if (!(this.getRequests().containsKey(requestType))) {
+            this.getRequests().put(requestType, new LinkedHashMap<>());
+        }
+
+        this.getRequests().get(requestType).put(key, System.currentTimeMillis());
+    }
+
+    @Override
+    public void removeRequest(final RequestType requestType, final String key) {
+        this.getRequests().getOrDefault(requestType, new LinkedHashMap<>()).remove(key);
+    }
+
+    @Override
+    public boolean isRequested(final RequestType requestType, final String key) {
+        return this.getRequests().getOrDefault(requestType, new LinkedHashMap<>()).containsKey(key);
+    }
+
+    @Override
     public LinkedHashMap<UUID, Member> getMembers() {
         return this.members;
     }
@@ -158,6 +211,21 @@ public class Clan implements IClan {
         }
 
         return String.join("<white>, ", list);
+    }
+
+    @Override
+    public LinkedHashMap<Player, Member> getOnlineMembers() {
+        final LinkedHashMap<Player, Member> map = new LinkedHashMap<>();
+
+        for (final Member member : this.getMembers().values()) {
+            if (!(member.isOnline())) {
+                continue;
+            }
+
+            map.put(member.getOnlinePlayer(), member);
+        }
+
+        return map;
     }
 
     @Override
@@ -308,6 +376,29 @@ public class Clan implements IClan {
     }
 
     @Override
+    public boolean isNeutralByClan(final Clan clan) {
+        if (clan != null) {
+            if (this == clan) {
+                return false;
+            }
+
+            if (this.isAllianceByClan(clan)) {
+                return false;
+            }
+
+            if (this.isEnemyByClan(clan)) {
+                return false;
+            }
+
+            if (this.isPillageByClan(clan) || clan.isPillageByClan(this)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
     public boolean isOnline() {
         return this.getMembers().values().stream().anyMatch(Member::isOnline);
     }
@@ -319,7 +410,18 @@ public class Clan implements IClan {
 
     @Override
     public boolean isSquadFull(final ClanManager manager) {
-        return this.getMembers().size() >= manager.getPrimitiveCasted(Integer.class, "Max-Squad-Count");
+        int size = this.getMembers().size();
+
+        for (final Alliance alliance : this.getAlliances().values()) {
+            final Clan allianceClan = manager.getClanByName(alliance.getName());
+            if (allianceClan == null) {
+                continue;
+            }
+
+            size += allianceClan.getMembers().size();
+        }
+
+        return size >= manager.getPrimitiveCasted(Integer.class, "Max-Squad-Count");
     }
 
     @Override
@@ -385,5 +487,28 @@ public class Clan implements IClan {
         }
 
         return "<red>Not set";
+    }
+
+    @Override
+    public List<ClanProperty> getProperties() {
+        return Arrays.asList(ClanProperty.values());
+    }
+
+    @Override
+    public Object getValueByProperty(final ClanProperty property) {
+        switch (property) {
+            case REQUESTS:
+                return this.getRequests().entrySet().stream().map(entry -> entry.getValue().entrySet().stream().map(entry2 -> String.format("%s:%s:%s", entry.getKey().name(), entry2.getKey(), entry2.getValue()))).collect(Collectors.toList());
+            case MEMBERS:
+                return this.getMembers().values().stream().map(Member::toString).collect(Collectors.toList());
+            case ALLIANCES:
+                return this.getAlliances().values().stream().map(Alliance::toString).collect(Collectors.toList());
+            case CREATED:
+                return this.getCreated();
+            case FOUNDER:
+                return this.getFounder().toString();
+        }
+
+        return null;
     }
 }

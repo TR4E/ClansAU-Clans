@@ -4,6 +4,7 @@ import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.data.interfaces.IMember;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public class Member implements IMember {
@@ -19,6 +20,10 @@ public class Member implements IMember {
 
     public Member(final Player player, final MemberRole memberRole) {
         this(player.getUniqueId(), memberRole);
+    }
+
+    public Member(final String[] tokens) {
+        this(UUID.fromString(tokens[0]), MemberRole.valueOf(tokens[1]));
     }
 
     @Override
@@ -39,5 +44,10 @@ public class Member implements IMember {
     @Override
     public boolean hasRole(final MemberRole memberRole) {
         return this.getRole().ordinal() >= memberRole.ordinal();
+    }
+
+    @Override
+    public String toString() {
+        return String.join(":", Arrays.asList(this.getUUID().toString(), this.getRole().name()));
     }
 }

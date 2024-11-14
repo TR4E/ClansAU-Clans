@@ -9,6 +9,7 @@ import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.ClanDisbandEvent;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
+import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.containers.EventContainer;
@@ -33,7 +34,7 @@ public class DisbandCommand extends ClanSubCommand implements EventContainer<Cla
     }
 
     @Override
-    public void execute(final Player player, final Client client, final Clan clan, final String[] args) {
+    public void execute(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
         if (clan == null) {
             UtilMessage.message(player, "Clans", "You are not in a Clan.");
             return;

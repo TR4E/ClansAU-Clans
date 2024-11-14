@@ -1,4 +1,4 @@
-package me.trae.clans.weapon.weapons.items;
+package me.trae.clans.weapon.weapons.items.currency;
 
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.clans.weapon.types.CurrencyItem;
@@ -12,6 +12,6 @@ public class HundredGrandDisc extends CurrencyItem {
 
     @Override
     public CurrencyItemType getCurrencyItemType() {
-        return CurrencyItemType._100K;
+        return CurrencyItemType.ONE_HUNDRED_GRAND;
     }
 }

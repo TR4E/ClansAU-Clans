@@ -6,6 +6,7 @@ import me.trae.clans.clan.data.Alliance;
 import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.data.Pillage;
+import me.trae.clans.clan.enums.RequestType;
 import me.trae.clans.clan.types.AdminClan;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -51,6 +52,18 @@ public interface IClan {
 
      */
 
+    LinkedHashMap<RequestType, LinkedHashMap<String, Long>> getRequests();
+
+    void addRequest(final RequestType requestType, final String key);
+
+    void removeRequest(final RequestType requestType, final String key);
+
+    boolean isRequested(final RequestType requestType, final String key);
+
+    /*
+
+     */
+
     LinkedHashMap<UUID, Member> getMembers();
 
     void addMember(final Member member);
@@ -66,6 +79,8 @@ public interface IClan {
     boolean isMemberByPlayer(final Player player);
 
     String getMembersString(final Player receiverPlayer);
+
+    LinkedHashMap<Player, Member> getOnlineMembers();
 
     /*
 
@@ -122,6 +137,8 @@ public interface IClan {
     /*
 
      */
+
+    boolean isNeutralByClan(final Clan clan);
 
     boolean isOnline();
 

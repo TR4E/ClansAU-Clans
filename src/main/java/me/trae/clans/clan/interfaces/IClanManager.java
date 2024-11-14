@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -47,6 +48,14 @@ public interface IClanManager {
 
     Clan searchClan(final CommandSender sender, final String name, final boolean inform);
 
+    void messageClan(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore);
+
+    void messageAllies(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore);
+
+    /*
+
+     */
+
     ClanRelation getClanRelationByClan(final Clan clan, final Clan target);
 
     ClanRelation getClanRelationByPlayer(final Player player, final Player target);
@@ -72,6 +81,10 @@ public interface IClanManager {
     /*
 
      */
+
+    void outlineChunk(final Clan clan, final Chunk chunk);
+
+    void unOutlineChunk(final Clan clan, final Chunk chunk);
 
     void disbandClan(final Clan clan);
 }

@@ -4,6 +4,7 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
 import me.trae.core.client.Client;
+import me.trae.core.gamer.Gamer;
 import org.bukkit.entity.Player;
 
 public class HelpCommand extends ClanSubCommand {
@@ -13,7 +14,7 @@ public class HelpCommand extends ClanSubCommand {
     }
 
     @Override
-    public void execute(final Player player, final Client client, final Clan clan, final String[] args) {
+    public void execute(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
         this.getModule().help(player);
     }
 }

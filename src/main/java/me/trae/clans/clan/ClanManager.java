@@ -2,6 +2,10 @@ package me.trae.clans.clan;
 
 import me.trae.clans.Clans;
 import me.trae.clans.clan.commands.ClanCommand;
+import me.trae.clans.clan.commands.chat.AllyChatCommand;
+import me.trae.clans.clan.commands.chat.ClanChatCommand;
+import me.trae.clans.clan.data.Alliance;
+import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.interfaces.IClanManager;
 import me.trae.clans.clan.modules.HandleChatReceiver;
@@ -12,8 +16,12 @@ import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
+import me.trae.core.database.repository.containers.RepositoryContainer;
 import me.trae.core.framework.SpigotManager;
+import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilJava;
+import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.objects.Pair;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -26,7 +34,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class ClanManager extends SpigotManager<Clans> implements IClanManager {
+public class ClanManager extends SpigotManager<Clans> implements IClanManager, RepositoryContainer<ClanRepository> {
 
     private final Map<String, Clan> CLANS = new HashMap<>();
 
@@ -37,14 +45,16 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
         this.addPrimitive("Max-Claim-Limit", 8);
         this.addPrimitive("SOTW", false);
         this.addPrimitive("EOTW", false);
-
-        this.addClan(new Clan("Reckoning"));
     }
 
     @Override
     public void registerModules() {
         // Commands
         addModule(new ClanCommand(this));
+
+        // Chat Commands
+        addModule(new AllyChatCommand(this));
+        addModule(new ClanChatCommand(this));
 
         // Scoreboard Modules
         addModule(new HandleClansScoreboardSetup(this));
@@ -53,6 +63,11 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
         // Modules
         addModule(new HandleChatReceiver(this));
         addModule(new HandleClansPlayerDisplayNameFormat(this));
+    }
+
+    @Override
+    public Class<ClanRepository> getClassOfRepository() {
+        return ClanRepository.class;
     }
 
     @Override
@@ -176,6 +191,23 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
         });
 
         return UtilJava.search(this.getClans().values(), predicates, consumer, function, "Clan Search", sender, name, inform);
+    }
+
+    @Override
+    public void messageClan(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore) {
+        UtilMessage.simpleMessage(clan.getOnlineMembers().keySet(), prefix, message, variables, null, ignore);
+    }
+
+    @Override
+    public void messageAllies(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore) {
+        for (final Alliance alliance : clan.getAlliances().values()) {
+            final Clan allianceClan = this.getClanByName(alliance.getName());
+            if (allianceClan == null) {
+                continue;
+            }
+
+            this.messageClan(allianceClan, prefix, message, variables, ignore);
+        }
     }
 
     @Override
@@ -316,7 +348,39 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager {
     }
 
     @Override
+    public void outlineChunk(final Clan clan, final Chunk chunk) {
+    }
+
+    @Override
+    public void unOutlineChunk(final Clan clan, final Chunk chunk) {
+    }
+
+    @Override
     public void disbandClan(final Clan clan) {
+        for (final Chunk chunk : clan.getTerritoryChunks()) {
+            this.unOutlineChunk(clan, chunk);
+        }
+
+        for (final Clan targetClan : this.getClans().values()) {
+            if (targetClan.isAllianceByClan(clan)) {
+                targetClan.removeAlliance(targetClan.getAllianceByClan(clan));
+                this.getRepository().updateData(targetClan, ClanProperty.ALLIANCES);
+            }
+
+            if (targetClan.isEnemyByClan(clan)) {
+                targetClan.removeEnemy(targetClan.getEnemyByClan(clan));
+                this.getRepository().updateData(targetClan, ClanProperty.ENEMIES);
+            }
+
+            if (targetClan.isPillageByClan(clan)) {
+                targetClan.removePillage(targetClan.getPillageByClan(clan));
+                this.getRepository().updateData(targetClan, ClanProperty.PILLAGES);
+            }
+        }
+
+        clan.getOnlineMembers().keySet().forEach(player -> UtilServer.callEvent(new ScoreboardUpdateEvent(player)));
+
         this.removeClan(clan);
+        this.getRepository().deleteData(clan);
     }
 }

@@ -8,6 +8,7 @@ import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.command.types.SubCommand;
+import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -39,21 +40,21 @@ public abstract class ClanSubCommand extends SubCommand<Clans, ClanCommand> impl
     }
 
     @Override
-    public void execute(final Player player, final Client client, final String[] args) {
+    public void execute(final Player player, final Client client, final Gamer gamer, final String[] args) {
         final Clan playerClan = this.getModule().getManager().getClanByPlayer(player);
 
-        this.execute(player, client, playerClan, args);
+        this.execute(player, client, gamer, playerClan, args);
     }
 
     @Override
-    public List<String> getTabCompletion(final Player player, final Client client, final String[] args) {
+    public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final String[] args) {
         final Clan playerClan = this.getModule().getManager().getClanByPlayer(player);
 
-        return this.getTabCompletion(player, client, playerClan, args);
+        return this.getTabCompletion(player, client, gamer, playerClan, args);
     }
 
     @Override
-    public List<String> getTabCompletion(final Player player, final Client client, final Clan clan, final String[] args) {
+    public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
         return Collections.emptyList();
     }
 

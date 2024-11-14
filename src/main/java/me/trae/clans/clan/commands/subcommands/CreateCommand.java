@@ -8,6 +8,7 @@ import me.trae.clans.clan.events.ClanCreateEvent;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
+import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.UtilString;
@@ -37,7 +38,7 @@ public class CreateCommand extends ClanSubCommand implements EventContainer<Clan
     }
 
     @Override
-    public void execute(final Player player, final Client client, Clan clan, final String[] args) {
+    public void execute(final Player player, final Client client, final Gamer gamer, Clan clan, final String[] args) {
         if (clan != null) {
             UtilMessage.message(player, "Clans", "You are already in a Clan.");
             return;
@@ -111,6 +112,7 @@ public class CreateCommand extends ClanSubCommand implements EventContainer<Clan
         final Player player = event.getPlayer();
 
         this.getModule().getManager().addClan(clan);
+        this.getModule().getManager().getRepository().saveData(clan);
 
         for (final Player target : UtilServer.getOnlinePlayers()) {
             final ClanRelation clanRelation = this.getModule().getManager().getClanRelationByClan(this.getModule().getManager().getClanByPlayer(target), clan);
