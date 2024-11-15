@@ -2,6 +2,7 @@ package me.trae.clans.clan;
 
 import me.trae.clans.Clans;
 import me.trae.clans.clan.enums.ClanProperty;
+import me.trae.clans.clan.types.AdminClan;
 import me.trae.clans.config.Config;
 import me.trae.core.database.query.types.DeleteQuery;
 import me.trae.core.database.query.types.MultiCallbackQuery;
@@ -85,7 +86,7 @@ public class ClanRepository extends Repository<Clans, ClanManager, Config> imple
         final MultiCallbackQuery<ClanProperty> query = new MultiCallbackQuery<ClanProperty>() {
             @Override
             public void onCallback(final EnumData<ClanProperty> data) {
-                final Clan clan = new Clan(data);
+                final Clan clan = data.get(Boolean.class, ClanProperty.ADMIN) ? new AdminClan(data) : new Clan(data);
 
                 getManager().addClan(clan);
 

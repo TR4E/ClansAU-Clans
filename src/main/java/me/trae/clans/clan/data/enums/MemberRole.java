@@ -19,6 +19,18 @@ public enum MemberRole implements IMemberRole {
         this.chatColor = chatColor;
     }
 
+    public static MemberRole getByOrdinal(final int ordinal) {
+        return values()[ordinal];
+    }
+
+    public static MemberRole getHighest() {
+        return getByOrdinal(values().length - 1);
+    }
+
+    public static MemberRole getLowest() {
+        return getByOrdinal(0);
+    }
+
     @Override
     public String getName() {
         return this.name;

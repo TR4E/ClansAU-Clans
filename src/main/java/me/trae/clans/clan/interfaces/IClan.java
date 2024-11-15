@@ -40,7 +40,7 @@ public interface IClan {
 
     void removeTerritory(final Chunk chunk);
 
-    boolean isTerritory(final Chunk chunk);
+    boolean isTerritoryByChunk(final Chunk chunk);
 
     boolean hasTerritory();
 
@@ -153,6 +153,16 @@ public interface IClan {
     long getCreated();
 
     String getCreatedString();
+
+    long getLastOnline();
+
+    void setLastOnline(final long lastOnline);
+
+    long getLastTNTed();
+
+    void setLastTNTed(final long lastTNTed);
+
+    boolean isTNTProtected(final ClanManager manager);
 
     String getTNTProtectionString(final ClanManager manager, final Player receiverPlayer);
 

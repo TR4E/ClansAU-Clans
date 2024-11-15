@@ -1,5 +1,6 @@
 package me.trae.clans.clan;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.data.Alliance;
 import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
@@ -9,6 +10,7 @@ import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.enums.RequestType;
 import me.trae.clans.clan.interfaces.IClan;
+import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.database.containers.DataContainer;
 import me.trae.core.database.query.constants.DefaultProperty;
 import me.trae.core.utility.*;
@@ -34,7 +36,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     private final LinkedHashMap<String, Enemy> enemies = new LinkedHashMap<>();
     private final LinkedHashMap<String, Pillage> pillages = new LinkedHashMap<>();
 
-    private long created;
+    private long created, lastOnline, lastTNTed;
     private UUID founder;
     private Location home;
 
@@ -54,7 +56,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     public Clan(final EnumData<ClanProperty> data) {
         this(data.get(String.class, DefaultProperty.KEY));
 
-        data.getList(String.class, ClanProperty.TERRITORY).forEach(string -> this.addTerritory(UtilChunk.fileToChunk(string)));
+        data.getList(String.class, ClanProperty.TERRITORY).forEach(string -> UtilServer.runTask(Clans.class, false, () -> this.addTerritory(UtilChunk.fileToChunk(string))));
 
         data.getList(String.class, ClanProperty.REQUESTS).forEach(string -> {
             final String[] tokens = string.split(":");
@@ -70,9 +72,14 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
         data.getList(String.class, ClanProperty.MEMBERS).forEach(string -> this.addMember(new Member(string.split(":"))));
         data.getList(String.class, ClanProperty.ALLIANCES).forEach(string -> this.addAlliance(new Alliance(string.split(":"))));
+        data.getList(String.class, ClanProperty.ENEMIES).forEach(string -> this.addEnemy(new Enemy(string.split(":"))));
+        data.getList(String.class, ClanProperty.PILLAGES).forEach(string -> this.addPillage(new Pillage(string.split(":"))));
 
         this.created = data.get(Long.class, ClanProperty.CREATED);
+        this.lastOnline = data.get(Long.class, ClanProperty.LAST_ONLINE);
+        this.lastTNTed = data.get(Long.class, ClanProperty.LAST_TNTED);
         this.founder = UUID.fromString(data.get(String.class, ClanProperty.FOUNDER));
+        this.home = UtilLocation.fileToLocation(data.get(String.class, ClanProperty.HOME));
     }
 
     @Override
@@ -115,7 +122,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     }
 
     @Override
-    public boolean isTerritory(final Chunk chunk) {
+    public boolean isTerritoryByChunk(final Chunk chunk) {
         return this.getTerritory().contains(UtilChunk.chunkToFile(chunk));
     }
 
@@ -435,6 +442,37 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     }
 
     @Override
+    public long getLastOnline() {
+        return this.lastOnline;
+    }
+
+    @Override
+    public void setLastOnline(final long lastOnline) {
+        this.lastOnline = lastOnline;
+    }
+
+    @Override
+    public long getLastTNTed() {
+        return this.lastTNTed;
+    }
+
+    @Override
+    public void setLastTNTed(final long lastTNTed) {
+        this.lastTNTed = lastTNTed;
+    }
+
+    @Override
+    public boolean isTNTProtected(final ClanManager manager) {
+        if (this.isAdmin()) {
+            return true;
+        }
+
+        final String tntProtectionString = this.getTNTProtectionString(manager, null);
+
+        return tntProtectionString.contains("Yes");
+    }
+
+    @Override
     public String getTNTProtectionString(final ClanManager manager, final Player receiverPlayer) {
         if (manager.getPrimitiveCasted(Boolean.class, "SOTW")) {
             return "<green>Yes, start of the world.";
@@ -444,11 +482,21 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             return "<red>No, end of the world.";
         }
 
-        if (!(this.isOnline(receiverPlayer))) {
-            return "<green>Yes, members are not online.";
+        if (receiverPlayer != null ? this.isOnline(receiverPlayer) : this.isOnline()) {
+            return "<gold>No, members are online.";
         }
 
-        return "<gold>No, members are online.";
+        final long tntProtectionDuration = manager.getPrimitiveCasted(Long.class, "TNT-Protection-Duration");
+
+        if (this.getLastTNTed() > 0L && !(UtilTime.elapsed(this.getLastTNTed(), tntProtectionDuration))) {
+            return String.format("<green>Yes, %s until no protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), tntProtectionDuration)));
+        }
+
+        if (this.getLastOnline() > 0L && UtilTime.elapsed(this.getLastOnline(), tntProtectionDuration)) {
+            return String.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), tntProtectionDuration)));
+        }
+
+        return "<green>Yes, TNT protected.";
     }
 
     @Override
@@ -497,16 +545,32 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     @Override
     public Object getValueByProperty(final ClanProperty property) {
         switch (property) {
+            case TERRITORY:
+                return this.getTerritory();
             case REQUESTS:
                 return this.getRequests().entrySet().stream().map(entry -> entry.getValue().entrySet().stream().map(entry2 -> String.format("%s:%s:%s", entry.getKey().name(), entry2.getKey(), entry2.getValue()))).collect(Collectors.toList());
             case MEMBERS:
                 return this.getMembers().values().stream().map(Member::toString).collect(Collectors.toList());
             case ALLIANCES:
                 return this.getAlliances().values().stream().map(Alliance::toString).collect(Collectors.toList());
+            case ENEMIES:
+                return this.getEnemies().values().stream().map(Enemy::toString).collect(Collectors.toList());
+            case PILLAGES:
+                return this.getPillages().values().stream().map(Pillage::toString).collect(Collectors.toList());
             case CREATED:
                 return this.getCreated();
+            case LAST_ONLINE:
+                return this.getLastOnline();
+            case LAST_TNTED:
+                return this.getLastTNTed();
             case FOUNDER:
                 return this.getFounder().toString();
+            case HOME:
+                return UtilLocation.locationToFile(this.getHome());
+            case ADMIN:
+                return this.isAdmin();
+            case SAFE:
+                return this.isAdmin() && UtilJava.cast(AdminClan.class, this).isSafe();
         }
 
         return null;

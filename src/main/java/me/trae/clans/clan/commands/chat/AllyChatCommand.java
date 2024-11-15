@@ -4,6 +4,7 @@ import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.data.Alliance;
+import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ChatType;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.core.client.Client;
@@ -13,6 +14,7 @@ import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.containers.ChatTypeContainer;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -22,6 +24,11 @@ public class AllyChatCommand extends Command<Clans, ClanManager> implements Chat
 
     public AllyChatCommand(final ClanManager manager) {
         super(manager, "allychat", new String[]{"ac"}, Rank.DEFAULT);
+    }
+
+    @Override
+    public ChatColor getUsageChatColor() {
+        return MemberRole.RECRUIT.getChatColor();
     }
 
     @Override

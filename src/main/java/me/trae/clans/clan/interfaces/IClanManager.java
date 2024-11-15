@@ -48,6 +48,8 @@ public interface IClanManager {
 
     Clan searchClan(final CommandSender sender, final String name, final boolean inform);
 
+    Client searchMember(final CommandSender sender, final Clan clan, final String name, final boolean inform);
+
     void messageClan(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore);
 
     void messageAllies(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore);
@@ -81,6 +83,8 @@ public interface IClanManager {
     /*
 
      */
+
+    void removeClanChat(final Player player);
 
     void outlineChunk(final Clan clan, final Chunk chunk);
 

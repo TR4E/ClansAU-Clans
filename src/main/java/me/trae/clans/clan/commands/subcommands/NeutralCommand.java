@@ -90,10 +90,10 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
                 return false;
             }
 
-//            if (clan.isRequested(RequestType.NEUTRALITY, targetClan)) {
-//                UtilMessage.simpleMessage(player, "Clans", "You have already requested neutrality with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, this.getModule().getManager().getClanRelationByClan(clan, targetClan))));
-//                return false;
-//            }
+            if (playerClan.isRequested(RequestType.NEUTRALITY, targetClan.getName())) {
+                UtilMessage.simpleMessage(player, "Clans", "You have already requested neutrality with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, this.getModule().getManager().getClanRelationByClan(playerClan, targetClan))));
+                return false;
+            }
         }
 
         return true;

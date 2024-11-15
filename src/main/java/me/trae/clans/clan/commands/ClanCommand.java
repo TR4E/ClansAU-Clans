@@ -27,13 +27,26 @@ public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCo
     public void registerSubModules() {
         // Leader Commands
         addSubModule(new DisbandCommand(this));
+        addSubModule(new DemoteCommand(this));
+        addSubModule(new PromoteCommand(this));
+        addSubModule(new UnClaimAllCommand(this));
 
         // Admin Commands
         addSubModule(new AllyCommand(this));
+        addSubModule(new EnemyCommand(this));
         addSubModule(new InviteCommand(this));
+        addSubModule(new KickCommand(this));
         addSubModule(new NeutralCommand(this));
+        addSubModule(new TrustCommand(this));
+        addSubModule(new UnTrustCommand(this));
+        addSubModule(new ClaimCommand(this));
+        addSubModule(new DeleteHomeCommand(this));
+        addSubModule(new SetHomeCommand(this));
+        addSubModule(new UnClaimCommand(this));
 
         // Member/Recruit Commands
+        addSubModule(new HomeCommand(this));
+        addSubModule(new LeaveCommand(this));
 
         // Non-Clan Commands
         addSubModule(new CreateCommand(this));

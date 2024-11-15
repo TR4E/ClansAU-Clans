@@ -9,8 +9,10 @@ import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.enums.RequestType;
 import me.trae.clans.clan.events.ClanJoinEvent;
+import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.recharge.RechargeManager;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.containers.EventContainer;
@@ -65,17 +67,17 @@ public class JoinCommand extends ClanSubCommand implements EventContainer<ClanJo
                 return false;
             }
 
-//            if (clan.isFull(this.getModule().getManager())) {
-//                UtilMessage.simpleMessage(player, "Clans", "<var> has too many members/allies!", Collections.singletonList(this.getModule().getManager().getClanFullName(clan, ClanRelation.NEUTRAL)));
-//                return false;
-//            }
+            if (clan.isSquadFull(this.getModule().getManager())) {
+                UtilMessage.simpleMessage(player, "Clans", "<var> has too many members/allies!", Collections.singletonList(this.getModule().getManager().getClanFullName(clan, ClanRelation.NEUTRAL)));
+                return false;
+            }
 
             if (!(clan.isRequested(RequestType.INVITATION, player.getUniqueId().toString()))) {
                 UtilMessage.simpleMessage(player, "Clans", "You have not been invited to <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(clan, ClanRelation.NEUTRAL)));
 
-//                if (this.getInstance().getManagerByClass(RechargeManager.class).add(player, String.format("JoinAttempt-%s", clan.getName()), 300_000L, false)) {
-//                    this.getModule().getManager().messageClan(clan, "Clans", "<var> tried to join the Clan, but is not invited.", Collections.singletonList(ClanRelation.NEUTRAL.getSuffix() + player.getName()), null);
-//                }
+                if (this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, String.format("JoinAttempt-%s", clan.getName()), 300_000L, false)) {
+                    this.getModule().getManager().messageClan(clan, "Clans", "<var> tried to join the Clan, but is not invited.", Collections.singletonList(ClanRelation.NEUTRAL.getSuffix() + player.getName()), null);
+                }
 
                 return false;
             }

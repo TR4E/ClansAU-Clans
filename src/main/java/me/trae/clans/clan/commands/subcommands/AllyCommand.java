@@ -79,6 +79,38 @@ public class AllyCommand extends ClanSubCommand implements EventContainer<ClanAl
             return false;
         }
 
+        if (targetClan.isAllianceByClan(playerClan)) {
+            UtilMessage.simpleMessage(player, "Clans", "You are already allies with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, ClanRelation.ALLIANCE)));
+            return false;
+        }
+
+        if (!(client.isAdministrating())) {
+            if (targetClan.isAdmin()) {
+                UtilMessage.message(player, "Clans", "You cannot request an alliance with Admin Clans!");
+                return false;
+            }
+
+            if (!(playerClan.isNeutralByClan(targetClan))) {
+                UtilMessage.simpleMessage(player, "Clans", "You must be neutral with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, this.getModule().getManager().getClanRelationByClan(playerClan, targetClan))));
+                return false;
+            }
+
+            if (playerClan.isSquadFull(this.getModule().getManager())) {
+                UtilMessage.message(player, "Clans", "Your Clan has too many members/allies!");
+                return false;
+            }
+
+            if (targetClan.isSquadFull(this.getModule().getManager())) {
+                UtilMessage.simpleMessage(player, "Clans", "<var> has too many members/allies!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, ClanRelation.NEUTRAL)));
+                return false;
+            }
+
+            if (playerClan.isRequested(RequestType.ALLIANCE, targetClan.getName())) {
+                UtilMessage.simpleMessage(player, "Clans", "You have already requested an alliance with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, ClanRelation.NEUTRAL)));
+                return false;
+            }
+        }
+
         return true;
     }
 

@@ -5,10 +5,12 @@ import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.chat.AllyChatCommand;
 import me.trae.clans.clan.commands.chat.ClanChatCommand;
 import me.trae.clans.clan.data.Alliance;
+import me.trae.clans.clan.enums.ChatType;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.interfaces.IClanManager;
 import me.trae.clans.clan.modules.HandleChatReceiver;
+import me.trae.clans.clan.modules.HandleClanLastOnlineOnPlayerQuit;
 import me.trae.clans.clan.modules.HandleClansPlayerDisplayNameFormat;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardSetup;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
@@ -18,10 +20,13 @@ import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
 import me.trae.core.database.repository.containers.RepositoryContainer;
 import me.trae.core.framework.SpigotManager;
+import me.trae.core.gamer.Gamer;
+import me.trae.core.gamer.GamerManager;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.enums.TimeUnit;
 import me.trae.core.utility.objects.Pair;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -33,6 +38,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ClanManager extends SpigotManager<Clans> implements IClanManager, RepositoryContainer<ClanRepository> {
 
@@ -43,6 +49,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
         this.addPrimitive("Max-Squad-Count", 8);
         this.addPrimitive("Max-Claim-Limit", 8);
+        this.addPrimitive("TNT-Protection-Duration", TimeUnit.MINUTES.getDuration() * 30);
         this.addPrimitive("SOTW", false);
         this.addPrimitive("EOTW", false);
     }
@@ -62,6 +69,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
         // Modules
         addModule(new HandleChatReceiver(this));
+        addModule(new HandleClanLastOnlineOnPlayerQuit(this));
         addModule(new HandleClansPlayerDisplayNameFormat(this));
     }
 
@@ -111,7 +119,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @Override
     public Clan getClanByChunk(final Chunk chunk) {
         for (final Clan clan : this.getClans().values()) {
-            if (!(clan.isTerritory(chunk))) {
+            if (!(clan.isTerritoryByChunk(chunk))) {
                 continue;
             }
 
@@ -194,6 +202,22 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     }
 
     @Override
+    public Client searchMember(final CommandSender sender, final Clan clan, final String name, final boolean inform) {
+        final ClientManager clientManager = this.getInstance(Core.class).getManagerByClass(ClientManager.class);
+
+        final List<Client> list = clan.getMembers().values().stream().map(member -> clientManager.getClientByUUID(member.getUUID())).collect(Collectors.toList());
+
+        final List<Predicate<Client>> predicates = Arrays.asList(
+                (client -> client.getName().equalsIgnoreCase(name)),
+                (client -> client.getName().toLowerCase().contains(name.toLowerCase()))
+        );
+
+        final Function<Client, String> function = (client -> ClanRelation.SELF.getSuffix() + client.getName());
+
+        return UtilJava.search(list, predicates, null, function, "Member Search", sender, name, inform);
+    }
+
+    @Override
     public void messageClan(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore) {
         UtilMessage.simpleMessage(clan.getOnlineMembers().keySet(), prefix, message, variables, null, ignore);
     }
@@ -244,8 +268,12 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         map.put("Allies", targetClan.getAlliesString(this, playerClan));
         map.put("Enemies", targetClan.getEnemiesString(this, playerClan));
         map.put("Pillages", targetClan.getPillagesString(this, playerClan));
+
         map.put("Members", targetClan.getMembersString(player));
-        map.put("TNT Protected", targetClan.getTNTProtectionString(this, player));
+
+        if (!(targetClan.isAdmin())) {
+            map.put("TNT Protected", targetClan.getTNTProtectionString(this, player));
+        }
 
         return map;
     }
@@ -348,6 +376,20 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     }
 
     @Override
+    public void removeClanChat(final Player player) {
+        final Gamer gamer = this.getInstance(Core.class).getManagerByClass(GamerManager.class).getGamerByPlayer(player);
+        if (gamer == null) {
+            return;
+        }
+
+        if (Arrays.stream(ChatType.values()).noneMatch(chatType -> gamer.getChatType().equals(chatType))) {
+            return;
+        }
+
+        gamer.resetChatType();
+    }
+
+    @Override
     public void outlineChunk(final Clan clan, final Chunk chunk) {
     }
 
@@ -357,6 +399,10 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public void disbandClan(final Clan clan) {
+        for (final Player player : clan.getOnlineMembers().keySet()) {
+            this.removeClanChat(player);
+        }
+
         for (final Chunk chunk : clan.getTerritoryChunks()) {
             this.unOutlineChunk(clan, chunk);
         }
