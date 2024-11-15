@@ -108,8 +108,12 @@ public class PromoteCommand extends ClanSubCommand implements EventContainer<Mem
         member.setRole(MemberRole.getByOrdinal(member.getRole().ordinal() + 1));
         this.getModule().getManager().getRepository().updateData(clan, ClanProperty.MEMBERS);
 
-        UtilMessage.simpleMessage(player, "Clans", "You have promoted <var> to <green><var></green>.", Arrays.asList(ClanRelation.SELF.getSuffix() + target.getName(), member.getRole().getName()));
-        UtilMessage.simpleMessage(target.getPlayer(), "Clans", "<var> has promoted you to <green><var></green>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), member.getRole().getName()));
+        if (player.getUniqueId().equals(target.getUUID())) {
+            UtilMessage.simpleMessage(player, "Clans", "You promoted yourself to <green><var></green>.", Collections.singletonList(member.getRole().getName()));
+        } else {
+            UtilMessage.simpleMessage(player, "Clans", "You have promoted <var> to <green><var></green>.", Arrays.asList(ClanRelation.SELF.getSuffix() + target.getName(), member.getRole().getName()));
+            UtilMessage.simpleMessage(target.getPlayer(), "Clans", "<var> has promoted you to <green><var></green>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), member.getRole().getName()));
+        }
 
         this.getModule().getManager().messageClan(clan, "Clans", "<var> has promoted <var> to <green><var></green>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), ClanRelation.SELF.getSuffix() + target.getName(), member.getRole().getName()), Arrays.asList(player.getUniqueId(), target.getUUID()));
     }

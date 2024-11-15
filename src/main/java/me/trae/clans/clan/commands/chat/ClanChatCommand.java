@@ -21,7 +21,12 @@ import java.util.List;
 public class ClanChatCommand extends Command<Clans, ClanManager> implements ChatTypeContainer<ChatType> {
 
     public ClanChatCommand(final ClanManager manager) {
-        super(manager, "clanchat", new String[]{"cc"}, Rank.DEFAULT);
+        super(manager, "cc", new String[]{"clanchat"}, Rank.DEFAULT);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Toggle Clan Chat";
     }
 
     @Override

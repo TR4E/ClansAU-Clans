@@ -23,7 +23,12 @@ import java.util.List;
 public class AllyChatCommand extends Command<Clans, ClanManager> implements ChatTypeContainer<ChatType> {
 
     public AllyChatCommand(final ClanManager manager) {
-        super(manager, "allychat", new String[]{"ac"}, Rank.DEFAULT);
+        super(manager, "ac", new String[]{"allychat"}, Rank.DEFAULT);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Toggle Ally Chat";
     }
 
     @Override

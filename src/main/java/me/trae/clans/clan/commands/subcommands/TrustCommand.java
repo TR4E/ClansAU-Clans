@@ -63,9 +63,11 @@ public class TrustCommand extends ClanSubCommand implements EventContainer<ClanT
             return;
         }
 
-        if (!(client.isAdministrating() && targetClan.isRequested(RequestType.TRUST, clan.getName()))) {
-            this.requestTrust(player, clan, targetClan);
-            return;
+        if (!(client.isAdministrating())) {
+            if (!(targetClan.isRequested(RequestType.TRUST, clan.getName()))) {
+                this.requestTrust(player, clan, targetClan);
+                return;
+            }
         }
 
         this.callEvent(new ClanTrustEvent(clan, player, client, targetClan));
@@ -94,7 +96,7 @@ public class TrustCommand extends ClanSubCommand implements EventContainer<ClanT
             }
 
             if (playerClan.isRequested(RequestType.TRUST, targetClan.getName())) {
-                UtilMessage.simpleMessage(player, "Clans", "You have already requested to trust with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, ClanRelation.ALLIANCE)));
+                UtilMessage.simpleMessage(player, "Clans", "You already requested to trust with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, ClanRelation.ALLIANCE)));
                 return false;
             }
         }
@@ -125,6 +127,7 @@ public class TrustCommand extends ClanSubCommand implements EventContainer<ClanT
 
     private void requestTrust(final Player player, final Clan playerClan, final Clan targetClan) {
         playerClan.addRequest(RequestType.TRUST, targetClan.getName());
+        this.getModule().getManager().getRepository().updateData(playerClan, ClanProperty.REQUESTS);
 
         UtilMessage.simpleMessage(player, "Clans", "You requested to trust with <var>.", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, ClanRelation.ALLIANCE)));
 

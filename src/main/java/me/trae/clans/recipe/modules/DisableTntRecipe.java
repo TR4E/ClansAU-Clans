@@ -7,9 +7,9 @@ import me.trae.core.recipe.containers.DisableRecipeContainer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class DisableTNTRecipe extends SpigotListener<Clans, RecipeManager> implements DisableRecipeContainer {
+public class DisableTntRecipe extends SpigotListener<Clans, RecipeManager> implements DisableRecipeContainer {
 
-    public DisableTNTRecipe(final RecipeManager manager) {
+    public DisableTntRecipe(final RecipeManager manager) {
         super(manager);
     }
 

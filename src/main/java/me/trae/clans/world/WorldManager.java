@@ -33,5 +33,8 @@ public class WorldManager extends AbstractWorldManager<Clans> {
 
         // Clans Modules
         addModule(new FasterNighttimeCycle(this));
+        addModule(new HandleIronDoorInteract(this));
+        addModule(new SpringBlock(this));
+        addModule(new WaterBlock(this));
     }
 }

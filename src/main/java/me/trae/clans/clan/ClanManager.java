@@ -5,6 +5,8 @@ import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.chat.AllyChatCommand;
 import me.trae.clans.clan.commands.chat.ClanChatCommand;
 import me.trae.clans.clan.data.Alliance;
+import me.trae.clans.clan.data.enums.MemberRole;
+import me.trae.clans.clan.enums.AccessType;
 import me.trae.clans.clan.enums.ChatType;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
@@ -14,6 +16,7 @@ import me.trae.clans.clan.modules.HandleClanLastOnlineOnPlayerQuit;
 import me.trae.clans.clan.modules.HandleClansPlayerDisplayNameFormat;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardSetup;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
+import me.trae.clans.clan.modules.territory.*;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
@@ -66,6 +69,13 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         // Scoreboard Modules
         addModule(new HandleClansScoreboardSetup(this));
         addModule(new HandleClansScoreboardUpdate(this));
+
+        // Territory Modules
+        addModule(new DisplayTerritoryOwner(this));
+        addModule(new HandleClanTerritoryBlockBreak(this));
+        addModule(new HandleClanTerritoryBlockInteract(this));
+        addModule(new HandleClanTerritoryBlockPlace(this));
+        addModule(new HandleClanTerritoryDoorInteract(this));
 
         // Modules
         addModule(new HandleChatReceiver(this));
@@ -240,6 +250,22 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             if (clan == target) {
                 return ClanRelation.SELF;
             }
+
+            if (clan.isAllianceByClan(target)) {
+                if (clan.isTrustedByClan(target)) {
+                    return ClanRelation.TRUSTED_ALLIANCE;
+                }
+
+                return ClanRelation.ALLIANCE;
+            }
+
+            if (clan.isEnemyByClan(target)) {
+                return ClanRelation.ENEMY;
+            }
+
+            if (clan.isPillageByClan(target) || target.isPillageByClan(clan)) {
+                return ClanRelation.PILLAGE;
+            }
         }
 
         return ClanRelation.NEUTRAL;
@@ -297,11 +323,17 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     public String getTerritoryClanNameForChat(final Clan playerClan, final Clan territoryClan, final Location location) {
         String name = "Wilderness";
         ChatColor chatColor = ChatColor.YELLOW;
-        String description = null;
+        String description = "";
 
         if (territoryClan != null) {
             name = territoryClan.getDisplayName();
             chatColor = this.getClanRelationByClan(playerClan, territoryClan).getSuffix();
+
+            if (territoryClan.isTrustedByClan(playerClan)) {
+                description = "<yellow>Trusted";
+            } else if (territoryClan.isEnemyByClan(playerClan)) {
+                description = territoryClan.getShortDominanceString(playerClan);
+            }
 
             if (territoryClan.isAdmin()) {
                 chatColor = (territoryClan.getName().equals("Outskirts") ? ChatColor.YELLOW : ChatColor.WHITE);
@@ -320,7 +352,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             }
         }
 
-        if (description != null) {
+        if (!(description.isEmpty())) {
             description = String.format(" <gray>(%s<gray>)", description);
         }
 
@@ -372,7 +404,48 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             }
         }
 
-        return new Pair<>(title.getLeft() + title.getRight(), subTitle.getLeft() + subTitle.getRight());
+        return new Pair<>(title.isEmpty() ? " " : title.getRight() + title.getLeft(), subTitle.getRight() + subTitle.getLeft());
+    }
+
+    @Override
+    public boolean hasAccess(final Player player, final Clan playerClan, final Clan territoryClan, final AccessType accessType) {
+        if (territoryClan != null) {
+            if (this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+                return true;
+            }
+
+            if (playerClan != null) {
+                if (playerClan == territoryClan) {
+                    if (accessType == AccessType.DOOR_INTERACT) {
+                        return true;
+                    }
+
+                    if (playerClan.getMemberByPlayer(player).getRole() != MemberRole.RECRUIT) {
+                        return true;
+                    }
+                } else if (playerClan.isTrustedByClan(territoryClan)) {
+                    if (accessType == AccessType.DOOR_INTERACT) {
+                        return true;
+                    }
+                } else if (playerClan.isPillageByClan(territoryClan)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean isSafeByLocation(final Location location) {
+        return false;
+    }
+
+    @Override
+    public boolean isSafeByPlayer(final Player player) {
+        return false;
     }
 
     @Override

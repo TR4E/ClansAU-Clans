@@ -163,7 +163,15 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
     @Override
     public void removeRequest(final RequestType requestType, final String key) {
-        this.getRequests().getOrDefault(requestType, new LinkedHashMap<>()).remove(key);
+        if (this.getRequests().containsKey(requestType)) {
+            final LinkedHashMap<String, Long> map = this.getRequests().get(requestType);
+
+            map.remove(key);
+
+            if (map.isEmpty()) {
+                this.getRequests().remove(requestType);
+            }
+        }
     }
 
     @Override
@@ -280,7 +288,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             list.add(clanRelation.getSuffix() + allianceClan.getName());
         }
 
-        return String.join("<gray>, ", list);
+        return String.join("<white>, ", list);
     }
 
     @Override
@@ -320,10 +328,37 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
             final ClanRelation clanRelation = manager.getClanRelationByClan(receiverClan, enemyClan);
 
-            list.add(clanRelation.getSuffix() + enemyClan.getName());
+            String dominanceString = (this == receiverClan ? receiverClan.getDominanceString(enemyClan) : "");
+            if (!(dominanceString.isEmpty())) {
+                dominanceString = String.format(" %s", dominanceString);
+            }
+
+            list.add(clanRelation.getSuffix() + enemyClan.getName() + dominanceString);
         }
 
-        return String.join("<gray>, ", list);
+        return String.join("<white>, ", list);
+    }
+
+    @Override
+    public String getShortDominanceString(final Clan receiverClan) {
+        if (!(this.isEnemyByClan(receiverClan))) {
+            return "";
+        }
+
+        final Enemy thisEnemy = this.getEnemyByClan(receiverClan);
+        final Enemy receiverEnemy = receiverClan.getEnemyByClan(this);
+
+        return String.format("<green>%s<gray>:<red>%s", thisEnemy.getDominancePoints(), receiverEnemy.getDominancePoints());
+    }
+
+    @Override
+    public String getDominanceString(final Clan receiverClan) {
+        final String dominanceString = this.getShortDominanceString(receiverClan);
+        if (dominanceString.isEmpty()) {
+            return "";
+        }
+
+        return String.format("<gray>(%s<gray>)", dominanceString);
     }
 
     @Override
@@ -482,18 +517,20 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             return "<red>No, end of the world.";
         }
 
-        if (receiverPlayer != null ? this.isOnline(receiverPlayer) : this.isOnline()) {
-            return "<gold>No, members are online.";
-        }
+        if (!(this.getMembers().isEmpty())) {
+            if (receiverPlayer != null ? this.isOnline(receiverPlayer) : this.isOnline()) {
+                return "<gold>No, members are online.";
+            }
 
-        final long tntProtectionDuration = manager.getPrimitiveCasted(Long.class, "TNT-Protection-Duration");
+            final long tntProtectionDuration = manager.getPrimitiveCasted(Long.class, "TNT-Protection-Duration");
 
-        if (this.getLastTNTed() > 0L && !(UtilTime.elapsed(this.getLastTNTed(), tntProtectionDuration))) {
-            return String.format("<green>Yes, %s until no protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), tntProtectionDuration)));
-        }
+            if (this.getLastTNTed() > 0L && !(UtilTime.elapsed(this.getLastTNTed(), tntProtectionDuration))) {
+                return String.format("<green>Yes, %s until no protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), tntProtectionDuration)));
+            }
 
-        if (this.getLastOnline() > 0L && UtilTime.elapsed(this.getLastOnline(), tntProtectionDuration)) {
-            return String.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), tntProtectionDuration)));
+            if (this.getLastOnline() > 0L && !(UtilTime.elapsed(this.getLastOnline(), tntProtectionDuration))) {
+                return String.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), tntProtectionDuration)));
+            }
         }
 
         return "<green>Yes, TNT protected.";
@@ -548,7 +585,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             case TERRITORY:
                 return this.getTerritory();
             case REQUESTS:
-                return this.getRequests().entrySet().stream().map(entry -> entry.getValue().entrySet().stream().map(entry2 -> String.format("%s:%s:%s", entry.getKey().name(), entry2.getKey(), entry2.getValue()))).collect(Collectors.toList());
+                return this.getRequests().entrySet().stream().map(entry -> entry.getValue().entrySet().stream().map(entry2 -> String.format("%s:%s:%s", entry.getKey().name(), entry2.getKey(), entry2.getValue())).collect(Collectors.joining(""))).collect(Collectors.toList());
             case MEMBERS:
                 return this.getMembers().values().stream().map(Member::toString).collect(Collectors.toList());
             case ALLIANCES:

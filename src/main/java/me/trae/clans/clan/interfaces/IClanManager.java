@@ -1,6 +1,7 @@
 package me.trae.clans.clan.interfaces;
 
 import me.trae.clans.clan.Clan;
+import me.trae.clans.clan.enums.AccessType;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.core.client.Client;
 import me.trae.core.utility.objects.Pair;
@@ -79,6 +80,16 @@ public interface IClanManager {
     String getTerritoryClanNameForScoreboard(final Clan playerClan, final Clan territoryClan);
 
     Pair<String, String> getTerritoryClanNameForTitle(final Clan playerClan, final Clan territoryClan);
+
+    /*
+
+     */
+
+    boolean hasAccess(final Player player, final Clan playerClan, final Clan territoryClan, final AccessType accessType);
+
+    boolean isSafeByLocation(final Location location);
+
+    boolean isSafeByPlayer(final Player player);
 
     /*
 

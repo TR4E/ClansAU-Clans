@@ -116,6 +116,10 @@ public interface IClan {
 
     String getEnemiesString(final ClanManager manager, final Clan receiverClan);
 
+    String getShortDominanceString(final Clan receiverClan);
+
+    String getDominanceString(final Clan receiverClan);
+
     /*
 
      */

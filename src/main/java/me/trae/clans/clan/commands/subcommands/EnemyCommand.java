@@ -77,14 +77,14 @@ public class EnemyCommand extends ClanSubCommand implements EventContainer<ClanE
             return false;
         }
 
+        if (!(clan.isNeutralByClan(targetClan))) {
+            UtilMessage.simpleMessage(player, "Clans", "You must be neutral with <var>.", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, this.getModule().getManager().getClanRelationByClan(clan, targetClan))));
+            return false;
+        }
+
         if (!(client.isAdministrating())) {
             if (clan.isAdmin()) {
                 UtilMessage.message(player, "Clans", "You cannot enemy Admin Clans!");
-                return false;
-            }
-
-            if (!(clan.isNeutralByClan(targetClan))) {
-                UtilMessage.simpleMessage(player, "Clans", "You must be neutral with <var>.", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, this.getModule().getManager().getClanRelationByClan(clan, targetClan))));
                 return false;
             }
         }
@@ -116,23 +116,6 @@ public class EnemyCommand extends ClanSubCommand implements EventContainer<ClanE
     }
 
     private void handleEnemy(final Clan playerClan, final Clan targetClan) {
-        if (playerClan.isAllianceByClan(targetClan)) {
-            playerClan.removeAlliance(playerClan.getAllianceByClan(targetClan));
-            targetClan.removeAlliance(targetClan.getAllianceByClan(playerClan));
-            this.getModule().getManager().getRepository().updateData(playerClan, ClanProperty.ALLIANCES);
-            this.getModule().getManager().getRepository().updateData(targetClan, ClanProperty.ALLIANCES);
-        }
-
-        if (playerClan.isPillageByClan(targetClan)) {
-            playerClan.removePillage(playerClan.getPillageByClan(targetClan));
-            this.getModule().getManager().getRepository().updateData(playerClan, ClanProperty.PILLAGES);
-        }
-
-        if (targetClan.isPillageByClan(playerClan)) {
-            targetClan.removePillage(targetClan.getPillageByClan(playerClan));
-            this.getModule().getManager().getRepository().updateData(targetClan, ClanProperty.PILLAGES);
-        }
-
         playerClan.addEnemy(new Enemy(targetClan));
         targetClan.addEnemy(new Enemy(playerClan));
         this.getModule().getManager().getRepository().updateData(playerClan, ClanProperty.ENEMIES);

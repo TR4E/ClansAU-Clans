@@ -40,6 +40,10 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
 
                 addBlankLine();
 
+                addCustomLine(ChatColor.YELLOW, "Territory", getManager().getTerritoryClanNameForScoreboard(playerClan, getManager().getClanByLocation(player.getLocation())));
+
+                addBlankLine();
+
                 UtilJava.call(getInstance().getManagerByClass(GamerManager.class).getGamerByPlayer(player), gamer -> {
                     if (gamer != null) {
                         addCustomLine(ChatColor.YELLOW, "Coins", String.format("<gold>$%s", gamer.getCoins()));

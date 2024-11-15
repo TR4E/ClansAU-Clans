@@ -65,9 +65,11 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
 
         final boolean forced = clan.isAllianceByClan(targetClan) || client.isAdministrating();
 
-        if (!(forced && targetClan.isRequested(RequestType.NEUTRALITY, clan.getName()))) {
-            this.requestNeutrality(player, clan, targetClan);
-            return;
+        if (!(forced)) {
+            if (!(targetClan.isRequested(RequestType.NEUTRALITY, clan.getName()))) {
+                this.requestNeutrality(player, clan, targetClan);
+                return;
+            }
         }
 
         this.callEvent(new ClanNeutralEvent(clan, player, client, targetClan));
@@ -91,7 +93,7 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
             }
 
             if (playerClan.isRequested(RequestType.NEUTRALITY, targetClan.getName())) {
-                UtilMessage.simpleMessage(player, "Clans", "You have already requested neutrality with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, this.getModule().getManager().getClanRelationByClan(playerClan, targetClan))));
+                UtilMessage.simpleMessage(player, "Clans", "You already requested neutrality with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, this.getModule().getManager().getClanRelationByClan(playerClan, targetClan))));
                 return false;
             }
         }
@@ -115,7 +117,7 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
         final Client client = event.getClient();
         final Clan targetClan = event.getTarget();
 
-        if (client.isAdministrating()) {
+        if (playerClan.isAllianceByClan(targetClan) || client.isAdministrating()) {
             this.forceNeutrality(playerClan, targetClan);
         } else {
             this.acceptNeutrality(player, playerClan, targetClan);
@@ -154,13 +156,32 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
         this.getModule().getManager().getRepository().updateData(playerClan, ClanProperty.REQUESTS);
         this.getModule().getManager().getRepository().updateData(targetClan, ClanProperty.REQUESTS);
 
-
         if (playerClan.isAllianceByClan(targetClan)) {
             playerClan.removeAlliance(playerClan.getAllianceByClan(targetClan));
             targetClan.removeAlliance(targetClan.getAllianceByClan(playerClan));
 
             this.getModule().getManager().getRepository().updateData(playerClan, ClanProperty.ALLIANCES);
             this.getModule().getManager().getRepository().updateData(targetClan, ClanProperty.ALLIANCES);
+        }
+
+        if (playerClan.isEnemyByClan(targetClan)) {
+            playerClan.removeEnemy(playerClan.getEnemyByClan(targetClan));
+            targetClan.removeEnemy(targetClan.getEnemyByClan(playerClan));
+
+            this.getModule().getManager().getRepository().updateData(playerClan, ClanProperty.ENEMIES);
+            this.getModule().getManager().getRepository().updateData(targetClan, ClanProperty.ENEMIES);
+        }
+
+        if (playerClan.isPillageByClan(targetClan)) {
+            playerClan.removePillage(playerClan.getPillageByClan(targetClan));
+
+            this.getModule().getManager().getRepository().updateData(playerClan, ClanProperty.PILLAGES);
+        }
+
+        if (targetClan.isPillageByClan(playerClan)) {
+            targetClan.removePillage(targetClan.getPillageByClan(playerClan));
+
+            this.getModule().getManager().getRepository().updateData(targetClan, ClanProperty.PILLAGES);
         }
     }
 }
