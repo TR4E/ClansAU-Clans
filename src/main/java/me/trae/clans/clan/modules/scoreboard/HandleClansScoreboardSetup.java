@@ -5,7 +5,10 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.gamer.GamerManager;
+import me.trae.core.Core;
 import me.trae.core.client.Client;
+import me.trae.core.client.ClientManager;
+import me.trae.core.client.enums.Rank;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.scoreboard.ScoreboardBuilder;
 import me.trae.core.scoreboard.containers.ScoreboardContainer;
@@ -26,9 +29,24 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
     public ScoreboardBuilder getBuilder(final ScoreboardSetupEvent event) {
         final Player player = event.getPlayer();
 
+        final ClientManager clientManager = this.getInstance(Core.class).getManagerByClass(ClientManager.class);
+
         final Clan playerClan = this.getManager().getClanByPlayer(player);
 
         return new ScoreboardBuilder(event) {
+            @Override
+            public String getTeamKey(final Player target) {
+                final Clan targetClan = getManager().getClanByPlayer(target);
+                if (targetClan != null) {
+                    return String.format("!%s_%s", targetClan.getName(), super.getTeamKey(target));
+                }
+
+                final Client targetClient = clientManager.getClientByPlayer(target);
+                final int ordinal = Rank.values().length - targetClient.getRank().ordinal();
+
+                return String.format("@%s_%s", ordinal, super.getTeamKey(target));
+            }
+
             @Override
             public String getTitle() {
                 return "   " + UtilColor.bold(ChatColor.GOLD) + getInstance().getServerName() + "   ";

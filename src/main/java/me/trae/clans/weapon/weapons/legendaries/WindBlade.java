@@ -128,4 +128,14 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, WeaponData
 
         event.setCancelled(true);
     }
+
+    @Override
+    public float getEnergy() {
+        return 0.0F;
+    }
+
+    @Override
+    public float getEnergyUsing() {
+        return 2.0F;
+    }
 }

@@ -145,4 +145,14 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Weap
 
         event.setDamage(damage);
     }
+
+    @Override
+    public float getEnergy() {
+        return 0.0F;
+    }
+
+    @Override
+    public float getEnergyUsing() {
+        return 2.0F;
+    }
 }
