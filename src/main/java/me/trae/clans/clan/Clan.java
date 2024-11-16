@@ -11,10 +11,12 @@ import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.enums.RequestType;
 import me.trae.clans.clan.interfaces.IClan;
 import me.trae.clans.clan.types.AdminClan;
+import me.trae.core.Core;
 import me.trae.core.database.containers.DataContainer;
 import me.trae.core.database.query.constants.DefaultProperty;
 import me.trae.core.utility.*;
 import me.trae.core.utility.objects.EnumData;
+import me.trae.core.vanish.VanishManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -218,8 +220,10 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     public String getMembersString(final Player receiverPlayer) {
         final List<String> list = new ArrayList<>();
 
+        final VanishManager vanishManager = UtilPlugin.getInstance(Core.class).getManagerByClass(VanishManager.class);
+
         for (final Member member : this.getMembers().values()) {
-            final ChatColor chatColor = (member.isOnline() && receiverPlayer.canSee(member.getOnlinePlayer()) ? ChatColor.GREEN : ChatColor.RED);
+            final ChatColor chatColor = (member.isOnline() && vanishManager.canSeeByPlayer(member.getOnlinePlayer(), receiverPlayer) ? ChatColor.GREEN : ChatColor.RED);
             final String name = UtilPlayer.getPlayerNameByUUID(member.getUUID());
 
             list.add(String.format("<yellow>%s<gray>.%s", member.getRole().getPrefix(), chatColor + name));
@@ -447,7 +451,9 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
     @Override
     public boolean isOnline(final Player receiverPlayer) {
-        return this.getMembers().values().stream().filter(Member::isOnline).anyMatch(member -> receiverPlayer.canSee(member.getOnlinePlayer()));
+        final VanishManager vanishManager = UtilPlugin.getInstance(Core.class).getManagerByClass(VanishManager.class);
+
+        return this.getMembers().values().stream().filter(Member::isOnline).anyMatch(member -> vanishManager.canSeeByPlayer(member.getOnlinePlayer(), receiverPlayer));
     }
 
     @Override
