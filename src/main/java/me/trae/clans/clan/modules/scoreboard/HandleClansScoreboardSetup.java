@@ -44,7 +44,7 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
                 final Client targetClient = clientManager.getClientByPlayer(target);
                 final int ordinal = Rank.values().length - targetClient.getRank().ordinal();
 
-                return String.format("@%s_", ordinal);
+                return String.format("@%s", ordinal);
             }
 
             @Override
