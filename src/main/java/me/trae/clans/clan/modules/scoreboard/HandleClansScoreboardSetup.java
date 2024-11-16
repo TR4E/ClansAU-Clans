@@ -38,13 +38,13 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
             public String getTeamKey(final Player target) {
                 final Clan targetClan = getManager().getClanByPlayer(target);
                 if (targetClan != null) {
-                    return String.format("!%s_%s", targetClan.getName(), super.getTeamKey(target));
+                    return String.format("!%s", targetClan.getName());
                 }
 
                 final Client targetClient = clientManager.getClientByPlayer(target);
                 final int ordinal = Rank.values().length - targetClient.getRank().ordinal();
 
-                return String.format("@%s_%s", ordinal, super.getTeamKey(target));
+                return String.format("@%s_", ordinal);
             }
 
             @Override
