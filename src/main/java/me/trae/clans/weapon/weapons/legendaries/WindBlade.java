@@ -10,6 +10,7 @@ import me.trae.core.utility.UtilString;
 import me.trae.core.utility.UtilVelocity;
 import me.trae.core.utility.objects.SoundCreator;
 import me.trae.core.weapon.data.WeaponData;
+import me.trae.core.weapon.data.types.ChannelWeaponData;
 import me.trae.core.weapon.types.ChannelLegendary;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -21,7 +22,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class WindBlade extends ChannelLegendary<Clans, WeaponManager, WeaponData> implements Listener {
+public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWeaponData> implements Listener {
 
     public WindBlade(final WeaponManager manager) {
         super(manager, new ItemStack(Material.DIAMOND_SWORD));
@@ -36,8 +37,8 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, WeaponData
     }
 
     @Override
-    public Class<WeaponData> getClassOfData() {
-        return WeaponData.class;
+    public Class<ChannelWeaponData> getClassOfData() {
+        return ChannelWeaponData.class;
     }
 
     @Override
@@ -63,11 +64,11 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, WeaponData
 
     @Override
     public void onActivate(final Player player) {
-        this.addUser(new WeaponData(player));
+        this.addUser(new ChannelWeaponData(player));
     }
 
     @Override
-    public void onUsing(final Player player, final WeaponData data) {
+    public void onUsing(final Player player, final ChannelWeaponData data) {
         player.getWorld().playEffect(player.getLocation(), Effect.STEP_SOUND, Material.SNOW_BLOCK);
 
         new SoundCreator(Sound.FIZZ, 0.5F, 1.5F).play(player.getLocation());
@@ -135,7 +136,17 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, WeaponData
     }
 
     @Override
+    public float getEnergyNeeded() {
+        return 20.0F;
+    }
+
+    @Override
     public float getEnergyUsing() {
         return 2.0F;
+    }
+
+    @Override
+    public long getRecharge() {
+        return 0;
     }
 }

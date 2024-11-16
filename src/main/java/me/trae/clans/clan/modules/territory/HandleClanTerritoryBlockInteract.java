@@ -56,7 +56,7 @@ public class HandleClanTerritoryBlockInteract extends SpigotListener<Clans, Clan
 
         event.setCancelled(true);
 
-        UtilMessage.simpleMessage(player, "Clans", "You cannot use <green><var></green> in <var>.", Arrays.asList(UtilString.clean(block.getType().name()), this.getManager().getClanFullName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
+        UtilMessage.simpleMessage(player, "Clans", "You cannot use <green><var></green> in <var>.", Arrays.asList(UtilString.clean(block.getType().name()), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
     }
 
     private boolean isValid(final Block block) {

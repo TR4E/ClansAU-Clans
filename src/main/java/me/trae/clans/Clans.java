@@ -17,8 +17,8 @@ public class Clans extends MiniPlugin {
         addManager(new ConfigManager(this));
         addManager(new GamerManager(this));
         addManager(new ItemManager(this));
-        addManager(new RecipeManager(this));
         addManager(new WeaponManager(this));
+        addManager(new RecipeManager(this));
         addManager(new WorldManager(this));
     }
 }

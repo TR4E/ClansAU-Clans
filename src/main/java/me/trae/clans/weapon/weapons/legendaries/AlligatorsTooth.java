@@ -5,9 +5,12 @@ import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.Core;
 import me.trae.core.client.ClientManager;
+import me.trae.core.effect.EffectManager;
+import me.trae.core.effect.data.EffectData;
+import me.trae.core.effect.types.NoFall;
 import me.trae.core.utility.*;
 import me.trae.core.utility.objects.SoundCreator;
-import me.trae.core.weapon.data.WeaponData;
+import me.trae.core.weapon.data.types.ChannelWeaponData;
 import me.trae.core.weapon.types.ChannelLegendary;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -23,7 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, WeaponData> implements Listener {
+public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, ChannelWeaponData> implements Listener {
 
     // TO-DO: Maybe add a Listener Class to remove "Positive Potion Effects" on Player Join/Quit
     private final List<PotionEffectType> POTION_EFFECT_TYPES = Arrays.asList(PotionEffectType.NIGHT_VISION, PotionEffectType.WATER_BREATHING);
@@ -42,8 +45,8 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Weap
     }
 
     @Override
-    public Class<WeaponData> getClassOfData() {
-        return WeaponData.class;
+    public Class<ChannelWeaponData> getClassOfData() {
+        return ChannelWeaponData.class;
     }
 
     @Override
@@ -69,7 +72,7 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Weap
 
     @Override
     public void onActivate(final Player player) {
-        this.addUser(new WeaponData(player));
+        this.addUser(new ChannelWeaponData(player));
     }
 
     @Override
@@ -88,11 +91,18 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Weap
             for (final PotionEffectType potionEffectType : this.POTION_EFFECT_TYPES) {
                 player.removePotionEffect(potionEffectType);
             }
+
+            this.getInstance(Core.class).getManagerByClass(EffectManager.class).getModuleByClass(NoFall.class).addUser(new EffectData(player, 3000L) {
+                @Override
+                public boolean isRemoveOnAction() {
+                    return true;
+                }
+            });
         }
     }
 
     @Override
-    public void onUsing(final Player player, final WeaponData data) {
+    public void onUsing(final Player player, final ChannelWeaponData data) {
         for (final PotionEffectType potionEffectType : this.POTION_EFFECT_TYPES) {
             if (!(UtilEntity.hasPotionEffect(player, potionEffectType, 255))) {
                 UtilEntity.givePotionEffect(player, potionEffectType, 255, Integer.MAX_VALUE);
@@ -152,7 +162,17 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Weap
     }
 
     @Override
+    public float getEnergyNeeded() {
+        return 20.0F;
+    }
+
+    @Override
     public float getEnergyUsing() {
         return 2.0F;
+    }
+
+    @Override
+    public long getRecharge() {
+        return 0;
     }
 }
