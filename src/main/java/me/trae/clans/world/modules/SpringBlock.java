@@ -3,6 +3,7 @@ package me.trae.clans.world.modules;
 import me.trae.api.damage.events.CustomDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.item.events.ItemUpdateEvent;
 import me.trae.core.recharge.RechargeManager;
@@ -23,16 +24,21 @@ import java.util.Arrays;
 
 public class SpringBlock extends SpigotListener<Clans, WorldManager> {
 
+    @ConfigInject(type = String.class, name = "Material", defaultValue = "SPONGE")
+    private String material;
+
+    @ConfigInject(type = Long.class, name = "Recharge", defaultValue = "800")
+    private long recharge;
+
+    @ConfigInject(type = Double.class, name = "Velocity", defaultValue = "1.8")
+    private double velocity;
+
     public SpringBlock(final WorldManager manager) {
         super(manager);
-
-        this.addPrimitive("Material", Material.SPONGE.name());
-        this.addPrimitive("Recharge", 800L);
-        this.addPrimitive("Velocity", 1.8D);
     }
 
     private Material getMaterial() {
-        return Material.valueOf(this.getPrimitiveCasted(String.class, "Material"));
+        return Material.valueOf(this.material);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -59,7 +65,7 @@ public class SpringBlock extends SpigotListener<Clans, WorldManager> {
             return;
         }
 
-        if (!(this.getInstance().getManagerByClass(RechargeManager.class).add(player, this.getName(), this.getPrimitiveCasted(Long.class, "Recharge"), false))) {
+        if (!(this.getInstance().getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, false))) {
             return;
         }
 
@@ -71,7 +77,7 @@ public class SpringBlock extends SpigotListener<Clans, WorldManager> {
             block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, material, 15);
         }
 
-        player.setVelocity(new Vector(0.0D, this.getPrimitiveCasted(Double.class, "Velocity"), 0.0D));
+        player.setVelocity(new Vector(0.0D, this.velocity, 0.0D));
     }
 
     @EventHandler(priority = EventPriority.LOW)

@@ -3,6 +3,7 @@ package me.trae.clans.weapon.weapons.items;
 import me.trae.api.damage.events.CustomDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.weapon.data.WeaponData;
 import me.trae.core.weapon.types.CustomItem;
 import org.bukkit.Material;
@@ -16,10 +17,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class FireAxe extends CustomItem<Clans, WeaponManager, WeaponData> implements Listener {
 
+    @ConfigInject(type = Long.class, name = "Duration", defaultValue = "4000")
+    private long duration;
+
     public FireAxe(final WeaponManager manager) {
         super(manager, new ItemStack(Material.GOLD_AXE));
-
-        this.addPrimitive("Duration", 4000L);
     }
 
     @Override
@@ -59,6 +61,6 @@ public class FireAxe extends CustomItem<Clans, WeaponManager, WeaponData> implem
             return;
         }
 
-        damagee.setFireTicks(this.getPrimitiveCasted(Long.class, "Duration").intValue() / 50);
+        damagee.setFireTicks((int) this.duration / 50);
     }
 }

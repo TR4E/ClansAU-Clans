@@ -137,7 +137,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     public int getMaxClaims(final ClanManager manager) {
         final int maxClaims = 3 + this.getMembers().size();
 
-        return UtilMath.getMinAndMax(Integer.class, 0, manager.getPrimitiveCasted(Integer.class, "Max-Claim-Limit"), maxClaims);
+        return UtilMath.getMinAndMax(Integer.class, 0, manager.maxClaimLimit, maxClaims);
     }
 
     @Override
@@ -469,7 +469,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             size += allianceClan.getMembers().size();
         }
 
-        return size >= manager.getPrimitiveCasted(Integer.class, "Max-Squad-Count");
+        return size >= manager.maxSquadCount;
     }
 
     @Override
@@ -515,11 +515,11 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
     @Override
     public String getTNTProtectionString(final ClanManager manager, final Player receiverPlayer) {
-        if (manager.getPrimitiveCasted(Boolean.class, "SOTW")) {
+        if (manager.sotw) {
             return "<green>Yes, start of the world.";
         }
 
-        if (manager.getPrimitiveCasted(Boolean.class, "EOTW")) {
+        if (manager.eotw) {
             return "<red>No, end of the world.";
         }
 
@@ -528,7 +528,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
                 return "<gold>No, members are online.";
             }
 
-            final long tntProtectionDuration = manager.getPrimitiveCasted(Long.class, "TNT-Protection-Duration");
+            final long tntProtectionDuration = manager.tntProtectionDuration;
 
             if (this.getLastTNTed() > 0L && !(UtilTime.elapsed(this.getLastTNTed(), tntProtectionDuration))) {
                 return String.format("<green>Yes, %s until no protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), tntProtectionDuration)));

@@ -6,6 +6,7 @@ import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
 import me.trae.clans.world.events.DoorToggleEvent;
 import me.trae.core.Core;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.recharge.RechargeManager;
 import me.trae.core.utility.UtilJava;
@@ -25,11 +26,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class HandleIronDoorInteract extends SpigotListener<Clans, WorldManager> {
 
+    @ConfigInject(type = Boolean.class, name = "Knocking", defaultValue = "true")
+    private boolean knocking;
+
+    @ConfigInject(type = Long.class, name = "Delay", defaultValue = "400")
+    private long delay;
+
     public HandleIronDoorInteract(final WorldManager manager) {
         super(manager);
-
-        this.addPrimitive("Knocking", true);
-        this.addPrimitive("Delay", 400L);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -89,11 +93,11 @@ public class HandleIronDoorInteract extends SpigotListener<Clans, WorldManager> 
     }
 
     private void handleKnock(final Player player, final Block block) {
-        if (!(this.getPrimitiveCasted(Boolean.class, "Knocking"))) {
+        if (!(this.knocking)) {
             return;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, "Door Knock", this.getPrimitiveCasted(Long.class, "Delay"), false))) {
+        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, "Door Knock", this.delay, false))) {
             return;
         }
 

@@ -19,8 +19,10 @@ import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
 import me.trae.clans.clan.modules.territory.*;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.Core;
+import me.trae.core.blockrestore.BlockRestoreManager;
 import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.database.repository.containers.RepositoryContainer;
 import me.trae.core.framework.SpigotManager;
 import me.trae.core.gamer.Gamer;
@@ -29,11 +31,11 @@ import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
-import me.trae.core.utility.enums.TimeUnit;
 import me.trae.core.utility.objects.Pair;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -47,14 +49,26 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     private final Map<String, Clan> CLANS = new HashMap<>();
 
+    @ConfigInject(type = Long.class, name = "Chunk-Outline-Duration", defaultValue = "300_000")
+    private long chunkOutlineDuration;
+
+    @ConfigInject(type = Integer.class, name = "Max-Squad-Count", defaultValue = "8")
+    public int maxSquadCount;
+
+    @ConfigInject(type = Integer.class, name = "Max-Claim-Limit", defaultValue = "8")
+    public int maxClaimLimit;
+
+    @ConfigInject(type = Long.class, name = "TNT-Protection-Duration", defaultValue = "1_800_000")
+    public long tntProtectionDuration;
+
+    @ConfigInject(type = Boolean.class, name = "SOTW", defaultValue = "false")
+    public boolean sotw;
+
+    @ConfigInject(type = Boolean.class, name = "EOTW", defaultValue = "false")
+    public boolean eotw;
+
     public ClanManager(final Clans instance) {
         super(instance);
-
-        this.addPrimitive("Max-Squad-Count", 8);
-        this.addPrimitive("Max-Claim-Limit", 8);
-        this.addPrimitive("TNT-Protection-Duration", TimeUnit.MINUTES.getDuration() * 30);
-        this.addPrimitive("SOTW", false);
-        this.addPrimitive("EOTW", false);
     }
 
     @Override
@@ -464,10 +478,16 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public void outlineChunk(final Clan clan, final Chunk chunk) {
+        final BlockRestoreManager blockRestoreManager = this.getInstance(Core.class).getManagerByClass(BlockRestoreManager.class);
+
+        blockRestoreManager.outlineChunk(clan.getName(), chunk, Material.GLOWSTONE, (byte) 0, this.chunkOutlineDuration, true);
     }
 
     @Override
     public void unOutlineChunk(final Clan clan, final Chunk chunk) {
+        final BlockRestoreManager blockRestoreManager = this.getInstance(Core.class).getManagerByClass(BlockRestoreManager.class);
+
+        blockRestoreManager.unOutlineChunk(clan.getName(), chunk);
     }
 
     @Override

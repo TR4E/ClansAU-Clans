@@ -2,6 +2,7 @@ package me.trae.clans.world.modules;
 
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.item.events.ItemUpdateEvent;
 import me.trae.core.utility.UtilBlock;
@@ -13,14 +14,15 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class WaterBlock extends SpigotListener<Clans, WorldManager> {
 
+    @ConfigInject(type = String.class, name = "Material", defaultValue = "LAPIS_BLOCK")
+    private String material;
+
     public WaterBlock(final WorldManager manager) {
         super(manager);
-
-        this.addPrimitive("Material", Material.LAPIS_BLOCK.name());
     }
 
     private Material getMaterial() {
-        return Material.valueOf(this.getPrimitiveCasted(String.class, "Material"));
+        return Material.valueOf(this.material);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

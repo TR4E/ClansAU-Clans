@@ -8,6 +8,7 @@ import me.trae.clans.clan.events.ClanHomeEvent;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.countdown.CountdownManager;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.recharge.RechargeManager;
@@ -21,11 +22,14 @@ import org.bukkit.entity.Player;
 
 public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHomeEvent> {
 
+    @ConfigInject(type = Long.class, name = "Recharge", defaultValue = "600_000")
+    private long recharge;
+
+    @ConfigInject(type = Boolean.class, name = "Spawn-Only", defaultValue = "false")
+    private boolean spawnOnly;
+
     public HomeCommand(final ClanCommand command) {
         super(command, "home");
-
-        this.addPrimitive("Recharge", 600_000L);
-        this.addPrimitive("Spawn-Only", false);
     }
 
     @Override
@@ -64,7 +68,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
         }
 
         if (!(client.isAdministrating())) {
-            if (this.getPrimitiveCasted(Boolean.class, "Spawn-Only")) {
+            if (this.spawnOnly) {
                 if (!(this.isSpawnByLocation(player.getLocation()))) {
                     UtilMessage.simpleMessage(player, "Clans", "You can only teleport to Clan Home from <white>Spawn</white>!");
                     return false;
@@ -103,7 +107,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
         return new Teleport(duration, player, location) {
             @Override
             public void onTeleport(final Player player) {
-                HomeCommand.this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, "Clan Home", HomeCommand.this.getPrimitiveCasted(Long.class, "Recharge"), true);
+                HomeCommand.this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, "Clan Home", HomeCommand.this.recharge, true);
 
                 UtilMessage.message(player, "Clans", "You teleported to Clan Home.");
             }

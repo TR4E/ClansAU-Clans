@@ -5,11 +5,11 @@ import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.Core;
 import me.trae.core.client.ClientManager;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilString;
 import me.trae.core.utility.UtilVelocity;
 import me.trae.core.utility.objects.SoundCreator;
-import me.trae.core.weapon.data.WeaponData;
 import me.trae.core.weapon.data.types.ChannelWeaponData;
 import me.trae.core.weapon.types.ChannelLegendary;
 import org.bukkit.Effect;
@@ -24,16 +24,27 @@ import org.bukkit.inventory.ItemStack;
 
 public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWeaponData> implements Listener {
 
+    @ConfigInject(type = Double.class, name = "Damage", defaultValue = "7.0")
+    private double damage;
+
+    @ConfigInject(type = Double.class, name = "Knockback", defaultValue = "3.0")
+    private double knockback;
+
+    @ConfigInject(type = Double.class, name = "Strength", defaultValue = "0.9")
+    private double strength;
+
+    @ConfigInject(type = Double.class, name = "yAdd", defaultValue = "0.11")
+    private double yAdd;
+
+    @ConfigInject(type = Double.class, name = "yMax", defaultValue = "1.0")
+    private double yMax;
+
+    @ConfigInject(type = Boolean.class, name = "groundBoost", defaultValue = "true")
+    private boolean groundBoost;
+
+
     public WindBlade(final WeaponManager manager) {
         super(manager, new ItemStack(Material.DIAMOND_SWORD));
-
-        this.addPrimitive("Damage", 7.0D);
-        this.addPrimitive("Knockback-Amount", 3.0D);
-
-        this.addPrimitive("Strength", 0.9D);
-        this.addPrimitive("yAdd", 0.11D);
-        this.addPrimitive("yMax", 1.0D);
-        this.addPrimitive("groundBoost", true);
     }
 
     @Override
@@ -43,8 +54,8 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
 
     @Override
     public String[] getDescription() {
-        final String damage = this.getPrimitiveCasted(Double.class, "Damage").toString();
-        final String knockback = this.getPrimitiveCasted(Double.class, "Knockback-Amount").intValue() * 100 + "%";
+        final String damage = String.valueOf(this.damage);
+        final String knockback = this.knockback * 100 + "%";
 
         return new String[]{
                 "Once owned by the God Zephyrus,",
@@ -74,16 +85,13 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
         new SoundCreator(Sound.FIZZ, 0.5F, 1.5F).play(player.getLocation());
 
         UtilJava.call(this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player), client -> {
-            double strength = this.getPrimitiveCasted(Double.class, "Strength");
-            final double yAdd = this.getPrimitiveCasted(Double.class, "yAdd");
-            final double yMax = this.getPrimitiveCasted(Double.class, "yMax");
-            final boolean groundBoost = this.getPrimitiveCasted(Boolean.class, "groundBoost");
+            double strength = this.strength;
 
             if (client.isAdministrating()) {
                 strength += 1.0D;
             }
 
-            UtilVelocity.velocity(player, strength, yAdd, yMax, groundBoost);
+            UtilVelocity.velocity(player, strength, this.yAdd, this.yMax, this.groundBoost);
         });
     }
 
@@ -105,8 +113,8 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
             return;
         }
 
-        event.setDamage(this.getPrimitiveCasted(Double.class, "Damage"));
-        event.setKnockback(this.getPrimitiveCasted(Double.class, "Knockback-Amount"));
+        event.setDamage(this.damage);
+        event.setKnockback(this.knockback);
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -137,7 +145,7 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
 
     @Override
     public float getEnergyNeeded() {
-        return 20.0F;
+        return 30.0F;
     }
 
     @Override

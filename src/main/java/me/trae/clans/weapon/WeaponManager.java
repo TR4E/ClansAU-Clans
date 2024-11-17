@@ -1,6 +1,7 @@
 package me.trae.clans.weapon;
 
 import me.trae.clans.Clans;
+import me.trae.clans.weapon.weapons.items.EnergyApple;
 import me.trae.clans.weapon.weapons.items.FireAxe;
 import me.trae.clans.weapon.weapons.items.currency.FiftyGrandDisc;
 import me.trae.clans.weapon.weapons.items.currency.FiveHundredGrandDisc;
@@ -24,6 +25,7 @@ public class WeaponManager extends AbstractWeaponManager<Clans> {
         addModule(new HundredGrandDisc(this));
         addModule(new OneMillionDisc(this));
 
+        addModule(new EnergyApple(this));
         addModule(new FireAxe(this));
 
         // Legendaries

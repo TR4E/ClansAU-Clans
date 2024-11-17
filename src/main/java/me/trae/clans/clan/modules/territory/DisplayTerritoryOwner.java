@@ -3,6 +3,7 @@ package me.trae.clans.clan.modules.territory;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilMessage;
@@ -18,11 +19,14 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
 
+    @ConfigInject(type = Boolean.class, name = "Title-Enabled", defaultValue = "true")
+    private boolean titleEnabled;
+
+    @ConfigInject(type = Long.class, name = "Title-Duration", defaultValue = "2000")
+    private long titleDuration;
+
     public DisplayTerritoryOwner(final ClanManager manager) {
         super(manager);
-
-        this.addPrimitive("Title-Enabled", true);
-        this.addPrimitive("Title-Duration", 2000L);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -94,10 +98,10 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
     private void display(final Player player, final Location location, final Clan territoryClan) {
         final Clan playerClan = this.getManager().getClanByPlayer(player);
 
-        if (this.getPrimitiveCasted(Boolean.class, "Title-Enabled")) {
+        if (this.titleEnabled) {
             final Pair<String, String> pair = this.getManager().getTerritoryClanNameForTitle(playerClan, territoryClan);
 
-            UtilTitle.sendTitle(player, pair.getLeft(), pair.getRight(), true, this.getPrimitiveCasted(Long.class, "Title-Duration"));
+            UtilTitle.sendTitle(player, pair.getLeft(), pair.getRight(), true, this.titleDuration);
         }
 
         UtilMessage.simpleMessage(player, "Territory", this.getManager().getTerritoryClanNameForChat(playerClan, territoryClan, location));

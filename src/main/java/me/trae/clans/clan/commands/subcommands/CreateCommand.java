@@ -8,6 +8,7 @@ import me.trae.clans.clan.events.ClanCreateEvent;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
@@ -20,11 +21,14 @@ import java.util.Collections;
 
 public class CreateCommand extends ClanSubCommand implements EventContainer<ClanCreateEvent> {
 
+    @ConfigInject(type = Integer.class, name = "Min-Name-Length", defaultValue = "3")
+    private int minNameLength;
+
+    @ConfigInject(type = Integer.class, name = "Max-Name-Length", defaultValue = "14")
+    private int maxNameLength;
+
     public CreateCommand(final ClanCommand module) {
         super(module, "create");
-
-        this.addPrimitive("Min-Name-Length", 3);
-        this.addPrimitive("Max-Name-Length", 14);
     }
 
     @Override
@@ -80,14 +84,14 @@ public class CreateCommand extends ClanSubCommand implements EventContainer<Clan
             return false;
         }
 
-        final int maxNameLength = this.getPrimitiveCasted(Integer.class, "Max-Name-Length");
+        final int maxNameLength = this.maxNameLength;
         if (name.length() > maxNameLength) {
             UtilMessage.simpleMessage(player, "Clans", "Clan name is too long! Maximum Length is <yellow><var></yellow>!", Collections.singletonList(String.valueOf(maxNameLength)));
             return false;
         }
 
         if (!(client.isAdministrating())) {
-            final int minNameLength = this.getPrimitiveCasted(Integer.class, "Min-Name-Length");
+            final int minNameLength = this.minNameLength;
             if (name.length() < minNameLength) {
                 UtilMessage.simpleMessage(player, "Clans", "Clan name is too short! Minimum Length is <yellow><var></yellow>!", Collections.singletonList(String.valueOf(minNameLength)));
                 return false;

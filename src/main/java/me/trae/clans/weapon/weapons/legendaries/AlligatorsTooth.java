@@ -5,6 +5,7 @@ import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.Core;
 import me.trae.core.client.ClientManager;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.effect.EffectManager;
 import me.trae.core.effect.data.EffectData;
 import me.trae.core.effect.types.NoFall;
@@ -28,20 +29,31 @@ import java.util.List;
 
 public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, ChannelWeaponData> implements Listener {
 
-    // TO-DO: Maybe add a Listener Class to remove "Positive Potion Effects" on Player Join/Quit
     private final List<PotionEffectType> POTION_EFFECT_TYPES = Arrays.asList(PotionEffectType.NIGHT_VISION, PotionEffectType.WATER_BREATHING);
+
+    @ConfigInject(type = Double.class, name = "Damage", defaultValue = "7.0")
+    private double damage;
+
+    @ConfigInject(type = Double.class, name = "Damage-Addition-In-Water", defaultValue = "2.0")
+    private double damageAdditionInWater;
+
+    @ConfigInject(type = Double.class, name = "Knockback", defaultValue = "3.0")
+    private double knockback;
+
+    @ConfigInject(type = Double.class, name = "Strength", defaultValue = "1.3")
+    private double strength;
+
+    @ConfigInject(type = Double.class, name = "yAdd", defaultValue = "0.11")
+    private double yAdd;
+
+    @ConfigInject(type = Double.class, name = "yMax", defaultValue = "1.0")
+    private double yMax;
+
+    @ConfigInject(type = Boolean.class, name = "groundBoost", defaultValue = "true")
+    private boolean groundBoost;
 
     public AlligatorsTooth(final WeaponManager manager) {
         super(manager, new ItemStack(Material.DIAMOND_SWORD));
-
-        this.addPrimitive("Damage", 7.0D);
-        this.addPrimitive("Damage-In-Water", 2.0D);
-        this.addPrimitive("Knockback", 3.0D);
-
-        this.addPrimitive("Strength", 1.3D);
-        this.addPrimitive("yAdd", 0.11D);
-        this.addPrimitive("yMax", 1.0D);
-        this.addPrimitive("groundBoost", true);
     }
 
     @Override
@@ -51,7 +63,7 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
 
     @Override
     public String[] getDescription() {
-        final String damage = String.format("%s (+%s in water)", this.getPrimitiveCasted(Double.class, "Damage"), this.getPrimitiveCasted(Double.class, "Damage-In-Water"));
+        final String damage = String.format("%s (+%s in water)", this.damage, this.damageAdditionInWater);
 
         return new String[]{
                 "A blade forged from hundreds of",
@@ -114,16 +126,13 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
         new SoundCreator(Sound.SWIM, 0.8F, 1.5F).play(player.getLocation());
 
         UtilJava.call(this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player), client -> {
-            double strength = this.getPrimitiveCasted(Double.class, "Strength");
-            final double yAdd = this.getPrimitiveCasted(Double.class, "yAdd");
-            final double yMax = this.getPrimitiveCasted(Double.class, "yMax");
-            final boolean groundBoost = this.getPrimitiveCasted(Boolean.class, "groundBoost");
+            double strength = this.strength;
 
             if (client.isAdministrating()) {
                 strength += 2.0D;
             }
 
-            UtilVelocity.velocity(player, strength, yAdd, yMax, groundBoost);
+            UtilVelocity.velocity(player, strength, this.yAdd, this.yMax, this.groundBoost);
         });
     }
 
@@ -147,10 +156,10 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
             return;
         }
 
-        double damage = this.getPrimitiveCasted(Double.class, "Damage");
+        double damage = this.damage;
 
         if (UtilBlock.isInWater(player.getLocation())) {
-            damage += this.getPrimitiveCasted(Double.class, "Damage-In-Water");
+            damage += this.damageAdditionInWater;
         }
 
         event.setDamage(damage);
@@ -163,7 +172,7 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
 
     @Override
     public float getEnergyNeeded() {
-        return 20.0F;
+        return 30.0F;
     }
 
     @Override

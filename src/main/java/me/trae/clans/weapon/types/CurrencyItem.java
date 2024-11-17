@@ -34,4 +34,14 @@ public abstract class CurrencyItem extends CustomItem<Clans, WeaponManager, Weap
                 String.format("<white>This is worth <gold>$%s", this.getCurrencyItemType().getPrice())
         };
     }
+
+    @Override
+    public boolean isNaturallyObtained() {
+        return true;
+    }
+
+    @Override
+    public boolean showInMenu() {
+        return false;
+    }
 }
