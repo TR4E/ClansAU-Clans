@@ -49,22 +49,22 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     private final Map<String, Clan> CLANS = new HashMap<>();
 
-    @ConfigInject(type = Long.class, name = "Chunk-Outline-Duration", defaultValue = "300_000")
+    @ConfigInject(type = Long.class, path = "Chunk-Outline-Duration", defaultValue = "300_000")
     private long chunkOutlineDuration;
 
-    @ConfigInject(type = Integer.class, name = "Max-Squad-Count", defaultValue = "8")
+    @ConfigInject(type = Integer.class, path = "Max-Squad-Count", defaultValue = "8")
     public int maxSquadCount;
 
-    @ConfigInject(type = Integer.class, name = "Max-Claim-Limit", defaultValue = "8")
+    @ConfigInject(type = Integer.class, path = "Max-Claim-Limit", defaultValue = "8")
     public int maxClaimLimit;
 
-    @ConfigInject(type = Long.class, name = "TNT-Protection-Duration", defaultValue = "1_800_000")
+    @ConfigInject(type = Long.class, path = "TNT-Protection-Duration", defaultValue = "1_800_000")
     public long tntProtectionDuration;
 
-    @ConfigInject(type = Boolean.class, name = "SOTW", defaultValue = "false")
+    @ConfigInject(type = Boolean.class, path = "SOTW", defaultValue = "false")
     public boolean sotw;
 
-    @ConfigInject(type = Boolean.class, name = "EOTW", defaultValue = "false")
+    @ConfigInject(type = Boolean.class, path = "EOTW", defaultValue = "false")
     public boolean eotw;
 
     public ClanManager(final Clans instance) {

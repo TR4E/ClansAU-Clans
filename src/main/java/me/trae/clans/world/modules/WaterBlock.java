@@ -14,7 +14,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class WaterBlock extends SpigotListener<Clans, WorldManager> {
 
-    @ConfigInject(type = String.class, name = "Material", defaultValue = "LAPIS_BLOCK")
+    @ConfigInject(type = String.class, path = "Material", defaultValue = "LAPIS_BLOCK")
     private String material;
 
     public WaterBlock(final WorldManager manager) {

@@ -24,13 +24,13 @@ import java.util.Arrays;
 
 public class SpringBlock extends SpigotListener<Clans, WorldManager> {
 
-    @ConfigInject(type = String.class, name = "Material", defaultValue = "SPONGE")
+    @ConfigInject(type = String.class, path = "Material", defaultValue = "SPONGE")
     private String material;
 
-    @ConfigInject(type = Long.class, name = "Recharge", defaultValue = "800")
+    @ConfigInject(type = Long.class, path = "Recharge", defaultValue = "800")
     private long recharge;
 
-    @ConfigInject(type = Double.class, name = "Velocity", defaultValue = "1.8")
+    @ConfigInject(type = Double.class, path = "Velocity", defaultValue = "1.8")
     private double velocity;
 
     public SpringBlock(final WorldManager manager) {

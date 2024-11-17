@@ -13,6 +13,7 @@ import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.scoreboard.ScoreboardBuilder;
 import me.trae.core.scoreboard.containers.ScoreboardContainer;
 import me.trae.core.scoreboard.events.ScoreboardSetupEvent;
+import me.trae.core.server.ServerManager;
 import me.trae.core.utility.UtilColor;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilString;
@@ -49,7 +50,7 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
 
             @Override
             public String getTitle() {
-                return "   " + UtilColor.bold(ChatColor.GOLD) + getInstance().getServerName() + "   ";
+                return "   " + getInstance(Core.class).getManagerByClass(ServerManager.class).getServerDisplayName() + "   ";
             }
 
             @Override

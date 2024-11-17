@@ -21,10 +21,10 @@ import java.util.Collections;
 
 public class CreateCommand extends ClanSubCommand implements EventContainer<ClanCreateEvent> {
 
-    @ConfigInject(type = Integer.class, name = "Min-Name-Length", defaultValue = "3")
+    @ConfigInject(type = Integer.class, path = "Min-Name-Length", defaultValue = "3")
     private int minNameLength;
 
-    @ConfigInject(type = Integer.class, name = "Max-Name-Length", defaultValue = "14")
+    @ConfigInject(type = Integer.class, path = "Max-Name-Length", defaultValue = "14")
     private int maxNameLength;
 
     public CreateCommand(final ClanCommand module) {

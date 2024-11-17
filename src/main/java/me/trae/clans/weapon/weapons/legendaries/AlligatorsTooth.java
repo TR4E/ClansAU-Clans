@@ -31,25 +31,25 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
 
     private final List<PotionEffectType> POTION_EFFECT_TYPES = Arrays.asList(PotionEffectType.NIGHT_VISION, PotionEffectType.WATER_BREATHING);
 
-    @ConfigInject(type = Double.class, name = "Damage", defaultValue = "7.0")
+    @ConfigInject(type = Double.class, path = "Damage", defaultValue = "7.0")
     private double damage;
 
-    @ConfigInject(type = Double.class, name = "Damage-Addition-In-Water", defaultValue = "2.0")
+    @ConfigInject(type = Double.class, path = "Damage-Addition-In-Water", defaultValue = "2.0")
     private double damageAdditionInWater;
 
-    @ConfigInject(type = Double.class, name = "Knockback", defaultValue = "3.0")
+    @ConfigInject(type = Double.class, path = "Knockback", defaultValue = "3.0")
     private double knockback;
 
-    @ConfigInject(type = Double.class, name = "Strength", defaultValue = "1.3")
+    @ConfigInject(type = Double.class, path = "Strength", defaultValue = "1.3")
     private double strength;
 
-    @ConfigInject(type = Double.class, name = "yAdd", defaultValue = "0.11")
+    @ConfigInject(type = Double.class, path = "yAdd", defaultValue = "0.11")
     private double yAdd;
 
-    @ConfigInject(type = Double.class, name = "yMax", defaultValue = "1.0")
+    @ConfigInject(type = Double.class, path = "yMax", defaultValue = "1.0")
     private double yMax;
 
-    @ConfigInject(type = Boolean.class, name = "groundBoost", defaultValue = "true")
+    @ConfigInject(type = Boolean.class, path = "groundBoost", defaultValue = "true")
     private boolean groundBoost;
 
     public AlligatorsTooth(final WeaponManager manager) {

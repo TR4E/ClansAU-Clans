@@ -11,7 +11,7 @@ import org.bukkit.World;
 
 public class FasterNighttimeCycle extends SpigotUpdater<Clans, WorldManager> {
 
-    @ConfigInject(type = Long.class, name = "Duration", defaultValue = "20")
+    @ConfigInject(type = Long.class, path = "Duration", defaultValue = "20")
     private long duration;
 
     public FasterNighttimeCycle(final WorldManager manager) {

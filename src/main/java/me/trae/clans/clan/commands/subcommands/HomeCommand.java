@@ -22,10 +22,10 @@ import org.bukkit.entity.Player;
 
 public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHomeEvent> {
 
-    @ConfigInject(type = Long.class, name = "Recharge", defaultValue = "600_000")
+    @ConfigInject(type = Long.class, path = "Recharge", defaultValue = "600_000")
     private long recharge;
 
-    @ConfigInject(type = Boolean.class, name = "Spawn-Only", defaultValue = "false")
+    @ConfigInject(type = Boolean.class, path = "Spawn-Only", defaultValue = "false")
     private boolean spawnOnly;
 
     public HomeCommand(final ClanCommand command) {

@@ -24,22 +24,22 @@ import org.bukkit.inventory.ItemStack;
 
 public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWeaponData> implements Listener {
 
-    @ConfigInject(type = Double.class, name = "Damage", defaultValue = "7.0")
+    @ConfigInject(type = Double.class, path = "Damage", defaultValue = "7.0")
     private double damage;
 
-    @ConfigInject(type = Double.class, name = "Knockback", defaultValue = "3.0")
+    @ConfigInject(type = Double.class, path = "Knockback", defaultValue = "3.0")
     private double knockback;
 
-    @ConfigInject(type = Double.class, name = "Strength", defaultValue = "0.9")
+    @ConfigInject(type = Double.class, path = "Strength", defaultValue = "0.9")
     private double strength;
 
-    @ConfigInject(type = Double.class, name = "yAdd", defaultValue = "0.11")
+    @ConfigInject(type = Double.class, path = "yAdd", defaultValue = "0.11")
     private double yAdd;
 
-    @ConfigInject(type = Double.class, name = "yMax", defaultValue = "1.0")
+    @ConfigInject(type = Double.class, path = "yMax", defaultValue = "1.0")
     private double yMax;
 
-    @ConfigInject(type = Boolean.class, name = "groundBoost", defaultValue = "true")
+    @ConfigInject(type = Boolean.class, path = "groundBoost", defaultValue = "true")
     private boolean groundBoost;
 
 

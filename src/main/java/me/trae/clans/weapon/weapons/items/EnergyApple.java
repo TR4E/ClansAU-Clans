@@ -22,7 +22,7 @@ import java.util.Collections;
 
 public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponData> {
 
-    @ConfigInject(type = Float.class, name = "Energy-Gain", defaultValue = "50.0")
+    @ConfigInject(type = Float.class, path = "Energy-Gain", defaultValue = "50.0")
     private float energyGain;
 
     public EnergyApple(final WeaponManager manager) {

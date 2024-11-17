@@ -19,10 +19,10 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
 
-    @ConfigInject(type = Boolean.class, name = "Title-Enabled", defaultValue = "true")
+    @ConfigInject(type = Boolean.class, path = "Title-Enabled", defaultValue = "true")
     private boolean titleEnabled;
 
-    @ConfigInject(type = Long.class, name = "Title-Duration", defaultValue = "2000")
+    @ConfigInject(type = Long.class, path = "Title-Duration", defaultValue = "2000")
     private long titleDuration;
 
     public DisplayTerritoryOwner(final ClanManager manager) {

@@ -26,10 +26,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class HandleIronDoorInteract extends SpigotListener<Clans, WorldManager> {
 
-    @ConfigInject(type = Boolean.class, name = "Knocking", defaultValue = "true")
+    @ConfigInject(type = Boolean.class, path = "Knocking", defaultValue = "true")
     private boolean knocking;
 
-    @ConfigInject(type = Long.class, name = "Delay", defaultValue = "400")
+    @ConfigInject(type = Long.class, path = "Delay", defaultValue = "400")
     private long delay;
 
     public HandleIronDoorInteract(final WorldManager manager) {
