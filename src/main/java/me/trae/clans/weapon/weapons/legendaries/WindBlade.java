@@ -24,6 +24,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWeaponData> implements Listener {
 
+    @ConfigInject(type = Float.class, path = "Energy-Needed", defaultValue = "30.0")
+    private float energyNeeded;
+
+    @ConfigInject(type = Float.class, path = "Energy-Using", defaultValue = "2.0")
+    private float energyUsing;
+
     @ConfigInject(type = Double.class, path = "Damage", defaultValue = "7.0")
     private double damage;
 
@@ -42,7 +48,6 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
     @ConfigInject(type = Boolean.class, path = "groundBoost", defaultValue = "true")
     private boolean groundBoost;
 
-
     public WindBlade(final WeaponManager manager) {
         super(manager, new ItemStack(Material.DIAMOND_SWORD));
     }
@@ -54,17 +59,14 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
 
     @Override
     public String[] getDescription() {
-        final String damage = String.valueOf(this.damage);
-        final String knockback = this.knockback * 100 + "%";
-
         return new String[]{
                 "Once owned by the God Zephyrus,",
                 "it is rumoured the Wind Blade",
                 "grants it's owner flight.",
                 "",
-                UtilString.pair("<gray>Damage", String.format("<yellow>%s", damage)),
+                UtilString.pair("<gray>Damage", String.format("<yellow>%s", this.damage)),
                 UtilString.pair("<gray>Ability", String.format("<yellow>%s", this.getAbilityName())),
-                UtilString.pair("<gray>Knockback", String.format("<yellow>%s", knockback))
+                UtilString.pair("<gray>Knockback", String.format("<yellow>%s", (this.knockback * 100) + "%"))
         };
     }
 
@@ -145,16 +147,16 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
 
     @Override
     public float getEnergyNeeded() {
-        return 30.0F;
+        return this.energyNeeded;
     }
 
     @Override
     public float getEnergyUsing() {
-        return 2.0F;
+        return this.energyUsing;
     }
 
     @Override
     public long getRecharge() {
-        return 0;
+        return 0L;
     }
 }

@@ -31,14 +31,17 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
 
     private final List<PotionEffectType> POTION_EFFECT_TYPES = Arrays.asList(PotionEffectType.NIGHT_VISION, PotionEffectType.WATER_BREATHING);
 
+    @ConfigInject(type = Float.class, path = "Energy-Needed", defaultValue = "30.0")
+    private float energyNeeded;
+
+    @ConfigInject(type = Float.class, path = "Energy-Using", defaultValue = "2.0")
+    private float energyUsing;
+
     @ConfigInject(type = Double.class, path = "Damage", defaultValue = "7.0")
     private double damage;
 
     @ConfigInject(type = Double.class, path = "Damage-Addition-In-Water", defaultValue = "2.0")
     private double damageAdditionInWater;
-
-    @ConfigInject(type = Double.class, path = "Knockback", defaultValue = "3.0")
-    private double knockback;
 
     @ConfigInject(type = Double.class, path = "Strength", defaultValue = "1.3")
     private double strength;
@@ -172,16 +175,16 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
 
     @Override
     public float getEnergyNeeded() {
-        return 30.0F;
+        return this.energyNeeded;
     }
 
     @Override
     public float getEnergyUsing() {
-        return 2.0F;
+        return this.energyUsing;
     }
 
     @Override
     public long getRecharge() {
-        return 0;
+        return 0L;
     }
 }

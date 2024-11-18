@@ -3,6 +3,7 @@ package me.trae.clans.world.modules;
 import me.trae.api.damage.events.CustomDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
+import me.trae.core.Core;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.item.events.ItemUpdateEvent;
@@ -65,7 +66,7 @@ public class SpringBlock extends SpigotListener<Clans, WorldManager> {
             return;
         }
 
-        if (!(this.getInstance().getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, false))) {
+        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, false))) {
             return;
         }
 

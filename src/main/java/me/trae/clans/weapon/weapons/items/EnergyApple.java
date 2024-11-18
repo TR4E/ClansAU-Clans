@@ -5,11 +5,9 @@ import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.Core;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.energy.EnergyManager;
-import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilString;
 import me.trae.core.utility.enums.ActionType;
-import me.trae.core.utility.enums.TimeUnit;
 import me.trae.core.utility.objects.SoundCreator;
 import me.trae.core.weapon.data.WeaponData;
 import me.trae.core.weapon.types.ActiveCustomItem;
@@ -21,6 +19,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Collections;
 
 public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponData> {
+
+    @ConfigInject(type = Long.class, path = "Recharge", defaultValue = "30_000")
+    private long recharge;
 
     @ConfigInject(type = Float.class, path = "Energy-Gain", defaultValue = "50.0")
     private float energyGain;
@@ -52,8 +53,6 @@ public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponDa
 
     @Override
     public void onActivate(final Player player, final ActionType actionType) {
-        UtilItem.remove(player, player.getInventory().getItemInHand(), 1);
-
         this.getInstance(Core.class).getManagerByClass(EnergyManager.class).regenerate(player, this.energyGain);
 
         new SoundCreator(Sound.EAT).play(player.getLocation());
@@ -82,6 +81,6 @@ public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponDa
 
     @Override
     public long getRecharge(final ActionType actionType) {
-        return TimeUnit.SECONDS.getDuration() * 30;
+        return this.recharge;
     }
 }

@@ -5,6 +5,7 @@ import me.trae.clans.world.modules.*;
 import me.trae.core.world.abstracts.AbstractWorldManager;
 import me.trae.core.world.modules.shared.DisableSaturation;
 import me.trae.core.world.modules.shared.DisableWeather;
+import me.trae.core.world.modules.shared.LimitCreatureSpawn;
 
 public class WorldManager extends AbstractWorldManager<Clans> {
 
@@ -17,6 +18,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         // Core Modules
         addModule(new DisableSaturation<>(this));
         addModule(new DisableWeather<>(this));
+        addModule(new LimitCreatureSpawn<>(this));
 
         // Disable Block Interaction
         addModule(new DisableAnvilInteraction(this));
@@ -32,6 +34,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         addModule(new DisableObsidian(this));
 
         // Clans Modules
+        addModule(new DisableDrinkingPotions(this));
         addModule(new FasterNighttimeCycle(this));
         addModule(new HandleIronDoorInteract(this));
         addModule(new SpringBlock(this));

@@ -334,7 +334,17 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public String getClanName(final Clan clan, final ClanRelation clanRelation) {
-        return (clan.isAdmin() ? this.getClanShortName(clan, clanRelation) : this.getClanFullName(clan, clanRelation));
+        if (clan.isAdmin()) {
+            ChatColor chatColor = ChatColor.WHITE;
+
+            if (clan.getName().equals("Outskirts")) {
+                chatColor = ChatColor.YELLOW;
+            }
+
+            return chatColor + clan.getName();
+        }
+
+        return this.getClanFullName(clan, clanRelation);
     }
 
     @Override
@@ -347,10 +357,12 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             name = territoryClan.getDisplayName();
             chatColor = this.getClanRelationByClan(playerClan, territoryClan).getSuffix();
 
-            if (territoryClan.isTrustedByClan(playerClan)) {
-                description = "<yellow>Trusted";
-            } else if (territoryClan.isEnemyByClan(playerClan)) {
-                description = territoryClan.getShortDominanceString(playerClan);
+            if (playerClan != null) {
+                if (territoryClan.isTrustedByClan(playerClan)) {
+                    description = "<yellow>Trusted";
+                } else if (territoryClan.isEnemyByClan(playerClan)) {
+                    description = territoryClan.getShortDominanceString(playerClan);
+                }
             }
 
             if (territoryClan.isAdmin()) {

@@ -39,6 +39,8 @@ public class HandleClanTerritoryBlockBreak extends SpigotListener<Clans, ClanMan
 
         event.setCancelled(true);
 
+        player.updateInventory();
+
         UtilMessage.simpleMessage(player, "Clans", "You cannot break <green><var></green> in <var>.", Arrays.asList(UtilString.clean(block.getType().name()), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
     }
 }

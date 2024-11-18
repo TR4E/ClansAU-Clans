@@ -17,7 +17,9 @@ import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class MassClaimCommand extends Command<Clans, ClanManager> implements PlayerCommandType {
 
@@ -48,10 +50,20 @@ public class MassClaimCommand extends Command<Clans, ClanManager> implements Pla
 
         int count = 0;
 
+        final Set<Clan> territoryClanSet = new HashSet<>();
+
         for (final Chunk nearbyChunk : UtilChunk.getNearbyChunks(player.getLocation().getChunk(), size)) {
+            final Clan territoryClan = this.getManager().getClanByChunk(nearbyChunk);
+            if (territoryClan != null) {
+                territoryClan.removeTerritory(nearbyChunk);
+                territoryClanSet.add(territoryClan);
+            }
+
             playerClan.addTerritory(nearbyChunk);
             count++;
         }
+
+        territoryClanSet.forEach(territoryClan -> this.getManager().getRepository().updateData(territoryClan, ClanProperty.TERRITORY));
 
         this.getManager().getRepository().updateData(playerClan, ClanProperty.TERRITORY);
 
