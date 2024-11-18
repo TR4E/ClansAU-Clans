@@ -15,7 +15,6 @@ import me.trae.core.scoreboard.containers.ScoreboardContainer;
 import me.trae.core.scoreboard.events.ScoreboardSetupEvent;
 import me.trae.core.server.ServerManager;
 import me.trae.core.utility.UtilJava;
-import me.trae.core.utility.UtilPlugin;
 import me.trae.core.utility.UtilString;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -50,7 +49,7 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
 
             @Override
             public String getTitle() {
-                return "   " + UtilPlugin.getInstance(Core.class).getManagerByClass(ServerManager.class).getServerDisplayNameAndState() + "   ";
+                return "   " + getInstance(Core.class).getManagerByClass(ServerManager.class).getServerDisplayNameAndState() + "   ";
             }
 
             @Override
