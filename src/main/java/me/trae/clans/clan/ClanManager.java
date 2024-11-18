@@ -2,6 +2,7 @@ package me.trae.clans.clan;
 
 import me.trae.clans.Clans;
 import me.trae.clans.clan.commands.ClanCommand;
+import me.trae.clans.clan.commands.MassClaimCommand;
 import me.trae.clans.clan.commands.chat.AllyChatCommand;
 import me.trae.clans.clan.commands.chat.ClanChatCommand;
 import me.trae.clans.clan.data.Alliance;
@@ -14,6 +15,7 @@ import me.trae.clans.clan.interfaces.IClanManager;
 import me.trae.clans.clan.modules.HandleChatReceiver;
 import me.trae.clans.clan.modules.HandleClanLastOnlineOnPlayerQuit;
 import me.trae.clans.clan.modules.HandleClansPlayerDisplayNameFormat;
+import me.trae.clans.clan.modules.HandleOverpoweredKits;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardSetup;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
 import me.trae.clans.clan.modules.territory.*;
@@ -75,6 +77,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     public void registerModules() {
         // Commands
         addModule(new ClanCommand(this));
+        addModule(new MassClaimCommand(this));
 
         // Chat Commands
         addModule(new AllyChatCommand(this));
@@ -95,6 +98,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleChatReceiver(this));
         addModule(new HandleClanLastOnlineOnPlayerQuit(this));
         addModule(new HandleClansPlayerDisplayNameFormat(this));
+        addModule(new HandleOverpoweredKits(this));
     }
 
     @Override
