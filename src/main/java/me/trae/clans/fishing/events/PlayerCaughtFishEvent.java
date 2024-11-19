@@ -1,15 +1,11 @@
 package me.trae.clans.fishing.events;
 
-import me.trae.clans.Clans;
 import me.trae.clans.fishing.events.enums.State;
 import me.trae.clans.fishing.events.interfaces.IPlayerCaughtFishEvent;
-import me.trae.clans.worldevent.WorldEventManager;
-import me.trae.clans.worldevent.types.FishingFrenzy;
 import me.trae.core.event.CustomCancellableEvent;
 import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMath;
-import me.trae.core.utility.UtilPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;

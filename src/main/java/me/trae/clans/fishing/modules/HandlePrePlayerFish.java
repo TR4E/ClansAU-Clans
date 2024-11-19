@@ -60,7 +60,7 @@ public class HandlePrePlayerFish extends SpigotListener<Clans, FishingManager> i
                 break;
             case FAILED_ATTEMPT:
                 if (UtilBlock.isInWater(hook.getLocation())) {
-                    state = State.REEL_OUT;
+                    state = State.REEL_IN;
                 } else {
                     state = State.FAILED;
                 }

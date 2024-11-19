@@ -29,6 +29,7 @@ public class HandleCustomFishing extends SpigotListener<Clans, FishingManager> {
                 break;
             case REEL_IN:
             case FAILED:
+                this.getManager().WAIT_TIME_MAP.remove(event.getPlayer());
                 UtilServer.callEvent(new PlayerStopFishingEvent(event));
                 break;
             case CAUGHT:

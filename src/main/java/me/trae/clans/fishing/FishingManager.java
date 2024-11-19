@@ -5,13 +5,18 @@ import me.trae.clans.fishing.modules.HandleCustomFishing;
 import me.trae.clans.fishing.modules.HandleFishItemBuilderUpdate;
 import me.trae.clans.fishing.modules.HandlePrePlayerFish;
 import me.trae.clans.fishing.modules.caught.*;
-import me.trae.clans.fishing.modules.start.HandleFishHookLureTime;
 import me.trae.clans.fishing.modules.start.HandleFishHookRainInfluenced;
 import me.trae.clans.fishing.modules.start.HandleFishHookSkyInfluenced;
-import me.trae.clans.fishing.modules.start.HandleFishHookWaitTime;
+import me.trae.clans.fishing.modules.start.HandleFishHookWaitAndLureTime;
 import me.trae.core.framework.SpigotManager;
+import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FishingManager extends SpigotManager<Clans> {
+
+    public final Map<Player, Long> WAIT_TIME_MAP = new HashMap<>();
 
     public FishingManager(final Clans instance) {
         super(instance);
@@ -20,10 +25,9 @@ public class FishingManager extends SpigotManager<Clans> {
     @Override
     public void registerModules() {
         // Start Modules
-        addModule(new HandleFishHookLureTime(this));
         addModule(new HandleFishHookRainInfluenced(this));
         addModule(new HandleFishHookSkyInfluenced(this));
-        addModule(new HandleFishHookWaitTime(this));
+        addModule(new HandleFishHookWaitAndLureTime(this));
 
         // Caught Modules
         addModule(new HandleFishingCaughtReceive(this));
