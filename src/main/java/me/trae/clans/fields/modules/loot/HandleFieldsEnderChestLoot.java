@@ -45,32 +45,36 @@ public class HandleFieldsEnderChestLoot extends SpigotListener<Clans, FieldsMana
             final FieldsLootEvent fieldsLootEvent = new FieldsLootEvent(material);
             UtilServer.callEvent(fieldsLootEvent);
 
-            for (int i = 0; i < UtilMath.getRandomNumber(Integer.class, 2, 4); i++) {
+            for (int i = 0; i < UtilMath.getRandomNumber(Integer.class, 1, 3 + event.getMultiplier()); i++) {
                 event.getLoot().addAll(fieldsLootEvent.getLoot());
             }
         }
     }
 
     private void handleLegendary(final FieldsLootEvent event) {
-        for (final Weapon<?, ?, ?> weapon : WeaponRegistry.getWeapons()) {
-            if (!(weapon instanceof Legendary<?, ?, ?>)) {
-                continue;
-            }
+        for (int i = 0; i < event.getMultiplier(); i++) {
+            for (final Weapon<?, ?, ?> weapon : WeaponRegistry.getWeapons()) {
+                if (!(weapon instanceof Legendary<?, ?, ?>)) {
+                    continue;
+                }
 
-            if (!(UtilMath.getRandomNumber(Integer.class, 0, 10000) > 9950)) {
-                continue;
-            }
+                if (!(UtilMath.getRandomNumber(Integer.class, 0, 10000) > 9950)) {
+                    continue;
+                }
 
-            event.addLoot(weapon.getFinalBuilder().toItemStack());
-            break;
+                event.addLoot(weapon.getFinalBuilder().toItemStack());
+                break;
+            }
         }
     }
 
     private void handleChampionsPvPWeapon(final FieldsLootEvent event) {
-        final List<ChampionsPvPWeapon> championsPvPWeaponList = WeaponRegistry.getWeaponsByClass(ChampionsPvPWeapon.class);
+        for (int i = 0; i < event.getMultiplier(); i++) {
+            final List<ChampionsPvPWeapon> championsPvPWeaponList = WeaponRegistry.getWeaponsByClass(ChampionsPvPWeapon.class);
 
-        final ChampionsPvPWeapon championsPvPWeapon = championsPvPWeaponList.get(UtilMath.getRandomNumber(Integer.class, championsPvPWeaponList.size() - 1));
+            final ChampionsPvPWeapon championsPvPWeapon = championsPvPWeaponList.get(UtilMath.getRandomNumber(Integer.class, championsPvPWeaponList.size() - 1));
 
-        event.addLoot(championsPvPWeapon.getFinalBuilder().toItemStack());
+            event.addLoot(championsPvPWeapon.getFinalBuilder().toItemStack());
+        }
     }
 }

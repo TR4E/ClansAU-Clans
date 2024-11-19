@@ -8,6 +8,7 @@ import me.trae.clans.item.ItemManager;
 import me.trae.clans.recipe.RecipeManager;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.clans.world.WorldManager;
+import me.trae.clans.worldevent.WorldEventManager;
 import me.trae.core.framework.types.plugin.MiniPlugin;
 
 public class Clans extends MiniPlugin {
@@ -22,5 +23,6 @@ public class Clans extends MiniPlugin {
         addManager(new WeaponManager(this));
         addManager(new RecipeManager(this));
         addManager(new WorldManager(this));
+        addManager(new WorldEventManager(this));
     }
 }

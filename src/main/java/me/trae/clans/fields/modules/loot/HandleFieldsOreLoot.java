@@ -22,29 +22,31 @@ public class HandleFieldsOreLoot extends SpigotListener<Clans, FieldsManager> {
             return;
         }
 
-        switch (material) {
-            case EMERALD_ORE:
-                event.addLoot(new ItemStack(Material.EMERALD));
-                break;
-            case DIAMOND_ORE:
-                event.addLoot(new ItemStack(Material.DIAMOND));
-                break;
-            case GOLD_ORE:
-                event.addLoot(new ItemStack(Material.GOLD_INGOT));
-                break;
-            case IRON_ORE:
-                event.addLoot(new ItemStack(Material.IRON_INGOT));
-                break;
-            case COAL_ORE:
-                event.addLoot(new ItemStack(Material.COAL));
-                break;
-            case LAPIS_ORE:
-                event.addLoot(new ItemStack(Material.INK_SACK, 1, (byte) 4));
-                break;
-            case REDSTONE_ORE:
-            case GLOWING_REDSTONE_ORE:
-                event.addLoot(new ItemStack(Material.REDSTONE));
-                break;
+        for (int i = 0; i < event.getMultiplier(); i++) {
+            switch (material) {
+                case EMERALD_ORE:
+                    event.addLoot(new ItemStack(Material.EMERALD));
+                    break;
+                case DIAMOND_ORE:
+                    event.addLoot(new ItemStack(Material.DIAMOND));
+                    break;
+                case GOLD_ORE:
+                    event.addLoot(new ItemStack(Material.GOLD_INGOT));
+                    break;
+                case IRON_ORE:
+                    event.addLoot(new ItemStack(Material.IRON_INGOT));
+                    break;
+                case COAL_ORE:
+                    event.addLoot(new ItemStack(Material.COAL));
+                    break;
+                case LAPIS_ORE:
+                    event.addLoot(new ItemStack(Material.INK_SACK, 1, (byte) 4));
+                    break;
+                case REDSTONE_ORE:
+                case GLOWING_REDSTONE_ORE:
+                    event.addLoot(new ItemStack(Material.REDSTONE));
+                    break;
+            }
         }
     }
 }

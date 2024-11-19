@@ -43,6 +43,10 @@ public class HandleFieldsBlockBreak extends SpigotListener<Clans, FieldsManager>
             return;
         }
 
+        if (fieldsBlock.isBroken()) {
+            return;
+        }
+
         final Player player = event.getPlayer();
 
         if (this.getManager().isInAdminMode(player)) {
@@ -71,7 +75,7 @@ public class HandleFieldsBlockBreak extends SpigotListener<Clans, FieldsManager>
         final FieldsLootEvent event = new FieldsLootEvent(block.getType());
         UtilServer.callEvent(event);
 
-        for (final ItemStack itemStack : event.getFinalLoot()) {
+        for (final ItemStack itemStack : event.getLoot()) {
             block.getWorld().dropItemNaturally(block.getLocation(), itemStack);
         }
     }

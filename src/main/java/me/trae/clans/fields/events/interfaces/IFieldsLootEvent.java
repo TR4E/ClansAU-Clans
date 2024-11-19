@@ -18,6 +18,4 @@ public interface IFieldsLootEvent {
     int getMultiplier();
 
     void setMultiplier(final int multiplier);
-
-    List<ItemStack> getFinalLoot();
 }

@@ -23,6 +23,9 @@ public class DisableDrinkingPotions extends SpigotListener<Clans, WorldManager> 
         }
 
         final ItemStack itemStack = event.getItem();
+        if (itemStack == null) {
+            return;
+        }
 
         if (itemStack.getType() != Material.POTION) {
             return;

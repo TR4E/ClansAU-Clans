@@ -50,19 +50,4 @@ public class FieldsLootEvent extends CustomEvent implements IFieldsLootEvent {
     public void setMultiplier(final int multiplier) {
         this.multiplier = multiplier;
     }
-
-    @Override
-    public List<ItemStack> getFinalLoot() {
-        final List<ItemStack> loot = this.getLoot();
-
-        for (int i = 0; i < loot.size(); i++) {
-            final ItemStack itemStack = loot.get(i);
-
-            itemStack.setAmount(itemStack.getAmount() * this.getMultiplier());
-
-            loot.set(i, itemStack);
-        }
-
-        return loot;
-    }
 }

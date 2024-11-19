@@ -5,6 +5,7 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.gamer.GamerManager;
+import me.trae.clans.worldevent.WorldEventManager;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
@@ -60,11 +61,17 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
 
                 addCustomLine(ChatColor.YELLOW, "Territory", getManager().getTerritoryClanNameForScoreboard(playerClan, getManager().getClanByLocation(player.getLocation())));
 
-                addBlankLine();
-
                 UtilJava.call(getInstance().getManagerByClass(GamerManager.class).getGamerByPlayer(player), gamer -> {
                     if (gamer != null) {
+                        addBlankLine();
                         addCustomLine(ChatColor.YELLOW, "Coins", String.format("<gold>$%s", gamer.getCoins()));
+                    }
+                });
+
+                UtilJava.call(getInstance().getManagerByClass(WorldEventManager.class).getActiveWorldEvent(), activeWorldEvent -> {
+                    if (activeWorldEvent != null) {
+                        addBlankLine();
+                        addCustomLine(ChatColor.WHITE, "World Event", activeWorldEvent.getDisplayName());
                     }
                 });
             }
