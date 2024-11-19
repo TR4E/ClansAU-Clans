@@ -13,8 +13,6 @@ import me.trae.core.weapon.types.Legendary;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 
-import java.util.List;
-
 public class HandleFieldsEnderChestLoot extends SpigotListener<Clans, FieldsManager> {
 
     public HandleFieldsEnderChestLoot(final FieldsManager manager) {
@@ -70,9 +68,7 @@ public class HandleFieldsEnderChestLoot extends SpigotListener<Clans, FieldsMana
 
     private void handleChampionsPvPWeapon(final FieldsLootEvent event) {
         for (int i = 0; i < event.getMultiplier(); i++) {
-            final List<ChampionsPvPWeapon> championsPvPWeaponList = WeaponRegistry.getWeaponsByClass(ChampionsPvPWeapon.class);
-
-            final ChampionsPvPWeapon championsPvPWeapon = championsPvPWeaponList.get(UtilMath.getRandomNumber(Integer.class, championsPvPWeaponList.size() - 1));
+            final ChampionsPvPWeapon championsPvPWeapon = WeaponRegistry.getRandomWeaponByClass(ChampionsPvPWeapon.class);
 
             event.addLoot(championsPvPWeapon.getFinalBuilder().toItemStack());
         }

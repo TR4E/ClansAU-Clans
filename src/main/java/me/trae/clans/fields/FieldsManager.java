@@ -227,7 +227,7 @@ public class FieldsManager extends SpigotManager<Clans> implements IFieldsManage
 
                 final List<ChampionsPvPWeapon> championsPvPWeaponList = WeaponRegistry.getWeaponsByClass(ChampionsPvPWeapon.class);
 
-                dropList.add(championsPvPWeaponList.get(UtilMath.getRandomNumber(Integer.class, championsPvPWeaponList.size() - 1)).getFinalBuilder().toItemStack());
+                dropList.add(championsPvPWeaponList.get(UtilMath.getRandomNumber(Integer.class, 0, championsPvPWeaponList.size() - 1)).getFinalBuilder().toItemStack());
 
                 break;
         }
