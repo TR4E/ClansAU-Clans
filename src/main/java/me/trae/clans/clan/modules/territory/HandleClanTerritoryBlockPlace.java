@@ -5,8 +5,8 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.AccessType;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMessage;
-import me.trae.core.utility.UtilString;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,6 +39,6 @@ public class HandleClanTerritoryBlockPlace extends SpigotListener<Clans, ClanMan
 
         event.setCancelled(true);
 
-        UtilMessage.simpleMessage(player, "Clans", "You cannot place <green><var></green> in <var>.", Arrays.asList(UtilString.clean(block.getType().name()), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
+        UtilMessage.simpleMessage(player, "Clans", "You cannot place <green><var></green> in <var>.", Arrays.asList(UtilItem.getDisplayName(player.getEquipment().getItemInHand()), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
     }
 }

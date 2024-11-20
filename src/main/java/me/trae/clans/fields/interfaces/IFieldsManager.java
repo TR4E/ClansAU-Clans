@@ -6,9 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Map;
 
 public interface IFieldsManager {
@@ -36,6 +34,4 @@ public interface IFieldsManager {
     boolean isFieldsBlock(final Block block);
 
     RestoreData getNewRestoreDataByMaterial(final Material material);
-
-    List<ItemStack> getDropsByBlock(final FieldsBlock fieldsBlock, final Material material);
 }

@@ -1,6 +1,5 @@
 package me.trae.clans.fields.modules.loot;
 
-import me.trae.api.champions.weapon.ChampionsPvPWeapon;
 import me.trae.clans.Clans;
 import me.trae.clans.fields.FieldsManager;
 import me.trae.clans.fields.events.FieldsLootEvent;
@@ -12,6 +11,10 @@ import me.trae.core.weapon.registry.WeaponRegistry;
 import me.trae.core.weapon.types.Legendary;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class HandleFieldsEnderChestLoot extends SpigotListener<Clans, FieldsManager> {
 
@@ -68,9 +71,9 @@ public class HandleFieldsEnderChestLoot extends SpigotListener<Clans, FieldsMana
 
     private void handleChampionsPvPWeapon(final FieldsLootEvent event) {
         for (int i = 0; i < event.getMultiplier(); i++) {
-            final ChampionsPvPWeapon championsPvPWeapon = WeaponRegistry.getRandomWeaponByClass(ChampionsPvPWeapon.class);
+            final List<Material> materials = Arrays.asList(Material.DIAMOND_SWORD, Material.DIAMOND_AXE, Material.GOLD_SWORD, Material.GOLD_AXE, Material.IRON_SWORD, Material.IRON_AXE);
 
-            event.addLoot(championsPvPWeapon.getFinalBuilder().toItemStack());
+            event.addLoot(new ItemStack(materials.get(UtilMath.getRandomNumber(Integer.class, 0, materials.size() - 1))));
         }
     }
 }

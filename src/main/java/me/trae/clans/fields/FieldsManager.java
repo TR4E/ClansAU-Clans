@@ -1,6 +1,5 @@
 package me.trae.clans.fields;
 
-import me.trae.api.champions.weapon.ChampionsPvPWeapon;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
@@ -32,10 +31,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FieldsManager extends SpigotManager<Clans> implements IFieldsManager, RepositoryContainer<FieldsRepository> {
 
@@ -172,66 +168,5 @@ public class FieldsManager extends SpigotManager<Clans> implements IFieldsManage
         }
 
         return new RestoreData(Material.AIR);
-    }
-
-    @Override
-    public List<ItemStack> getDropsByBlock(final FieldsBlock fieldsBlock, final Material material) {
-        final List<ItemStack> dropList = new ArrayList<>();
-
-        switch (material) {
-            case EMERALD_ORE:
-                dropList.add(new ItemStack(Material.EMERALD));
-                break;
-            case DIAMOND_ORE:
-                dropList.add(new ItemStack(Material.DIAMOND));
-                break;
-            case GOLD_ORE:
-                dropList.add(new ItemStack(Material.GOLD_INGOT));
-                break;
-            case IRON_ORE:
-                dropList.add(new ItemStack(Material.IRON_INGOT));
-                break;
-            case COAL_ORE:
-                dropList.add(new ItemStack(Material.COAL));
-                break;
-            case LAPIS_ORE:
-                dropList.add(new ItemStack(Material.INK_SACK, 1, (byte) 4));
-                break;
-            case REDSTONE_ORE:
-            case GLOWING_REDSTONE_ORE:
-                dropList.add(new ItemStack(Material.REDSTONE));
-                break;
-            case ENDER_CHEST:
-                for (final Material curMaterial : Material.values()) {
-                    if (curMaterial == Material.GLOWING_REDSTONE_ORE) {
-                        continue;
-                    }
-
-                    if (!(curMaterial.name().endsWith("_ORE"))) {
-                        continue;
-                    }
-
-                    for (int i = 0; i < 4; i++) {
-                        dropList.addAll(this.getDropsByBlock(fieldsBlock, curMaterial));
-                    }
-                }
-
-                for (final Weapon<?, ?, ?> weapon : WeaponRegistry.getWeapons()) {
-                    if (weapon instanceof Legendary<?, ?, ?>) {
-                        if (UtilMath.getRandomNumber(Integer.class, 0, 10000) > 9950) {
-                            dropList.add(weapon.getFinalBuilder().toItemStack());
-                            break;
-                        }
-                    }
-                }
-
-                final List<ChampionsPvPWeapon> championsPvPWeaponList = WeaponRegistry.getWeaponsByClass(ChampionsPvPWeapon.class);
-
-                dropList.add(championsPvPWeaponList.get(UtilMath.getRandomNumber(Integer.class, 0, championsPvPWeaponList.size() - 1)).getFinalBuilder().toItemStack());
-
-                break;
-        }
-
-        return dropList;
     }
 }
