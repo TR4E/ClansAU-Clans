@@ -30,6 +30,7 @@ import me.trae.core.framework.SpigotManager;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.gamer.GamerManager;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
+import me.trae.core.utility.UtilChunk;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
@@ -185,6 +186,22 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @Override
     public boolean isClanByLocation(final Location location) {
         return this.getClanByLocation(location) != null;
+    }
+
+    @Override
+    public List<Clan> getNearbyClans(final Chunk chunk, final int distance) {
+        final List<Clan> list = new ArrayList<>();
+
+        for (final Chunk nearbyChunk : UtilChunk.getNearbyChunks(chunk, distance)) {
+            final Clan territoryClan = this.getClanByChunk(nearbyChunk);
+            if (territoryClan == null) {
+                continue;
+            }
+
+            list.add(territoryClan);
+        }
+
+        return list;
     }
 
     @Override

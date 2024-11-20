@@ -43,6 +43,8 @@ public interface IClanManager {
 
     boolean isClanByLocation(final Location location);
 
+    List<Clan> getNearbyClans(final Chunk chunk, int distance);
+
     /*
 
      */
