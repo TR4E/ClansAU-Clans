@@ -38,20 +38,45 @@ public interface SupplyCrateComponent extends Updater {
 
     void fillChest(final Inventory inventory);
 
-    default void placeBlockRestore(final Block block, final Material material) {
+    default void startSupplyCrate(final Block block, final Material material) {
         final BlockRestoreManager blockRestoreManager = UtilPlugin.getInstance(Core.class).getManagerByClass(BlockRestoreManager.class);
 
-        blockRestoreManager.addBlockRestore(new BlockRestore(String.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation())), block, Material.BEACON, (byte) 0, this.getDuration()));
+        final String blockRestoreName = String.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation()));
+
+        blockRestoreManager.addBlockRestore(new BlockRestore(blockRestoreName, block, Material.BEACON, (byte) 0, this.getDuration()));
 
         for (int x = -1; x <= 1; x++) {
             for (int z = -1; z <= 1; z++) {
-                blockRestoreManager.addBlockRestore(new BlockRestore(String.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation())), block.getLocation().add(x, -1, z).getBlock(), material, (byte) 0, this.getDuration() + this.getChestDuration()));
+                blockRestoreManager.addBlockRestore(new BlockRestore(blockRestoreName, block.getLocation().add(x, -1, z).getBlock(), material, (byte) 0, this.getDuration() + this.getChestDuration()));
             }
         }
     }
 
+    default void stopSupplyCrate(final SupplyCrateData data) {
+        final Block block = data.getLocation().getBlock();
+        if (block == null) {
+            return;
+        }
+
+        final BlockRestoreManager blockRestoreManager = UtilPlugin.getInstance(Core.class).getManagerByClass(BlockRestoreManager.class);
+
+        final String blockRestoreName = String.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation()));
+
+        for (final BlockRestore blockRestore : blockRestoreManager.getListOfBlockRestoreByName(blockRestoreName)) {
+            blockRestore.restore();
+
+            blockRestoreManager.removeBlockRestore(blockRestore);
+        }
+
+        block.setType(Material.AIR);
+    }
+
     @Update(delay = 1000L)
     default void onUpdater() {
+        if (this.getData() == null || this.getData().isEmpty()) {
+            return;
+        }
+
         for (final SupplyCrateData data : this.getData()) {
             if (!(data.hasExpired())) {
                 final FireworkEffect fireworkEffect = FireworkEffect.builder().with(FireworkEffect.Type.BALL_LARGE).withColor(Color.RED).build();
@@ -90,13 +115,7 @@ public interface SupplyCrateComponent extends Updater {
                         return;
                     }
 
-                    final BlockRestoreManager blockRestoreManager = UtilPlugin.getInstance(Core.class).getManagerByClass(BlockRestoreManager.class);
-
-                    for (final BlockRestore blockRestore : blockRestoreManager.getListOfBlockRestoreByName(String.format(this.getName(), UtilBlock.locationToFile(block.getLocation())))) {
-                        blockRestore.restore();
-
-                        blockRestoreManager.removeBlockRestore(blockRestore);
-                    }
+                    this.stopSupplyCrate(data);
 
                     block.setType(Material.AIR);
                 });

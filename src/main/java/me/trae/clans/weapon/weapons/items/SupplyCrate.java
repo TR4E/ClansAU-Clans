@@ -131,7 +131,7 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
 
         block.setType(Material.AIR);
 
-        this.placeBlockRestore(block, Material.IRON_BLOCK);
+        this.startSupplyCrate(block, Material.IRON_BLOCK);
 
         this.DATA.add(new SupplyCrateData(block.getLocation(), this.duration));
 
