@@ -11,5 +11,7 @@ public interface IWorldEventManager {
 
     boolean isActiveWorldEvent(final Class<? extends WorldEvent> clazz);
 
+    WorldEvent getRandomWorldEvent();
+
     WorldEvent searchWorldEvent(final CommandSender sender, final String name, final boolean inform);
 }

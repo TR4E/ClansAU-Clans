@@ -45,8 +45,8 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
     @ConfigInject(type = Long.class, path = "Duration", defaultValue = "60_000")
     private long duration;
 
-    @ConfigInject(type = Long.class, path = "Chest-Duration", defaultValue = "60_000")
-    private long chestDuration;
+    @ConfigInject(type = Long.class, path = "Chest-Remove-Duration", defaultValue = "60_000")
+    private long chestRemoveDuration;
 
     public SupplyCrate(final WeaponManager manager) {
         super(manager, new ItemStack(Material.BEACON));
@@ -97,8 +97,12 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
     }
 
     @Override
-    public long getChestDuration() {
-        return this.chestDuration;
+    public long getChestRemoveDuration() {
+        return this.chestRemoveDuration;
+    }
+
+    @Override
+    public void onChestSpawn() {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

@@ -8,16 +8,16 @@ import me.trae.core.blockrestore.BlockRestoreManager;
 import me.trae.core.updater.annotations.Update;
 import me.trae.core.updater.interfaces.Updater;
 import me.trae.core.utility.*;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import me.trae.core.utility.objects.SoundCreator;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.v1_8_R3.block.CraftChest;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public interface SupplyCrateComponent extends Updater {
@@ -34,7 +34,9 @@ public interface SupplyCrateComponent extends Updater {
 
     long getDuration();
 
-    long getChestDuration();
+    long getChestRemoveDuration();
+
+    void onChestSpawn();
 
     void fillChest(final Inventory inventory);
 
@@ -47,7 +49,7 @@ public interface SupplyCrateComponent extends Updater {
 
         for (int x = -1; x <= 1; x++) {
             for (int z = -1; z <= 1; z++) {
-                blockRestoreManager.addBlockRestore(new BlockRestore(blockRestoreName, block.getLocation().add(x, -1, z).getBlock(), material, (byte) 0, this.getDuration() + this.getChestDuration()));
+                blockRestoreManager.addBlockRestore(new BlockRestore(blockRestoreName, block.getLocation().add(x, -1, z).getBlock(), material, (byte) 0, this.getDuration() + this.getChestRemoveDuration()));
             }
         }
     }
@@ -72,7 +74,7 @@ public interface SupplyCrateComponent extends Updater {
     }
 
     @Update(delay = 1000L)
-    default void onUpdater() {
+    default void onSupplyCrateUpdater() {
         if (this.getData() == null || this.getData().isEmpty()) {
             return;
         }
@@ -109,13 +111,44 @@ public interface SupplyCrateComponent extends Updater {
 
                 this.fillChest(chest.getInventory());
                 data.setFilled(true);
+                this.onChestSpawn();
 
-                UtilServer.runTaskLater(Clans.class, false, this.getChestDuration() / 50L, () -> {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        if (block.getType() != SupplyCrateComponent.this.getChestMaterial()) {
+                            this.cancel();
+                            return;
+                        }
+
+                        final Inventory inventory = chest.getInventory();
+
+                        if (!(inventory.getViewers().isEmpty())) {
+                            return;
+                        }
+
+                        if (Arrays.stream(inventory.getContents()).anyMatch(itemStack -> itemStack != null && itemStack.getType() != Material.AIR)) {
+                            return;
+                        }
+
+                        SupplyCrateComponent.this.stopSupplyCrate(data);
+
+                        new SoundCreator(Sound.ZOMBIE_WOODBREAK, 1.0F, 2.0F).play(block.getLocation());
+
+                        block.setType(Material.AIR);
+
+                        this.cancel();
+                    }
+                }.runTaskTimer(UtilPlugin.getInstance(Clans.class), 0L, 5L);
+
+                UtilServer.runTaskLater(Clans.class, false, this.getChestRemoveDuration() / 50L, () -> {
                     if (block.getType() != this.getChestMaterial()) {
                         return;
                     }
 
                     this.stopSupplyCrate(data);
+
+                    new SoundCreator(Sound.ZOMBIE_WOODBREAK, 1.0F, 2.0F).play(block.getLocation());
 
                     block.setType(Material.AIR);
                 });

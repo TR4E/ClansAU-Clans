@@ -10,28 +10,37 @@ import me.trae.core.framework.SpigotModule;
 import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMath;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilTime;
 import me.trae.core.weapon.registry.WeaponRegistry;
 import me.trae.core.weapon.types.Legendary;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
 
-    private SupplyCrateData DATA;
-
-    @ConfigInject(type = Long.class, path = "Duration", defaultValue = "60_000")
+    @ConfigInject(type = Long.class, path = "Duration", defaultValue = "600_000")
     private long duration;
 
-    @ConfigInject(type = Long.class, path = "Chest-Duration", defaultValue = "60_000")
-    private long chestDuration;
+    @ConfigInject(type = Long.class, path = "Chest-Remove-Duration", defaultValue = "300_000")
+    private long chestRemoveDuration;
 
+    @ConfigInject(type = Long.class, path = "Chest-Locked-Duration", defaultValue = "30_000")
+    public long chestLockedDuration;
+
+    @ConfigInject(type = Long.class, path = "Chest-Opened-Duration", defaultValue = "10_000")
+    public long chestOpenedDuration;
+
+    private SupplyCrateData DATA;
+
+    public long chestLockedSystemTime;
+
+    private final Map<UUID, Long> CHEST_OPENER_MAP = new HashMap<>();
 
     public Koth(final KothManager manager) {
         super(manager);
@@ -40,6 +49,44 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
     @Override
     public boolean isActive() {
         return this.DATA != null;
+    }
+
+    @Override
+    public boolean isChestLocked() {
+        if (this.chestLockedSystemTime == 0L) {
+            return true;
+        }
+
+        return !(UtilTime.elapsed(this.chestLockedSystemTime, this.chestLockedDuration));
+    }
+
+    @Override
+    public Map<UUID, Long> getChestOpenerMap() {
+        return this.CHEST_OPENER_MAP;
+    }
+
+    @Override
+    public void addChestOpener(final Player player) {
+        this.getChestOpenerMap().put(player.getUniqueId(), System.currentTimeMillis());
+    }
+
+    @Override
+    public boolean canOpenChest(final Player player) {
+        if (!(this.getChestOpenerMap().containsKey(player.getUniqueId()))) {
+            return false;
+        }
+
+        final long systemTime = this.getChestOpenerMap().get(player.getUniqueId());
+        if (systemTime == -1L) {
+            return true;
+        }
+
+        return UtilTime.elapsed(systemTime, this.chestOpenedDuration);
+    }
+
+    @Override
+    public boolean isChestOpener(final Player player) {
+        return this.getChestOpenerMap().containsKey(player.getUniqueId());
     }
 
     @Override
@@ -56,6 +103,8 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
         if (!(fieldsClan.hasHome())) {
             return;
         }
+
+        this.reset();
 
         final Location location = fieldsClan.getHome();
 
@@ -74,7 +123,7 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
 
         this.stopSupplyCrate(this.DATA);
 
-        this.DATA = null;
+        this.reset();
 
         UtilMessage.simpleBroadcast("KoTH", "<red><bold>The KoTH has Ended!", null);
     }
@@ -114,8 +163,13 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
     }
 
     @Override
-    public long getChestDuration() {
-        return this.chestDuration;
+    public long getChestRemoveDuration() {
+        return this.duration + this.chestLockedDuration + this.chestRemoveDuration;
+    }
+
+    @Override
+    public void onChestSpawn() {
+        this.chestLockedSystemTime = System.currentTimeMillis();
     }
 
     @Override
@@ -139,5 +193,17 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
         }
 
         inventory.addItem(UtilItem.updateItemStack(new ItemStack(Material.TNT, UtilMath.getRandomNumber(Integer.class, 4, 16) * (eotw ? 2 : 1))));
+    }
+
+    @Override
+    public void stopSupplyCrate(final SupplyCrateData data) {
+        IKoth.super.stopSupplyCrate(data);
+        this.reset();
+    }
+
+    private void reset() {
+        this.DATA = null;
+        this.chestLockedSystemTime = 0L;
+        this.CHEST_OPENER_MAP.clear();
     }
 }
