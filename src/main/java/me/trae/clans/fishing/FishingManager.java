@@ -9,14 +9,8 @@ import me.trae.clans.fishing.modules.start.HandleFishHookRainInfluenced;
 import me.trae.clans.fishing.modules.start.HandleFishHookSkyInfluenced;
 import me.trae.clans.fishing.modules.start.HandleFishHookWaitAndLureTime;
 import me.trae.core.framework.SpigotManager;
-import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class FishingManager extends SpigotManager<Clans> {
-
-    public final Map<Player, Long> WAIT_TIME_MAP = new HashMap<>();
 
     public FishingManager(final Clans instance) {
         super(instance);

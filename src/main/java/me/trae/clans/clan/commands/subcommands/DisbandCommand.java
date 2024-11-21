@@ -6,7 +6,7 @@ import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
 import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanRelation;
-import me.trae.clans.clan.events.ClanDisbandEvent;
+import me.trae.clans.clan.events.command.ClanDisbandEvent;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;

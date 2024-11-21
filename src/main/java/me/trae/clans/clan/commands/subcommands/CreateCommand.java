@@ -4,7 +4,7 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
 import me.trae.clans.clan.enums.ClanRelation;
-import me.trae.clans.clan.events.ClanCreateEvent;
+import me.trae.clans.clan.events.command.ClanCreateEvent;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;

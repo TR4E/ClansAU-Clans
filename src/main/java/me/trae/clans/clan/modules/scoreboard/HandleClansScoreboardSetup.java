@@ -32,17 +32,16 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
 
         final ClientManager clientManager = this.getInstance(Core.class).getManagerByClass(ClientManager.class);
 
-        final Clan playerClan = this.getManager().getClanByPlayer(player);
-
         return new ScoreboardBuilder(event) {
             @Override
-            public String getTeamKey(final Player target) {
-                final Clan targetClan = getManager().getClanByPlayer(target);
+            public String getTeamKey(final Player targetPlayer) {
+                final Clan targetClan = getManager().getClanByPlayer(targetPlayer);
                 if (targetClan != null) {
                     return String.format("!%s", targetClan.getName());
                 }
 
-                final Client targetClient = clientManager.getClientByPlayer(target);
+                final Client targetClient = clientManager.getClientByPlayer(targetPlayer);
+
                 final int ordinal = Rank.values().length - targetClient.getRank().ordinal();
 
                 return String.format("@%s", ordinal);
@@ -55,6 +54,8 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
 
             @Override
             public void registerLines() {
+                final Clan playerClan = getManager().getClanByPlayer(player);
+
                 addCustomLine(ChatColor.YELLOW, "Clan", playerClan != null ? ClanRelation.SELF.getSuffix() + playerClan.getName() : "No Clan");
 
                 addBlankLine();
@@ -77,12 +78,14 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
             }
 
             @Override
-            public String getTeamPrefix(final Player player, final Client client, final Player target) {
+            public String getTeamPrefix(final Player player, final Player targetPlayer) {
+                final Clan playerClan = getManager().getClanByPlayer(player);
+
                 if (playerClan == null) {
-                    return super.getTeamPrefix(player, client, target);
+                    return super.getTeamPrefix(player, targetPlayer);
                 }
 
-                final ClanRelation clanRelation = getManager().getClanRelationByClan(getManager().getClanByPlayer(target), playerClan);
+                final ClanRelation clanRelation = getManager().getClanRelationByClan(getManager().getClanByPlayer(targetPlayer), playerClan);
 
                 final String clanName = UtilString.trim(playerClan.getName(), 11);
 

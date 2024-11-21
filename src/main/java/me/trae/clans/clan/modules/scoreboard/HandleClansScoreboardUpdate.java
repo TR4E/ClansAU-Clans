@@ -2,8 +2,8 @@ package me.trae.clans.clan.modules.scoreboard;
 
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
-import me.trae.clans.clan.events.types.ClanPlayerCancellableEvent;
-import me.trae.clans.clan.events.types.ClanPlayerEvent;
+import me.trae.clans.clan.events.abstracts.types.ClanPlayerCancellableEvent;
+import me.trae.clans.clan.events.abstracts.types.ClanPlayerEvent;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilServer;

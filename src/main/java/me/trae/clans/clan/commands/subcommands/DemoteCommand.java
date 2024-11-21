@@ -7,7 +7,7 @@ import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
-import me.trae.clans.clan.events.MemberDemoteEvent;
+import me.trae.clans.clan.events.command.MemberDemoteEvent;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.gamer.Gamer;

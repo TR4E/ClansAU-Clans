@@ -12,10 +12,14 @@ import me.trae.clans.clan.enums.ChatType;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.interfaces.IClanManager;
-import me.trae.clans.clan.modules.HandleChatReceiver;
 import me.trae.clans.clan.modules.HandleClanLastOnlineOnPlayerQuit;
-import me.trae.clans.clan.modules.HandleClansPlayerDisplayNameFormat;
-import me.trae.clans.clan.modules.HandleOverpoweredKits;
+import me.trae.clans.clan.modules.HandleClanUpdater;
+import me.trae.clans.clan.modules.champions.HandleOverpoweredKits;
+import me.trae.clans.clan.modules.chat.HandleChatReceiver;
+import me.trae.clans.clan.modules.chat.HandleClansPlayerDisplayNameFormat;
+import me.trae.clans.clan.modules.pillage.HandleDominancePointsOnPlayerDeath;
+import me.trae.clans.clan.modules.pillage.HandlePillageAlerts;
+import me.trae.clans.clan.modules.pillage.HandlePillageUpdater;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardSetup;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
 import me.trae.clans.clan.modules.territory.*;
@@ -55,6 +59,12 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Long.class, path = "Chunk-Outline-Duration", defaultValue = "300_000")
     private long chunkOutlineDuration;
 
+    @ConfigInject(type = Long.class, path = "Pillage-Length", defaultValue = "600_000")
+    public long pillageLength;
+
+    @ConfigInject(type = Integer.class, path = "Required-Pillage-Points", defaultValue = "16")
+    public int requiredPillagePoints;
+
     @ConfigInject(type = Integer.class, path = "Max-Squad-Count", defaultValue = "8")
     public int maxSquadCount;
 
@@ -84,6 +94,18 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new AllyChatCommand(this));
         addModule(new ClanChatCommand(this));
 
+        // Champions Modules
+        addModule(new HandleOverpoweredKits(this));
+
+        // Chat Modules
+        addModule(new HandleChatReceiver(this));
+        addModule(new HandleClansPlayerDisplayNameFormat(this));
+
+        // Pillage Modules
+        addModule(new HandleDominancePointsOnPlayerDeath(this));
+        addModule(new HandlePillageAlerts(this));
+        addModule(new HandlePillageUpdater(this));
+
         // Scoreboard Modules
         addModule(new HandleClansScoreboardSetup(this));
         addModule(new HandleClansScoreboardUpdate(this));
@@ -96,10 +118,8 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleClanTerritoryDoorInteract(this));
 
         // Modules
-        addModule(new HandleChatReceiver(this));
         addModule(new HandleClanLastOnlineOnPlayerQuit(this));
-        addModule(new HandleClansPlayerDisplayNameFormat(this));
-        addModule(new HandleOverpoweredKits(this));
+        addModule(new HandleClanUpdater(this));
     }
 
     @Override

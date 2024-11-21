@@ -8,7 +8,7 @@ import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.enums.RequestType;
-import me.trae.clans.clan.events.ClanJoinEvent;
+import me.trae.clans.clan.events.command.ClanJoinEvent;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;

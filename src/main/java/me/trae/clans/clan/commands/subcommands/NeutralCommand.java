@@ -7,7 +7,7 @@ import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.enums.RequestType;
-import me.trae.clans.clan.events.ClanNeutralEvent;
+import me.trae.clans.clan.events.command.ClanNeutralEvent;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
@@ -94,6 +94,16 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
 
             if (playerClan.isRequested(RequestType.NEUTRALITY, targetClan.getName())) {
                 UtilMessage.simpleMessage(player, "Clans", "You already requested neutrality with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, this.getModule().getManager().getClanRelationByClan(playerClan, targetClan))));
+                return false;
+            }
+
+            if (targetClan.isPillageByClan(playerClan)) {
+                UtilMessage.message(player, "Clans", "You cannot neutral a clan you are being pillaged by!");
+                return false;
+            }
+
+            if (playerClan.isPillageByClan(targetClan)) {
+                UtilMessage.message(player, "Clans", "You cannot neutral a clan you are pillaging!");
                 return false;
             }
         }

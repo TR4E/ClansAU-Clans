@@ -85,30 +85,7 @@ public class HandleFishHookWaitAndLureTime extends SpigotListener<Clans, Fishing
         final long waitTime = event.getWaitTime();
         final long lureTime = waitTime + event.getLureTime();
 
-        this.getManager().WAIT_TIME_MAP.put(event.getPlayer(), System.currentTimeMillis() + lureTime);
-
         UtilFishHook.setWaitTime(hook, (int) (waitTime / 50));
         UtilFishHook.setLureTime(hook, (int) (lureTime / 50));
-    }
-
-    @Update
-    public void onUpdater() {
-        this.getManager().WAIT_TIME_MAP.entrySet().removeIf(entry -> {
-            final Player player = entry.getKey();
-            if (player == null) {
-                return true;
-            }
-
-            final long duration = entry.getValue();
-
-            if (!(UtilTime.elapsed(duration))) {
-                UtilTitle.sendActionBar(player, String.format("<light_purple>%s", UtilTime.getTime(UtilTime.getRemaining(duration))));
-                return false;
-            }
-
-            UtilTitle.sendActionBar(player, "<green>Biten!");
-
-            return true;
-        });
     }
 }
