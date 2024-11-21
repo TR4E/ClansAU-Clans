@@ -43,7 +43,7 @@ public abstract class WorldEvent extends SpigotModule<Clans, WorldEventManager> 
 
         new SoundCreator(Sound.ENDERDRAGON_GROWL).play();
 
-        UtilMessage.simpleBroadcast("World Event", "<var> has started!", Collections.singletonList(this.getDisplayName()));
+        UtilMessage.simpleBroadcast("World Event", "<var> has begun!", Collections.singletonList(this.getDisplayName()));
     }
 
     @Override
