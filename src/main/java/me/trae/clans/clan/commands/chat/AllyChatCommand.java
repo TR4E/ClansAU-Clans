@@ -68,7 +68,7 @@ public class AllyChatCommand extends Command<Clans, ClanManager> implements Chat
     public String getFormat(final Player player, final Client client, final Gamer gamer, final String message, final boolean spy) {
         final Clan playerClan = this.getManager().getClanByPlayer(player);
 
-        return String.format("%s %s %s", ClanRelation.ALLIANCE.getPrefix() + playerClan.getName(), player.getName(), ClanRelation.ALLIANCE.getSuffix() + message);
+        return String.format("%s %s %s", ClanRelation.ALLIANCE.getPrefix() + playerClan.getDisplayName(), player.getName(), ClanRelation.ALLIANCE.getSuffix() + message);
     }
 
     @Override

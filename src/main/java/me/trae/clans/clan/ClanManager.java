@@ -1,5 +1,6 @@
 package me.trae.clans.clan;
 
+import me.trae.api.combat.CombatManager;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.MassClaimCommand;
@@ -17,13 +18,24 @@ import me.trae.clans.clan.modules.HandleClanUpdater;
 import me.trae.clans.clan.modules.champions.HandleOverpoweredKits;
 import me.trae.clans.clan.modules.chat.HandleChatReceiver;
 import me.trae.clans.clan.modules.chat.HandleClansPlayerDisplayNameFormat;
+import me.trae.clans.clan.modules.damage.DisableSafeZoneDamage;
+import me.trae.clans.clan.modules.damage.DisableTeammateDamage;
 import me.trae.clans.clan.modules.pillage.HandleDominancePointsOnPlayerDeath;
 import me.trae.clans.clan.modules.pillage.HandlePillageAlerts;
 import me.trae.clans.clan.modules.pillage.HandlePillageUpdater;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardSetup;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
-import me.trae.clans.clan.modules.territory.*;
+import me.trae.clans.clan.modules.spawn.DisableClansSpawnPreTeleportWhileInSpawn;
+import me.trae.clans.clan.modules.spawn.HandleClansSpawnDuration;
+import me.trae.clans.clan.modules.spawn.HandleClansSpawnLocation;
+import me.trae.clans.clan.modules.territory.DisplayTerritoryOwner;
+import me.trae.clans.clan.modules.territory.HandleAdventureModeInClanTerritory;
+import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryBlockBreak;
+import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryBlockInteract;
+import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryBlockPlace;
+import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryDoorInteract;
 import me.trae.clans.clan.types.AdminClan;
+import me.trae.clans.utility.UtilClans;
 import me.trae.core.Core;
 import me.trae.core.blockrestore.BlockRestoreManager;
 import me.trae.core.client.Client;
@@ -62,6 +74,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Long.class, path = "Pillage-Length", defaultValue = "600_000")
     public long pillageLength;
 
+    @ConfigInject(type = Long.class, path = "TNT-Protection-Duration", defaultValue = "1_800_000")
+    public long tntProtectionDuration;
+
     @ConfigInject(type = Integer.class, path = "Required-Pillage-Points", defaultValue = "16")
     public int requiredPillagePoints;
 
@@ -71,8 +86,8 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Integer.class, path = "Max-Claim-Limit", defaultValue = "8")
     public int maxClaimLimit;
 
-    @ConfigInject(type = Long.class, path = "TNT-Protection-Duration", defaultValue = "1_800_000")
-    public long tntProtectionDuration;
+    @ConfigInject(type = Double.class, path = "Spawn-Safe-Y-Level", defaultValue = "100.0")
+    private double spawnSafeYLevel;
 
     @ConfigInject(type = Boolean.class, path = "SOTW", defaultValue = "false")
     public boolean sotw;
@@ -101,6 +116,10 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleChatReceiver(this));
         addModule(new HandleClansPlayerDisplayNameFormat(this));
 
+        // Damage Modules
+        addModule(new DisableSafeZoneDamage(this));
+        addModule(new DisableTeammateDamage(this));
+
         // Pillage Modules
         addModule(new HandleDominancePointsOnPlayerDeath(this));
         addModule(new HandlePillageAlerts(this));
@@ -110,12 +129,18 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleClansScoreboardSetup(this));
         addModule(new HandleClansScoreboardUpdate(this));
 
+        // Spawn Modules
+        addModule(new DisableClansSpawnPreTeleportWhileInSpawn(this));
+        addModule(new HandleClansSpawnDuration(this));
+        addModule(new HandleClansSpawnLocation(this));
+
         // Territory Modules
-        addModule(new DisplayTerritoryOwner(this));
         addModule(new HandleClanTerritoryBlockBreak(this));
         addModule(new HandleClanTerritoryBlockInteract(this));
         addModule(new HandleClanTerritoryBlockPlace(this));
         addModule(new HandleClanTerritoryDoorInteract(this));
+        addModule(new DisplayTerritoryOwner(this));
+        addModule(new HandleAdventureModeInClanTerritory(this));
 
         // Modules
         addModule(new HandleClanLastOnlineOnPlayerQuit(this));
@@ -374,11 +399,11 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         if (clan.isAdmin()) {
             ChatColor chatColor = ChatColor.WHITE;
 
-            if (clan.getName().equals("Outskirts")) {
+            if (clan.getDisplayName().equals("Outskirts")) {
                 chatColor = ChatColor.YELLOW;
             }
 
-            return chatColor + clan.getName();
+            return chatColor + clan.getDisplayName();
         }
 
         return this.getClanFullName(clan, clanRelation);
@@ -403,17 +428,11 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             }
 
             if (territoryClan.isAdmin()) {
-                chatColor = (territoryClan.getName().equals("Outskirts") ? ChatColor.YELLOW : ChatColor.WHITE);
+                chatColor = (territoryClan.getDisplayName().equals("Outskirts") ? ChatColor.YELLOW : ChatColor.WHITE);
 
-                boolean safe = UtilJava.cast(AdminClan.class, territoryClan).isSafe();
-
-                if (territoryClan.getName().contains("Spawn") && safe) {
-                    safe = location.getY() > 100.0D;
-                } else if (territoryClan.getName().contains("Fields")) {
+                if (territoryClan.getDisplayName().contains("Fields")) {
                     description = "<red>PvP Hotspot";
-                }
-
-                if (safe) {
+                } else if (this.isSafeByLocation(location)) {
                     description = "<aqua>Safe";
                 }
             }
@@ -436,7 +455,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             chatColor = this.getClanRelationByClan(playerClan, territoryClan).getSuffix();
 
             if (territoryClan.isAdmin()) {
-                chatColor = (territoryClan.getName().equals("Outskirts") ? ChatColor.YELLOW : ChatColor.WHITE);
+                chatColor = (territoryClan.getDisplayName().equals("Outskirts") ? ChatColor.YELLOW : ChatColor.WHITE);
             }
         }
 
@@ -444,7 +463,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     }
 
     @Override
-    public Pair<String, String> getTerritoryClanNameForTitle(final Clan playerClan, final Clan territoryClan) {
+    public Pair<String, String> getTerritoryClanNameForTitle(final Clan playerClan, final Clan territoryClan, final Location location) {
         final Pair<String, ChatColor> title = new Pair<>();
         final Pair<String, ChatColor> subTitle = new Pair<>("Wilderness", ChatColor.YELLOW);
 
@@ -453,15 +472,15 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             subTitle.setRight(this.getClanRelationByClan(playerClan, territoryClan).getSuffix());
 
             if (territoryClan.isAdmin()) {
-                subTitle.setRight((territoryClan.getName().equals("Outskirts") ? ChatColor.YELLOW : ChatColor.WHITE));
+                subTitle.setRight((territoryClan.getDisplayName().equals("Outskirts") ? ChatColor.YELLOW : ChatColor.WHITE));
 
-                if (territoryClan.getName().contains("Spawn") && UtilJava.cast(AdminClan.class, territoryClan).isSafe()) {
+                if (this.isSafeByLocation(location)) {
                     title.setLeft(territoryClan.getDisplayName());
                     title.setRight(ChatColor.WHITE);
 
                     subTitle.setLeft("Safe");
                     subTitle.setRight(ChatColor.AQUA);
-                } else if (territoryClan.getName().contains("Fields")) {
+                } else if (territoryClan.getDisplayName().contains("Fields")) {
                     title.setLeft(territoryClan.getDisplayName());
                     title.setRight(ChatColor.WHITE);
 
@@ -506,13 +525,58 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     }
 
     @Override
+    public boolean canHurt(final Player damager, final Player damagee) {
+        final Clan damagerClan = this.getClanByPlayer(damager);
+        final Clan damageeClan = this.getClanByPlayer(damagee);
+
+        if (damagerClan != null && damageeClan != null) {
+            if (damagerClan == damageeClan) {
+                return false;
+            }
+
+            if (damagerClan.isAllianceByClan(damageeClan)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
     public boolean isSafeByLocation(final Location location) {
-        return false;
+        final Clan territoryClan = this.getClanByLocation(location);
+        if (territoryClan == null) {
+            return false;
+        }
+
+        if (!(territoryClan.isAdmin())) {
+            return false;
+        }
+
+        final AdminClan adminClan = UtilJava.cast(AdminClan.class, territoryClan);
+
+        if (!(adminClan.isSafe())) {
+            return false;
+        }
+
+        if (UtilClans.isSpawnClan(territoryClan)) {
+            return location.getY() > this.spawnSafeYLevel;
+        }
+
+        return true;
     }
 
     @Override
     public boolean isSafeByPlayer(final Player player) {
-        return false;
+        if (!(this.isSafeByLocation(player.getLocation()))) {
+            return false;
+        }
+
+        if (!(this.getInstance(Core.class).getManagerByClass(CombatManager.class).isSafeByPlayer(player))) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override

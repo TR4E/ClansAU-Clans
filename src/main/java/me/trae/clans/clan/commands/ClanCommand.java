@@ -25,6 +25,9 @@ public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCo
 
     @Override
     public void registerSubModules() {
+        // Required-Rank Commands
+        addSubModule(new SafeCommand(this));
+
         // Leader Commands
         addSubModule(new DisbandCommand(this));
         addSubModule(new DemoteCommand(this));

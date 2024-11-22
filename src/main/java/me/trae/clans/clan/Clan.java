@@ -289,7 +289,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
             final ClanRelation clanRelation = manager.getClanRelationByClan(receiverClan, allianceClan);
 
-            list.add(clanRelation.getSuffix() + allianceClan.getName());
+            list.add(clanRelation.getSuffix() + allianceClan.getDisplayName());
         }
 
         return String.join("<white>, ", list);
@@ -337,7 +337,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
                 dominanceString = String.format(" %s", dominanceString);
             }
 
-            list.add(clanRelation.getSuffix() + enemyClan.getName() + dominanceString);
+            list.add(clanRelation.getSuffix() + enemyClan.getDisplayName() + dominanceString);
         }
 
         return String.join("<white>, ", list);
@@ -402,7 +402,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
             final ClanRelation clanRelation = manager.getClanRelationByClan(receiverClan, pillageClan);
 
-            list.add(clanRelation.getSuffix() + pillageClan.getName());
+            list.add(clanRelation.getSuffix() + pillageClan.getDisplayName());
         }
 
         return String.join("<gray>, ", list);

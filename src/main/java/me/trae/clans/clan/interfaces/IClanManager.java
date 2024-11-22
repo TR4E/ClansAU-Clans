@@ -81,13 +81,15 @@ public interface IClanManager {
 
     String getTerritoryClanNameForScoreboard(final Clan playerClan, final Clan territoryClan);
 
-    Pair<String, String> getTerritoryClanNameForTitle(final Clan playerClan, final Clan territoryClan);
+    Pair<String, String> getTerritoryClanNameForTitle(final Clan playerClan, final Clan territoryClan, final Location location);
 
     /*
 
      */
 
     boolean hasAccess(final Player player, final Clan playerClan, final Clan territoryClan, final AccessType accessType);
+
+    boolean canHurt(final Player damager, final Player damagee);
 
     boolean isSafeByLocation(final Location location);
 

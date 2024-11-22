@@ -5,7 +5,7 @@ import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
 import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.events.command.ClanHomeEvent;
-import me.trae.clans.clan.types.AdminClan;
+import me.trae.clans.utility.UtilClans;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.config.annotations.ConfigInject;
@@ -13,10 +13,8 @@ import me.trae.core.countdown.CountdownManager;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.recharge.RechargeManager;
 import me.trae.core.teleport.Teleport;
-import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.containers.EventContainer;
-import me.trae.core.utility.enums.TimeUnit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -25,8 +23,13 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
     @ConfigInject(type = Long.class, path = "Recharge", defaultValue = "600_000")
     private long recharge;
 
+    @ConfigInject(type = Long.class, path = "Default-Duration", defaultValue = "30_000")
+    private long defaultDuration;
+
     @ConfigInject(type = Boolean.class, path = "Spawn-Only", defaultValue = "false")
     private boolean spawnOnly;
+
+    private final String RECHARGE_NAME = "Clan Home";
 
     public HomeCommand(final ClanCommand command) {
         super(command, "home");
@@ -69,22 +72,16 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
 
         if (!(client.isAdministrating())) {
             if (this.spawnOnly) {
-                if (!(this.isSpawnByLocation(player.getLocation()))) {
+                if (!(UtilClans.isSpawnClan(this.getModule().getManager().getClanByLocation(player.getLocation())))) {
                     UtilMessage.simpleMessage(player, "Clans", "You can only teleport to Clan Home from <white>Spawn</white>!");
                     return false;
                 }
             }
 
-            return !(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).isCooling(player, "Clan Home", true));
+            return !(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).isCooling(player, this.RECHARGE_NAME, true));
         }
 
         return true;
-    }
-
-    private boolean isSpawnByLocation(final Location location) {
-        final Clan territoryClan = this.getModule().getManager().getClanByLocation(location);
-
-        return territoryClan instanceof AdminClan && UtilJava.cast(AdminClan.class, territoryClan).isSafe() && territoryClan.getName().toLowerCase().contains("spawn");
     }
 
     @Override
@@ -102,12 +99,12 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
     }
 
     private Teleport getTeleport(final Player player, final Location location) {
-        final long duration = this.isSpawnByLocation(location) ? 0L : TimeUnit.SECONDS.getDuration() * 10;
+        final long duration = UtilClans.isSpawnClan(this.getModule().getManager().getClanByLocation(location)) ? 0L : this.defaultDuration;
 
         return new Teleport(duration, player, location) {
             @Override
             public void onTeleport(final Player player) {
-                HomeCommand.this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, "Clan Home", HomeCommand.this.recharge, true);
+                HomeCommand.this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true);
 
                 UtilMessage.message(player, "Clans", "You teleported to Clan Home.");
             }

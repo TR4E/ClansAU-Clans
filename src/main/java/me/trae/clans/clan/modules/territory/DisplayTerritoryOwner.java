@@ -86,8 +86,12 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
             return false;
         }
 
-        if (this.getManager().isSafeByLocation(fromLocation) && this.getManager().isSafeByLocation(toLocation)) {
-            return false;
+        if (this.getManager().isSafeByLocation(fromLocation) && !(this.getManager().isSafeByLocation(toLocation))) {
+            return true;
+        }
+
+        if (!(this.getManager().isSafeByLocation(fromLocation)) && this.getManager().isSafeByLocation(toLocation)) {
+            return true;
         }
 
         if (fromTerritoryClan == toTerritoryClan) {
@@ -100,8 +104,8 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
     private void display(final Player player, final Location location, final Clan territoryClan) {
         final Clan playerClan = this.getManager().getClanByPlayer(player);
 
-        if (this.titleEnabled && !(this.getInstance().getManagerByClass(PreferenceManager.class).getModuleByClass(TerritoryTitleBar.class).isUserByPlayer(player))) {
-            final Pair<String, String> pair = this.getManager().getTerritoryClanNameForTitle(playerClan, territoryClan);
+        if (this.titleEnabled && this.getInstance().getManagerByClass(PreferenceManager.class).getModuleByClass(TerritoryTitleBar.class).getUserByPlayer(player).getValue()) {
+            final Pair<String, String> pair = this.getManager().getTerritoryClanNameForTitle(playerClan, territoryClan, location);
 
             UtilTitle.sendTitle(player, pair.getLeft(), pair.getRight(), true, this.titleDuration);
         }

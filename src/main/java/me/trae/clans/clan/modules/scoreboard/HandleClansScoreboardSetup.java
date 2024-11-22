@@ -56,7 +56,7 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
             public void registerLines() {
                 final Clan playerClan = getManager().getClanByPlayer(player);
 
-                addCustomLine(ChatColor.YELLOW, "Clan", playerClan != null ? ClanRelation.SELF.getSuffix() + playerClan.getName() : "No Clan");
+                addCustomLine(ChatColor.YELLOW, "Clan", playerClan != null ? ClanRelation.SELF.getSuffix() + playerClan.getDisplayName() : "No Clan");
 
                 addBlankLine();
 
@@ -87,7 +87,7 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
 
                 final ClanRelation clanRelation = getManager().getClanRelationByClan(getManager().getClanByPlayer(targetPlayer), playerClan);
 
-                final String clanName = UtilString.trim(playerClan.getName(), 11);
+                final String clanName = UtilString.trim(playerClan.getDisplayName(), 11);
 
                 return String.format("%s %s", clanRelation.getPrefix() + clanName, clanRelation.getSuffix());
             }

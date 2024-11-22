@@ -58,7 +58,7 @@ public class ClanChatCommand extends Command<Clans, ClanManager> implements Chat
         if (spy) {
             final Clan playerClan = this.getManager().getClanByPlayer(player);
 
-            displayName = String.format("%s %s", playerClan.getName(), displayName);
+            displayName = String.format("%s %s", playerClan.getDisplayName(), displayName);
         }
 
         return String.format("%s %s", ClanRelation.SELF.getSuffix() + displayName, ClanRelation.SELF.getPrefix() + message);

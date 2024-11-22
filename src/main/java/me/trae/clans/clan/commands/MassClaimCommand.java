@@ -10,10 +10,10 @@ import me.trae.core.client.enums.Rank;
 import me.trae.core.command.types.Command;
 import me.trae.core.command.types.models.PlayerCommandType;
 import me.trae.core.gamer.Gamer;
-import me.trae.core.utility.UtilChunk;
-import me.trae.core.utility.UtilMessage;
-import me.trae.core.utility.UtilString;
+import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
+import me.trae.core.utility.*;
 import org.bukkit.Chunk;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -61,6 +61,14 @@ public class MassClaimCommand extends Command<Clans, ClanManager> implements Pla
 
             playerClan.addTerritory(nearbyChunk);
             count++;
+
+            for (final Entity entity : nearbyChunk.getEntities()) {
+                if (!(entity instanceof Player)) {
+                    continue;
+                }
+
+                UtilServer.callEvent(new ScoreboardUpdateEvent(UtilJava.cast(Player.class, entity)));
+            }
         }
 
         territoryClanSet.forEach(territoryClan -> this.getManager().getRepository().updateData(territoryClan, ClanProperty.TERRITORY));

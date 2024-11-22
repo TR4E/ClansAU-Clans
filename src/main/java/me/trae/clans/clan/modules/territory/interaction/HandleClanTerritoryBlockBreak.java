@@ -1,4 +1,4 @@
-package me.trae.clans.clan.modules.territory;
+package me.trae.clans.clan.modules.territory.interaction;
 
 import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;

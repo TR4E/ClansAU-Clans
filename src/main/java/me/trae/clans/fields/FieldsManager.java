@@ -18,20 +18,16 @@ import me.trae.core.client.ClientManager;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.database.repository.containers.RepositoryContainer;
 import me.trae.core.framework.SpigotManager;
-import me.trae.core.utility.UtilMath;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.objects.SoundCreator;
-import me.trae.core.weapon.Weapon;
-import me.trae.core.weapon.registry.WeaponRegistry;
-import me.trae.core.weapon.types.Legendary;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FieldsManager extends SpigotManager<Clans> implements IFieldsManager, RepositoryContainer<FieldsRepository> {
 
@@ -134,7 +130,7 @@ public class FieldsManager extends SpigotManager<Clans> implements IFieldsManage
             return false;
         }
 
-        if (!(territoryClan.getName().equals("Fields"))) {
+        if (!(territoryClan.getDisplayName().equals("Fields"))) {
             return false;
         }
 
