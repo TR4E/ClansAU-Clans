@@ -1,4 +1,4 @@
-package me.trae.clans.world.modules;
+package me.trae.clans.world.modules.interaction;
 
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
@@ -7,20 +7,20 @@ import me.trae.core.world.modules.shared.interfaces.DisableBlockInteraction;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
 
-public class DisableDispenserInteraction extends SpigotListener<Clans, WorldManager> implements DisableBlockInteraction {
+public class DisableAnvilInteraction extends SpigotListener<Clans, WorldManager> implements DisableBlockInteraction {
 
-    public DisableDispenserInteraction(final WorldManager manager) {
+    public DisableAnvilInteraction(final WorldManager manager) {
         super(manager);
     }
 
     @Override
     public Material getMaterial() {
-        return Material.DISPENSER;
+        return Material.ANVIL;
     }
 
     @Override
     public InventoryType getInventoryType() {
-        return InventoryType.DISPENSER;
+        return InventoryType.ANVIL;
     }
 
     @Override

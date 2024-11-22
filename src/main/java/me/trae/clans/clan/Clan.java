@@ -531,14 +531,12 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
                 return "<gold>No, members are online.";
             }
 
-            final long tntProtectionDuration = manager.tntProtectionDuration;
-
-            if (this.getLastTNTed() > 0L && !(UtilTime.elapsed(this.getLastTNTed(), tntProtectionDuration))) {
-                return String.format("<green>Yes, %s until no protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), tntProtectionDuration)));
+            if (this.getLastTNTed() > 0L && !(UtilTime.elapsed(this.getLastTNTed(), manager.tntProtectionDuration))) {
+                return String.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), manager.tntProtectionDuration)));
             }
 
-            if (this.getLastOnline() > 0L && !(UtilTime.elapsed(this.getLastOnline(), tntProtectionDuration))) {
-                return String.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), tntProtectionDuration)));
+            if (this.getLastOnline() > 0L && !(UtilTime.elapsed(this.getLastOnline(), manager.lastOnlineTntProtectionDuration))) {
+                return String.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), manager.lastOnlineTntProtectionDuration)));
             }
         }
 

@@ -1,6 +1,7 @@
 package me.trae.clans.fishing;
 
 import me.trae.clans.Clans;
+import me.trae.clans.fishing.interfaces.IFishingManager;
 import me.trae.clans.fishing.modules.HandleCustomFishing;
 import me.trae.clans.fishing.modules.HandleFishItemBuilderUpdate;
 import me.trae.clans.fishing.modules.HandlePrePlayerFish;
@@ -9,8 +10,15 @@ import me.trae.clans.fishing.modules.start.HandleFishHookRainInfluenced;
 import me.trae.clans.fishing.modules.start.HandleFishHookSkyInfluenced;
 import me.trae.clans.fishing.modules.start.HandleFishHookWaitAndLureTime;
 import me.trae.core.framework.SpigotManager;
+import org.bukkit.entity.FishHook;
+import org.bukkit.entity.Player;
 
-public class FishingManager extends SpigotManager<Clans> {
+import java.util.HashMap;
+import java.util.Map;
+
+public class FishingManager extends SpigotManager<Clans> implements IFishingManager {
+
+    private final Map<Player, FishHook> HOOK_MAP = new HashMap<>();
 
     public FishingManager(final Clans instance) {
         super(instance);
@@ -37,5 +45,10 @@ public class FishingManager extends SpigotManager<Clans> {
         addModule(new HandleCustomFishing(this));
         addModule(new HandleFishItemBuilderUpdate(this));
         addModule(new HandlePrePlayerFish(this));
+    }
+
+    @Override
+    public Map<Player, FishHook> getHookMap() {
+        return this.HOOK_MAP;
     }
 }

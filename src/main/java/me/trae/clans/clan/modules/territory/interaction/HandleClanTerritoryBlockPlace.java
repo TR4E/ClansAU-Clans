@@ -21,7 +21,7 @@ public class HandleClanTerritoryBlockPlace extends SpigotListener<Clans, ClanMan
         super(manager);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(final BlockPlaceEvent event) {
         if (event.isCancelled()) {
             return;

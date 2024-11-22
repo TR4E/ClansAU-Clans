@@ -6,6 +6,7 @@ import me.trae.core.framework.SpigotModule;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.UtilTitle;
 import me.trae.core.utility.objects.SoundCreator;
 import org.bukkit.Sound;
 
@@ -39,7 +40,11 @@ public abstract class WorldEvent extends SpigotModule<Clans, WorldEventManager> 
         this.getManager().setActiveWorldEvent(this);
         this.systemTime = System.currentTimeMillis();
 
-        UtilServer.getOnlinePlayers().forEach(player -> UtilServer.callEvent(new ScoreboardUpdateEvent(player)));
+        UtilServer.getOnlinePlayers().forEach(player -> {
+            UtilTitle.sendTitle(player, this.getDisplayName(), "<gray>has begun!", true, 2000L);
+
+            UtilServer.callEvent(new ScoreboardUpdateEvent(player));
+        });
 
         new SoundCreator(Sound.ENDERDRAGON_GROWL).play();
 
@@ -51,8 +56,11 @@ public abstract class WorldEvent extends SpigotModule<Clans, WorldEventManager> 
         this.getManager().setActiveWorldEvent(null);
         this.systemTime = -1L;
 
-        UtilServer.getOnlinePlayers().forEach(player -> UtilServer.callEvent(new ScoreboardUpdateEvent(player)));
+        UtilServer.getOnlinePlayers().forEach(player -> {
+            UtilTitle.sendTitle(player, this.getDisplayName(), "<gray>has ended!", true, 2000L);
 
+            UtilServer.callEvent(new ScoreboardUpdateEvent(player));
+        });
         new SoundCreator(Sound.WITHER_DEATH).play();
 
         UtilMessage.simpleBroadcast("World Event", "<var> has ended!", Collections.singletonList(this.getDisplayName()));

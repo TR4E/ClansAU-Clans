@@ -2,6 +2,7 @@ package me.trae.clans.world;
 
 import me.trae.clans.Clans;
 import me.trae.clans.world.modules.*;
+import me.trae.clans.world.modules.interaction.*;
 import me.trae.core.world.abstracts.AbstractWorldManager;
 import me.trae.core.world.modules.shared.DisableSaturation;
 import me.trae.core.world.modules.shared.DisableWeather;
@@ -20,7 +21,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         addModule(new DisableWeather<>(this));
         addModule(new LimitCreatureSpawn<>(this));
 
-        // Disable Block Interaction
+        // Block Interaction
         addModule(new DisableAnvilInteraction(this));
         addModule(new DisableBeaconInteraction(this));
         addModule(new DisableBrewingStandInteraction(this));
@@ -28,6 +29,9 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         addModule(new DisableEnchantmentTableInteraction(this));
         addModule(new DisableEnderChestInteraction(this));
         addModule(new DisableEnderPortalFrameInteraction(this));
+
+        // Item Interaction
+        addModule(new HandleFlintAndSteelInteract(this));
 
         // Disable Block
         addModule(new DisableBedrock(this));

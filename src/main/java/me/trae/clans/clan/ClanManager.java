@@ -35,6 +35,9 @@ import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryBlock
 import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryBlockInteract;
 import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryBlockPlace;
 import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryDoorInteract;
+import me.trae.clans.clan.modules.tnt.DisablePlacingTntWhileSOTW;
+import me.trae.clans.clan.modules.tnt.HandleAlertClanOnTntExplosion;
+import me.trae.clans.clan.modules.tnt.HandleClanTerritoryTntProtection;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.clans.utility.UtilClans;
 import me.trae.core.Core;
@@ -77,6 +80,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @ConfigInject(type = Long.class, path = "TNT-Protection-Duration", defaultValue = "1_800_000")
     public long tntProtectionDuration;
+
+    @ConfigInject(type = Long.class, path = "Last-Online-TNT-Protection-Duration", defaultValue = "600_000")
+    public long lastOnlineTntProtectionDuration;
 
     @ConfigInject(type = Integer.class, path = "Required-Pillage-Points", defaultValue = "16")
     public int requiredPillagePoints;
@@ -151,6 +157,11 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleClanTerritoryDoorInteract(this));
         addModule(new DisplayTerritoryOwner(this));
         addModule(new HandleAdventureModeInClanTerritory(this));
+
+        // TNT Modules
+        addModule(new DisablePlacingTntWhileSOTW(this));
+        addModule(new HandleAlertClanOnTntExplosion(this));
+        addModule(new HandleClanTerritoryTntProtection(this));
 
         // Modules
         addModule(new HandleClanLastOnlineOnPlayerQuit(this));

@@ -9,6 +9,7 @@ import me.trae.clans.item.ItemManager;
 import me.trae.clans.koth.KothManager;
 import me.trae.clans.preference.PreferenceManager;
 import me.trae.clans.recipe.RecipeManager;
+import me.trae.clans.tnt.TntManager;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.clans.world.WorldManager;
 import me.trae.clans.worldevent.WorldEventManager;
@@ -28,6 +29,7 @@ public class Clans extends MiniPlugin {
         addManager(new KothManager(this));
         addManager(new PreferenceManager(this));
         addManager(new RecipeManager(this));
+        addManager(new TntManager(this));
         addManager(new WorldManager(this));
         addManager(new WorldEventManager(this));
     }
