@@ -58,7 +58,7 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
 
                 addCustomLine(ChatColor.YELLOW, "Clan", playerClan != null ? ClanRelation.SELF.getSuffix() + playerClan.getDisplayName() : "No Clan");
 
-                if (playerClan != null) {
+                if (getManager().energyEnabled && playerClan != null) {
                     addBlankLine();
 
                     addCustomLine(ChatColor.YELLOW, "Clan Energy", String.format("<green>%s", playerClan.getEnergyRemainingString()));
@@ -71,7 +71,7 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
                 UtilJava.call(getInstance().getManagerByClass(GamerManager.class).getGamerByPlayer(player), gamer -> {
                     if (gamer != null) {
                         addBlankLine();
-                        addCustomLine(ChatColor.YELLOW, "Coins", String.format("<gold>$%s", gamer.getCoins()));
+                        addCustomLine(ChatColor.YELLOW, "Coins", String.format("<gold>%s", gamer.getCoinsString()));
                     }
                 });
 

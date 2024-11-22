@@ -49,7 +49,14 @@ public class HandleFieldsClanEnergyLoot extends SpigotListener<Clans, FieldsMana
             return;
         }
 
-        event.addLoot(new ItemBuilder(this.getItemStack(), "Clan Energy").toItemStack());
+        String displayName = null;
+        if (this.getInstance().getManagerByClass(ClanManager.class).energyEnabled) {
+            displayName = "Clan Energy";
+        }
+
+        for (int i = 0; i < event.getMultiplier(); i++) {
+            event.addLoot(new ItemBuilder(this.getItemStack(), displayName).toItemStack());
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

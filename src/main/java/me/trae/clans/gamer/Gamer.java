@@ -3,6 +3,7 @@ package me.trae.clans.gamer;
 import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.clans.gamer.interfaces.IGamer;
 import me.trae.core.gamer.abstracts.AbstractGamer;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.objects.EnumData;
 import org.bukkit.entity.Player;
 
@@ -36,6 +37,11 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
     @Override
     public void setCoins(final int coins) {
         this.coins = coins;
+    }
+
+    @Override
+    public String getCoinsString() {
+        return UtilString.toDollar(this.getCoins());
     }
 
     @Override

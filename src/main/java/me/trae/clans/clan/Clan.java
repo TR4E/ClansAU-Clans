@@ -51,6 +51,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
         this(name);
 
         this.created = System.currentTimeMillis();
+        this.energy = UtilPlugin.getInstance(Clans.class).getManagerByClass(ClanManager.class).defaultEnergy;
         this.founder = player.getUniqueId();
 
         this.addMember(new Member(player, MemberRole.LEADER));

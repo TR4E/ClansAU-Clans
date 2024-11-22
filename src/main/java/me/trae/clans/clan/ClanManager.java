@@ -93,6 +93,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Boolean.class, path = "Energy-Enabled", defaultValue = "true")
     public boolean energyEnabled;
 
+    @ConfigInject(type = Integer.class, path = "Default-Energy", defaultValue = "2400")
+    public int defaultEnergy;
+
     @ConfigInject(type = Boolean.class, path = "SOTW", defaultValue = "false")
     public boolean sotw;
 
@@ -374,7 +377,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         map.put("Age", String.format("<yellow>%s", targetClan.getCreatedString()));
         map.put("Territory", String.format("<yellow>%s", targetClan.getTerritoryString(this)));
 
-        map.put("Energy", String.format("<green>%s", targetClan.getEnergyRemainingString()));
+        if (this.energyEnabled) {
+            map.put("Energy", String.format("<green>%s", targetClan.getEnergyRemainingString()));
+        }
 
         if (playerClan == targetClan || client.isAdministrating()) {
             map.put("Home", targetClan.getHomeString());

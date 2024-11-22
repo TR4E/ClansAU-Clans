@@ -5,4 +5,6 @@ public interface IGamer {
     int getCoins();
 
     void setCoins(final int coins);
+
+    String getCoinsString();
 }
