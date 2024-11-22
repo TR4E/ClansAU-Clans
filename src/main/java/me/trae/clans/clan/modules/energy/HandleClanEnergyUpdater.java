@@ -51,7 +51,7 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
     }
 
     private void handleWarning(final Clan clan) {
-        if (clan.getEnergyDuration() >= this.warningThreshold * 60_000) {
+        if (clan.getEnergyDuration() >= this.warningThreshold * 60_000L) {
             return;
         }
 

@@ -35,7 +35,7 @@ public class HandleFieldsEnderChestLoot extends SpigotListener<Clans, FieldsMana
 
     private void handleOres(final FieldsLootEvent event) {
         for (final Material material : Material.values()) {
-            if (material == Material.GLOWING_REDSTONE_ORE) {
+            if (Arrays.asList(Material.GLOWING_REDSTONE_ORE, Material.LAPIS_ORE).contains(material)) {
                 continue;
             }
 
