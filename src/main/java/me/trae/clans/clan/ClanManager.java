@@ -600,7 +600,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             return;
         }
 
-        if (Arrays.stream(ChatType.values()).noneMatch(chatType -> gamer.getChatType().equals(chatType))) {
+        if (Arrays.stream(ChatType.values()).noneMatch(gamer::isChatType)) {
             return;
         }
 
