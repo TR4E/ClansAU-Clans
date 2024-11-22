@@ -122,7 +122,7 @@ public class InviteCommand extends ClanSubCommand implements EventContainer<Clan
         this.getModule().getManager().getRepository().updateData(clan, ClanProperty.REQUESTS);
 
         UtilMessage.simpleMessage(player, "Clans", "You have invited <var> to join the Clan.", Collections.singletonList(ClanRelation.NEUTRAL.getSuffix() + targetPlayer.getName()));
-        UtilMessage.simpleMessage(player, "Clans", "<var> has invited you to join <var>.", Arrays.asList(ClanRelation.NEUTRAL.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(clan, ClanRelation.NEUTRAL)));
+        UtilMessage.simpleMessage(targetPlayer, "Clans", "<var> has invited you to join <var>.", Arrays.asList(ClanRelation.NEUTRAL.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(clan, ClanRelation.NEUTRAL)));
 
         this.getModule().getManager().messageClan(clan, "Clans", "<var> has invited <var> to join the Clan.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), ClanRelation.NEUTRAL.getSuffix() + targetPlayer.getName()), Collections.singletonList(player.getUniqueId()));
     }

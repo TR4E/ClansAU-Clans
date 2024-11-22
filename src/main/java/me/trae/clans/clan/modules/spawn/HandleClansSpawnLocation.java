@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class HandleClansSpawnLocation extends SpigotListener<Clans, ClanManager> {
 
-    private final List<String> SPAWN_CLAN_NAMES = Arrays.asList("Blue Spawn", "Red Spawn");
+    private final List<String> SPAWN_CLAN_NAMES = Arrays.asList("Blue_Spawn", "Red_Spawn");
 
     public HandleClansSpawnLocation(final ClanManager manager) {
         super(manager);
@@ -33,9 +33,11 @@ public class HandleClansSpawnLocation extends SpigotListener<Clans, ClanManager>
             return;
         }
 
-        final ChatColor chatColor = this.getChatColorByName(spawnClan.getDisplayName().split(" ")[0]);
+        final String spawnClanDisplayName = spawnClan.getDisplayName();
 
-        event.setName(chatColor + spawnClan.getDisplayName());
+        final ChatColor chatColor = this.getChatColorByName(spawnClanDisplayName.split(" ")[0]);
+
+        event.setName(chatColor + spawnClanDisplayName);
         event.setLocation(spawnClan.getHome());
     }
 
@@ -51,6 +53,6 @@ public class HandleClansSpawnLocation extends SpigotListener<Clans, ClanManager>
     }
 
     private ChatColor getChatColorByName(final String name) {
-        return ChatColor.valueOf(name);
+        return ChatColor.valueOf(name.toUpperCase());
     }
 }

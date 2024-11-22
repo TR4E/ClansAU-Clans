@@ -16,6 +16,8 @@ public interface IKoth extends SupplyCrateComponent {
 
     void addChestOpener(final Player player);
 
+    void removeChestOpener(final Player player);
+
     boolean canOpenChest(final Player player);
 
     boolean isChestOpener(final Player player);

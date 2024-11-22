@@ -170,6 +170,16 @@ public interface IClan {
 
     String getTNTProtectionString(final ClanManager manager, final Player receiverPlayer);
 
+    int getEnergy();
+
+    void setEnergy(final int energy);
+
+    long getEnergyDuration();
+
+    double getEnergyDepletionRatio();
+
+    String getEnergyRemainingString();
+
     UUID getFounder();
 
     String getFounderString();

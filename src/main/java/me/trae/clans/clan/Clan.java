@@ -39,6 +39,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     private final LinkedHashMap<String, Pillage> pillages = new LinkedHashMap<>();
 
     private long created, lastOnline, lastTNTed;
+    private int energy;
     private UUID founder;
     private Location home;
 
@@ -80,6 +81,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
         this.created = data.get(Long.class, ClanProperty.CREATED);
         this.lastOnline = data.get(Long.class, ClanProperty.LAST_ONLINE);
         this.lastTNTed = data.get(Long.class, ClanProperty.LAST_TNTED);
+        this.energy = data.get(Integer.class, ClanProperty.ENERGY);
         this.founder = UUID.fromString(data.get(String.class, ClanProperty.FOUNDER));
         this.home = UtilLocation.fileToLocation(data.get(String.class, ClanProperty.HOME));
     }
@@ -543,6 +545,35 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     }
 
     @Override
+    public int getEnergy() {
+        return this.energy;
+    }
+
+    @Override
+    public void setEnergy(final int energy) {
+        this.energy = energy;
+    }
+
+    @Override
+    public long getEnergyDuration() {
+        return (long) ((this.getEnergy() / this.getEnergyDepletionRatio()) * 3600000L);
+    }
+
+    @Override
+    public double getEnergyDepletionRatio() {
+        return this.getTerritory().size() * 25.0D;
+    }
+
+    @Override
+    public String getEnergyRemainingString() {
+        if (!(this.hasTerritory())) {
+            return "Unlimited";
+        }
+
+        return UtilTime.getTime(this.getEnergyDuration());
+    }
+
+    @Override
     public UUID getFounder() {
         return this.founder;
     }
@@ -606,6 +637,8 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
                 return this.getLastOnline();
             case LAST_TNTED:
                 return this.getLastTNTed();
+            case ENERGY:
+                return this.getEnergy();
             case FOUNDER:
                 return this.getFounder().toString();
             case HOME:

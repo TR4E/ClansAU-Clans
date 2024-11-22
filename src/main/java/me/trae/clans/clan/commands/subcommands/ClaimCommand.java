@@ -64,7 +64,7 @@ public class ClaimCommand extends ClanSubCommand implements EventContainer<ClanC
                 return false;
             }
 
-            UtilMessage.simpleMessage(player, "Clans", "This Territory is owned by <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(territoryClan, this.getModule().getManager().getClanRelationByClan(clan, territoryClan))));
+            UtilMessage.simpleMessage(player, "Clans", "This Territory is owned by <var>!", Collections.singletonList(this.getModule().getManager().getClanName(territoryClan, this.getModule().getManager().getClanRelationByClan(clan, territoryClan))));
             return false;
         }
 

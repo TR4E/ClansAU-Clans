@@ -58,6 +58,12 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
 
                 addCustomLine(ChatColor.YELLOW, "Clan", playerClan != null ? ClanRelation.SELF.getSuffix() + playerClan.getDisplayName() : "No Clan");
 
+                if (playerClan != null) {
+                    addBlankLine();
+
+                    addCustomLine(ChatColor.YELLOW, "Clan Energy", String.format("<green>%s", playerClan.getEnergyRemainingString()));
+                }
+
                 addBlankLine();
 
                 addCustomLine(ChatColor.YELLOW, "Territory", getManager().getTerritoryClanNameForScoreboard(playerClan, getManager().getClanByLocation(player.getLocation())));

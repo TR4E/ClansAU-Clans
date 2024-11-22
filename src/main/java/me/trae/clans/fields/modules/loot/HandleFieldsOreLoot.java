@@ -39,9 +39,6 @@ public class HandleFieldsOreLoot extends SpigotListener<Clans, FieldsManager> {
                 case COAL_ORE:
                     event.addLoot(new ItemStack(Material.COAL));
                     break;
-                case LAPIS_ORE:
-                    event.addLoot(new ItemStack(Material.INK_SACK, 1, (byte) 4));
-                    break;
                 case REDSTONE_ORE:
                 case GLOWING_REDSTONE_ORE:
                     event.addLoot(new ItemStack(Material.REDSTONE));

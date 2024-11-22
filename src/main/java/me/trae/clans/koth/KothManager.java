@@ -5,6 +5,7 @@ import me.trae.clans.koth.commands.KothCommand;
 import me.trae.clans.koth.interfaces.IKothManager;
 import me.trae.clans.koth.modules.HandleKothChestOpenUpdater;
 import me.trae.clans.koth.modules.HandleKothChestPlayerOpen;
+import me.trae.clans.koth.modules.RemoveKothChestOpenerOnPlayerDamage;
 import me.trae.core.framework.SpigotManager;
 import org.bukkit.block.Block;
 
@@ -25,6 +26,7 @@ public class KothManager extends SpigotManager<Clans> implements IKothManager {
         // Modules
         addModule(new HandleKothChestOpenUpdater(this));
         addModule(new HandleKothChestPlayerOpen(this));
+        addModule(new RemoveKothChestOpenerOnPlayerDamage(this));
     }
 
     @Override

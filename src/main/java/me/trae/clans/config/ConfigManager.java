@@ -11,7 +11,7 @@ public class ConfigManager extends AbstractConfigManager<Clans> {
     }
 
     @Override
-    public AbstractConfig createConfig(final String name) {
-        return new Config(name);
+    public AbstractConfig createConfig(final String folderName, final String name) {
+        return new Config(folderName, name);
     }
 }

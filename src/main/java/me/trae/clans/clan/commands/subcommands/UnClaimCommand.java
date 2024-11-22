@@ -56,16 +56,16 @@ public class UnClaimCommand extends ClanSubCommand implements EventContainer<Cla
         this.callEvent(new ClanUnClaimEvent(clan, player, client, chunk, territoryClan));
     }
 
-    private boolean canUnClaimTerritory(final Player player, final Client client, final Clan clan, final Clan territoryClan) {
+    private boolean canUnClaimTerritory(final Player player, final Client client, final Clan playerClan, final Clan territoryClan) {
         if (territoryClan == null) {
             UtilMessage.message(player, "Clans", "This Territory is not owned by anyone!");
             return false;
         }
 
         if (!(client.isAdministrating())) {
-            if (territoryClan == clan) {
-                return this.hasRequiredMemberRole(player, client, clan, true);
-            } else if (territoryClan.getTerritory().size() <= territoryClan.getMaxClaims(this.getModule().getManager())) {
+            if (territoryClan == playerClan) {
+                return this.hasRequiredMemberRole(player, client, playerClan, true);
+            } else if (territoryClan.isAdmin() || territoryClan.getTerritory().size() <= territoryClan.getMaxClaims(this.getModule().getManager())) {
                 UtilMessage.message(player, "Clans", "This Territory is not owned by your clan!");
                 return false;
             }
@@ -107,12 +107,10 @@ public class UnClaimCommand extends ClanSubCommand implements EventContainer<Cla
 
             this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has un-claimed territory at <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), UtilChunk.chunkToString(chunk)), Collections.singletonList(player.getUniqueId()));
         } else {
-            final ClanRelation clanRelation = this.getModule().getManager().getClanRelationByClan(playerClan, territoryClan);
+            UtilMessage.simpleMessage(player, "Clans", "You un-claimed territory at <var> from <var>.", Arrays.asList(UtilChunk.chunkToString(chunk), this.getModule().getManager().getClanName(territoryClan, this.getModule().getManager().getClanRelationByClan(playerClan, territoryClan))));
 
-            UtilMessage.simpleMessage(player, "Clans", "You un-claimed territory at <var> from <var>.", Arrays.asList(UtilChunk.chunkToString(chunk), this.getModule().getManager().getClanFullName(territoryClan, clanRelation)));
-
-            this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has un-claimed territory at <var> from <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), UtilChunk.chunkToString(chunk), this.getModule().getManager().getClanFullName(territoryClan, clanRelation)), Collections.singletonList(player.getUniqueId()));
-            this.getModule().getManager().messageClan(territoryClan, "Clans", "<var> has un-claimed territory at <var> from your Clan.", Arrays.asList(clanRelation.getSuffix() + player.getName(), UtilChunk.chunkToString(chunk)), null);
+            this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has un-claimed territory at <var> from <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), UtilChunk.chunkToString(chunk), this.getModule().getManager().getClanName(territoryClan, this.getModule().getManager().getClanRelationByClan(playerClan, territoryClan))), Collections.singletonList(player.getUniqueId()));
+            this.getModule().getManager().messageClan(territoryClan, "Clans", "<var> has un-claimed territory at <var> from your Clan.", Arrays.asList(this.getModule().getManager().getClanRelationByClan(territoryClan, playerClan).getSuffix() + player.getName(), UtilChunk.chunkToString(chunk)), null);
         }
     }
 }

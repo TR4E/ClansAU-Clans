@@ -71,6 +71,11 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
     }
 
     @Override
+    public void removeChestOpener(final Player player) {
+        this.getChestOpenerMap().remove(player.getUniqueId());
+    }
+
+    @Override
     public boolean canOpenChest(final Player player) {
         if (!(this.getChestOpenerMap().containsKey(player.getUniqueId()))) {
             return false;

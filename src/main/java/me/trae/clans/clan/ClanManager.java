@@ -20,6 +20,7 @@ import me.trae.clans.clan.modules.chat.HandleChatReceiver;
 import me.trae.clans.clan.modules.chat.HandleClansPlayerDisplayNameFormat;
 import me.trae.clans.clan.modules.damage.DisableSafeZoneDamage;
 import me.trae.clans.clan.modules.damage.DisableTeammateDamage;
+import me.trae.clans.clan.modules.energy.HandleClanEnergyUpdater;
 import me.trae.clans.clan.modules.pillage.HandleDominancePointsOnPlayerDeath;
 import me.trae.clans.clan.modules.pillage.HandlePillageAlerts;
 import me.trae.clans.clan.modules.pillage.HandlePillageUpdater;
@@ -89,6 +90,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Double.class, path = "Spawn-Safe-Y-Level", defaultValue = "100.0")
     private double spawnSafeYLevel;
 
+    @ConfigInject(type = Boolean.class, path = "Energy-Enabled", defaultValue = "true")
+    public boolean energyEnabled;
+
     @ConfigInject(type = Boolean.class, path = "SOTW", defaultValue = "false")
     public boolean sotw;
 
@@ -119,6 +123,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         // Damage Modules
         addModule(new DisableSafeZoneDamage(this));
         addModule(new DisableTeammateDamage(this));
+
+        // Energy Modules
+        addModule(new HandleClanEnergyUpdater(this));
 
         // Pillage Modules
         addModule(new HandleDominancePointsOnPlayerDeath(this));
@@ -366,6 +373,8 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
         map.put("Age", String.format("<yellow>%s", targetClan.getCreatedString()));
         map.put("Territory", String.format("<yellow>%s", targetClan.getTerritoryString(this)));
+
+        map.put("Energy", String.format("<green>%s", targetClan.getEnergyRemainingString()));
 
         if (playerClan == targetClan || client.isAdministrating()) {
             map.put("Home", targetClan.getHomeString());
