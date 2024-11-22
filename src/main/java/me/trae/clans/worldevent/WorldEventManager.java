@@ -58,7 +58,7 @@ public class WorldEventManager extends SpigotManager<Clans> implements IWorldEve
     public WorldEvent getRandomWorldEvent() {
         final List<WorldEvent> worldEventList = this.getModulesByClass(WorldEvent.class);
 
-        final WorldEvent worldEvent = worldEventList.get(UtilMath.getRandomNumber(Integer.class, 0, worldEventList.size() - 1));
+        final WorldEvent worldEvent = worldEventList.get(UtilMath.getRandomNumber(Integer.class, 0, worldEventList.size()));
 
         return worldEvent;
     }

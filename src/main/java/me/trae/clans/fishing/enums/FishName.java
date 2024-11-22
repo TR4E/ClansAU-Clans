@@ -37,7 +37,7 @@ public enum FishName implements IFishName {
     public static FishName getRandom() {
         final FishName[] values = values();
 
-        return values[UtilMath.getRandomNumber(Integer.class, 0, values.length - 1)];
+        return values[UtilMath.getRandomNumber(Integer.class, 0, values.length)];
     }
 
     public static boolean isItemStack(final ItemStack itemStack) {

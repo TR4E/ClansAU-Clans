@@ -42,7 +42,7 @@ public class HandleClansSpawnLocation extends SpigotListener<Clans, ClanManager>
     }
 
     private Optional<Clan> getRandomSpawnClan() {
-        final String clanName = this.SPAWN_CLAN_NAMES.get(UtilMath.getRandomNumber(Integer.class, 0, SPAWN_CLAN_NAMES.size() - 1));
+        final String clanName = this.SPAWN_CLAN_NAMES.get(UtilMath.getRandomNumber(Integer.class, 0, SPAWN_CLAN_NAMES.size()));
 
         final Clan randomSpawnClan = this.getManager().getClanByName(clanName);
         if (randomSpawnClan == null) {
