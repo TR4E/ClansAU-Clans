@@ -1,6 +1,6 @@
 package me.trae.clans.clan.modules.skill;
 
-import me.trae.api.champions.skill.SkillLocationEvent;
+import me.trae.api.champions.skill.events.SkillLocationEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
 import me.trae.core.framework.types.frame.SpigotListener;

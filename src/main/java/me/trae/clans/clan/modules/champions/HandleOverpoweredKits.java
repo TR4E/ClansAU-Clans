@@ -1,6 +1,6 @@
 package me.trae.clans.clan.modules.champions;
 
-import me.trae.api.champions.role.KitReceiveEvent;
+import me.trae.api.champions.role.events.KitReceiveEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
 import me.trae.core.framework.types.frame.SpigotListener;

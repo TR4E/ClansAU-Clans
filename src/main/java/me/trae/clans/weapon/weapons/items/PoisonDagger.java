@@ -1,14 +1,13 @@
 package me.trae.clans.weapon.weapons.items;
 
+import me.trae.api.champions.role.events.RoleCheckEvent;
 import me.trae.api.damage.events.CustomDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.Core;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.recharge.RechargeManager;
-import me.trae.core.utility.UtilEntity;
-import me.trae.core.utility.UtilMessage;
-import me.trae.core.utility.UtilString;
+import me.trae.core.utility.*;
 import me.trae.core.weapon.data.WeaponData;
 import me.trae.core.weapon.types.CustomItem;
 import org.bukkit.Material;
@@ -44,6 +43,9 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
     @ConfigInject(type = Integer.class, path = "Poison-Amplifier", defaultValue = "1")
     private int poisonAmplifier;
 
+    @ConfigInject(type = Boolean.class, path = "Class-Required", defaultValue = "false")
+    private boolean classRequired;
+
     public PoisonDagger(final WeaponManager manager) {
         super(manager, new ItemStack(Material.SPIDER_EYE));
     }
@@ -61,6 +63,16 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
                 UtilString.pair("<gray>Damage", String.format("<yellow>%s", this.damage)),
                 UtilString.pair("<gray>Ability", "<yellow>Infect")
         };
+    }
+
+    private boolean canActivate(final Player player) {
+        if (UtilPlugin.isInstance("Champions") && this.classRequired) {
+            if (UtilServer.getEvent(new RoleCheckEvent(player)).isCancelled()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean isAffected(final LivingEntity damagee) {
@@ -103,7 +115,11 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
             return;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(damager, this.getName(), this.recharge, true))) {
+        if (!(this.canActivate(damager))) {
+            return;
+        }
+
+        if (this.getInstance(Core.class).getManagerByClass(RechargeManager.class).isCooling(damager, this.getName(), false)) {
             return;
         }
 
@@ -135,7 +151,11 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
             return;
         }
 
-        if (this.getInstance(Core.class).getManagerByClass(RechargeManager.class).isCooling(damager, this.getName(), false)) {
+        if (!(this.canActivate(damager))) {
+            return;
+        }
+
+        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(damager, this.getName(), this.recharge, true))) {
             return;
         }
 
