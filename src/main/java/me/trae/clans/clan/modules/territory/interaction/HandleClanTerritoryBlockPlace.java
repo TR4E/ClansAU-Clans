@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
@@ -39,6 +40,6 @@ public class HandleClanTerritoryBlockPlace extends SpigotListener<Clans, ClanMan
 
         event.setCancelled(true);
 
-        UtilMessage.simpleMessage(player, "Clans", "You cannot place <green><var></green> in <var>.", Arrays.asList(UtilItem.getDisplayName(player.getEquipment().getItemInHand()), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
+        UtilMessage.simpleMessage(player, "Clans", "You cannot place <green><var></green> in <var>.", Arrays.asList(UtilItem.getDisplayName(new ItemStack(block.getType())), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
     }
 }

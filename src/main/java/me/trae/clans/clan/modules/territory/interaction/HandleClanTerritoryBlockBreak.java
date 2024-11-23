@@ -5,6 +5,7 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.AccessType;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilString;
 import org.bukkit.Material;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
@@ -43,7 +45,7 @@ public class HandleClanTerritoryBlockBreak extends SpigotListener<Clans, ClanMan
         player.updateInventory();
 
         if (this.isInform(block)) {
-            UtilMessage.simpleMessage(player, "Clans", "You cannot break <green><var></green> in <var>.", Arrays.asList(UtilString.clean(block.getType().name()), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
+            UtilMessage.simpleMessage(player, "Clans", "You cannot break <green><var></green> in <var>.", Arrays.asList(UtilItem.getDisplayName(new ItemStack(block.getType())), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
         }
     }
 
