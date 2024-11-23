@@ -1,6 +1,6 @@
 package me.trae.clans.fishing.events.interfaces;
 
-public interface IPlayerStartFishingEvent extends IFishingEvent {
+public interface IPlayerFishingStartEvent extends IFishingEvent {
 
     long getWaitTime();
 

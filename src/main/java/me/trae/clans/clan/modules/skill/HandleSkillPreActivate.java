@@ -29,6 +29,6 @@ public class HandleSkillPreActivate extends SpigotListener<Clans, ClanManager> {
 
         event.setCancelled(true);
 
-        UtilMessage.message(player, "Clans", "You cannot cast abilities here!");
+        UtilMessage.message(player, "Clans", "You are not allowed to cast abilities here!");
     }
 }

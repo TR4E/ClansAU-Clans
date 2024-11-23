@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
-public interface IPlayerCaughtFishEvent extends IFishingEvent {
+public interface IPlayerFishingCaughtEvent extends IFishingEvent {
 
     Entity getCaught();
 

@@ -50,7 +50,7 @@ public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponDa
                 "",
                 UtilString.pair("<gray>Right-Click", "<yellow>Consume"),
                 "",
-                UtilString.pair("<gray>Recharge", String.format("<green>%s", UtilTime.getTime(this.recharge))),
+                UtilString.pair("<gray>Recharge", String.format("<green>%s", UtilTime.getTime(this.recharge)))
         };
     }
 

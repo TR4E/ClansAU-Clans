@@ -1,6 +1,7 @@
 package me.trae.clans.fishing.events;
 
 import me.trae.clans.fishing.events.enums.State;
+import me.trae.clans.fishing.events.interfaces.IFishingEvent;
 import me.trae.clans.fishing.events.interfaces.IFishingWeightEvent;
 import me.trae.core.event.CustomEvent;
 import org.bukkit.entity.FishHook;
@@ -14,10 +15,10 @@ public class FishingWeightEvent extends CustomEvent implements IFishingWeightEve
 
     private int weight;
 
-    public FishingWeightEvent(final PlayerCaughtFishEvent playerCaughtFishEvent, final int weight) {
-        this.player = playerCaughtFishEvent.getPlayer();
-        this.state = playerCaughtFishEvent.getState();
-        this.hook = playerCaughtFishEvent.getHook();
+    public FishingWeightEvent(final IFishingEvent fishingEvent, final int weight) {
+        this.player = fishingEvent.getPlayer();
+        this.state = fishingEvent.getState();
+        this.hook = fishingEvent.getHook();
         this.weight = weight;
     }
 

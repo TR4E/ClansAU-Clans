@@ -2,7 +2,7 @@ package me.trae.clans.fishing.modules.start;
 
 import me.trae.clans.Clans;
 import me.trae.clans.fishing.FishingManager;
-import me.trae.clans.fishing.events.PlayerStartFishingEvent;
+import me.trae.clans.fishing.events.PlayerFishingStartEvent;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilFishHook;
@@ -19,7 +19,7 @@ public class HandleFishHookSkyInfluenced extends SpigotListener<Clans, FishingMa
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onPlayerStartFishing_LOW(final PlayerStartFishingEvent event) {
+    public void onPlayerStartFishing_LOW(final PlayerFishingStartEvent event) {
         if (event.isCancelled()) {
             return;
         }
@@ -28,7 +28,7 @@ public class HandleFishHookSkyInfluenced extends SpigotListener<Clans, FishingMa
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerStartFishing_MONITOR(final PlayerStartFishingEvent event) {
+    public void onPlayerStartFishing_MONITOR(final PlayerFishingStartEvent event) {
         if (event.isCancelled()) {
             return;
         }

@@ -1,7 +1,8 @@
 package me.trae.clans.fishing.events;
 
 import me.trae.clans.fishing.events.enums.State;
-import me.trae.clans.fishing.events.interfaces.IPlayerCaughtFishEvent;
+import me.trae.clans.fishing.events.interfaces.IFishingEvent;
+import me.trae.clans.fishing.events.interfaces.IPlayerFishingCaughtEvent;
 import me.trae.core.event.CustomCancellableEvent;
 import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilJava;
@@ -14,7 +15,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class PlayerCaughtFishEvent extends CustomCancellableEvent implements IPlayerCaughtFishEvent {
+public class PlayerFishingCaughtEvent extends CustomCancellableEvent implements IPlayerFishingCaughtEvent {
 
     private final Player player;
     private final State state;
@@ -26,10 +27,10 @@ public class PlayerCaughtFishEvent extends CustomCancellableEvent implements IPl
     private boolean broadcastInform;
     private String informPrefix = "Fishing";
 
-    public PlayerCaughtFishEvent(final CustomFishingEvent customFishingEvent) {
-        this.player = customFishingEvent.getPlayer();
-        this.state = customFishingEvent.getState();
-        this.hook = customFishingEvent.getHook();
+    public PlayerFishingCaughtEvent(final IFishingEvent fishingEvent) {
+        this.player = fishingEvent.getPlayer();
+        this.state = fishingEvent.getState();
+        this.hook = fishingEvent.getHook();
     }
 
     @Override

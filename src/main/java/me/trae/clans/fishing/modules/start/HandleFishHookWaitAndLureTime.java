@@ -2,7 +2,7 @@ package me.trae.clans.fishing.modules.start;
 
 import me.trae.clans.Clans;
 import me.trae.clans.fishing.FishingManager;
-import me.trae.clans.fishing.events.PlayerStartFishingEvent;
+import me.trae.clans.fishing.events.PlayerFishingStartEvent;
 import me.trae.core.Core;
 import me.trae.core.client.ClientManager;
 import me.trae.core.config.annotations.ConfigInject;
@@ -36,7 +36,7 @@ public class HandleFishHookWaitAndLureTime extends SpigotListener<Clans, Fishing
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onPlayerStartFishing_LOW(final PlayerStartFishingEvent event) {
+    public void onPlayerStartFishing_LOW(final PlayerFishingStartEvent event) {
         if (event.isCancelled()) {
             return;
         }
@@ -59,7 +59,7 @@ public class HandleFishHookWaitAndLureTime extends SpigotListener<Clans, Fishing
         event.setLureTime(minLureTime, maxLureTime);
     }
 
-    private Pair<Long, Long> getTime(final PlayerStartFishingEvent event, long minTime, long maxTime) {
+    private Pair<Long, Long> getTime(final PlayerFishingStartEvent event, long minTime, long maxTime) {
         if (event.isFishingFrenzy()) {
             final double frenzyChance = this.frenzyLuckPercentage / 100.0;
 
@@ -71,7 +71,7 @@ public class HandleFishHookWaitAndLureTime extends SpigotListener<Clans, Fishing
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerStartFishing_MONITOR(final PlayerStartFishingEvent event) {
+    public void onPlayerStartFishing_MONITOR(final PlayerFishingStartEvent event) {
         if (event.isCancelled()) {
             return;
         }
@@ -83,5 +83,7 @@ public class HandleFishHookWaitAndLureTime extends SpigotListener<Clans, Fishing
 
         UtilFishHook.setWaitTime(hook, (int) (waitTime / 50));
         UtilFishHook.setLureTime(hook, (int) (lureTime / 50));
+
+        this.getManager().getWaitTimeHookMap().put(hook, new Pair<>(System.currentTimeMillis(), lureTime));
     }
 }

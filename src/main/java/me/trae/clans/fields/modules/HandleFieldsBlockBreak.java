@@ -68,7 +68,7 @@ public class HandleFieldsBlockBreak extends SpigotListener<Clans, FieldsManager>
 
         fieldsBlock.update(this.getManager());
 
-        UtilItem.takeDurability(player, player.getEquipment().getItemInHand(), false);
+        UtilItem.takeDurability(player, player.getEquipment().getItemInHand(), false, true);
     }
 
     private void handleLoot(final Block block) {

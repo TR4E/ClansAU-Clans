@@ -1,13 +1,14 @@
 package me.trae.clans.fishing.events;
 
 import me.trae.clans.fishing.events.enums.State;
-import me.trae.clans.fishing.events.interfaces.IPlayerStartFishingEvent;
+import me.trae.clans.fishing.events.interfaces.IFishingEvent;
+import me.trae.clans.fishing.events.interfaces.IPlayerFishingStartEvent;
 import me.trae.core.event.CustomCancellableEvent;
 import me.trae.core.utility.UtilMath;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Player;
 
-public class PlayerStartFishingEvent extends CustomCancellableEvent implements IPlayerStartFishingEvent {
+public class PlayerFishingStartEvent extends CustomCancellableEvent implements IPlayerFishingStartEvent {
 
     private final Player player;
     private final State state;
@@ -16,10 +17,10 @@ public class PlayerStartFishingEvent extends CustomCancellableEvent implements I
     private long waitTime, lureTime;
     private boolean skyInfluenced, weatherInfluenced;
 
-    public PlayerStartFishingEvent(final CustomFishingEvent customFishingEvent) {
-        this.player = customFishingEvent.getPlayer();
-        this.state = customFishingEvent.getState();
-        this.hook = customFishingEvent.getHook();
+    public PlayerFishingStartEvent(final IFishingEvent fishingEvent) {
+        this.player = fishingEvent.getPlayer();
+        this.state = fishingEvent.getState();
+        this.hook = fishingEvent.getHook();
     }
 
     @Override

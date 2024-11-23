@@ -30,34 +30,34 @@ public class HandleCustomFishing extends SpigotListener<Clans, FishingManager> i
         final FishHook hook = event.getHook();
 
         if (event.getState() == State.REEL_OUT) {
-            this.getManager().getHookMap().put(player, hook);
+            this.getManager().getPlayerHookMap().put(player, hook);
         } else {
-            this.getManager().getHookMap().remove(player);
+            this.getManager().getPlayerHookMap().remove(player);
         }
 
         switch (event.getState()) {
             case REEL_OUT:
-                UtilServer.callEvent(new PlayerStartFishingEvent(event));
+                UtilServer.callEvent(new PlayerFishingStartEvent(event));
                 break;
             case REEL_IN:
             case FAILED:
-                UtilServer.callEvent(new PlayerStopFishingEvent(event));
+                UtilServer.callEvent(new PlayerFishingStopEvent(event));
                 break;
             case CAUGHT:
-                UtilServer.callEvent(new PlayerCaughtFishEvent(event));
-                UtilServer.callEvent(new PlayerStopFishingEvent(event));
+                UtilServer.callEvent(new PlayerFishingCaughtEvent(event));
+                UtilServer.callEvent(new PlayerFishingStopEvent(event));
                 break;
         }
     }
 
     @Update
     public void onUpdater() {
-        this.getManager().getHookMap().entrySet().removeIf(entry -> {
+        this.getManager().getPlayerHookMap().entrySet().removeIf(entry -> {
             final FishHook hook = entry.getValue();
             final Player player = entry.getKey();
 
             if (hook != null && player != null) {
-                if (UtilBlock.isInWater(hook.getLocation())) {
+                if (hook.isValid() && !(hook.isDead()) && UtilBlock.isInWater(hook.getLocation())) {
                     UtilServer.callEvent(new PlayerFishingUpdaterEvent(player, hook));
                 }
 

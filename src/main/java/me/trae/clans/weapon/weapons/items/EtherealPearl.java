@@ -74,7 +74,7 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
                 "   Ride Pearl",
                 "",
                 UtilString.pair("<gray>Right-Click", "<yellow>Consume"),
-                "   Removes Negative Effects",
+                "   Removes Negative Effects"
         };
     }
 
@@ -134,7 +134,7 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
             }
         });
 
-        UtilMessage.simpleMessage(player, "Item", "You used a <var>.", Collections.singletonList(this.getDisplayName()));
+        UtilMessage.simpleMessage(player, this.getName(), "You used <var>.", Collections.singletonList(this.getAbilityName(ActionType.LEFT_CLICK)));
     }
 
     private void onRightClick(final Player player) {

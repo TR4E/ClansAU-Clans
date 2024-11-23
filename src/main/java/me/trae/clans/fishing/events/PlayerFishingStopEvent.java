@@ -1,21 +1,22 @@
 package me.trae.clans.fishing.events;
 
 import me.trae.clans.fishing.events.enums.State;
-import me.trae.clans.fishing.events.interfaces.IPlayerStopFishingEvent;
+import me.trae.clans.fishing.events.interfaces.IFishingEvent;
+import me.trae.clans.fishing.events.interfaces.IPlayerFishingStopEvent;
 import me.trae.core.event.CustomCancellableEvent;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Player;
 
-public class PlayerStopFishingEvent extends CustomCancellableEvent implements IPlayerStopFishingEvent {
+public class PlayerFishingStopEvent extends CustomCancellableEvent implements IPlayerFishingStopEvent {
 
     private final Player player;
     private final State state;
     private final FishHook hook;
 
-    public PlayerStopFishingEvent(final CustomFishingEvent customFishingEvent) {
-        this.player = customFishingEvent.getPlayer();
-        this.state = customFishingEvent.getState();
-        this.hook = customFishingEvent.getHook();
+    public PlayerFishingStopEvent(final IFishingEvent fishingEvent) {
+        this.player = fishingEvent.getPlayer();
+        this.state = fishingEvent.getState();
+        this.hook = fishingEvent.getHook();
     }
 
     @Override

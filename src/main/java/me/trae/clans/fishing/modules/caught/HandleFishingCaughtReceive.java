@@ -2,7 +2,7 @@ package me.trae.clans.fishing.modules.caught;
 
 import me.trae.clans.Clans;
 import me.trae.clans.fishing.FishingManager;
-import me.trae.clans.fishing.events.PlayerCaughtFishEvent;
+import me.trae.clans.fishing.events.PlayerFishingCaughtEvent;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.player.events.PlayerDisplayNameEvent;
 import me.trae.core.utility.UtilMessage;
@@ -23,7 +23,7 @@ public class HandleFishingCaughtReceive extends SpigotListener<Clans, FishingMan
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerCaughtFish(final PlayerCaughtFishEvent event) {
+    public void onPlayerCaughtFish(final PlayerFishingCaughtEvent event) {
         if (event.isCancelled()) {
             return;
         }

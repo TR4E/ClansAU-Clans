@@ -2,8 +2,8 @@ package me.trae.clans.item;
 
 import me.trae.clans.Clans;
 import me.trae.clans.item.modules.RemoveEnchantmentsOnItemStack;
-import me.trae.clans.item.modules.YellowDisplayName;
 import me.trae.core.framework.SpigotManager;
+import me.trae.core.item.modules.HandleItemStackDefaultDisplayNameChatColor;
 
 public class ItemManager extends SpigotManager<Clans> {
 
@@ -14,6 +14,5 @@ public class ItemManager extends SpigotManager<Clans> {
     @Override
     public void registerModules() {
         addModule(new RemoveEnchantmentsOnItemStack(this));
-        addModule(new YellowDisplayName(this));
     }
 }

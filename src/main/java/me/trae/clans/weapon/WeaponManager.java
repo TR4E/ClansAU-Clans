@@ -6,9 +6,7 @@ import me.trae.clans.weapon.weapons.items.currency.FiftyGrandDisc;
 import me.trae.clans.weapon.weapons.items.currency.FiveHundredGrandDisc;
 import me.trae.clans.weapon.weapons.items.currency.HundredGrandDisc;
 import me.trae.clans.weapon.weapons.items.currency.OneMillionDisc;
-import me.trae.clans.weapon.weapons.legendaries.AlligatorsTooth;
-import me.trae.clans.weapon.weapons.legendaries.HyperAxe;
-import me.trae.clans.weapon.weapons.legendaries.WindBlade;
+import me.trae.clans.weapon.weapons.legendaries.*;
 import me.trae.core.weapon.abstracts.AbstractWeaponManager;
 
 public class WeaponManager extends AbstractWeaponManager<Clans> {
@@ -33,7 +31,10 @@ public class WeaponManager extends AbstractWeaponManager<Clans> {
 
         // Legendaries
         addModule(new AlligatorsTooth(this));
+        addModule(new DwarvenPickaxe(this));
+        addModule(new GiantsBroadsword(this));
         addModule(new HyperAxe(this));
+        addModule(new LightningScythe(this));
         addModule(new WindBlade(this));
     }
 }

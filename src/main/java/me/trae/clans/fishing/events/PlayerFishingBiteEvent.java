@@ -1,19 +1,19 @@
 package me.trae.clans.fishing.events;
 
 import me.trae.clans.fishing.events.enums.State;
-import me.trae.clans.fishing.events.interfaces.IPlayerFishingUpdaterEvent;
+import me.trae.clans.fishing.events.interfaces.IPlayerFishingBiteEvent;
 import me.trae.core.event.CustomEvent;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Player;
 
-public class PlayerFishingUpdaterEvent extends CustomEvent implements IPlayerFishingUpdaterEvent {
+public class PlayerFishingBiteEvent extends CustomEvent implements IPlayerFishingBiteEvent {
 
     private final Player player;
     private final FishHook hook;
 
-    public PlayerFishingUpdaterEvent(final Player player, final FishHook hook) {
-        this.player = player;
-        this.hook = hook;
+    public PlayerFishingBiteEvent(final PlayerFishingUpdaterEvent playerFishingUpdaterEvent) {
+        this.player = playerFishingUpdaterEvent.getPlayer();
+        this.hook = playerFishingUpdaterEvent.getHook();
     }
 
     @Override
@@ -23,7 +23,7 @@ public class PlayerFishingUpdaterEvent extends CustomEvent implements IPlayerFis
 
     @Override
     public State getState() {
-        return State.IN_WATER;
+        return State.BITE;
     }
 
     @Override
