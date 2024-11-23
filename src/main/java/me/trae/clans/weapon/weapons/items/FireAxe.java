@@ -4,6 +4,7 @@ import me.trae.api.damage.events.CustomDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.config.annotations.ConfigInject;
+import me.trae.core.utility.UtilString;
 import me.trae.core.weapon.data.WeaponData;
 import me.trae.core.weapon.types.CustomItem;
 import org.bukkit.Material;
@@ -20,6 +21,9 @@ public class FireAxe extends CustomItem<Clans, WeaponManager, WeaponData> implem
     @ConfigInject(type = Long.class, path = "Duration", defaultValue = "4000")
     private long duration;
 
+    @ConfigInject(type = Double.class, path = "Damage", defaultValue = "5.0")
+    private double damage;
+
     public FireAxe(final WeaponManager manager) {
         super(manager, new ItemStack(Material.GOLD_AXE));
     }
@@ -32,12 +36,42 @@ public class FireAxe extends CustomItem<Clans, WeaponManager, WeaponData> implem
     @Override
     public String[] getDescription() {
         return new String[]{
-                "Ignite enemies on fire."
+                "Ignite enemies on fire.",
+                "",
+                UtilString.pair("<gray>Damage", String.format("<yellow>%s", this.damage)),
+                UtilString.pair("<gray>Passive", "<yellow>Fire Attack")
         };
     }
 
+    @EventHandler(priority = EventPriority.LOW)
+    public void onCustomDamage_NORMAL(final CustomDamageEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+
+        if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+            return;
+        }
+
+        if (!(event.getDamagee() instanceof LivingEntity)) {
+            return;
+        }
+
+        if (!(event.getDamager() instanceof Player)) {
+            return;
+        }
+
+        final Player damager = event.getDamagerByClass(Player.class);
+
+        if (!(this.hasWeaponByPlayer(damager))) {
+            return;
+        }
+
+        event.setDamage(this.damage);
+    }
+
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onCustomDamage(final CustomDamageEvent event) {
+    public void onCustomDamage_MONITOR(final CustomDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }

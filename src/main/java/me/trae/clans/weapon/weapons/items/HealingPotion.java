@@ -49,7 +49,9 @@ public class HealingPotion extends ActiveCustomItem<Clans, WeaponManager, Weapon
         return new String[]{
                 String.format("Gain <green>Regeneration %s</green> for <green>%s</green>", this.amplifier, UtilTime.getTime(this.duration)),
                 "",
-                UtilString.pair("<gray>Right-Click", "<yellow>Drink")
+                UtilString.pair("<gray>Right-Click", "<yellow>Drink"),
+                "",
+                UtilString.pair("<gray>Recharge", String.format("<green>%s", UtilTime.getTime(this.recharge))),
         };
     }
 

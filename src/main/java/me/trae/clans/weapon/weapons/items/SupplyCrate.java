@@ -71,8 +71,8 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
                 "",
                 "This can only be placed in the Wilderness.",
                 "",
-                UtilString.pair("<gray>Duration", String.format("<green>%s", UtilTime.getTime(this.duration))),
                 UtilString.pair("<gray>Recharge", String.format("<green>%s", UtilTime.getTime(this.recharge))),
+                UtilString.pair("<gray>Duration", String.format("<green>%s", UtilTime.getTime(this.duration)))
         };
     }
 
