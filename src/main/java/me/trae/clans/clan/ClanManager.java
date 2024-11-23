@@ -26,6 +26,9 @@ import me.trae.clans.clan.modules.pillage.HandlePillageAlerts;
 import me.trae.clans.clan.modules.pillage.HandlePillageUpdater;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardSetup;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
+import me.trae.clans.clan.modules.skill.HandleSkillFriendlyFire;
+import me.trae.clans.clan.modules.skill.HandleSkillLocation;
+import me.trae.clans.clan.modules.skill.HandleSkillPreActivate;
 import me.trae.clans.clan.modules.spawn.DisableClansSpawnPreTeleportWhileInSpawn;
 import me.trae.clans.clan.modules.spawn.HandleClansSpawnDuration;
 import me.trae.clans.clan.modules.spawn.HandleClansSpawnLocation;
@@ -38,6 +41,9 @@ import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryDoorI
 import me.trae.clans.clan.modules.tnt.DisablePlacingTntWhileSOTW;
 import me.trae.clans.clan.modules.tnt.HandleAlertClanOnTntExplosion;
 import me.trae.clans.clan.modules.tnt.HandleClanTerritoryTntProtection;
+import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFire;
+import me.trae.clans.clan.modules.weapon.HandleWeaponLocation;
+import me.trae.clans.clan.modules.weapon.HandleWeaponPreActivate;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.clans.utility.UtilClans;
 import me.trae.core.Core;
@@ -145,6 +151,11 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleClansScoreboardSetup(this));
         addModule(new HandleClansScoreboardUpdate(this));
 
+        // Skill Modules
+        addModule(new HandleSkillFriendlyFire(this));
+        addModule(new HandleSkillLocation(this));
+        addModule(new HandleSkillPreActivate(this));
+
         // Spawn Modules
         addModule(new DisableClansSpawnPreTeleportWhileInSpawn(this));
         addModule(new HandleClansSpawnDuration(this));
@@ -162,6 +173,11 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new DisablePlacingTntWhileSOTW(this));
         addModule(new HandleAlertClanOnTntExplosion(this));
         addModule(new HandleClanTerritoryTntProtection(this));
+
+        // Weapon Modules
+        addModule(new HandleWeaponFriendlyFire(this));
+        addModule(new HandleWeaponLocation(this));
+        addModule(new HandleWeaponPreActivate(this));
 
         // Modules
         addModule(new HandleClanLastOnlineOnPlayerQuit(this));
@@ -565,6 +581,20 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         }
 
         return true;
+    }
+
+    @Override
+    public boolean canCast(final Location location) {
+        return !(this.isSafeByLocation(location));
+    }
+
+    @Override
+    public boolean canCast(final Player player) {
+        if (this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+            return true;
+        }
+
+        return this.canCast(player.getLocation());
     }
 
     @Override

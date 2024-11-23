@@ -91,6 +91,10 @@ public interface IClanManager {
 
     boolean canHurt(final Player damager, final Player damagee);
 
+    boolean canCast(final Location location);
+
+    boolean canCast(final Player player);
+
     boolean isSafeByLocation(final Location location);
 
     boolean isSafeByPlayer(final Player player);
