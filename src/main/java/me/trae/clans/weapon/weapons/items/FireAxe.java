@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class FireAxe extends CustomItem<Clans, WeaponManager, WeaponData> implements Listener {
 
-    @ConfigInject(type = Long.class, path = "Duration", defaultValue = "4000")
+    @ConfigInject(type = Long.class, path = "Duration", defaultValue = "4_000")
     private long duration;
 
     @ConfigInject(type = Double.class, path = "Damage", defaultValue = "5.0")

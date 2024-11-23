@@ -23,5 +23,6 @@ public class RecipeManager extends AbstractRecipeManager<Clans> {
         addModule(new GoldSwordRecipe(this));
 
         addModule(new FireAxeRecipe(this));
+        addModule(new PoisonDaggerRecipe(this));
     }
 }
