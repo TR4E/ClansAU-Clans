@@ -1,6 +1,7 @@
 package me.trae.clans.clan;
 
 import me.trae.api.combat.CombatManager;
+import me.trae.api.damage.utility.UtilDamage;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.MassClaimCommand;
@@ -29,7 +30,6 @@ import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
 import me.trae.clans.clan.modules.skill.HandleSkillFriendlyFire;
 import me.trae.clans.clan.modules.skill.HandleSkillLocation;
 import me.trae.clans.clan.modules.skill.HandleSkillPreActivate;
-import me.trae.clans.clan.modules.spawn.DisableClansSpawnPreTeleportWhileInSpawn;
 import me.trae.clans.clan.modules.spawn.HandleClansSpawnDuration;
 import me.trae.clans.clan.modules.spawn.HandleClansSpawnLocation;
 import me.trae.clans.clan.modules.territory.DisplayTerritoryOwner;
@@ -44,6 +44,7 @@ import me.trae.clans.clan.modules.tnt.HandleClanTerritoryTntProtection;
 import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFire;
 import me.trae.clans.clan.modules.weapon.HandleWeaponLocation;
 import me.trae.clans.clan.modules.weapon.HandleWeaponPreActivate;
+import me.trae.clans.clan.modules.world.DisableShootingArrowsInSafeZones;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.clans.utility.UtilClans;
 import me.trae.core.Core;
@@ -157,7 +158,6 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleSkillPreActivate(this));
 
         // Spawn Modules
-        addModule(new DisableClansSpawnPreTeleportWhileInSpawn(this));
         addModule(new HandleClansSpawnDuration(this));
         addModule(new HandleClansSpawnLocation(this));
 
@@ -178,6 +178,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleWeaponFriendlyFire(this));
         addModule(new HandleWeaponLocation(this));
         addModule(new HandleWeaponPreActivate(this));
+
+        // World Modules
+        addModule(new DisableShootingArrowsInSafeZones(this));
 
         // Modules
         addModule(new HandleClanLastOnlineOnPlayerQuit(this));
@@ -627,7 +630,15 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             return false;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(CombatManager.class).isSafeByPlayer(player))) {
+        if (UtilDamage.isInvulnerable(player)) {
+            return true;
+        }
+
+        if (this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+            return true;
+        }
+
+        if (this.getInstance(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
             return false;
         }
 

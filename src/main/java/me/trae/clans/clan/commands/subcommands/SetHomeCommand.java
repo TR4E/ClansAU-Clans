@@ -9,6 +9,7 @@ import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.command.ClanSetHomeEvent;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.utility.UtilLocation;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
@@ -79,7 +80,7 @@ public class SetHomeCommand extends ClanSubCommand implements EventContainer<Cla
         final Clan clan = event.getClan();
         final Player player = event.getPlayer();
 
-        clan.setHome(player.getLocation());
+        clan.setHome(UtilLocation.toCenter(player.getLocation()));
         this.getModule().getManager().getRepository().updateData(clan, ClanProperty.HOME);
 
         UtilMessage.simpleMessage(player, "Clans", "You set the Clan Home at <var>.", Collections.singletonList(clan.getHomeString()));
