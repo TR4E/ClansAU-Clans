@@ -1,6 +1,6 @@
 package me.trae.clans.clan.modules.damage;
 
-import me.trae.api.damage.events.CustomDamageEvent;
+import me.trae.api.damage.events.damage.CustomPreDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
 import me.trae.core.framework.types.frame.SpigotListener;
@@ -18,7 +18,7 @@ public class DisableTeammateDamage extends SpigotListener<Clans, ClanManager> {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onCustomDamage(final CustomDamageEvent event) {
+    public void onCustomPreDamage(final CustomPreDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }

@@ -1,6 +1,6 @@
 package me.trae.clans.world.modules;
 
-import me.trae.api.damage.events.CustomDamageEvent;
+import me.trae.api.damage.events.damage.CustomPreDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
 import me.trae.core.Core;
@@ -82,7 +82,7 @@ public class SpringBlock extends SpigotListener<Clans, WorldManager> {
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onCustomDamage(final CustomDamageEvent event) {
+    public void onCustomPreDamage(final CustomPreDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }

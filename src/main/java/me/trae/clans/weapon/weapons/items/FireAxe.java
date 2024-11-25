@@ -1,6 +1,7 @@
 package me.trae.clans.weapon.weapons.items;
 
-import me.trae.api.damage.events.CustomDamageEvent;
+import me.trae.api.damage.events.damage.CustomDamageEvent;
+import me.trae.api.damage.events.damage.CustomPostDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.config.annotations.ConfigInject;
@@ -44,7 +45,7 @@ public class FireAxe extends CustomItem<Clans, WeaponManager, WeaponData> implem
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onCustomDamage_NORMAL(final CustomDamageEvent event) {
+    public void onCustomDamage(final CustomDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }
@@ -71,7 +72,7 @@ public class FireAxe extends CustomItem<Clans, WeaponManager, WeaponData> implem
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onCustomDamage_MONITOR(final CustomDamageEvent event) {
+    public void onCustomPostDamage(final CustomPostDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }

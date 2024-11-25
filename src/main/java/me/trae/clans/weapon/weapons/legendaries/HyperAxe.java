@@ -1,7 +1,7 @@
 package me.trae.clans.weapon.weapons.legendaries;
 
-import me.trae.api.damage.events.CustomDamageEvent;
-import me.trae.api.damage.events.DamageDelayEvent;
+import me.trae.api.damage.events.damage.CustomDamageEvent;
+import me.trae.api.damage.events.damage.CustomPreDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.Core;
@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
@@ -55,7 +54,7 @@ public class HyperAxe extends Legendary<Clans, WeaponManager, WeaponData> implem
         };
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     public void onCustomDamage(final CustomDamageEvent event) {
         if (event.isCancelled()) {
             return;
@@ -89,26 +88,24 @@ public class HyperAxe extends Legendary<Clans, WeaponManager, WeaponData> implem
     }
 
     @EventHandler
-    public void onDamageDelay(final DamageDelayEvent event) {
+    public void onCustomPreDamage(final CustomPreDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }
 
-        final CustomDamageEvent damageEvent = event.getDamageEvent();
-
-        if (damageEvent.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+        if (event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
             return;
         }
 
-        if (!(damageEvent.getDamager() instanceof Player)) {
+        if (!(event.getDamager() instanceof Player)) {
             return;
         }
 
-        if (!(damageEvent.getDamagee() instanceof LivingEntity)) {
+        if (!(event.getDamagee() instanceof LivingEntity)) {
             return;
         }
 
-        final Player player = damageEvent.getDamagerByClass(Player.class);
+        final Player player = event.getDamagerByClass(Player.class);
 
         if (!(this.hasWeaponByPlayer(player))) {
             return;

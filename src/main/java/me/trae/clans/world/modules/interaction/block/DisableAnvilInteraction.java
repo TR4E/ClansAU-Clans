@@ -1,4 +1,4 @@
-package me.trae.clans.world.modules.interaction;
+package me.trae.clans.world.modules.interaction.block;
 
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
@@ -7,24 +7,24 @@ import me.trae.core.world.modules.shared.interfaces.DisableBlockInteraction;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
 
-public class DisableBeaconInteraction extends SpigotListener<Clans, WorldManager> implements DisableBlockInteraction {
+public class DisableAnvilInteraction extends SpigotListener<Clans, WorldManager> implements DisableBlockInteraction {
 
-    public DisableBeaconInteraction(final WorldManager manager) {
+    public DisableAnvilInteraction(final WorldManager manager) {
         super(manager);
     }
 
     @Override
     public Material getMaterial() {
-        return Material.BEACON;
+        return Material.ANVIL;
     }
 
     @Override
     public InventoryType getInventoryType() {
-        return InventoryType.BEACON;
+        return InventoryType.ANVIL;
     }
 
     @Override
     public boolean isInform() {
-        return false;
+        return true;
     }
 }

@@ -1,6 +1,6 @@
 package me.trae.clans.koth.modules;
 
-import me.trae.api.damage.events.CustomDamageEvent;
+import me.trae.api.damage.events.damage.CustomPostDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.koth.Koth;
 import me.trae.clans.koth.KothManager;
@@ -17,7 +17,7 @@ public class RemoveKothChestOpenerOnPlayerDamage extends SpigotListener<Clans, K
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onCustomDamage(final CustomDamageEvent event) {
+    public void onCustomPostDamage(final CustomPostDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }

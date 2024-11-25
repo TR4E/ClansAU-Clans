@@ -1,5 +1,6 @@
 package me.trae.clans.weapon.weapons.legendaries;
 
+import me.trae.api.damage.utility.UtilDamage;
 import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.config.annotations.ConfigInject;
@@ -139,7 +140,7 @@ public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, Weapo
                 }
             }
 
-            UtilServer.callEvent(new EntityDamageEvent(targetEntity, EntityDamageEvent.DamageCause.LIGHTNING, this.damage));
+            UtilDamage.damage(targetEntity, player, EntityDamageEvent.DamageCause.LIGHTNING, this.damage, this.getDisplayName(), 1L);
         }
     }
 

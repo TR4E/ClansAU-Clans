@@ -1,4 +1,4 @@
-package me.trae.clans.world.modules.interaction;
+package me.trae.clans.world.modules.interaction.item;
 
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;

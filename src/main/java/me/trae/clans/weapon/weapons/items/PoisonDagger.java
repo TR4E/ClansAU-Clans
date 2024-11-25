@@ -1,7 +1,8 @@
 package me.trae.clans.weapon.weapons.items;
 
 import me.trae.api.champions.role.events.RoleCheckEvent;
-import me.trae.api.damage.events.CustomDamageEvent;
+import me.trae.api.damage.events.damage.CustomDamageEvent;
+import me.trae.api.damage.events.damage.CustomPostDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.Core;
@@ -92,7 +93,7 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onCustomDamage_NORMAL(final CustomDamageEvent event) {
+    public void onCustomDamage(final CustomDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }
@@ -127,7 +128,7 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onCustomDamage_MONITOR(final CustomDamageEvent event) {
+    public void onCustomPostDamage(final CustomPostDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }
@@ -164,6 +165,8 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
             UtilMessage.simpleMessage(damagee, this.getName(), "<var> has tried to infect you.", Collections.singletonList(event.getDamagerName()));
             return;
         }
+
+        event.setReason(this.getDisplayName(), this.poisonDuration);
 
         UtilEntity.givePotionEffect(damagee, PotionEffectType.SLOW, this.slownessAmplifier, this.slownessDuration);
         UtilEntity.givePotionEffect(damagee, PotionEffectType.POISON, this.poisonAmplifier, this.poisonDuration);
