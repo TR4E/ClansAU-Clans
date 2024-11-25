@@ -1,10 +1,8 @@
 package me.trae.clans.world;
 
 import me.trae.clans.Clans;
-import me.trae.clans.world.modules.FasterNighttimeCycle;
-import me.trae.clans.world.modules.HandleIronDoorInteract;
-import me.trae.clans.world.modules.SpringBlock;
-import me.trae.clans.world.modules.WaterBlock;
+import me.trae.clans.world.commands.ArmourCommand;
+import me.trae.clans.world.modules.*;
 import me.trae.clans.world.modules.block.DisableBedrock;
 import me.trae.clans.world.modules.block.DisableObsidian;
 import me.trae.clans.world.modules.interaction.block.*;
@@ -24,6 +22,9 @@ public class WorldManager extends AbstractWorldManager<Clans> {
 
     @Override
     public void registerModules() {
+        // Commands
+        addModule(new ArmourCommand(this));
+
         // Core Modules
         addModule(new DisableSaturation<>(this));
         addModule(new DisableWeather<>(this));
@@ -52,6 +53,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         // Clans Modules
         addModule(new FasterNighttimeCycle(this));
         addModule(new HandleIronDoorInteract(this));
+        addModule(new RemoveArrowsOnHit(this));
         addModule(new SpringBlock(this));
         addModule(new WaterBlock(this));
     }

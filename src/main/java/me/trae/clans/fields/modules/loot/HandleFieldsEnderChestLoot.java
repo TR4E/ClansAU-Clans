@@ -73,7 +73,7 @@ public class HandleFieldsEnderChestLoot extends SpigotListener<Clans, FieldsMana
         for (int i = 0; i < event.getMultiplier(); i++) {
             final List<Material> materials = Arrays.asList(Material.DIAMOND_SWORD, Material.DIAMOND_AXE, Material.GOLD_SWORD, Material.GOLD_AXE, Material.IRON_SWORD, Material.IRON_AXE);
 
-            event.addLoot(new ItemStack(materials.get(UtilMath.getRandomNumber(Integer.class, 0, materials.size() - 1))));
+            event.addLoot(new ItemStack(materials.get(UtilMath.getRandomNumber(Integer.class, 0, materials.size()))));
         }
     }
 }

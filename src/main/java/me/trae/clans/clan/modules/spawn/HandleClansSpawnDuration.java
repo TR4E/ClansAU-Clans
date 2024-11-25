@@ -29,6 +29,7 @@ public class HandleClansSpawnDuration extends SpigotListener<Clans, ClanManager>
 
         final Clan territoryClan = this.getManager().getClanByLocation(player.getLocation());
         if (UtilClans.isSpawnClan(territoryClan)) {
+            event.setDuration(0L);
             return;
         }
 

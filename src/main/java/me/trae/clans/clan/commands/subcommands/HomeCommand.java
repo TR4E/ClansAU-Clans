@@ -15,7 +15,6 @@ import me.trae.core.recharge.RechargeManager;
 import me.trae.core.teleport.Teleport;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.containers.EventContainer;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHomeEvent> {
@@ -95,13 +94,17 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
             return;
         }
 
-        this.getInstance(Core.class).getManagerByClass(CountdownManager.class).addCountdown(this.getTeleport(event.getPlayer(), event.getClan().getHome()));
+        this.getInstance(Core.class).getManagerByClass(CountdownManager.class).addCountdown(this.getTeleport(event.getPlayer(), event.getClan()));
     }
 
-    private Teleport getTeleport(final Player player, final Location location) {
-        final long duration = UtilClans.isSpawnClan(this.getModule().getManager().getClanByLocation(location)) ? 0L : this.defaultDuration;
+    private Teleport getTeleport(final Player player, final Clan playerClan) {
+        long duration = this.defaultDuration;
 
-        return new Teleport(duration, player, location) {
+        if (playerClan.isMemberByPlayer(player) || UtilClans.isSpawnClan(this.getModule().getManager().getClanByLocation(player.getLocation()))) {
+            duration = 0L;
+        }
+
+        return new Teleport(duration, player, playerClan.getHome()) {
             @Override
             public void onTeleport(final Player player) {
                 HomeCommand.this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true);
