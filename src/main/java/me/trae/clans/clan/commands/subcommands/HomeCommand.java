@@ -101,7 +101,8 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
     private Teleport getTeleport(final Player player, final Clan playerClan) {
         long duration = this.defaultDuration;
 
-        if (playerClan.isMemberByPlayer(player) || UtilClans.isSpawnClan(this.getModule().getManager().getClanByLocation(player.getLocation()))) {
+        final Clan territoryClan = this.getModule().getManager().getClanByLocation(player.getLocation());
+        if (territoryClan != null && (territoryClan.isMemberByPlayer(player) || UtilClans.isSpawnClan(territoryClan))) {
             duration = 0L;
         }
 
@@ -109,7 +110,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
             @Override
             public boolean canTeleport(final Player player) {
                 if (HomeCommand.this.getInstance(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
-                    UtilMessage.message(player, "Spawn", "You cannot teleport while in combat!");
+                    UtilMessage.message(player, "Clans", "You cannot teleport to Clan Home while in Combat!");
                     return false;
                 }
 
