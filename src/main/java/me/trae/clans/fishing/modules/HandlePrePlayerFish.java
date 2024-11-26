@@ -5,7 +5,6 @@ import me.trae.clans.fishing.FishingManager;
 import me.trae.clans.fishing.events.CustomFishingEvent;
 import me.trae.clans.fishing.events.enums.State;
 import me.trae.core.framework.types.frame.SpigotListener;
-import me.trae.core.updater.interfaces.Updater;
 import me.trae.core.utility.UtilBlock;
 import me.trae.core.utility.UtilServer;
 import org.bukkit.entity.Entity;
@@ -16,7 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerFishEvent;
 
-public class HandlePrePlayerFish extends SpigotListener<Clans, FishingManager> implements Updater {
+public class HandlePrePlayerFish extends SpigotListener<Clans, FishingManager> {
 
     public HandlePrePlayerFish(final FishingManager manager) {
         super(manager);

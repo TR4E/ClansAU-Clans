@@ -18,7 +18,7 @@ public class FasterNighttimeCycle extends SpigotUpdater<Clans, WorldManager> {
         super(manager);
     }
 
-    @Update(asynchronous = true)
+    @Update(delay = 100L, asynchronous = true)
     public void onUpdater() {
         for (final World world : Bukkit.getWorlds()) {
             if (world.getTime() < TimeType.NIGHT.getDuration()) {

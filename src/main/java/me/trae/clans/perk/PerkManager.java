@@ -20,14 +20,6 @@ public class PerkManager extends AbstractPerkManager<Clans, DonationManager> {
 
         // Perks
         addModule(new AgilityHelmet(this));
-
-        // Agility Helmet Modules
-        addModule(new HandleAgilityHelmetActivate(this));
-        addModule(new HandleAgilityHelmetEquip(this));
-        addModule(new HandleAgilityHelmetFallDamage(this));
-        addModule(new HandleAgilityHelmetItemStackUpdate(this));
-        addModule(new HandleAgilityHelmetOnRespawn(this));
-        addModule(new HandleAgilityHelmetUpdater(this));
     }
 
     @Override

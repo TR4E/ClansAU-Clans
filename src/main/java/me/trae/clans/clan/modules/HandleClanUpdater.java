@@ -21,7 +21,7 @@ public class HandleClanUpdater extends SpigotUpdater<Clans, ClanManager> {
         super(manager);
     }
 
-    @Update
+    @Update(delay = 50L)
     public void onUpdater() {
         if (this.delay != 0 && !(UtilTime.elapsed(this.systemTime, this.delay))) {
             return;

@@ -15,7 +15,7 @@ public class HandleKothChestOpenUpdater extends SpigotUpdater<Clans, KothManager
         super(manager);
     }
 
-    @Update(delay = 50L)
+    @Update(delay = 100L)
     public void onUpdater() {
         final Koth koth = this.getManager().getModuleByClass(Koth.class);
 

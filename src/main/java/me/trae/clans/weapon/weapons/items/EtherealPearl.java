@@ -134,7 +134,7 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
             }
         });
 
-        UtilMessage.simpleMessage(player, this.getName(), "You used <var>.", Collections.singletonList(this.getAbilityName(ActionType.LEFT_CLICK)));
+        UtilMessage.simpleMessage(player, this.getName(), "You used <var>.", Collections.singletonList(this.getDisplayAbilityName(ActionType.LEFT_CLICK)));
     }
 
     private void onRightClick(final Player player) {

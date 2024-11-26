@@ -5,10 +5,9 @@ import me.trae.champions.Champions;
 import me.trae.champions.effect.EffectManager;
 import me.trae.champions.effect.types.Silenced;
 import me.trae.clans.Clans;
-import me.trae.clans.perk.PerkManager;
 import me.trae.clans.perk.perks.AgilityHelmet;
 import me.trae.core.config.annotations.ConfigInject;
-import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.framework.types.frame.SpigotSubListener;
 import me.trae.core.utility.UtilBlock;
 import me.trae.core.utility.UtilLeap;
 import me.trae.core.utility.UtilMessage;
@@ -24,9 +23,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 
-public class HandleAgilityHelmetActivate extends SpigotListener<Clans, PerkManager> {
-
-    private final AgilityHelmet PERK;
+public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, AgilityHelmet> {
 
     private final String ABILITY_NAME = "Agility Leap";
 
@@ -39,10 +36,8 @@ public class HandleAgilityHelmetActivate extends SpigotListener<Clans, PerkManag
     @ConfigInject(type = Long.class, path = "WallKick-Recharge", defaultValue = "150")
     private long wallKickRecharge;
 
-    public HandleAgilityHelmetActivate(final PerkManager manager) {
-        super(manager);
-
-        this.PERK = manager.getModuleByClass(AgilityHelmet.class);
+    public HandleAgilityHelmetActivate(final AgilityHelmet module) {
+        super(module);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -62,7 +57,7 @@ public class HandleAgilityHelmetActivate extends SpigotListener<Clans, PerkManag
 
         final Player player = event.getPlayer();
 
-        if (!(this.PERK.isUsing(player))) {
+        if (!(this.getModule().isUsing(player))) {
             return;
         }
 
@@ -81,12 +76,12 @@ public class HandleAgilityHelmetActivate extends SpigotListener<Clans, PerkManag
         }
 
         if (UtilBlock.isInLiquid(player.getLocation())) {
-            UtilMessage.simpleMessage(player, this.PERK.getName(), "You cannot use <green><var></green> while in liquid.", Collections.singletonList(this.ABILITY_NAME));
+            UtilMessage.simpleMessage(player, this.getModule().getName(), "You cannot use <green><var></green> while in liquid.", Collections.singletonList(this.ABILITY_NAME));
             return false;
         }
 
         if (this.getInstance(Champions.class).getManagerByClass(EffectManager.class).getModuleByClass(Silenced.class).isUserByEntity(player)) {
-            UtilMessage.simpleMessage(player, this.PERK.getName(), "You cannot use <green><var></green> while silenced.", Collections.singletonList(this.ABILITY_NAME));
+            UtilMessage.simpleMessage(player, this.getModule().getName(), "You cannot use <green><var></green> while silenced.", Collections.singletonList(this.ABILITY_NAME));
             return false;
         }
 

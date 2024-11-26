@@ -78,7 +78,7 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
     }
 
     private boolean canDisplay(final Location fromLocation, final Location toLocation, final Clan fromTerritoryClan, final Clan toTerritoryClan) {
-        if (fromLocation == toLocation) {
+        if (fromLocation.equals(toLocation)) {
             return false;
         }
 

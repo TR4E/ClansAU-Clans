@@ -1,9 +1,8 @@
 package me.trae.clans.perk.perks.agilityhelmet;
 
 import me.trae.clans.Clans;
-import me.trae.clans.perk.PerkManager;
 import me.trae.clans.perk.perks.AgilityHelmet;
-import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.framework.types.frame.SpigotSubListener;
 import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.enums.ActionType;
@@ -16,14 +15,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
-public class HandleAgilityHelmetEquip extends SpigotListener<Clans, PerkManager> {
+public class HandleAgilityHelmetEquip extends SpigotSubListener<Clans, AgilityHelmet> {
 
-    private final AgilityHelmet PERK;
-
-    public HandleAgilityHelmetEquip(final PerkManager manager) {
-        super(manager);
-
-        this.PERK = manager.getModuleByClass(AgilityHelmet.class);
+    public HandleAgilityHelmetEquip(final AgilityHelmet module) {
+        super(module);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -37,7 +32,7 @@ public class HandleAgilityHelmetEquip extends SpigotListener<Clans, PerkManager>
         }
 
         final ItemStack itemStack = event.getItemStack();
-        if (itemStack == null || itemStack.getType() != this.PERK.getMaterial()) {
+        if (itemStack == null || itemStack.getType() != this.getModule().getMaterial()) {
             return;
         }
 
@@ -46,17 +41,17 @@ public class HandleAgilityHelmetEquip extends SpigotListener<Clans, PerkManager>
         event.setOriginalCancelled(true);
         player.updateInventory();
 
-        if (!(this.PERK.isUserByPlayer(player))) {
+        if (!(this.getModule().isUserByPlayer(player))) {
             return;
         }
 
-        if (this.PERK.isEquipped(player)) {
-            UtilMessage.message(player, this.PERK.getName(), "You already have it equipped!");
+        if (this.getModule().isEquipped(player)) {
+            UtilMessage.message(player, this.getModule().getName(), "You already have it equipped!");
             return;
         }
 
         if (Arrays.stream(player.getEquipment().getArmorContents()).anyMatch(armourItemStack -> armourItemStack != null && armourItemStack.getType() != Material.AIR)) {
-            UtilMessage.message(player, this.PERK.getName(), "You cannot have armour on when equipping!");
+            UtilMessage.message(player, this.getModule().getName(), "You cannot have armour on when equipping!");
             return;
         }
 

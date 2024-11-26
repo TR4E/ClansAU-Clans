@@ -3,6 +3,7 @@ package me.trae.clans.perk.perks;
 import me.trae.champions.utility.UtilRole;
 import me.trae.clans.Clans;
 import me.trae.clans.perk.PerkManager;
+import me.trae.clans.perk.perks.agilityhelmet.*;
 import me.trae.clans.perk.perks.interfaces.IAgilityHelmet;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.perk.Perk;
@@ -25,6 +26,16 @@ public class AgilityHelmet extends Perk<Clans, PerkManager> implements IAgilityH
 
     public AgilityHelmet(final PerkManager manager) {
         super(manager);
+    }
+
+    @Override
+    public void registerSubModules() {
+        addSubModule(new HandleAgilityHelmetActivate(this));
+        addSubModule(new HandleAgilityHelmetEquip(this));
+        addSubModule(new HandleAgilityHelmetFallDamage(this));
+        addSubModule(new HandleAgilityHelmetItemStackUpdate(this));
+        addSubModule(new HandleAgilityHelmetOnRespawn(this));
+        addSubModule(new HandleAgilityHelmetUpdater(this));
     }
 
     @Override

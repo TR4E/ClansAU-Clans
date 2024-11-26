@@ -50,7 +50,7 @@ public class HandleCustomFishing extends SpigotListener<Clans, FishingManager> i
         }
     }
 
-    @Update
+    @Update(delay = 250L)
     public void onUpdater() {
         this.getManager().getPlayerHookMap().entrySet().removeIf(entry -> {
             final FishHook hook = entry.getValue();

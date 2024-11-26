@@ -1,9 +1,8 @@
 package me.trae.clans.perk.perks.agilityhelmet;
 
 import me.trae.clans.Clans;
-import me.trae.clans.perk.PerkManager;
 import me.trae.clans.perk.perks.AgilityHelmet;
-import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.framework.types.frame.SpigotSubListener;
 import me.trae.core.utility.UtilItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,29 +11,25 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class HandleAgilityHelmetOnRespawn extends SpigotListener<Clans, PerkManager> {
+public class HandleAgilityHelmetOnRespawn extends SpigotSubListener<Clans, AgilityHelmet> {
 
-    private final AgilityHelmet PERK;
-
-    public HandleAgilityHelmetOnRespawn(final PerkManager manager) {
-        super(manager);
-
-        this.PERK = manager.getModuleByClass(AgilityHelmet.class);
+    public HandleAgilityHelmetOnRespawn(final AgilityHelmet module) {
+        super(module);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerRespawn(final PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
 
-        if (!(this.PERK.isUserByPlayer(player))) {
+        if (!(this.getModule().isUserByPlayer(player))) {
             return;
         }
 
-        if (this.PERK.isEquipped(player)) {
+        if (this.getModule().isEquipped(player)) {
             return;
         }
 
-        final ItemStack itemStack = new ItemStack(this.PERK.getMaterial());
+        final ItemStack itemStack = new ItemStack(this.getModule().getMaterial());
 
         if (UtilItem.contains(player, itemStack, 1)) {
             return;
@@ -45,6 +40,6 @@ public class HandleAgilityHelmetOnRespawn extends SpigotListener<Clans, PerkMana
 
     @EventHandler
     public void onEntityDeath(final EntityDeathEvent event) {
-        event.getDrops().removeIf(itemStack -> itemStack != null && itemStack.getType() == this.PERK.getMaterial());
+        event.getDrops().removeIf(itemStack -> itemStack != null && itemStack.getType() == this.getModule().getMaterial());
     }
 }

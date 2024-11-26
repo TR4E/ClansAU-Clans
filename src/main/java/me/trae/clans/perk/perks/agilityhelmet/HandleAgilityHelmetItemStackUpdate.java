@@ -1,32 +1,27 @@
 package me.trae.clans.perk.perks.agilityhelmet;
 
 import me.trae.clans.Clans;
-import me.trae.clans.perk.PerkManager;
 import me.trae.clans.perk.perks.AgilityHelmet;
-import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.framework.types.frame.SpigotSubListener;
 import me.trae.core.item.events.ItemUpdateEvent;
 import org.bukkit.event.EventHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class HandleAgilityHelmetItemStackUpdate extends SpigotListener<Clans, PerkManager> {
+public class HandleAgilityHelmetItemStackUpdate extends SpigotSubListener<Clans, AgilityHelmet> {
 
-    private final AgilityHelmet PERK;
-
-    public HandleAgilityHelmetItemStackUpdate(final PerkManager manager) {
-        super(manager);
-
-        this.PERK = manager.getModuleByClass(AgilityHelmet.class);
+    public HandleAgilityHelmetItemStackUpdate(final AgilityHelmet module) {
+        super(module);
     }
 
     @EventHandler
     public void onItemUpdate(final ItemUpdateEvent event) {
-        if (event.getBuilder().getItemStack().getType() != this.PERK.getMaterial()) {
+        if (event.getBuilder().getItemStack().getType() != this.getModule().getMaterial()) {
             return;
         }
 
-        event.getBuilder().setDisplayName(this.PERK.getName());
-        event.getBuilder().setLore(new ArrayList<>(Arrays.asList(this.PERK.getDescription())));
+        event.getBuilder().setDisplayName(this.getModule().getName());
+        event.getBuilder().setLore(new ArrayList<>(Arrays.asList(this.getModule().getDescription())));
     }
 }

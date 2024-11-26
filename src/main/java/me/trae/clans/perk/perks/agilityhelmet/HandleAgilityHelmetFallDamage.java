@@ -2,22 +2,17 @@ package me.trae.clans.perk.perks.agilityhelmet;
 
 import me.trae.api.damage.events.damage.CustomPreDamageEvent;
 import me.trae.clans.Clans;
-import me.trae.clans.perk.PerkManager;
 import me.trae.clans.perk.perks.AgilityHelmet;
-import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.framework.types.frame.SpigotSubListener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class HandleAgilityHelmetFallDamage extends SpigotListener<Clans, PerkManager> {
+public class HandleAgilityHelmetFallDamage extends SpigotSubListener<Clans, AgilityHelmet> {
 
-    private final AgilityHelmet PERK;
-
-    public HandleAgilityHelmetFallDamage(final PerkManager manager) {
-        super(manager);
-
-        this.PERK = manager.getModuleByClass(AgilityHelmet.class);
+    public HandleAgilityHelmetFallDamage(final AgilityHelmet module) {
+        super(module);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -34,7 +29,7 @@ public class HandleAgilityHelmetFallDamage extends SpigotListener<Clans, PerkMan
             return;
         }
 
-        if (!(this.PERK.isUsing(event.getDamageeByClass(Player.class)))) {
+        if (!(this.getModule().isUsing(event.getDamageeByClass(Player.class)))) {
             return;
         }
 

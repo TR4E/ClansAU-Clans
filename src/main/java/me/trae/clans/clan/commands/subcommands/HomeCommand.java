@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.api.combat.CombatManager;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -105,6 +106,16 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
         }
 
         return new Teleport(duration, player, playerClan.getHome()) {
+            @Override
+            public boolean canTeleport(final Player player) {
+                if (HomeCommand.this.getInstance(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
+                    UtilMessage.message(player, "Spawn", "You cannot teleport while in combat!");
+                    return false;
+                }
+
+                return true;
+            }
+
             @Override
             public void onTeleport(final Player player) {
                 HomeCommand.this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true);
