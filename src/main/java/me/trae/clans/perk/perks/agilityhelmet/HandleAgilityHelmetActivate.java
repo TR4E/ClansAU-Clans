@@ -13,12 +13,11 @@ import me.trae.core.utility.UtilLeap;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.enums.ActionType;
+import me.trae.core.world.events.PlayerItemInteractEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
@@ -40,9 +39,9 @@ public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, Agilit
         super(module);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerInteract(final PlayerInteractEvent event) {
-        if (event.useItemInHand() == Event.Result.DENY) {
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerItemInteract(final PlayerItemInteractEvent event) {
+        if (event.isCancelled()) {
             return;
         }
 
@@ -50,7 +49,7 @@ public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, Agilit
             return;
         }
 
-        final ItemStack itemStack = event.getItem();
+        final ItemStack itemStack = event.getItemStack();
         if (itemStack != null && itemStack.getType() != Material.AIR) {
             return;
         }

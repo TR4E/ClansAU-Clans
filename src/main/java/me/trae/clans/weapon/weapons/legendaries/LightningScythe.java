@@ -20,7 +20,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
-import java.util.Set;
 
 public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, WeaponData> {
 
@@ -84,7 +83,7 @@ public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, Weapo
 
     @Override
     public void onActivate(final Player player) {
-        final Block block = player.getTargetBlock((Set<Material>) null, this.blockDistance);
+        final Block block = UtilBlock.getBlockTarget(player, this.blockDistance);
         if (block == null) {
             return;
         }

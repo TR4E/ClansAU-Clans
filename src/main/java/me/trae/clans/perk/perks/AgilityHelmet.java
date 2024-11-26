@@ -10,6 +10,7 @@ import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.perk.Perk;
 import me.trae.core.updater.interfaces.Updater;
 import me.trae.core.utility.UtilItem;
+import me.trae.core.utility.UtilJava;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -98,8 +99,6 @@ public class AgilityHelmet extends Perk<Clans, PerkManager> implements IAgilityH
         }
 
         player.getEquipment().setHelmet(null);
-
-        UtilRole.playEffect(player, "None", false);
     }
 
     @Override
@@ -107,9 +106,19 @@ public class AgilityHelmet extends Perk<Clans, PerkManager> implements IAgilityH
         if (client.isOnline()) {
             final Player player = client.getPlayer();
 
-            if (!(UtilItem.contains(player, new ItemStack(this.getMaterial()), 1))) {
-                UtilItem.insert(player, new ItemStack(this.getMaterial()));
-            }
+            UtilJava.call(new ItemStack(this.getMaterial()), itemStack -> {
+                final ItemStack helmetItemStack = player.getEquipment().getHelmet();
+
+                if (helmetItemStack != null && UtilItem.isSimilar(helmetItemStack, itemStack)) {
+                    return;
+                }
+
+                if (UtilItem.contains(player, itemStack, 1)) {
+                    return;
+                }
+
+                UtilItem.insert(player, itemStack);
+            });
         }
     }
 }
