@@ -44,6 +44,7 @@ import me.trae.clans.clan.modules.tnt.HandleClanTerritoryTntProtection;
 import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFire;
 import me.trae.clans.clan.modules.weapon.HandleWeaponLocation;
 import me.trae.clans.clan.modules.weapon.HandleWeaponPreActivate;
+import me.trae.clans.clan.modules.world.DisableLeavesDecayInAdminClanTerritory;
 import me.trae.clans.clan.modules.world.DisableNaturalCreatureSpawningInAdminClanTerritory;
 import me.trae.clans.clan.modules.world.DisableShootingArrowsInSafeZones;
 import me.trae.clans.clan.types.AdminClan;
@@ -181,6 +182,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleWeaponPreActivate(this));
 
         // World Modules
+        addModule(new DisableLeavesDecayInAdminClanTerritory(this));
         addModule(new DisableNaturalCreatureSpawningInAdminClanTerritory(this));
         addModule(new DisableShootingArrowsInSafeZones(this));
 

@@ -24,7 +24,7 @@ import java.util.Collections;
 
 public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, AgilityHelmet> {
 
-    private final String LEAP_ABILITY_NAME = "Agility Leap";
+    final String LEAP_ABILITY_NAME = "Agility Leap";
 
     @ConfigInject(type = Float.class, path = "Energy", defaultValue = "0.0")
     private float energy;
@@ -64,9 +64,21 @@ public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, Agilit
             return;
         }
 
-        final String WALLKICK_ABILITY_NAME = "Agility Wall Kick";
 
-        UtilLeap.activate(player, "Agility", this.LEAP_ABILITY_NAME, this.LEAP_ABILITY_NAME, WALLKICK_ABILITY_NAME, WALLKICK_ABILITY_NAME, this.leapRecharge, this.wallKickRecharge, this.energy);
+        final String prefix = "Agility";
+
+        final String leapAbilityName = this.LEAP_ABILITY_NAME;
+        final String wallKickAbilityName = "Agility Wall Kick";
+
+        final String leapCooldownName = leapAbilityName;
+        final String wallKickCooldownName = wallKickAbilityName;
+
+        final long leapRechargeDuration = this.leapRecharge;
+        final long wallKickRechargeDuration = this.wallKickRecharge;
+
+        final float energy = this.energy;
+
+        UtilLeap.activate(player, prefix, leapAbilityName, wallKickAbilityName, leapCooldownName, wallKickCooldownName, leapRechargeDuration, wallKickRechargeDuration, energy);
     }
 
     private boolean canActivate(final Player player) {

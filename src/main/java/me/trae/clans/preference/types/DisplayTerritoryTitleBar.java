@@ -5,9 +5,9 @@ import me.trae.clans.preference.PreferenceManager;
 import me.trae.core.preference.Preference;
 import me.trae.core.preference.models.BooleanPreference;
 
-public class TerritoryTitleBar extends Preference<Clans, PreferenceManager, Boolean> implements BooleanPreference {
+public class DisplayTerritoryTitleBar extends Preference<Clans, PreferenceManager, Boolean> implements BooleanPreference {
 
-    public TerritoryTitleBar(final PreferenceManager manager) {
+    public DisplayTerritoryTitleBar(final PreferenceManager manager) {
         super(manager);
     }
 

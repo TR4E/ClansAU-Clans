@@ -4,7 +4,7 @@ import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.preference.PreferenceManager;
-import me.trae.clans.preference.types.TerritoryTitleBar;
+import me.trae.clans.preference.types.DisplayTerritoryTitleBar;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
@@ -109,7 +109,7 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
     private void display(final Player player, final Location location, final Clan territoryClan) {
         final Clan playerClan = this.getManager().getClanByPlayer(player);
 
-        if (this.titleEnabled && this.getInstance().getManagerByClass(PreferenceManager.class).getModuleByClass(TerritoryTitleBar.class).getUserByPlayer(player).getValue()) {
+        if (this.titleEnabled && this.getInstance().getManagerByClass(PreferenceManager.class).getModuleByClass(DisplayTerritoryTitleBar.class).getUserByPlayer(player).getValue()) {
             final Pair<String, String> pair = this.getManager().getTerritoryClanNameForTitle(playerClan, territoryClan, location);
 
             UtilTitle.sendTitle(player, pair.getLeft(), pair.getRight(), true, this.titleDuration);

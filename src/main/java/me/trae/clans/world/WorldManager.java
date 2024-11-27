@@ -2,6 +2,7 @@ package me.trae.clans.world;
 
 import me.trae.clans.Clans;
 import me.trae.clans.world.commands.ArmourCommand;
+import me.trae.clans.world.commands.DyeCommand;
 import me.trae.clans.world.modules.*;
 import me.trae.clans.world.modules.block.DisableBedrock;
 import me.trae.clans.world.modules.block.DisableObsidian;
@@ -24,6 +25,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
     public void registerModules() {
         // Commands
         addModule(new ArmourCommand(this));
+        addModule(new DyeCommand(this));
 
         // Core Modules
         addModule(new DisableSaturation<>(this));
@@ -52,6 +54,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
 
         // Clans Modules
         addModule(new FasterNighttimeCycle(this));
+        addModule(new HandleDropFallingBlock(this));
         addModule(new HandleIronDoorInteract(this));
         addModule(new RemoveArrowsOnHit(this));
         addModule(new SpringBlock(this));

@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class ArmourCommand extends Command<Clans, WorldManager> implements PlayerCommandType {
 
     public ArmourCommand(final WorldManager manager) {
-        super(manager, "armour", new String[]{"autoarmour"}, Rank.DEFAULT);
+        super(manager, "armour", new String[]{"armor", "autoarmour", "autoarmor"}, Rank.DEFAULT);
     }
 
     @Override
