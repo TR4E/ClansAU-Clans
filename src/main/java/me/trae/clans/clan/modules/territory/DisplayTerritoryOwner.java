@@ -8,6 +8,7 @@ import me.trae.clans.preference.types.TerritoryTitleBar;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
+import me.trae.core.utility.UtilLocation;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.UtilTitle;
@@ -79,6 +80,10 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
 
     private boolean canDisplay(final Location fromLocation, final Location toLocation, final Clan fromTerritoryClan, final Clan toTerritoryClan) {
         if (fromLocation.equals(toLocation)) {
+            return false;
+        }
+
+        if (UtilLocation.isCameraMoving(fromLocation, toLocation)) {
             return false;
         }
 
