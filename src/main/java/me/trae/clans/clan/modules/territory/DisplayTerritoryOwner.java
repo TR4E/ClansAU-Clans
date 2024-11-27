@@ -41,6 +41,10 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
         final Location fromLocation = event.getFrom();
         final Location toLocation = event.getTo();
 
+        if (UtilLocation.isCameraMovingWithBlockCheck(fromLocation, toLocation)) {
+            return;
+        }
+
         if (fromLocation.getBlock() == toLocation.getBlock()) {
             return;
         }
@@ -80,10 +84,6 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
 
     private boolean canDisplay(final Location fromLocation, final Location toLocation, final Clan fromTerritoryClan, final Clan toTerritoryClan) {
         if (fromLocation.equals(toLocation)) {
-            return false;
-        }
-
-        if (UtilLocation.isCameraMoving(fromLocation, toLocation)) {
             return false;
         }
 

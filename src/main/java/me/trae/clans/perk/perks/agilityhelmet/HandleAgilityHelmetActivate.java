@@ -24,7 +24,7 @@ import java.util.Collections;
 
 public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, AgilityHelmet> {
 
-    private final String ABILITY_NAME = "Agility Leap";
+    private final String LEAP_ABILITY_NAME = "Agility Leap";
 
     @ConfigInject(type = Float.class, path = "Energy", defaultValue = "0.0")
     private float energy;
@@ -64,7 +64,9 @@ public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, Agilit
             return;
         }
 
-        UtilLeap.activateLeap(player, "Agility", this.ABILITY_NAME, "Agility Wall Kick", this.leapRecharge, this.wallKickRecharge, this.energy);
+        final String WALLKICK_ABILITY_NAME = "Agility Wall Kick";
+
+        UtilLeap.activate(player, "Agility", this.LEAP_ABILITY_NAME, this.LEAP_ABILITY_NAME, WALLKICK_ABILITY_NAME, WALLKICK_ABILITY_NAME, this.leapRecharge, this.wallKickRecharge, this.energy);
     }
 
     private boolean canActivate(final Player player) {
@@ -75,12 +77,12 @@ public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, Agilit
         }
 
         if (UtilBlock.isInLiquid(player.getLocation())) {
-            UtilMessage.simpleMessage(player, this.getModule().getName(), "You cannot use <green><var></green> while in liquid.", Collections.singletonList(this.ABILITY_NAME));
+            UtilMessage.simpleMessage(player, this.getModule().getName(), "You cannot use <green><var></green> while in liquid.", Collections.singletonList(this.LEAP_ABILITY_NAME));
             return false;
         }
 
         if (this.getInstance(Champions.class).getManagerByClass(EffectManager.class).getModuleByClass(Silenced.class).isUserByEntity(player)) {
-            UtilMessage.simpleMessage(player, this.getModule().getName(), "You cannot use <green><var></green> while silenced.", Collections.singletonList(this.ABILITY_NAME));
+            UtilMessage.simpleMessage(player, this.getModule().getName(), "You cannot use <green><var></green> while silenced.", Collections.singletonList(this.LEAP_ABILITY_NAME));
             return false;
         }
 

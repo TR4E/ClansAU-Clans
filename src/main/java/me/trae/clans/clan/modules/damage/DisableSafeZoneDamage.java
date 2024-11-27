@@ -28,6 +28,7 @@ public class DisableSafeZoneDamage extends SpigotListener<Clans, ClanManager> {
         }
 
         if (!(event.getDamager() instanceof Player)) {
+            event.setCancelled(true);
             return;
         }
 
