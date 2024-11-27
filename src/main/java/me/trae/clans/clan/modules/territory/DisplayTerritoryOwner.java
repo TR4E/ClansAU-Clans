@@ -7,6 +7,7 @@ import me.trae.clans.preference.PreferenceManager;
 import me.trae.clans.preference.types.DisplayTerritoryTitleBar;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.preference.data.PreferenceData;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilLocation;
 import me.trae.core.utility.UtilMessage;
@@ -109,10 +110,13 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
     private void display(final Player player, final Location location, final Clan territoryClan) {
         final Clan playerClan = this.getManager().getClanByPlayer(player);
 
-        if (this.titleEnabled && this.getInstance().getManagerByClass(PreferenceManager.class).getModuleByClass(DisplayTerritoryTitleBar.class).getUserByPlayer(player).getValue()) {
-            final Pair<String, String> pair = this.getManager().getTerritoryClanNameForTitle(playerClan, territoryClan, location);
+        if (this.titleEnabled) {
+            final PreferenceData<Boolean> data = this.getInstance().getManagerByClass(PreferenceManager.class).getModuleByClass(DisplayTerritoryTitleBar.class).getUserByPlayer(player);
+            if (data == null || data.getValue()) {
+                final Pair<String, String> pair = this.getManager().getTerritoryClanNameForTitle(playerClan, territoryClan, location);
 
-            UtilTitle.sendTitle(player, pair.getLeft(), pair.getRight(), true, this.titleDuration);
+                UtilTitle.sendTitle(player, pair.getLeft(), pair.getRight(), true, this.titleDuration);
+            }
         }
 
         UtilMessage.simpleMessage(player, "Territory", this.getManager().getTerritoryClanNameForChat(playerClan, territoryClan, location));
