@@ -5,8 +5,10 @@ import me.trae.clans.world.commands.ArmourCommand;
 import me.trae.clans.world.commands.DyeCommand;
 import me.trae.clans.world.modules.*;
 import me.trae.clans.world.modules.block.DisableBedrock;
+import me.trae.clans.world.modules.block.DisableContainerBlockInSky;
 import me.trae.clans.world.modules.block.DisableObsidian;
 import me.trae.clans.world.modules.interaction.block.*;
+import me.trae.clans.world.modules.interaction.item.DisableBoneMealInteract;
 import me.trae.clans.world.modules.interaction.item.DisableDrinkingPotions;
 import me.trae.clans.world.modules.interaction.item.HandleFlintAndSteelInteract;
 import me.trae.clans.world.modules.restriction.DisableCreeperExplosionBlockDamage;
@@ -34,6 +36,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
 
         // Block Modules
         addModule(new DisableBedrock(this));
+        addModule(new DisableContainerBlockInSky(this));
         addModule(new DisableObsidian(this));
 
         // Block Interaction
@@ -46,6 +49,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         addModule(new DisableEnderPortalFrameInteraction(this));
 
         // Item Interaction
+        addModule(new DisableBoneMealInteract(this));
         addModule(new DisableDrinkingPotions(this));
         addModule(new HandleFlintAndSteelInteract(this));
 
@@ -53,6 +57,8 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         addModule(new DisableCreeperExplosionBlockDamage(this));
 
         // Clans Modules
+        addModule(new DisableBucketInteraction(this));
+        addModule(new DisableHopperMoveItem(this));
         addModule(new FasterNighttimeCycle(this));
         addModule(new HandleDropFallingBlock(this));
         addModule(new HandleIronDoorInteract(this));

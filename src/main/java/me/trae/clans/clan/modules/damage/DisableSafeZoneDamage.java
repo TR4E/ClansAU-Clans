@@ -17,8 +17,25 @@ public class DisableSafeZoneDamage extends SpigotListener<Clans, ClanManager> {
         super(manager);
     }
 
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onCustomPreDamageWithDamagee(final CustomPreDamageEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+
+        if (!(event.getDamagee() instanceof Player)) {
+            return;
+        }
+
+        if (!(this.getManager().isSafeByPlayer(event.getDamageeByClass(Player.class)))) {
+            return;
+        }
+
+        event.setCancelled(true);
+    }
+
     @EventHandler(priority = EventPriority.LOW)
-    public void onCustomPreDamage(final CustomPreDamageEvent event) {
+    public void onCustomPreDamageWithDamager(final CustomPreDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }
@@ -28,7 +45,6 @@ public class DisableSafeZoneDamage extends SpigotListener<Clans, ClanManager> {
         }
 
         if (!(event.getDamager() instanceof Player)) {
-            event.setCancelled(true);
             return;
         }
 

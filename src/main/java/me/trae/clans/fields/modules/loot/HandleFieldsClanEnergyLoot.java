@@ -9,6 +9,7 @@ import me.trae.clans.fields.events.FieldsLootEvent;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.item.ItemBuilder;
+import me.trae.core.item.constants.ItemConstants;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMath;
@@ -38,7 +39,7 @@ public class HandleFieldsClanEnergyLoot extends SpigotListener<Clans, FieldsMana
     }
 
     private ItemStack getItemStack() {
-        return new ItemStack(Material.INK_SACK, 1, (byte) 4);
+        return ItemConstants.LAPIS_LAZULI;
     }
 
     @EventHandler
