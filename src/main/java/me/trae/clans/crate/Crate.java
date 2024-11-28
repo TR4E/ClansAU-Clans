@@ -3,14 +3,16 @@ package me.trae.clans.crate;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.crate.interfaces.ICrate;
-import me.trae.clans.crate.item.CrateItemBuilder;
 import me.trae.clans.crate.loot.Loot;
 import me.trae.core.framework.SpigotModule;
+import me.trae.core.item.ItemBuilder;
 import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMath;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Crate extends SpigotModule<Clans, CrateManager> implements ICrate {
@@ -34,30 +36,8 @@ public abstract class Crate extends SpigotModule<Clans, CrateManager> implements
     }
 
     @Override
-    public CrateItemBuilder getItemBuilder() {
-        return new CrateItemBuilder(this);
-    }
-
-    @Override
-    public Loot getLootByItemStack(final ItemStack itemStack) {
-        if (itemStack != null) {
-            if (itemStack.hasItemMeta()) {
-                for (final Loot loot : this.getSubModulesByClass(Loot.class)) {
-                    if (!(UtilItem.isSimilarWithItemMeta(itemStack, loot.getItemBuilder().toItemStack()))) {
-                        continue;
-                    }
-
-                    return loot;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public boolean isLootByItemStack(final ItemStack itemStack) {
-        return this.getLootByItemStack(itemStack) != null;
+    public ItemBuilder getItemBuilder() {
+        return new ItemBuilder(this.getItemStack(), this.getDisplayName(), new ArrayList<>(Arrays.asList(this.getDescription())));
     }
 
     @Override

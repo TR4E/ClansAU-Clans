@@ -1,7 +1,7 @@
 package me.trae.clans.crate.interfaces;
 
-import me.trae.clans.crate.item.CrateItemBuilder;
 import me.trae.clans.crate.loot.Loot;
+import me.trae.core.item.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,11 +16,7 @@ public interface ICrate {
 
     String[] getDescription();
 
-    CrateItemBuilder getItemBuilder();
-
-    Loot getLootByItemStack(final ItemStack itemStack);
-
-    boolean isLootByItemStack(final ItemStack itemStack);
+    ItemBuilder getItemBuilder();
 
     Loot getRandomLoot();
 
