@@ -4,6 +4,7 @@ import me.trae.clans.Clans;
 import me.trae.clans.fields.FieldsBlock;
 import me.trae.clans.fields.FieldsManager;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.utility.UtilBlock;
 import me.trae.core.utility.UtilLocation;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilString;
@@ -54,7 +55,7 @@ public class HandleAdminFieldsBlockBreak extends SpigotListener<Clans, FieldsMan
         this.getManager().removeBlock(fieldsBlock);
         this.getManager().getRepository().deleteData(fieldsBlock);
 
-        UtilMessage.simpleMessage(player, "Fields", UtilString.pair("Deleted Block", "<green><var> <var>"), Arrays.asList(UtilString.clean(block.getType().name()), UtilLocation.locationToString(block.getLocation())));
+        UtilMessage.simpleMessage(player, "Fields", UtilString.pair("Deleted Block", "<green><var> <var>"), Arrays.asList(UtilBlock.getDisplayName(block), UtilLocation.locationToString(block.getLocation())));
 
         block.setType(Material.AIR);
     }

@@ -3,6 +3,7 @@ package me.trae.clans.world.modules.interaction.item;
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.utility.UtilBlock;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilString;
 import me.trae.core.world.modules.shared.interfaces.DisableItemInteraction;
@@ -44,6 +45,6 @@ public class HandleFlintAndSteelInteract extends SpigotListener<Clans, WorldMana
 
     @Override
     public void inform(final Player player, final ItemStack itemStack, final Block block) {
-        UtilMessage.simpleMessage(player, "Game", "You cannot use <yellow><var></yellow> on <green><var></green>.", Arrays.asList(UtilString.clean(itemStack.getType().name()), UtilString.clean(block.getType().name())));
+        UtilMessage.simpleMessage(player, "Game", "You cannot use <yellow><var></yellow> on <green><var></green>.", Arrays.asList(UtilString.clean(itemStack.getType().name()), UtilBlock.getDisplayName(block)));
     }
 }
