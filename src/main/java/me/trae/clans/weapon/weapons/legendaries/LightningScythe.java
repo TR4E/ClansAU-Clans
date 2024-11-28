@@ -47,7 +47,7 @@ public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, Weapo
     @ConfigInject(type = Integer.class, path = "Take-Durability", defaultValue = "5")
     private int takeDurability;
 
-    @ConfigInject(type = Boolean.class, path = "Friendly-Fire", defaultValue = "false")
+    @ConfigInject(type = Boolean.class, path = "Friendly-Fire", defaultValue = "true")
     private boolean friendlyFire;
 
     public LightningScythe(final WeaponManager manager) {

@@ -136,7 +136,7 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
     @Override
     public List<SupplyCrateData> getData() {
         if (this.DATA == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         return Collections.singletonList(this.DATA);

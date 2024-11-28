@@ -7,6 +7,7 @@ import me.trae.clans.crate.loot.models.ItemLoot;
 import me.trae.core.framework.SpigotSubModule;
 import me.trae.core.item.ItemBuilder;
 import me.trae.core.player.events.PlayerDisplayNameEvent;
+import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import org.bukkit.entity.Player;
@@ -23,7 +24,7 @@ public abstract class Loot extends SpigotSubModule<Clans, Crate> implements ILoo
     public Loot(final Crate module, final double chance, final ItemStack itemStack) {
         super(module);
 
-        this.itemStack = itemStack;
+        this.itemStack = UtilItem.updateItemStack(itemStack);
         this.chance = chance;
     }
 

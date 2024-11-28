@@ -11,12 +11,18 @@ import me.trae.core.utility.objects.SoundCreator;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class CrateOpenMenu extends Menu<Clans, CrateManager> implements ICrateMenu {
 
     public CrateOpenMenu(final CrateManager manager, final Player player, final Crate crate) {
-        super(manager, player, 9, String.format("Opening %s", crate.getDisplayName()));
+        super(manager, player, InventoryType.DISPENSER, String.format("Opening %s", crate.getDisplayName()));
+    }
+
+    @Override
+    public boolean fillBlank() {
+        return true;
     }
 
     @Override
