@@ -2,6 +2,7 @@ package me.trae.clans;
 
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.config.ConfigManager;
+import me.trae.clans.crate.CrateManager;
 import me.trae.clans.donation.DonationManager;
 import me.trae.clans.fields.FieldsManager;
 import me.trae.clans.fishing.FishingManager;
@@ -31,6 +32,7 @@ public class Clans extends MiniPlugin {
         addManager(new WeaponManager(this));
         addManager(new KothManager(this));
         addManager(new PerkManager(this));
+        addManager(new CrateManager(this));
         addManager(new PreferenceManager(this));
         addManager(new RecipeManager(this));
         addManager(new TntManager(this));
