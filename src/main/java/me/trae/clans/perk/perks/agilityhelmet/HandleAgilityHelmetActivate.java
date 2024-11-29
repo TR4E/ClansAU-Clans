@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
@@ -45,7 +46,7 @@ public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, Agilit
             return;
         }
 
-        if (!(ActionType.LEFT_CLICK.isAction(event.getAction()))) {
+        if (event.getAction() != Action.LEFT_CLICK_AIR) {
             return;
         }
 

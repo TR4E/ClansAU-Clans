@@ -4,6 +4,7 @@ import me.trae.clans.clan.ClanManager;
 import me.trae.clans.config.ConfigManager;
 import me.trae.clans.crate.CrateManager;
 import me.trae.clans.donation.DonationManager;
+import me.trae.clans.farming.FarmingManager;
 import me.trae.clans.fields.FieldsManager;
 import me.trae.clans.fishing.FishingManager;
 import me.trae.clans.gamer.GamerManager;
@@ -25,6 +26,7 @@ public class Clans extends MiniPlugin {
         addManager(new ClanManager(this));
         addManager(new ConfigManager(this));
         addManager(new DonationManager(this));
+        addManager(new FarmingManager(this));
         addManager(new FieldsManager(this));
         addManager(new FishingManager(this));
         addManager(new GamerManager(this));

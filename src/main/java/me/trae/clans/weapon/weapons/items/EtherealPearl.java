@@ -15,10 +15,8 @@ import me.trae.core.effect.types.NoFall;
 import me.trae.core.throwable.Throwable;
 import me.trae.core.throwable.ThrowableManager;
 import me.trae.core.throwable.events.ThrowableGroundedEvent;
-import me.trae.core.utility.UtilEntity;
-import me.trae.core.utility.UtilMessage;
-import me.trae.core.utility.UtilParticle;
-import me.trae.core.utility.UtilString;
+import me.trae.core.throwable.events.ThrowableUpdaterEvent;
+import me.trae.core.utility.*;
 import me.trae.core.utility.enums.ActionType;
 import me.trae.core.utility.objects.SoundCreator;
 import me.trae.core.weapon.data.WeaponData;
@@ -27,6 +25,7 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -198,6 +197,43 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
         new SoundCreator(Sound.ENDERMAN_TELEPORT).play(location);
 
         passenger.teleport(passenger.getLocation().add(0.0D, 0.5D, 0.0D));
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onThrowableUpdater(final ThrowableUpdaterEvent event) {
+        if (!(event.isThrowableName(this.getAbilityName(ActionType.LEFT_CLICK)))) {
+            return;
+        }
+
+        final Throwable throwable = event.getThrowable();
+
+        final Item item = throwable.getItem();
+        if (item == null || item.isDead() || !(item.isValid())) {
+            return;
+        }
+
+        final Player throwerPlayer = event.getThrowable().getThrowerPlayer();
+
+        if (item.getPassenger() != null && !(item.getPassenger().equals(throwerPlayer))) {
+            return;
+        }
+
+        if (!(throwerPlayer.isInsideVehicle()) || (throwerPlayer.getVehicle() != null && !(throwerPlayer.getVehicle().equals(item)))) {
+            return;
+        }
+
+        final Block blockTarget = UtilBlock.getBlockTarget(throwerPlayer, 2);
+        if (blockTarget == null) {
+            return;
+        }
+
+        if (!(blockTarget.getType().isSolid() && UtilBlock.isDoor(blockTarget.getType()))) {
+            return;
+        }
+
+        throwerPlayer.leaveVehicle();
+
+        item.remove();
     }
 
     @Override
