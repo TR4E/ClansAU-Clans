@@ -74,8 +74,8 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
             playerClanEnemy.setDominancePoints(playerClanEnemy.getDominancePoints() - 1);
             this.getManager().getRepository().updateData(playerClan, ClanProperty.ENEMIES);
 
-            this.getManager().messageClan(playerClan, "Clans", "You have lost a gained Dominance Point by <var>", Collections.singletonList(this.getManager().getClanFullName(killerClan, clanRelationByPlayerClan)), null);
-            this.getManager().messageClan(killerClan, "Clans", "You have recovered a lost Dominance Point against <var>", Collections.singletonList(this.getManager().getClanFullName(playerClan, clanRelationByKillerClan)), null);
+            this.getManager().messageClan(playerClan, "Clans", "You lost a gained Dominance Point by <var>. <var>", Arrays.asList(this.getManager().getClanFullName(killerClan, clanRelationByPlayerClan), playerClan.getDominanceString(killerClan)), null);
+            this.getManager().messageClan(killerClan, "Clans", "You recovered a lost Dominance Point against <var>. <var>", Arrays.asList(this.getManager().getClanFullName(playerClan, clanRelationByKillerClan), killerClan.getDominanceString(playerClan)), null);
         } else {
             // Player Clan Lost a Point
             // Killer Clan Gains a Point
@@ -83,8 +83,8 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
             killerClanEnemy.setDominancePoints(killerClanEnemy.getDominancePoints() + 1);
             this.getManager().getRepository().updateData(killerClan, ClanProperty.ENEMIES);
 
-            this.getManager().messageClan(playerClan, "Clans", "You have lost a Dominance Point by <var>", Collections.singletonList(this.getManager().getClanFullName(killerClan, clanRelationByPlayerClan)), null);
-            this.getManager().messageClan(killerClan, "Clans", "You have gained a Dominance Point against <var>", Collections.singletonList(this.getManager().getClanFullName(playerClan, clanRelationByKillerClan)), null);
+            this.getManager().messageClan(playerClan, "Clans", "You lost a Dominance Point by <var>. <var>", Arrays.asList(this.getManager().getClanFullName(killerClan, clanRelationByPlayerClan), playerClan.getDominanceString(killerClan)), null);
+            this.getManager().messageClan(killerClan, "Clans", "You gained a Dominance Point against <var>. <var>", Arrays.asList(this.getManager().getClanFullName(playerClan, clanRelationByKillerClan), killerClan.getDominanceString(playerClan)), null);
         }
     }
 

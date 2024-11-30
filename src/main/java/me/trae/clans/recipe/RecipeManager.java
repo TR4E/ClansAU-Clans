@@ -3,6 +3,10 @@ package me.trae.clans.recipe;
 import me.trae.clans.Clans;
 import me.trae.clans.recipe.modules.*;
 import me.trae.clans.recipe.types.*;
+import me.trae.clans.recipe.types.chainmail.ChainmailBootsRecipe;
+import me.trae.clans.recipe.types.chainmail.ChainmailChestplateRecipe;
+import me.trae.clans.recipe.types.chainmail.ChainmailHelmetRecipe;
+import me.trae.clans.recipe.types.chainmail.ChainmailLeggingsRecipe;
 import me.trae.core.recipe.abstracts.AbstractRecipeManager;
 
 public class RecipeManager extends AbstractRecipeManager<Clans> {
@@ -29,6 +33,11 @@ public class RecipeManager extends AbstractRecipeManager<Clans> {
         addModule(new DisableTntRecipe(this));
 
         // Recipes
+        addModule(new ChainmailBootsRecipe(this));
+        addModule(new ChainmailChestplateRecipe(this));
+        addModule(new ChainmailHelmetRecipe(this));
+        addModule(new ChainmailLeggingsRecipe(this));
+
         addModule(new DiamondAxeRecipe(this));
         addModule(new DiamondSwordRecipe(this));
         addModule(new GoldAxeRecipe(this));

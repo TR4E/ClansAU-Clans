@@ -19,6 +19,7 @@ import me.trae.clans.clan.modules.HandleClanUpdater;
 import me.trae.clans.clan.modules.champions.HandleOverpoweredKits;
 import me.trae.clans.clan.modules.chat.HandleChatReceiver;
 import me.trae.clans.clan.modules.chat.HandleClansPlayerDisplayNameFormat;
+import me.trae.clans.clan.modules.combat.HandleCombatTagTitleInSafeZones;
 import me.trae.clans.clan.modules.damage.DisableSafeZoneDamage;
 import me.trae.clans.clan.modules.damage.DisableTeammateDamage;
 import me.trae.clans.clan.modules.energy.HandleClanEnergyUpdater;
@@ -59,10 +60,7 @@ import me.trae.core.framework.SpigotManager;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.gamer.GamerManager;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
-import me.trae.core.utility.UtilChunk;
-import me.trae.core.utility.UtilJava;
-import me.trae.core.utility.UtilMessage;
-import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.*;
 import me.trae.core.utility.objects.Pair;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -137,6 +135,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         // Chat Modules
         addModule(new HandleChatReceiver(this));
         addModule(new HandleClansPlayerDisplayNameFormat(this));
+
+        // Combat Modules
+        addModule(new HandleCombatTagTitleInSafeZones(this));
 
         // Damage Modules
         addModule(new DisableSafeZoneDamage(this));
@@ -472,6 +473,8 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
                     description = "<yellow>Trusted";
                 } else if (territoryClan.isEnemyByClan(playerClan)) {
                     description = territoryClan.getShortDominanceString(playerClan);
+                } else if (playerClan.isPillageByClan(territoryClan)) {
+                    description = String.format("<green>%s", UtilTime.getTime(UtilTime.getRemaining(playerClan.getPillageByClan(territoryClan).getSystemTime(), this.pillageLength)));
                 }
             }
 
@@ -630,16 +633,16 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public boolean isSafeByPlayer(final Player player) {
-        if (!(this.isSafeByLocation(player.getLocation()))) {
-            return false;
-        }
-
         if (UtilDamage.isInvulnerable(player)) {
             return true;
         }
 
         if (this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
             return true;
+        }
+
+        if (!(this.isSafeByLocation(player.getLocation()))) {
+            return false;
         }
 
         if (this.getInstance(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {

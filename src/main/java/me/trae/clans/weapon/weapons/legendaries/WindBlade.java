@@ -40,11 +40,11 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
     @ConfigInject(type = Double.class, path = "Strength", defaultValue = "0.9")
     private double strength;
 
-    @ConfigInject(type = Double.class, path = "yMax", defaultValue = "1.0")
-    private double yMax;
-
     @ConfigInject(type = Double.class, path = "yAdd", defaultValue = "0.11")
     private double yAdd;
+
+    @ConfigInject(type = Double.class, path = "yMax", defaultValue = "1.0")
+    private double yMax;
 
     @ConfigInject(type = Boolean.class, path = "groundBoost", defaultValue = "true")
     private boolean groundBoost;

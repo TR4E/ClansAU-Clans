@@ -1,8 +1,11 @@
 package me.trae.clans.clan.modules.damage;
 
+import me.trae.api.combat.CombatManager;
 import me.trae.api.damage.events.damage.CustomPreDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
+import me.trae.core.Core;
+import me.trae.core.client.ClientManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilMessage;
 import org.bukkit.entity.Player;
@@ -17,13 +20,17 @@ public class DisableSafeZoneDamage extends SpigotListener<Clans, ClanManager> {
         super(manager);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.LOW)
     public void onCustomPreDamageWithDamagee(final CustomPreDamageEvent event) {
         if (event.isCancelled()) {
             return;
         }
 
         if (!(event.getDamagee() instanceof Player)) {
+            return;
+        }
+
+        if (event.hasDamager()) {
             return;
         }
 
@@ -34,7 +41,7 @@ public class DisableSafeZoneDamage extends SpigotListener<Clans, ClanManager> {
         event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onCustomPreDamageWithDamager(final CustomPreDamageEvent event) {
         if (event.isCancelled()) {
             return;
@@ -51,9 +58,34 @@ public class DisableSafeZoneDamage extends SpigotListener<Clans, ClanManager> {
         final Player damagee = event.getDamageeByClass(Player.class);
         final Player damager = event.getDamagerByClass(Player.class);
 
-        if (!(this.getManager().isSafeByPlayer(damagee) && this.getManager().isSafeByPlayer(damager))) {
+        final boolean damageeInSafeZone = this.getManager().isSafeByLocation(damagee.getLocation());
+        final boolean damagerInSafeZone = this.getManager().isSafeByLocation(damager.getLocation());
+
+        if (!(damageeInSafeZone) && !(damagerInSafeZone)) {
             return;
         }
+
+        final ClientManager clientManager = this.getInstance(Core.class).getManagerByClass(ClientManager.class);
+
+        if (clientManager.getClientByPlayer(damager).isAdministrating()) {
+            return;
+        }
+
+        if (!(clientManager.getClientByPlayer(damagee).isAdministrating())) {
+            final CombatManager combatManager = this.getInstance(Core.class).getManagerByClass(CombatManager.class);
+
+            final boolean damageeInCombat = combatManager.isCombatByPlayer(damagee);
+            final boolean damagerInCombat = combatManager.isCombatByPlayer(damager);
+
+            if (damageeInCombat && damagerInCombat) {
+                return;
+            }
+
+            if (!(damagerInCombat) && damageeInCombat) {
+                return;
+            }
+        }
+
 
         event.setCancelled(true);
 

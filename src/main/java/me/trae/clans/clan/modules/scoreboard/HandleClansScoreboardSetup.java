@@ -3,6 +3,7 @@ package me.trae.clans.clan.modules.scoreboard;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
+import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.gamer.GamerManager;
 import me.trae.clans.worldevent.WorldEventManager;
@@ -96,6 +97,35 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
                 final String clanName = UtilString.trim(playerClan.getDisplayName(), 11);
 
                 return String.format("%s %s", clanRelation.getPrefix() + clanName, clanRelation.getSuffix());
+            }
+
+            @Override
+            public String getTeamSuffix(final Player player, final Player targetPlayer) {
+                final Clan playerClan = getManager().getClanByPlayer(player);
+                final Clan targetPlayerClan = getManager().getClanByPlayer(targetPlayer);
+
+                if (playerClan == null || targetPlayerClan == null) {
+                    return super.getTeamSuffix(player, targetPlayer);
+                }
+
+                final Enemy enemyByPlayerClan = playerClan.getEnemyByClan(targetPlayerClan);
+                final Enemy enemyByTargetPlayerClan = targetPlayerClan.getEnemyByClan(playerClan);
+
+                if (enemyByPlayerClan == null || enemyByTargetPlayerClan == null) {
+                    return super.getTeamSuffix(player, targetPlayer);
+                }
+
+                String dominancePointsString = "<white>0";
+
+                if (enemyByPlayerClan.getDominancePoints() > 0) {
+                    dominancePointsString = String.format("<red>-%s", enemyByPlayerClan.getDominancePoints());
+                }
+
+                if (enemyByTargetPlayerClan.getDominancePoints() > 0) {
+                    dominancePointsString = String.format("<green>+%s", enemyByTargetPlayerClan.getDominancePoints());
+                }
+
+                return String.format(" <gray>(%s<gray>)", dominancePointsString);
             }
         };
     }

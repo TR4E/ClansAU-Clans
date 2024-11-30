@@ -1,5 +1,6 @@
 package me.trae.clans.quest.quests.kill;
 
+import me.trae.api.champions.role.Role;
 import me.trae.api.champions.role.events.RoleCheckEvent;
 import me.trae.clans.quest.Quest;
 import me.trae.clans.quest.QuestManager;
@@ -38,6 +39,11 @@ public class KillMages extends Quest implements KillQuest<Player> {
 
     @Override
     public boolean canKill(final Player killer, final Player entity) {
-        return UtilServer.getEvent(new RoleCheckEvent(entity)).getRole().getName().equals("Mage");
+        final Role role = UtilServer.getEvent(new RoleCheckEvent(entity)).getRole();
+        if (role == null) {
+            return false;
+        }
+
+        return role.getName().equals("Mage");
     }
 }
