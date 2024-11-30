@@ -1,7 +1,8 @@
-package me.trae.clans.fields;
+package me.trae.clans.fields.data;
 
-import me.trae.clans.fields.enums.FieldsBlockProperty;
-import me.trae.clans.fields.interfaces.IFieldsBlock;
+import me.trae.clans.fields.FieldsManager;
+import me.trae.clans.fields.data.enums.FieldsBlockProperty;
+import me.trae.clans.fields.data.interfaces.IFieldsBlock;
 import me.trae.core.blockrestore.data.RestoreData;
 import me.trae.core.database.containers.DataContainer;
 import me.trae.core.database.query.constants.DefaultProperty;

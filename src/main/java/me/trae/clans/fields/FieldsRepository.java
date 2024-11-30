@@ -2,7 +2,8 @@ package me.trae.clans.fields;
 
 import me.trae.clans.Clans;
 import me.trae.clans.config.Config;
-import me.trae.clans.fields.enums.FieldsBlockProperty;
+import me.trae.clans.fields.data.FieldsBlock;
+import me.trae.clans.fields.data.enums.FieldsBlockProperty;
 import me.trae.core.database.query.Query;
 import me.trae.core.database.query.types.DeleteQuery;
 import me.trae.core.database.query.types.MultiCallbackQuery;

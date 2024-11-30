@@ -36,7 +36,7 @@ public class HandleFishingCaughtReceive extends SpigotListener<Clans, FishingMan
 
         final Entity caught = event.getCaught();
 
-        UtilVelocity.velocity(caught, UtilVelocity.getTrajectory(caught.getLocation().toVector(), player.getLocation().toVector()), 1.2D, 0.0D, 0.4D, 10.0D, false);
+        UtilVelocity.velocity(caught, UtilVelocity.getTrajectory(caught.getLocation().toVector(), player.getLocation().toVector()), Math.min(1.0D, caught.getLocation().distance(player.getLocation()) / 5.0D), 0.0D, 0.4D, 10.0D, false);
 
         String caughtName = event.getCaughtName();
 

@@ -1,4 +1,4 @@
-package me.trae.clans.fields.enums;
+package me.trae.clans.fields.data.enums;
 
 public enum FieldsBlockProperty {
 

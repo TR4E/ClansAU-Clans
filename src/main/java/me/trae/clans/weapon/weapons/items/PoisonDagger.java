@@ -68,7 +68,7 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
 
     private boolean canActivate(final Player player) {
         if (UtilPlugin.isInstance("Champions") && this.classRequired) {
-            if (UtilServer.getEvent(new RoleCheckEvent(player)).isCancelled()) {
+            if (UtilServer.getEvent(new RoleCheckEvent(player)).getRole() == null) {
                 return false;
             }
         }

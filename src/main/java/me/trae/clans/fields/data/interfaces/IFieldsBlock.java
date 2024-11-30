@@ -1,4 +1,4 @@
-package me.trae.clans.fields.interfaces;
+package me.trae.clans.fields.data.interfaces;
 
 import me.trae.clans.fields.FieldsManager;
 import me.trae.core.blockrestore.data.RestoreData;

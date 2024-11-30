@@ -1,6 +1,6 @@
 package me.trae.clans.fields.events;
 
-import me.trae.clans.fields.FieldsBlock;
+import me.trae.clans.fields.data.FieldsBlock;
 import me.trae.clans.fields.events.abstracts.FieldsCancellableEvent;
 import me.trae.core.event.types.IBlockEvent;
 import me.trae.core.event.types.IPlayerEvent;

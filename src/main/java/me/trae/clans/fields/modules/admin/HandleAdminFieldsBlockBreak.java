@@ -1,7 +1,7 @@
 package me.trae.clans.fields.modules.admin;
 
 import me.trae.clans.Clans;
-import me.trae.clans.fields.FieldsBlock;
+import me.trae.clans.fields.data.FieldsBlock;
 import me.trae.clans.fields.FieldsManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilBlock;

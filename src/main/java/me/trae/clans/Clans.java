@@ -12,6 +12,7 @@ import me.trae.clans.item.ItemManager;
 import me.trae.clans.koth.KothManager;
 import me.trae.clans.perk.PerkManager;
 import me.trae.clans.preference.PreferenceManager;
+import me.trae.clans.quest.QuestManager;
 import me.trae.clans.recipe.RecipeManager;
 import me.trae.clans.tnt.TntManager;
 import me.trae.clans.weapon.WeaponManager;
@@ -36,6 +37,7 @@ public class Clans extends MiniPlugin {
         addManager(new PerkManager(this));
         addManager(new CrateManager(this));
         addManager(new PreferenceManager(this));
+        addManager(new QuestManager(this));
         addManager(new RecipeManager(this));
         addManager(new TntManager(this));
         addManager(new WorldManager(this));

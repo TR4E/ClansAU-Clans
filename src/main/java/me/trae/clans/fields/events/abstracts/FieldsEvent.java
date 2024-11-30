@@ -1,6 +1,6 @@
 package me.trae.clans.fields.events.abstracts;
 
-import me.trae.clans.fields.FieldsBlock;
+import me.trae.clans.fields.data.FieldsBlock;
 import me.trae.clans.fields.events.abstracts.interfaces.IFieldsEvent;
 import me.trae.core.event.CustomEvent;
 

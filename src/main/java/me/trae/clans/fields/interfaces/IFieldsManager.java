@@ -1,6 +1,6 @@
 package me.trae.clans.fields.interfaces;
 
-import me.trae.clans.fields.FieldsBlock;
+import me.trae.clans.fields.data.FieldsBlock;
 import me.trae.core.blockrestore.data.RestoreData;
 import org.bukkit.Location;
 import org.bukkit.Material;
