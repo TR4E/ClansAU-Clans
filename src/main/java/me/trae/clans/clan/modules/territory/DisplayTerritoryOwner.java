@@ -46,7 +46,7 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
             return;
         }
 
-        if (fromLocation.getBlock() == toLocation.getBlock()) {
+        if (fromLocation.getBlock().equals(toLocation.getBlock())) {
             return;
         }
 

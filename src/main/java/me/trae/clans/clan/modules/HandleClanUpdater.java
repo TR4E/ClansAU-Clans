@@ -12,25 +12,14 @@ import me.trae.core.utility.UtilTime;
 
 public class HandleClanUpdater extends SpigotUpdater<Clans, ClanManager> {
 
-    @ConfigInject(type = Long.class, path = "Delay", defaultValue = "0")
-    private long delay;
-
-    private long systemTime = System.currentTimeMillis();
-
     public HandleClanUpdater(final ClanManager manager) {
         super(manager);
     }
 
-    @Update(delay = 50L)
+    @Update(delay = 100L)
     public void onUpdater() {
-        if (this.delay != 0 && !(UtilTime.elapsed(this.systemTime, this.delay))) {
-            return;
-        }
-
         for (final Clan clan : this.getManager().getClans().values()) {
             UtilServer.callEvent(new ClanUpdaterEvent(clan));
         }
-
-        this.systemTime = System.currentTimeMillis();
     }
 }
