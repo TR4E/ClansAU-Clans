@@ -39,6 +39,10 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
 
         final Clan clan = event.getClan();
 
+        if (clan.isAdmin() || !(clan.hasTerritory())) {
+            return;
+        }
+
         if (UtilTime.elapsed(this.warningSystemTime, this.warningDuration)) {
             this.handleWarning(clan);
             this.warningSystemTime = System.currentTimeMillis();
@@ -67,14 +71,6 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
     }
 
     private void handleCheck(final Clan clan) {
-        if (clan.isAdmin()) {
-            return;
-        }
-
-        if (!(clan.hasTerritory())) {
-            return;
-        }
-
         final int depletion = (int) (clan.getEnergyDepletionRatio() / 12);
 
         clan.setEnergy(clan.getEnergy() - depletion);
