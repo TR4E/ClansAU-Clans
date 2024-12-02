@@ -3,8 +3,9 @@ package me.trae.clans.perk;
 import me.trae.clans.Clans;
 import me.trae.clans.donation.DonationManager;
 import me.trae.clans.perk.commands.CraftCommand;
+import me.trae.clans.perk.commands.RepairCommand;
 import me.trae.clans.perk.perks.AgilityHelmet;
-import me.trae.clans.perk.perks.agilityhelmet.*;
+import me.trae.clans.perk.perks.BuilderPackage;
 import me.trae.core.perk.abstracts.AbstractPerkManager;
 
 public class PerkManager extends AbstractPerkManager<Clans, DonationManager> {
@@ -17,9 +18,11 @@ public class PerkManager extends AbstractPerkManager<Clans, DonationManager> {
     public void registerModules() {
         // Commands
         addModule(new CraftCommand(this));
+        addModule(new RepairCommand(this));
 
         // Perks
         addModule(new AgilityHelmet(this));
+        addModule(new BuilderPackage(this));
     }
 
     @Override

@@ -103,6 +103,6 @@ public class FieldsRepository extends Repository<Clans, FieldsManager, Config> i
 
     @Override
     public boolean isInform(final Query query) {
-        return !(query instanceof UpdateQuery<?>);
+        return query instanceof MultiCallbackQuery<?>;
     }
 }

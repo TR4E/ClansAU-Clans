@@ -1,6 +1,5 @@
 package me.trae.clans.perk.perks;
 
-import me.trae.champions.utility.UtilRole;
 import me.trae.clans.Clans;
 import me.trae.clans.perk.PerkManager;
 import me.trae.clans.perk.perks.agilityhelmet.*;
@@ -10,7 +9,6 @@ import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.perk.Perk;
 import me.trae.core.updater.interfaces.Updater;
 import me.trae.core.utility.UtilItem;
-import me.trae.core.utility.UtilJava;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -102,23 +100,19 @@ public class AgilityHelmet extends Perk<Clans, PerkManager> implements IAgilityH
     }
 
     @Override
-    public void onReceive(final Client client) {
-        if (client.isOnline()) {
-            final Player player = client.getPlayer();
+    public void onReceive(final Player player, final Client client) {
+        final ItemStack itemStack = new ItemStack(this.getMaterial());
 
-            UtilJava.call(new ItemStack(this.getMaterial()), itemStack -> {
-                final ItemStack helmetItemStack = player.getEquipment().getHelmet();
+        final ItemStack helmetItemStack = player.getEquipment().getHelmet();
 
-                if (helmetItemStack != null && UtilItem.isSimilar(helmetItemStack, itemStack)) {
-                    return;
-                }
-
-                if (UtilItem.contains(player, itemStack, 1)) {
-                    return;
-                }
-
-                UtilItem.insert(player, itemStack);
-            });
+        if (helmetItemStack != null && UtilItem.isSimilar(helmetItemStack, itemStack)) {
+            return;
         }
+
+        if (UtilItem.contains(player, itemStack, 1)) {
+            return;
+        }
+
+        UtilItem.insert(player, itemStack);
     }
 }

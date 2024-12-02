@@ -61,6 +61,8 @@ public class DwarvenPickaxe extends Legendary<Clans, WeaponManager, WeaponData> 
                 "This pickaxe will instantly",
                 "break any stone related blocks.",
                 "",
+                "Can only be used in your own territory.",
+                "",
                 UtilString.pair("<gray>Ability", "<yellow>Instant Mine")
         };
     }
@@ -123,7 +125,7 @@ public class DwarvenPickaxe extends Legendary<Clans, WeaponManager, WeaponData> 
         }
 
         final Clan territoryClan = this.getInstance().getManagerByClass(ClanManager.class).getClanByLocation(block.getLocation());
-        if (territoryClan != null && !(territoryClan.isMemberByPlayer(player))) {
+        if (territoryClan == null || !(territoryClan.isMemberByPlayer(player))) {
             return false;
         }
 
