@@ -2,7 +2,7 @@ package me.trae.clans.quest.commands;
 
 import me.trae.clans.Clans;
 import me.trae.clans.quest.QuestManager;
-import me.trae.clans.quest.menu.QuestMenu;
+import me.trae.clans.quest.menus.QuestMenu;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.command.types.Command;

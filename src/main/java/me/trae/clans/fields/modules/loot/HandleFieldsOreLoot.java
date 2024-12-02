@@ -4,6 +4,7 @@ import me.trae.clans.Clans;
 import me.trae.clans.fields.FieldsManager;
 import me.trae.clans.fields.events.FieldsLootEvent;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.item.constants.ItemConstants;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
@@ -39,6 +40,8 @@ public class HandleFieldsOreLoot extends SpigotListener<Clans, FieldsManager> {
                 case COAL_ORE:
                     event.addLoot(new ItemStack(Material.COAL));
                     break;
+                case LAPIS_ORE:
+                    event.addLoot(ItemConstants.LAPIS_LAZULI);
                 case REDSTONE_ORE:
                 case GLOWING_REDSTONE_ORE:
                     event.addLoot(new ItemStack(Material.REDSTONE));

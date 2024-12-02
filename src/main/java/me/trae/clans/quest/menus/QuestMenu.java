@@ -1,4 +1,4 @@
-package me.trae.clans.quest.menu;
+package me.trae.clans.quest.menus;
 
 import me.trae.clans.Clans;
 import me.trae.clans.quest.Quest;

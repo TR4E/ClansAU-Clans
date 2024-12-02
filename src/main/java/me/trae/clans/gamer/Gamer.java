@@ -40,6 +40,11 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
     }
 
     @Override
+    public boolean hasCoins(final int coins) {
+        return this.getCoins() >= coins;
+    }
+
+    @Override
     public String getCoinsString() {
         return UtilString.toDollar(this.getCoins());
     }

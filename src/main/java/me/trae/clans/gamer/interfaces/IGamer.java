@@ -6,5 +6,7 @@ public interface IGamer {
 
     void setCoins(final int coins);
 
+    boolean hasCoins(final int coins);
+
     String getCoinsString();
 }

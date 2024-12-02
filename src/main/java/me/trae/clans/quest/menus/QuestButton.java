@@ -1,8 +1,8 @@
-package me.trae.clans.quest.menu;
+package me.trae.clans.quest.menus;
 
 import me.trae.clans.quest.Quest;
 import me.trae.clans.quest.data.QuestData;
-import me.trae.clans.quest.menu.interfaces.IQuestButton;
+import me.trae.clans.quest.menus.interfaces.IQuestButton;
 import me.trae.core.menu.EmptyButton;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilString;

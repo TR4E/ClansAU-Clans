@@ -32,16 +32,13 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
 
     @Override
     public void giveCoins(final Player player, final int coins) {
-        final GamerManager gamerManager = this.getInstance().getManagerByClass(GamerManager.class);
-
-        final Gamer gamer = gamerManager.getGamerByPlayer(player);
+        final Gamer gamer = this.getGamerByPlayer(player);
         if (gamer == null) {
             return;
         }
 
         gamer.setCoins(gamer.getCoins() + coins);
-
-        gamerManager.getRepository().updateData(gamer, GamerProperty.COINS);
+        this.getRepository().updateData(gamer, GamerProperty.COINS);
 
         UtilServer.callEvent(new ScoreboardUpdateEvent(player));
     }
