@@ -2,6 +2,8 @@ package me.trae.clans.clan.modules.world;
 
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
+import me.trae.core.Core;
+import me.trae.core.client.ClientManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
@@ -28,7 +30,7 @@ public class DisableShootingArrowsInSafeZones extends SpigotListener<Clans, Clan
 
         final Player player = UtilJava.cast(Player.class, event.getEntity());
 
-        if (!(this.getManager().isSafeByPlayer(player))) {
+        if (this.getManager().canCast(player)) {
             return;
         }
 

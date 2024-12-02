@@ -171,6 +171,9 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
         event.setCancelled(true);
 
         final Item item = event.getThrowable().getItem();
+        if (item == null) {
+            return;
+        }
 
         final Entity passenger = item.getPassenger();
         if (passenger == null) {
