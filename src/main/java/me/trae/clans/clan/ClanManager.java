@@ -28,7 +28,8 @@ import me.trae.clans.clan.modules.pillage.HandlePillageAlerts;
 import me.trae.clans.clan.modules.pillage.HandlePillageUpdater;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardSetup;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
-import me.trae.clans.clan.modules.skill.HandleSkillFriendlyFire;
+import me.trae.clans.clan.modules.skill.HandleSkillFriendlyFireForSafeZones;
+import me.trae.clans.clan.modules.skill.HandleSkillFriendlyFireForTeammates;
 import me.trae.clans.clan.modules.skill.HandleSkillLocation;
 import me.trae.clans.clan.modules.skill.HandleSkillPreActivate;
 import me.trae.clans.clan.modules.spawn.HandleClansSpawnDuration;
@@ -42,7 +43,8 @@ import me.trae.clans.clan.modules.territory.interaction.HandleClanTerritoryDoorI
 import me.trae.clans.clan.modules.tnt.DisablePlacingTntWhileSOTW;
 import me.trae.clans.clan.modules.tnt.HandleAlertClanOnTntExplosion;
 import me.trae.clans.clan.modules.tnt.HandleClanTerritoryTntProtection;
-import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFire;
+import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFireForSafeZones;
+import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFireForTeammates;
 import me.trae.clans.clan.modules.weapon.HandleWeaponLocation;
 import me.trae.clans.clan.modules.weapon.HandleWeaponPreActivate;
 import me.trae.clans.clan.modules.world.DisableLeavesDecayInAdminClanTerritory;
@@ -156,7 +158,8 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleClansScoreboardUpdate(this));
 
         // Skill Modules
-        addModule(new HandleSkillFriendlyFire(this));
+        addModule(new HandleSkillFriendlyFireForSafeZones(this));
+        addModule(new HandleSkillFriendlyFireForTeammates(this));
         addModule(new HandleSkillLocation(this));
         addModule(new HandleSkillPreActivate(this));
 
@@ -178,7 +181,8 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleClanTerritoryTntProtection(this));
 
         // Weapon Modules
-        addModule(new HandleWeaponFriendlyFire(this));
+        addModule(new HandleWeaponFriendlyFireForSafeZones(this));
+        addModule(new HandleWeaponFriendlyFireForTeammates(this));
         addModule(new HandleWeaponLocation(this));
         addModule(new HandleWeaponPreActivate(this));
 

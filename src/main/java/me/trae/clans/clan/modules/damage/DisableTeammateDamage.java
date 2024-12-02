@@ -8,6 +8,7 @@ import me.trae.core.utility.UtilMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.Collections;
 
@@ -20,6 +21,10 @@ public class DisableTeammateDamage extends SpigotListener<Clans, ClanManager> {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onCustomPreDamage(final CustomPreDamageEvent event) {
         if (event.isCancelled()) {
+            return;
+        }
+
+        if (event.getCause() == EntityDamageEvent.DamageCause.CUSTOM) {
             return;
         }
 

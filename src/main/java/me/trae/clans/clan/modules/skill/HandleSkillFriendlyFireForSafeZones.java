@@ -7,22 +7,22 @@ import me.trae.core.framework.types.frame.SpigotListener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-public class HandleSkillFriendlyFire extends SpigotListener<Clans, ClanManager> {
+public class HandleSkillFriendlyFireForSafeZones extends SpigotListener<Clans, ClanManager> {
 
-    public HandleSkillFriendlyFire(final ClanManager manager) {
+    public HandleSkillFriendlyFireForSafeZones(final ClanManager manager) {
         super(manager);
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onSkillFriendlyFire(final SkillFriendlyFireEvent event) {
         if (event.isCancelled()) {
             return;
         }
 
-        if (this.getManager().canHurt(event.getPlayer(), event.getTarget())) {
+        if (!(this.getManager().isSafeByLocation(event.getPlayer().getLocation()))) {
             return;
         }
 
-        event.setVulnerable(false);
+        event.setCancelled(true);
     }
 }

@@ -7,9 +7,9 @@ import me.trae.core.weapon.events.WeaponFriendlyFireEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-public class HandleWeaponFriendlyFire extends SpigotListener<Clans, ClanManager> {
+public class HandleWeaponFriendlyFireForTeammates extends SpigotListener<Clans, ClanManager> {
 
-    public HandleWeaponFriendlyFire(final ClanManager manager) {
+    public HandleWeaponFriendlyFireForTeammates(final ClanManager manager) {
         super(manager);
     }
 
