@@ -24,7 +24,7 @@ public abstract class Loot extends SpigotSubModule<Clans, Crate> implements ILoo
     public Loot(final Crate module, final double chance, final ItemStack itemStack) {
         super(module);
 
-        this.itemStack = UtilItem.updateItemStack(itemStack);
+        this.itemStack = itemStack;
         this.chance = chance;
     }
 
@@ -40,7 +40,7 @@ public abstract class Loot extends SpigotSubModule<Clans, Crate> implements ILoo
 
     @Override
     public ItemBuilder getItemBuilder() {
-        return new ItemBuilder(this.getItemStack(), this.getDisplayName());
+        return new ItemBuilder(UtilItem.updateItemStack(this.getItemStack()), this.getDisplayName());
     }
 
     @Override

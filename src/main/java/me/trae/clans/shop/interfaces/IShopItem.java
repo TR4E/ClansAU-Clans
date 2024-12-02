@@ -3,6 +3,7 @@ package me.trae.clans.shop.interfaces;
 import me.trae.clans.gamer.Gamer;
 import me.trae.clans.gamer.GamerManager;
 import me.trae.core.item.ItemBuilder;
+import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilString;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -25,11 +26,7 @@ public interface IShopItem {
     }
 
     default String getBuyPriceString(final int amount) {
-        if (this.hasBuyPrice()) {
-            return String.format("<gold>%s", UtilString.toDollar(this.getBuyPriceByAmount(amount)));
-        }
-
-        return "<red>N/A";
+        return String.format("<gold>%s", UtilString.toDollar(this.getBuyPriceByAmount(amount)));
     }
 
     int getSellPrice();
@@ -43,11 +40,7 @@ public interface IShopItem {
     }
 
     default String getSellPriceString(final int amount) {
-        if (this.hasSellPrice()) {
-            return String.format("<gold>%s", UtilString.toDollar(this.getSellPriceByAmount(amount)));
-        }
-
-        return "<red>N/A";
+        return String.format("<gold>%s", UtilString.toDollar(this.getSellPriceByAmount(amount)));
     }
 
     default boolean canStack() {
@@ -65,7 +58,7 @@ public interface IShopItem {
     void sell(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount);
 
     default String getDisplayName() {
-        return this.getItemStack().getItemMeta().getDisplayName();
+        return UtilItem.getDisplayName(this.getItemStack(), false);
     }
 
     default String getDisplayNameStripped() {

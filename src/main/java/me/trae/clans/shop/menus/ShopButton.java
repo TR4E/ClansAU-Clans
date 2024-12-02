@@ -54,10 +54,6 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
     private void buy(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
         final ShopItem<?> shopItem = this.getShopItem();
 
-        if (!(shopItem.hasBuyPrice())) {
-            return;
-        }
-
         if (!(shopItem.canBuy(player, gamerManager, gamer, amount))) {
             new SoundCreator(Sound.ITEM_BREAK, 1.0F, 0.6F).play(player);
             return;
@@ -70,10 +66,6 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
 
     private void sell(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
         final ShopItem<?> shopItem = this.getShopItem();
-
-        if (!(shopItem.hasSellPrice())) {
-            return;
-        }
 
         if (!(shopItem.canSell(player, gamerManager, gamer, amount))) {
             new SoundCreator(Sound.ITEM_BREAK, 1.0F, 0.6F).play(player);

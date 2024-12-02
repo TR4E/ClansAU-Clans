@@ -6,21 +6,21 @@ import me.trae.core.config.annotations.ConfigInject;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class IronIngotShopItem extends ShopItem<ResourcesShopKeeper> {
+public class WaterBlockShopItem extends ShopItem<ResourcesShopKeeper> {
 
-    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "1000")
+    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "2_000")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "250")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "1_000")
     private int sellPrice;
 
-    public IronIngotShopItem(final ResourcesShopKeeper module) {
-        super(module, new ItemStack(Material.IRON_INGOT));
+    public WaterBlockShopItem(final ResourcesShopKeeper module) {
+        super(module, new ItemStack(Material.LAPIS_BLOCK));
     }
 
     @Override
     public int getSlot() {
-        return 3;
+        return 8;
     }
 
     @Override

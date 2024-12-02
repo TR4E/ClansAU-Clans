@@ -4,14 +4,14 @@ import me.trae.clans.weapon.WeaponManager;
 import me.trae.clans.weapon.types.CurrencyItem;
 import me.trae.clans.weapon.types.enums.CurrencyItemType;
 
-public class FiftyGrandDisc extends CurrencyItem {
+public class FiftyThousandDisc extends CurrencyItem {
 
-    public FiftyGrandDisc(final WeaponManager manager) {
+    public FiftyThousandDisc(final WeaponManager manager) {
         super(manager);
     }
 
     @Override
     public CurrencyItemType getCurrencyItemType() {
-        return CurrencyItemType.FIFTY_GRAND;
+        return CurrencyItemType.FIFTY_THOUSAND;
     }
 }
