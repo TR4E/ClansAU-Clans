@@ -8,14 +8,17 @@ import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.enums.RequestType;
 import me.trae.clans.clan.events.command.ClanNeutralEvent;
+import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class NeutralCommand extends ClanSubCommand implements EventContainer<ClanNeutralEvent> {
 
@@ -73,6 +76,22 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
         }
 
         this.callEvent(new ClanNeutralEvent(clan, player, client, targetClan));
+    }
+
+    @Override
+    public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
+        if (clan != null) {
+            if (args.length == 1) {
+                final List<String> list = new ArrayList<>();
+
+                list.addAll(ClansArgumentType.CLAN_ALLIANCES.apply(clan, args[0]));
+                list.addAll(ClansArgumentType.CLAN_ENEMIES.apply(clan, args[0]));
+
+                return list;
+            }
+        }
+
+        return Collections.emptyList();
     }
 
     private boolean canNeutralClan(final Player player, final Client client, final Clan playerClan, final Clan targetClan) {

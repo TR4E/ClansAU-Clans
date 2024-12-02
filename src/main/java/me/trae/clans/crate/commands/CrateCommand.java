@@ -10,11 +10,14 @@ import me.trae.core.command.types.models.AnyCommandType;
 import me.trae.core.utility.UtilCommand;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilPlayer;
+import me.trae.core.utility.constants.CoreArgumentType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CrateCommand extends Command<Clans, CrateManager> implements AnyCommandType {
 
@@ -84,6 +87,19 @@ public class CrateCommand extends Command<Clans, CrateManager> implements AnyCom
 
                 UtilMessage.simpleMessage(targetPlayer, "Crate", "<yellow><var></yellow> gave you a <var>.", Arrays.asList(sender.getName(), crate.getDisplayName()));
             }
+        }
+
+        @Override
+        public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
+            if (args.length == 1) {
+                return CoreArgumentType.PLAYERS.apply(args[0]);
+            }
+
+            if (args.length == 2) {
+                return CoreArgumentType.CUSTOM.apply(this.getModule().getManager().getModulesByClass(Crate.class).stream().map(Crate::getName).collect(Collectors.toList()), args[1]);
+            }
+
+            return Collections.emptyList();
         }
     }
 }

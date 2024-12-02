@@ -9,6 +9,7 @@ import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.enums.RequestType;
 import me.trae.clans.clan.events.command.ClanAllyEvent;
+import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
@@ -18,6 +19,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class AllyCommand extends ClanSubCommand implements EventContainer<ClanAllyEvent> {
 
@@ -73,6 +75,17 @@ public class AllyCommand extends ClanSubCommand implements EventContainer<ClanAl
         }
 
         UtilServer.callEvent(new ClanAllyEvent(clan, player, client, targetClan));
+    }
+
+    @Override
+    public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
+        if (clan != null) {
+            if (args.length == 1) {
+                return ClansArgumentType.CLAN_NEUTRALS.apply(clan, args[0]);
+            }
+        }
+
+        return Collections.emptyList();
     }
 
     private boolean canAllyClan(final Player player, final Client client, final Clan playerClan, final Clan targetClan) {

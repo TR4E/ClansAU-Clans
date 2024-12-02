@@ -7,6 +7,7 @@ import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.command.MemberKickEvent;
+import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class KickCommand extends ClanSubCommand implements EventContainer<MemberKickEvent> {
 
@@ -63,6 +65,17 @@ public class KickCommand extends ClanSubCommand implements EventContainer<Member
         }
 
         this.callEvent(new MemberKickEvent(clan, player, client, target));
+    }
+
+    @Override
+    public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
+        if (clan != null) {
+            if (args.length == 1) {
+                return ClansArgumentType.CLAN_MEMBERS.apply(clan, args[0]);
+            }
+        }
+
+        return Collections.emptyList();
     }
 
     private boolean canKickMember(final Player player, final Client client, final Clan playerClan, final Client targetClient) {

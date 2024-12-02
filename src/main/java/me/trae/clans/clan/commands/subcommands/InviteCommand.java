@@ -13,11 +13,13 @@ import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilPlayer;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.constants.CoreArgumentType;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class InviteCommand extends ClanSubCommand implements EventContainer<ClanInviteEvent> {
 
@@ -66,6 +68,17 @@ public class InviteCommand extends ClanSubCommand implements EventContainer<Clan
         }
 
         UtilServer.callEvent(new ClanInviteEvent(clan, player, client, targetPlayer));
+    }
+
+    @Override
+    public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
+        if (clan != null) {
+            if (args.length == 1) {
+                return CoreArgumentType.PLAYERS.apply(args[0]);
+            }
+        }
+
+        return Collections.emptyList();
     }
 
     private boolean canInvitePlayer(final Player player, final Client client, final Clan clan, final Player targetPlayer) {

@@ -12,9 +12,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
-public class HandlePreTNTExplode extends SpigotListener<Clans, TntManager> {
+public class HandlePreTntExplode extends SpigotListener<Clans, TntManager> {
 
-    public HandlePreTNTExplode(final TntManager manager) {
+    public HandlePreTntExplode(final TntManager manager) {
         super(manager);
     }
 

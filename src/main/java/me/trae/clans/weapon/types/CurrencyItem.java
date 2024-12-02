@@ -20,7 +20,7 @@ public abstract class CurrencyItem extends CustomItem<Clans, WeaponManager, Weap
 
     @Override
     public String getDisplayName() {
-        return String.format("<green>%s Disc", this.getCurrencyItemType().getDisplayName());
+        return String.format("<green>%s", this.getCurrencyItemType().getDisplayName());
     }
 
     @Override

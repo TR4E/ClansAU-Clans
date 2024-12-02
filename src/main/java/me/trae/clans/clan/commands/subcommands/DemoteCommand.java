@@ -8,6 +8,7 @@ import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.command.MemberDemoteEvent;
+import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.gamer.Gamer;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class DemoteCommand extends ClanSubCommand implements EventContainer<MemberDemoteEvent> {
 
@@ -65,6 +67,17 @@ public class DemoteCommand extends ClanSubCommand implements EventContainer<Memb
         }
 
         this.callEvent(new MemberDemoteEvent(clan, player, client, target));
+    }
+
+    @Override
+    public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
+        if (clan != null) {
+            if (args.length == 1) {
+                return ClansArgumentType.CLAN_MEMBERS.apply(clan, args[0]);
+            }
+        }
+
+        return Collections.emptyList();
     }
 
     private boolean canDemoteMember(final Player player, final Client client, final Clan clan, final Client target) {
