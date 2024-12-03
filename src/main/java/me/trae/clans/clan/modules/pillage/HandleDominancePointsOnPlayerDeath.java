@@ -17,7 +17,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, ClanManager> {
 

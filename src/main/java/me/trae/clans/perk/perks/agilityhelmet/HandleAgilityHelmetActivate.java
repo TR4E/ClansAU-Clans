@@ -12,7 +12,6 @@ import me.trae.core.utility.UtilBlock;
 import me.trae.core.utility.UtilLeap;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
-import me.trae.core.utility.enums.ActionType;
 import me.trae.core.world.events.PlayerItemInteractEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -2,8 +2,6 @@ package me.trae.clans.clan.modules.world;
 
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
-import me.trae.core.Core;
-import me.trae.core.client.ClientManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;

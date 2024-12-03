@@ -1,6 +1,5 @@
 package me.trae.clans.clan.modules.weapon;
 
-import me.trae.api.champions.skill.events.SkillFriendlyFireEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
 import me.trae.core.framework.types.frame.SpigotListener;

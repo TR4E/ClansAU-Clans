@@ -5,7 +5,6 @@ import me.trae.clans.Clans;
 import me.trae.clans.perk.PerkManager;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
-import me.trae.core.client.ClientManager;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.command.types.Command;
 import me.trae.core.command.types.models.PerkCommandType;

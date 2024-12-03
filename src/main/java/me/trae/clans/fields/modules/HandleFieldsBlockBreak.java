@@ -1,8 +1,8 @@
 package me.trae.clans.fields.modules;
 
 import me.trae.clans.Clans;
-import me.trae.clans.fields.data.FieldsBlock;
 import me.trae.clans.fields.FieldsManager;
+import me.trae.clans.fields.data.FieldsBlock;
 import me.trae.clans.fields.data.enums.FieldsBlockProperty;
 import me.trae.clans.fields.events.FieldsBlockBreakEvent;
 import me.trae.clans.fields.events.FieldsLootEvent;

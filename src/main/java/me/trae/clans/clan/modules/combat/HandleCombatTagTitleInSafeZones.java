@@ -1,11 +1,9 @@
 package me.trae.clans.clan.modules.combat;
 
 import me.trae.api.combat.Combat;
-import me.trae.api.combat.CombatManager;
 import me.trae.api.combat.events.CombatUpdaterEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
-import me.trae.core.Core;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilTitle;
 import org.bukkit.entity.Player;

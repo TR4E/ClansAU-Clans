@@ -565,7 +565,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
     @Override
     public String getEnergyRemainingString() {
-        if (this.isAdmin()|| !(this.hasTerritory())) {
+        if (this.isAdmin() || !(this.hasTerritory())) {
             return "Unlimited";
         }
 
