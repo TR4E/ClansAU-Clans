@@ -21,7 +21,7 @@ public abstract class CratePreviewMenu extends Menu<Clans, CrateManager> impleme
         int slot = 0;
 
         for (final Loot loot : this.getCrate().getSubModulesByClass(Loot.class)) {
-            addButton(new Button<CratePreviewMenu>(this, slot, loot.getItemBuilder()) {
+            addButton(new Button<CratePreviewMenu>(this, slot, loot.getItemBuilder().toItemStack()) {
                 @Override
                 public void onClick(final Player player, final ClickType clickType) {
                 }

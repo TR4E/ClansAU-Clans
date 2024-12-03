@@ -61,7 +61,7 @@ public abstract class CrateOpenMenu extends Menu<Clans, CrateManager> implements
     }
 
     private void addButton(final Loot loot) {
-        this.addButton(new Button<CrateOpenMenu>(this, 4, loot.getItemBuilder()) {
+        this.addButton(new Button<CrateOpenMenu>(this, 4, loot.getItemBuilder().toItemStack()) {
             @Override
             public void onClick(final Player player, final ClickType clickType) {
             }

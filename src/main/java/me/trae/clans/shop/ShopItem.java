@@ -40,6 +40,11 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
     }
 
     @Override
+    public ItemBuilder toItemBuilder() {
+        return this.getItemBuilder();
+    }
+
+    @Override
     public boolean canBuy(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
         if (!(this.hasBuyPrice())) {
             UtilMessage.message(player, "Shop", "You cannot buy this item!");
@@ -74,7 +79,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
         gamer.setCoins(gamer.getCoins() - this.getBuyPriceByAmount(amount));
         gamerManager.getRepository().updateData(gamer, GamerProperty.COINS);
 
-        UtilItem.insert(player, this.getItemBuilder().toItemStack(amount));
+        UtilItem.insert(player, this.toItemBuilder().toItemStack(amount));
         UtilServer.callEvent(new ScoreboardUpdateEvent(player));
 
         UtilMessage.simpleMessage(player, "Shop", "You have purchased <green><var>x</green> of <green><var></green> for <gold><var></gold>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped(), this.getBuyPriceString(amount)));
@@ -82,8 +87,10 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
 
     @Override
     public void sell(final Player player, final GamerManager gamerManager, final Gamer gamer, int amount) {
+        final ItemStack itemStack = this.toItemBuilder().toItemStack();
+
         if (amount == 64) {
-            amount = Math.min(64, UtilItem.getAmount(player, this.getItemBuilder().toItemStack()));
+            amount = Math.min(64, UtilItem.getAmount(player, itemStack));
         }
 
         final int sellPrice = this.getSellPriceByAmount(amount);
@@ -92,7 +99,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
         gamerManager.getRepository().updateData(gamer, GamerProperty.COINS);
         UtilServer.callEvent(new ScoreboardUpdateEvent(player));
 
-        UtilItem.remove(player, this.getItemBuilder().toItemStack(), amount);
+        UtilItem.remove(player, itemStack, amount);
 
         UtilMessage.simpleMessage(player, "Shop", "You have sold <green><var>x</green> of <green><var></green> for <gold><var></gold>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped(), this.getSellPriceString(amount)));
     }

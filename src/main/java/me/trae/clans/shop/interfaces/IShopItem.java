@@ -49,6 +49,8 @@ public interface IShopItem {
 
     ItemBuilder getItemBuilder();
 
+    ItemBuilder toItemBuilder();
+
     boolean canBuy(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount);
 
     boolean canSell(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount);

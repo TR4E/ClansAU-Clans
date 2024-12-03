@@ -10,19 +10,12 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HandleBlockHitByTNT extends SpigotListener<Clans, TntManager> {
 
     private final Map<ReplacementBlock, ReplacementBlock> MAP = UtilJava.createMap(new HashMap<>(), map -> {
-        // Liquid
-        Arrays.asList(Material.STATIONARY_WATER, Material.WATER, Material.STATIONARY_LAVA, Material.LAVA).forEach(material -> {
-            map.put(new ReplacementBlock(material), new ReplacementBlock(Material.AIR));
-        });
-
-
         // Stone Brick
         map.put(new ReplacementBlock(Material.SMOOTH_BRICK, 0), new ReplacementBlock(Material.SMOOTH_BRICK, 2));
         map.put(new ReplacementBlock(Material.SMOOTH_BRICK, 2), new ReplacementBlock(Material.AIR));
@@ -60,11 +53,20 @@ public class HandleBlockHitByTNT extends SpigotListener<Clans, TntManager> {
         }
 
         event.getBlocks().removeIf(block -> {
+            if (block.isLiquid()) {
+                block.setType(Material.AIR);
+                return true;
+            }
+
             for (final Map.Entry<ReplacementBlock, ReplacementBlock> entry : this.MAP.entrySet()) {
                 final ReplacementBlock key = entry.getKey();
 
                 if (block.getType() == key.getMaterial() && block.getData() == key.getData()) {
                     final ReplacementBlock value = entry.getValue();
+
+                    if (value.getMaterial() == Material.AIR) {
+                        return false;
+                    }
 
                     block.setTypeIdAndData(value.getMaterial().getId(), value.getData(), true);
                     return true;

@@ -5,25 +5,46 @@ import me.trae.clans.gamer.GamerManager;
 import me.trae.clans.shop.ShopItem;
 import me.trae.clans.shop.menus.interfaces.IShopButton;
 import me.trae.core.menu.Button;
+import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.objects.SoundCreator;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class ShopButton extends Button<ShopMenu> implements IShopButton {
 
     public ShopButton(final ShopMenu menu, final ShopItem<?> shopItem) {
-        super(menu, shopItem.getSlot(), shopItem.getItemBuilder());
+        super(menu, shopItem.getSlot(), shopItem.getItemBuilder().toItemStack());
+    }
+
+    @Override
+    public String[] getLore() {
+        final List<String> lore = new ArrayList<>();
+
+        boolean spacing = false;
 
         if (this.getBuilder().getItemStack().getItemMeta().hasLore()) {
-            for (int i = 0; i < 2; i++) {
-                getBuilder().addLore(" ");
-            }
+            lore.addAll(this.getBuilder().getItemStack().getLore());
+            spacing = true;
         }
 
-        for (final String line : shopItem.getDescription()) {
-            getBuilder().addLore(line);
+        final List<String> list = Arrays.asList(this.getShopItem().getDescription());
+
+        if (!(list.isEmpty())) {
+            if (spacing) {
+                for (int i = 0; i < 2; i++) {
+                    lore.add(" ");
+                }
+            }
+
+            lore.addAll(list);
         }
+
+        return lore.toArray(new String[0]);
     }
 
     @Override

@@ -11,6 +11,7 @@ import me.trae.clans.fields.modules.HandleFieldsBlockBreak;
 import me.trae.clans.fields.modules.HandleFieldsBlockUpdater;
 import me.trae.clans.fields.modules.admin.HandleAdminFieldsBlockBreak;
 import me.trae.clans.fields.modules.admin.HandleAdminFieldsBlockPlace;
+import me.trae.clans.fields.modules.damage.DisableArmourDurabilityInFields;
 import me.trae.clans.fields.modules.loot.HandleFieldsEnderChestLoot;
 import me.trae.clans.fields.modules.loot.HandleFieldsOreLoot;
 import me.trae.core.Core;
@@ -56,6 +57,9 @@ public class FieldsManager extends SpigotManager<Clans> implements IFieldsManage
 //        addModule(new HandleFieldsClanEnergyLoot(this));
         addModule(new HandleFieldsEnderChestLoot(this));
         addModule(new HandleFieldsOreLoot(this));
+
+        // Damage Modules
+        addModule(new DisableArmourDurabilityInFields(this));
 
         // Modules
         addModule(new HandleFieldsBlockBreak(this));

@@ -11,7 +11,6 @@ import me.trae.clans.shop.shops.resources.items.currency.HundredThousandDiscShop
 import me.trae.clans.shop.shops.resources.items.currency.OneMillionDiscShopItem;
 import me.trae.clans.shop.shops.resources.items.gem_blocks.*;
 import me.trae.clans.shop.shops.resources.items.gems.*;
-import me.trae.clans.weapon.weapons.items.currency.FiftyThousandDisc;
 import me.trae.core.utility.UtilColor;
 import org.bukkit.ChatColor;
 
