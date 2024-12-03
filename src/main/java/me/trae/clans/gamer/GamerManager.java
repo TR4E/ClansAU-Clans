@@ -3,6 +3,7 @@ package me.trae.clans.gamer;
 import me.trae.clans.Clans;
 import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.clans.gamer.interfaces.IGamerManager;
+import me.trae.clans.gamer.modules.HandleCoinsOnPlayerDeath;
 import me.trae.core.gamer.abstracts.AbstractGamerManager;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilServer;
@@ -13,6 +14,13 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
 
     public GamerManager(final Clans instance) {
         super(instance);
+    }
+
+    @Override
+    public void registerModules() {
+        super.registerModules();
+
+        addModule(new HandleCoinsOnPlayerDeath(this));
     }
 
     @Override
