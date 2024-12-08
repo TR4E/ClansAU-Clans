@@ -29,6 +29,11 @@ public class GiantsBroadsword extends Legendary<Clans, WeaponManager, WeaponData
     }
 
     @Override
+    public int getModel() {
+        return 981149;
+    }
+
+    @Override
     public Class<WeaponData> getClassOfData() {
         return WeaponData.class;
     }

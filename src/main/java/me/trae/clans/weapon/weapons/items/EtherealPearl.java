@@ -57,6 +57,11 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
     }
 
     @Override
+    public int getModel() {
+        return 183154;
+    }
+
+    @Override
     public Class<WeaponData> getClassOfData() {
         return WeaponData.class;
     }

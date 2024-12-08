@@ -54,6 +54,11 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
     }
 
     @Override
+    public int getModel() {
+        return 674192;
+    }
+
+    @Override
     public Class<ChannelWeaponData> getClassOfData() {
         return ChannelWeaponData.class;
     }

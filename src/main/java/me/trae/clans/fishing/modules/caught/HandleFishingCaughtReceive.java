@@ -5,9 +5,11 @@ import me.trae.clans.fishing.FishingManager;
 import me.trae.clans.fishing.events.PlayerFishingCaughtEvent;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.player.events.PlayerDisplayNameEvent;
+import me.trae.core.utility.UtilFirework;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.UtilVelocity;
+import org.bukkit.FireworkEffect;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,6 +39,10 @@ public class HandleFishingCaughtReceive extends SpigotListener<Clans, FishingMan
         final Entity caught = event.getCaught();
 
         UtilVelocity.velocity(caught, UtilVelocity.getTrajectory(caught.getLocation().toVector(), player.getLocation().toVector()), Math.min(1.0D, caught.getLocation().distance(player.getLocation()) / 5.0D), 0.0D, 0.4D, 10.0D, false);
+
+        if (event.getCaughtType().equals("Legendary")) {
+            UtilFirework.display(event.getPlayer().getEyeLocation(), FireworkEffect.Type.BALL_LARGE, UtilFirework.RAINBOW_COLORS);
+        }
 
         String caughtName = event.getCaughtName();
 

@@ -57,6 +57,8 @@ public class HandlePlayerCaughtLegendary extends SpigotListener<Clans, FishingMa
 
         event.setCaughtItemStack(legendary.getFinalBuilder().toItemStack());
 
+        event.setCaughtType("Legendary");
+
         event.setCaughtName(legendary.getDisplayName());
 
         event.setInformPrefix("Big Catch");

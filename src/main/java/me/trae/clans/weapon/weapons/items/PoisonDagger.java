@@ -52,6 +52,11 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
     }
 
     @Override
+    public int getModel() {
+        return 655059;
+    }
+
+    @Override
     public Class<WeaponData> getClassOfData() {
         return WeaponData.class;
     }

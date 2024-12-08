@@ -14,6 +14,7 @@ import me.trae.core.utility.UtilTime;
 import me.trae.core.weapon.registry.WeaponRegistry;
 import me.trae.core.weapon.types.Legendary;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -160,6 +161,11 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
     @Override
     public Material getChestMaterial() {
         return Material.CHEST;
+    }
+
+    @Override
+    public DyeColor getFireworkColor() {
+        return DyeColor.RED;
     }
 
     @Override

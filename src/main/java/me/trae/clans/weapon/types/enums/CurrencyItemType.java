@@ -5,9 +5,9 @@ import org.bukkit.Material;
 
 public enum CurrencyItemType implements ICurrencyItemType {
 
-    FIFTY_THOUSAND("50k Disc", 50_000, Material.GOLD_RECORD),
-    HUNDRED_THOUSAND("100k Disc", 100_000, Material.GREEN_RECORD),
-    ONE_MILLION("1mill Disc", 1_000_000, Material.RECORD_11);
+    FIFTY_THOUSAND("Fifty Thousand Disc", 50_000, Material.GOLD_RECORD),
+    HUNDRED_THOUSAND("One Hundred Thousand Disc", 100_000, Material.GREEN_RECORD),
+    ONE_MILLION("One Million Disc", 1_000_000, Material.RECORD_11);
 
     private final String displayName;
     private final int price;

@@ -20,6 +20,10 @@ public interface IPlayerFishingCaughtEvent extends IFishingEvent {
 
     void setWeight(final int weight);
 
+    String getCaughtType();
+
+    void setCaughtType(final String caughtType);
+
     String getCaughtName();
 
     void setCaughtName(final String caughtName);

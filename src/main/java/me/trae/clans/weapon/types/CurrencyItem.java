@@ -20,7 +20,7 @@ public abstract class CurrencyItem extends CustomItem<Clans, WeaponManager, Weap
 
     @Override
     public String getDisplayName() {
-        return String.format("<green>%s", this.getCurrencyItemType().getDisplayName());
+        return String.format("<gold>%s", this.getCurrencyItemType().getDisplayName());
     }
 
     @Override
@@ -31,7 +31,9 @@ public abstract class CurrencyItem extends CustomItem<Clans, WeaponManager, Weap
     @Override
     public String[] getDescription() {
         return new String[]{
-                String.format("<white>This is worth <gold>$%s", this.getCurrencyItemType().getPrice())
+                "An exchangeable record valued for",
+                "its fixed worth, ensuring balanced",
+                "transactions in commerce."
         };
     }
 

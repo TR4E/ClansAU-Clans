@@ -11,6 +11,11 @@ public class OneMillionDisc extends CurrencyItem {
     }
 
     @Override
+    public int getModel() {
+        return 810466;
+    }
+
+    @Override
     public CurrencyItemType getCurrencyItemType() {
         return CurrencyItemType.ONE_MILLION;
     }

@@ -38,7 +38,6 @@ public class HandlePreTntExplode extends SpigotListener<Clans, TntManager> {
             return;
         }
 
-
         for (final Block block : tntExplodeEvent.getBlocks()) {
             block.breakNaturally();
         }

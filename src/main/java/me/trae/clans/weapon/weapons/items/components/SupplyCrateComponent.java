@@ -16,7 +16,6 @@ import org.bukkit.craftbukkit.v1_8_R3.block.CraftChest;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +30,8 @@ public interface SupplyCrateComponent extends Updater {
     Material getMaterial();
 
     Material getChestMaterial();
+
+    DyeColor getFireworkColor();
 
     long getDuration();
 
@@ -81,11 +82,9 @@ public interface SupplyCrateComponent extends Updater {
 
         for (final SupplyCrateData data : this.getData()) {
             if (!(data.hasExpired())) {
-                final FireworkEffect fireworkEffect = FireworkEffect.builder().with(FireworkEffect.Type.BALL_LARGE).withColor(Color.RED).build();
-
                 final Location location = new Location(data.getLocation().getWorld(), data.getLocation().getX() + 0.5D, data.getLocation().getY() + data.getCount(), data.getLocation().getZ() + 0.5D);
 
-                FireworkCreator.spawn(location, fireworkEffect, new ArrayList<>());
+                UtilFirework.display(location, FireworkEffect.Type.BALL_LARGE, this.getFireworkColor());
                 continue;
             }
 

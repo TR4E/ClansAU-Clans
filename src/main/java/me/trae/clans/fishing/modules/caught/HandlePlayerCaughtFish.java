@@ -49,6 +49,8 @@ public class HandlePlayerCaughtFish extends SpigotListener<Clans, FishingManager
 
         event.setCaughtItemStack(new ItemBuilder(new ItemStack(Material.RAW_FISH, weight), fishName.getName()).toItemStack());
 
+        event.setCaughtType("Fish");
+
         event.setCaughtName(String.format("<green>%sx Pound <gray>of <green>%s", weight, fishName.getName()));
 
         if (weight > bigCatchWeight) {

@@ -56,6 +56,8 @@ public class HandlePlayerCaughtMob extends SpigotListener<Clans, FishingManager>
 
         event.setCaught(entity);
 
+        event.setCaughtType("Mob");
+
         event.setCaughtName(ChatColor.YELLOW, entity.getName());
     }
 }

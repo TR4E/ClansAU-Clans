@@ -35,6 +35,11 @@ public class HealingPotion extends ActiveCustomItem<Clans, WeaponManager, Weapon
     }
 
     @Override
+    public int getModel() {
+        return 732910;
+    }
+
+    @Override
     public Class<WeaponData> getClassOfData() {
         return WeaponData.class;
     }

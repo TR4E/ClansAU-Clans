@@ -21,6 +21,7 @@ import me.trae.core.weapon.registry.WeaponRegistry;
 import me.trae.core.weapon.types.ActiveCustomItem;
 import me.trae.core.weapon.types.CustomItem;
 import me.trae.core.weapon.types.Legendary;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -50,6 +51,11 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
 
     public SupplyCrate(final WeaponManager manager) {
         super(manager, new ItemStack(Material.BEACON));
+    }
+
+    @Override
+    public int getModel() {
+        return 791459;
     }
 
     @Override
@@ -89,6 +95,11 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
     @Override
     public Material getChestMaterial() {
         return Material.CHEST;
+    }
+
+    @Override
+    public DyeColor getFireworkColor() {
+        return DyeColor.PINK;
     }
 
     @Override

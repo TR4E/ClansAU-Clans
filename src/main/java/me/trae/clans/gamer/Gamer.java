@@ -1,8 +1,10 @@
 package me.trae.clans.gamer;
 
+import me.trae.clans.Clans;
 import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.clans.gamer.interfaces.IGamer;
 import me.trae.core.gamer.abstracts.AbstractGamer;
+import me.trae.core.utility.UtilPlugin;
 import me.trae.core.utility.UtilString;
 import me.trae.core.utility.objects.EnumData;
 import org.bukkit.entity.Player;
@@ -21,6 +23,8 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
 
     public Gamer(final Player player) {
         this(player.getUniqueId());
+
+        this.coins = UtilPlugin.getInstance(Clans.class).getManagerByClass(GamerManager.class).starterCoinsAmount;
     }
 
     public Gamer(final EnumData<GamerProperty> data) {

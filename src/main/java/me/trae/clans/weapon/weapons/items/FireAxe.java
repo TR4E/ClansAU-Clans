@@ -30,6 +30,11 @@ public class FireAxe extends CustomItem<Clans, WeaponManager, WeaponData> implem
     }
 
     @Override
+    public int getModel() {
+        return 856220;
+    }
+
+    @Override
     public Class<WeaponData> getClassOfData() {
         return WeaponData.class;
     }

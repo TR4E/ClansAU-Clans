@@ -55,6 +55,11 @@ public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, Weapo
     }
 
     @Override
+    public int getModel() {
+        return 446757;
+    }
+
+    @Override
     public Class<WeaponData> getClassOfData() {
         return WeaponData.class;
     }

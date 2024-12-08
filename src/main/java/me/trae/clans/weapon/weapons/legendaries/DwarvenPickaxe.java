@@ -51,6 +51,11 @@ public class DwarvenPickaxe extends Legendary<Clans, WeaponManager, WeaponData> 
     }
 
     @Override
+    public int getModel() {
+        return 254875;
+    }
+
+    @Override
     public Class<WeaponData> getClassOfData() {
         return WeaponData.class;
     }

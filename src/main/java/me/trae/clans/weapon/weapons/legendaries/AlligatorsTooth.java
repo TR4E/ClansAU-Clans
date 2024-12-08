@@ -60,6 +60,11 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
     }
 
     @Override
+    public int getModel() {
+        return 814046;
+    }
+
+    @Override
     public Class<ChannelWeaponData> getClassOfData() {
         return ChannelWeaponData.class;
     }

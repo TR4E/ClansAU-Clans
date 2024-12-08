@@ -23,7 +23,7 @@ public class PlayerFishingCaughtEvent extends CustomCancellableEvent implements 
 
     private Entity caught;
     private int weight;
-    private String caughtName;
+    private String caughtType, caughtName;
     private boolean broadcastInform;
     private String informPrefix = "Fishing";
 
@@ -102,6 +102,16 @@ public class PlayerFishingCaughtEvent extends CustomCancellableEvent implements 
     @Override
     public void setWeight(final int weight) {
         this.weight = weight;
+    }
+
+    @Override
+    public String getCaughtType() {
+        return this.caughtType;
+    }
+
+    @Override
+    public void setCaughtType(final String caughtType) {
+        this.caughtType = caughtType;
     }
 
     @Override

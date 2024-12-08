@@ -37,6 +37,11 @@ public class HyperAxe extends Legendary<Clans, WeaponManager, WeaponData> implem
     }
 
     @Override
+    public int getModel() {
+        return 971097;
+    }
+
+    @Override
     public Class<WeaponData> getClassOfData() {
         return WeaponData.class;
     }

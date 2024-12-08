@@ -32,6 +32,11 @@ public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponDa
     }
 
     @Override
+    public int getModel() {
+        return 828249;
+    }
+
+    @Override
     public Class<WeaponData> getClassOfData() {
         return WeaponData.class;
     }
