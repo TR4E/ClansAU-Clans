@@ -74,7 +74,7 @@ public class InviteCommand extends ClanSubCommand implements EventContainer<Clan
     public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
         if (clan != null) {
             if (args.length == 1) {
-                return CoreArgumentType.PLAYERS.apply(args[0]);
+                return CoreArgumentType.PLAYERS.apply(player, args[0]);
             }
         }
 

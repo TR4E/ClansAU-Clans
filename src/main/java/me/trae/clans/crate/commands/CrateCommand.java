@@ -92,7 +92,7 @@ public class CrateCommand extends Command<Clans, CrateManager> implements AnyCom
         @Override
         public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
             if (args.length == 1) {
-                return CoreArgumentType.PLAYERS.apply(args[0]);
+                return CoreArgumentType.PLAYERS.apply(sender, args[0]);
             }
 
             if (args.length == 2) {

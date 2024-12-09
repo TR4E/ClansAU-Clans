@@ -71,7 +71,7 @@ public class KickCommand extends ClanSubCommand implements EventContainer<Member
     public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
         if (clan != null) {
             if (args.length == 1) {
-                return ClansArgumentType.CLAN_MEMBERS.apply(clan, args[0]);
+                return ClansArgumentType.CLAN_MEMBERS.apply(player, clan, args[0]);
             }
         }
 

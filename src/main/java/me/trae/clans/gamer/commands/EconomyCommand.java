@@ -124,7 +124,7 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
         @Override
         public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
             if (args.length == 1) {
-                return CoreArgumentType.PLAYERS.apply(args[0]);
+                return CoreArgumentType.PLAYERS.apply(sender, args[0]);
             }
 
             return Collections.emptyList();
@@ -196,7 +196,7 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
         @Override
         public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
             if (args.length == 1) {
-                return CoreArgumentType.PLAYERS.apply(args[0]);
+                return CoreArgumentType.PLAYERS.apply(sender, args[0]);
             }
 
             return Collections.emptyList();
@@ -268,7 +268,7 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
         @Override
         public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
             if (args.length == 1) {
-                return CoreArgumentType.PLAYERS.apply(args[0]);
+                return CoreArgumentType.PLAYERS.apply(sender, args[0]);
             }
 
             return Collections.emptyList();
@@ -322,7 +322,7 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
         @Override
         public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
             if (args.length == 1) {
-                return CoreArgumentType.PLAYERS.apply(args[0]);
+                return CoreArgumentType.PLAYERS.apply(sender, args[0]);
             }
 
             return Collections.emptyList();
@@ -409,7 +409,7 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
         @Override
         public List<String> getTabCompletion(final Player player, final Client client, final me.trae.core.gamer.Gamer gamer, final String[] args) {
             if (args.length == 1) {
-                return CoreArgumentType.PLAYERS.apply(args[0]);
+                return CoreArgumentType.PLAYERS.apply(player, args[0]);
             }
 
             return Collections.emptyList();
