@@ -3,19 +3,14 @@ package me.trae.clans.weapon.weapons.legendaries;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
-import me.trae.clans.fields.FieldsManager;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.core.Core;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.energy.EnergyManager;
-import me.trae.core.utility.UtilItem;
-import me.trae.core.utility.UtilMath;
-import me.trae.core.utility.UtilServer;
-import me.trae.core.utility.UtilString;
+import me.trae.core.utility.*;
 import me.trae.core.weapon.data.WeaponData;
 import me.trae.core.weapon.events.WeaponLocationEvent;
 import me.trae.core.weapon.types.Legendary;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -90,11 +85,11 @@ public class DwarvenPickaxe extends Legendary<Clans, WeaponManager, WeaponData> 
 
         final Block block = event.getClickedBlock();
 
-        if (!(this.canBreakBlock(player, block))) {
+        if (!(UtilBlock.isStoneRelatedBlock(block))) {
             return;
         }
 
-        if (!(this.isValidBlock(block))) {
+        if (!(this.canBreakBlock(player, block))) {
             return;
         }
 
@@ -119,7 +114,7 @@ public class DwarvenPickaxe extends Legendary<Clans, WeaponManager, WeaponData> 
 
         this.addUser(new WeaponData(player, 1000L));
 
-        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+        UtilBlock.playBrokenEffect(block);
 
         block.breakNaturally();
     }
@@ -134,85 +129,6 @@ public class DwarvenPickaxe extends Legendary<Clans, WeaponManager, WeaponData> 
             return false;
         }
 
-        if (this.getInstance().getManagerByClass(FieldsManager.class).isBlockByLocation(block.getLocation())) {
-            return false;
-        }
-
         return true;
-    }
-
-    private boolean isValidBlock(final Block block) {
-        // Blocks
-        switch (block.getType()) {
-            case STONE:
-            case COBBLESTONE:
-            case SMOOTH_BRICK:
-            case BRICK:
-            case CLAY_BRICK:
-            case NETHER_BRICK:
-            case NETHERRACK:
-            case SANDSTONE:
-            case RED_SANDSTONE:
-                return true;
-        }
-
-        // Stairs
-        switch (block.getType()) {
-            case BRICK_STAIRS:
-            case COBBLESTONE_STAIRS:
-            case SMOOTH_STAIRS:
-            case SANDSTONE_STAIRS:
-            case RED_SANDSTONE_STAIRS:
-            case NETHER_BRICK_STAIRS:
-            case QUARTZ_STAIRS:
-                return true;
-        }
-
-        // Slabs
-        switch (block.getType()) {
-            case STEP:
-            case STONE_SLAB2:
-            case DOUBLE_STONE_SLAB2:
-                return true;
-        }
-
-        // Walls
-        if (block.getType() == Material.COBBLE_WALL) {
-            return true;
-        }
-
-        // Fences
-        if (block.getType() == Material.IRON_FENCE) {
-            return true;
-        }
-
-        // Ores
-        switch (block.getType()) {
-            case EMERALD_ORE:
-            case DIAMOND_ORE:
-            case GOLD_ORE:
-            case IRON_ORE:
-            case COAL_ORE:
-            case REDSTONE_ORE:
-            case GLOWING_REDSTONE_ORE:
-            case LAPIS_ORE:
-            case QUARTZ_ORE:
-                return true;
-        }
-
-        // Gem Blocks
-        switch (block.getType()) {
-            case EMERALD_BLOCK:
-            case DIAMOND_BLOCK:
-            case GOLD_BLOCK:
-            case IRON_BLOCK:
-            case COAL_BLOCK:
-            case REDSTONE_BLOCK:
-            case LAPIS_BLOCK:
-            case QUARTZ_BLOCK:
-                return true;
-        }
-
-        return false;
     }
 }

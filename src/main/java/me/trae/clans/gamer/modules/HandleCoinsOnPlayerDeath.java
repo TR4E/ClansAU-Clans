@@ -42,6 +42,10 @@ public class HandleCoinsOnPlayerDeath extends SpigotListener<Clans, GamerManager
             return;
         }
 
+        if (event.getEntity().equals(event.getKiller())) {
+            return;
+        }
+
         final Player player = event.getEntityByClass(Player.class);
 
         if (this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {

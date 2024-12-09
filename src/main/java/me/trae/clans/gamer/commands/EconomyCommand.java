@@ -1,6 +1,5 @@
 package me.trae.clans.gamer.commands;
 
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
 import me.trae.clans.Clans;
 import me.trae.clans.gamer.Gamer;
 import me.trae.clans.gamer.GamerManager;
@@ -13,12 +12,11 @@ import me.trae.core.command.types.models.AnyCommandType;
 import me.trae.core.command.types.models.PlayerCommandType;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.*;
+import me.trae.core.utility.constants.CoreArgumentType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 public class EconomyCommand extends Command<Clans, GamerManager> implements AnyCommandType {
 
@@ -42,6 +40,7 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
         addSubModule(new TakeCommand(this));
         addSubModule(new ResetCommand(this));
         addSubModule(new PayCommand(this));
+        addSubModule(new TopCommand(this));
     }
 
     @Override
@@ -121,6 +120,15 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
             UtilMessage.simpleMessage(sender, "Economy", "You updated the coins for <yellow><var></yellow> to <gold><var></gold>.", Arrays.asList(targetPlayer.getName(), coinsString));
             UtilMessage.simpleMessage(targetPlayer, "Economy", "Your coins are updated to <gold><var></gold> by <yellow><var></yellow>.", Arrays.asList(coinsString, sender.getName()));
         }
+
+        @Override
+        public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
+            if (args.length == 1) {
+                return CoreArgumentType.PLAYERS.apply(args[0]);
+            }
+
+            return Collections.emptyList();
+        }
     }
 
     private static class GiveCommand extends SubCommand<Clans, EconomyCommand> implements AnyCommandType {
@@ -183,6 +191,15 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
 
             UtilMessage.simpleMessage(sender, "Economy", "You gave <gold><var></gold> to <yellow><var></yellow>.", Arrays.asList(coinsString, targetPlayer.getName()));
             UtilMessage.simpleMessage(targetPlayer, "Economy", "<yellow><var></yellow> gave you <gold><var></gold>.", Arrays.asList(sender.getName(), coinsString));
+        }
+
+        @Override
+        public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
+            if (args.length == 1) {
+                return CoreArgumentType.PLAYERS.apply(args[0]);
+            }
+
+            return Collections.emptyList();
         }
     }
 
@@ -247,6 +264,15 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
             UtilMessage.simpleMessage(sender, "Economy", "You took <gold><var></gold> from <yellow><var></yellow>.", Arrays.asList(coinsString, targetPlayer.getName()));
             UtilMessage.simpleMessage(targetPlayer, "Economy", "<yellow><var></yellow> took <gold><var></gold> from you.", Arrays.asList(sender.getName(), coinsString));
         }
+
+        @Override
+        public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
+            if (args.length == 1) {
+                return CoreArgumentType.PLAYERS.apply(args[0]);
+            }
+
+            return Collections.emptyList();
+        }
     }
 
     private static class ResetCommand extends SubCommand<Clans, EconomyCommand> implements AnyCommandType {
@@ -291,6 +317,15 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
 
             UtilMessage.simpleMessage(sender, "Economy", "You reset the coins for <yellow><var></yellow> to <gold><var></gold>.", Arrays.asList(targetPlayer.getName(), coinsString));
             UtilMessage.simpleMessage(targetPlayer, "Economy", "Your coins have been reset to <gold><var></gold> by <yellow><var></yellow>.", Arrays.asList(coinsString, sender.getName()));
+        }
+
+        @Override
+        public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
+            if (args.length == 1) {
+                return CoreArgumentType.PLAYERS.apply(args[0]);
+            }
+
+            return Collections.emptyList();
         }
     }
 
@@ -369,6 +404,51 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
 
             UtilMessage.simpleMessage(player, "Economy", "You sent <gold><var></gold> to <yellow><var></yellow>.", Arrays.asList(coinsString, targetPlayer.getName()));
             UtilMessage.simpleMessage(targetPlayer, "Economy", "<yellow><var></yellow> sent you <gold><var></gold>.", Arrays.asList(player.getName(), coinsString));
+        }
+
+        @Override
+        public List<String> getTabCompletion(final Player player, final Client client, final me.trae.core.gamer.Gamer gamer, final String[] args) {
+            if (args.length == 1) {
+                return CoreArgumentType.PLAYERS.apply(args[0]);
+            }
+
+            return Collections.emptyList();
+        }
+    }
+
+    private static class TopCommand extends SubCommand<Clans, EconomyCommand> implements AnyCommandType {
+
+        public TopCommand(final EconomyCommand module) {
+            super(module, "top", Rank.ADMIN);
+        }
+
+        @Override
+        public String getDescription() {
+            return "View Top Balances";
+        }
+
+        @Override
+        public void execute(final CommandSender sender, final String[] args) {
+            final List<Gamer> gamerList = new ArrayList<>(this.getInstance().getManagerByClass(GamerManager.class).getGamers().values());
+
+            if (gamerList.isEmpty()) {
+                UtilMessage.message(sender, "Economy", "Could not find any Top Balances!");
+                return;
+            }
+
+            gamerList.sort(Comparator.comparingInt(Gamer::getCoins));
+
+            UtilMessage.simpleMessage(sender, "Economy", "Showing Top 10 Balances:");
+
+            int count = 0;
+            for (final Gamer gamer : gamerList) {
+                if (count == 10) {
+                    break;
+                }
+
+                UtilMessage.simpleMessage(sender, "<green>#<var></green> - <yellow><var></yellow>: <gold><var>", Arrays.asList(String.valueOf(count + 1), gamer.getPlayer().getName(), gamer.getCoinsString()));
+                count++;
+            }
         }
     }
 }

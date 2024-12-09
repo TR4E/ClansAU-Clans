@@ -65,7 +65,7 @@ public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, Agilit
         }
 
 
-        final String prefix = "Agility";
+        final String prefix = this.getModule().getName();
 
         final String leapAbilityName = this.LEAP_ABILITY_NAME;
         final String wallKickAbilityName = "Agility Wall Kick";

@@ -5,6 +5,7 @@ import me.trae.clans.shop.commands.ShopCommand;
 import me.trae.clans.shop.interfaces.IShopManager;
 import me.trae.clans.shop.shops.armour.ArmourShopKeeper;
 import me.trae.clans.shop.shops.resources.ResourcesShopKeeper;
+import me.trae.clans.shop.shops.weapons_and_tools.WeaponsAndToolsShopKeeper;
 import me.trae.core.framework.SpigotManager;
 
 public class ShopManager extends SpigotManager<Clans> implements IShopManager {
@@ -21,5 +22,6 @@ public class ShopManager extends SpigotManager<Clans> implements IShopManager {
         // Shop Keepers
         addModule(new ArmourShopKeeper(this));
         addModule(new ResourcesShopKeeper(this));
+        addModule(new WeaponsAndToolsShopKeeper(this));
     }
 }

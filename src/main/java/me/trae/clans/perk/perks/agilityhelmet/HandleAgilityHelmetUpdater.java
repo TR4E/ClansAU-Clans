@@ -1,6 +1,6 @@
 package me.trae.clans.perk.perks.agilityhelmet;
 
-import me.trae.champions.utility.UtilRole;
+import me.trae.api.champions.utility.UtilRole;
 import me.trae.clans.Clans;
 import me.trae.clans.perk.perks.AgilityHelmet;
 import me.trae.core.framework.types.frame.SpigotSubUpdater;

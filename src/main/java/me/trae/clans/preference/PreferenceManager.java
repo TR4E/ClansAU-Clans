@@ -2,6 +2,7 @@ package me.trae.clans.preference;
 
 import me.trae.clans.Clans;
 import me.trae.clans.preference.types.DisplayTerritoryTitleBar;
+import me.trae.clans.preference.types.SuperToolActivation;
 import me.trae.core.preference.abstracts.AbstractPreferenceManager;
 
 public class PreferenceManager extends AbstractPreferenceManager<Clans, PreferenceRepository> {
@@ -15,6 +16,7 @@ public class PreferenceManager extends AbstractPreferenceManager<Clans, Preferen
         super.registerModules();
 
         addModule(new DisplayTerritoryTitleBar(this));
+        addModule(new SuperToolActivation(this));
     }
 
     @Override

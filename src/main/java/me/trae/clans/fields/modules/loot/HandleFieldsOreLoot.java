@@ -42,6 +42,7 @@ public class HandleFieldsOreLoot extends SpigotListener<Clans, FieldsManager> {
                     break;
                 case LAPIS_ORE:
                     event.addLoot(ItemConstants.LAPIS_LAZULI);
+                    break;
                 case REDSTONE_ORE:
                 case GLOWING_REDSTONE_ORE:
                     event.addLoot(new ItemStack(Material.REDSTONE));
