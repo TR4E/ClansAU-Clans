@@ -222,11 +222,13 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
 
         final Player throwerPlayer = event.getThrowable().getThrowerPlayer();
 
-        if (item.getPassenger() != null && !(item.getPassenger().equals(throwerPlayer))) {
+        if (item.getPassenger() == null || !(item.getPassenger().equals(throwerPlayer))) {
+            item.remove();
             return;
         }
 
         if (!(throwerPlayer.isInsideVehicle()) || (throwerPlayer.getVehicle() != null && !(throwerPlayer.getVehicle().equals(item)))) {
+            item.remove();
             return;
         }
 

@@ -10,6 +10,7 @@ import me.trae.core.Core;
 import me.trae.core.client.ClientManager;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.player.events.PlayerDisplayNameEvent;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
@@ -18,7 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 public class HandleCoinsOnPlayerDeath extends SpigotListener<Clans, GamerManager> {
 
@@ -75,7 +76,7 @@ public class HandleCoinsOnPlayerDeath extends SpigotListener<Clans, GamerManager
         this.getManager().getRepository().updateData(killerGamer, GamerProperty.COINS);
         UtilServer.callEvent(new ScoreboardUpdateEvent(killer));
 
-        UtilMessage.simpleMessage(player, "Coins", "You lost <gold><var></gold>.", Collections.singletonList(UtilString.toDollar(coins)));
-        UtilMessage.simpleMessage(killer, "Coins", "You stole <gold><var></gold>.", Collections.singletonList(UtilString.toDollar(coins)));
+        UtilMessage.simpleMessage(player, "Coins", "You lost <gold><var></gold> to <var>.", Arrays.asList(UtilString.toDollar(coins), UtilServer.getEvent(new PlayerDisplayNameEvent(killer, player)).getPlayerName()));
+        UtilMessage.simpleMessage(killer, "Coins", "You stole <gold><var></gold> from <var>.", Arrays.asList(UtilString.toDollar(coins), UtilServer.getEvent(new PlayerDisplayNameEvent(player, killer)).getPlayerName()));
     }
 }

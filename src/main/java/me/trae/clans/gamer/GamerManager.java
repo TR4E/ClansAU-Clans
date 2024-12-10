@@ -4,6 +4,7 @@ import me.trae.clans.Clans;
 import me.trae.clans.gamer.commands.EconomyCommand;
 import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.clans.gamer.interfaces.IGamerManager;
+import me.trae.clans.gamer.modules.HandleCoinsOnEntityDeath;
 import me.trae.clans.gamer.modules.HandleCoinsOnPlayerDeath;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.gamer.abstracts.AbstractGamerManager;
@@ -29,6 +30,7 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
         addModule(new EconomyCommand(this));
 
         // Modules
+        addModule(new HandleCoinsOnEntityDeath(this));
         addModule(new HandleCoinsOnPlayerDeath(this));
     }
 
