@@ -565,11 +565,15 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
     @Override
     public String getEnergyRemainingString() {
-        if (this.isAdmin() || !(this.hasTerritory())) {
-            return "Unlimited";
+        if (!(UtilPlugin.getInstance(Clans.class).getManagerByClass(ClanManager.class).energyEnabled)) {
+            return "<red>Disabled";
         }
 
-        return UtilTime.getTime(this.getEnergyDuration());
+        if (this.isAdmin() || !(this.hasTerritory())) {
+            return "<green>Unlimited";
+        }
+
+        return UtilString.format("<green>%s", UtilTime.getTime(this.getEnergyDuration()));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package me.trae.clans.recipe.types;
+package me.trae.clans.recipe.types.weapons;
 
 import me.trae.clans.Clans;
 import me.trae.clans.recipe.RecipeManager;
@@ -6,29 +6,29 @@ import me.trae.core.recipe.CustomRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class DiamondAxeRecipe extends CustomRecipe<Clans, RecipeManager> {
+public class GoldAxeRecipe extends CustomRecipe<Clans, RecipeManager> {
 
-    public DiamondAxeRecipe(final RecipeManager manager) {
-        super(manager, new ItemStack(Material.DIAMOND_AXE));
+    public GoldAxeRecipe(final RecipeManager manager) {
+        super(manager, new ItemStack(Material.GOLD_AXE));
     }
 
     @Override
     public void registerIngredients() {
-        this.addIngredient('D', new ItemStack(Material.DIAMOND_BLOCK));
+        this.addIngredient('G', new ItemStack(Material.GOLD_BLOCK));
         this.addIngredient('S', new ItemStack(Material.STICK));
     }
 
     @Override
     public void registerShapes() {
         this.addShape(new String[]{
-                "DD ",
-                "DS ",
+                "GG ",
+                "GS ",
                 " S "
         });
 
         this.addShape(new String[]{
-                " DD",
-                " SD",
+                " GG",
+                " SG",
                 " S "
         });
     }

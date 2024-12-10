@@ -60,7 +60,7 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
         }
 
         final String title = "<red>CLAN ENERGY LOW";
-        final String subTitle = UtilString.pair("<yellow>Time Remaining", String.format("<green>%s", clan.getEnergyRemainingString()));
+        final String subTitle = UtilString.pair("<yellow>Time Remaining", clan.getEnergyRemainingString());
 
         for (final Player player : clan.getOnlineMembers().keySet()) {
             UtilTitle.sendTitle(player, title, subTitle, true, 2000L);

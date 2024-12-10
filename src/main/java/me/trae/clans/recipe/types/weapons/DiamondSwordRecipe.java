@@ -1,4 +1,4 @@
-package me.trae.clans.recipe.types;
+package me.trae.clans.recipe.types.weapons;
 
 import me.trae.clans.Clans;
 import me.trae.clans.recipe.RecipeManager;

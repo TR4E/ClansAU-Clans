@@ -62,6 +62,8 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         addModule(new FasterNighttimeCycle(this));
         addModule(new HandleDropFallingBlock(this));
         addModule(new HandleIronDoorInteract(this));
+        addModule(new HandleWoodDoorBlockPlace(this));
+        addModule(new HandleWoodTrapDoorBlockPlace(this));
         addModule(new RemoveArrowsOnHit(this));
         addModule(new SpringBlock(this));
         addModule(new WaterBlock(this));

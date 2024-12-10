@@ -2,11 +2,13 @@ package me.trae.clans.recipe;
 
 import me.trae.clans.Clans;
 import me.trae.clans.recipe.modules.*;
-import me.trae.clans.recipe.types.*;
+import me.trae.clans.recipe.types.IronDoorRecipe;
+import me.trae.clans.recipe.types.IronTrapDoorRecipe;
 import me.trae.clans.recipe.types.chainmail.ChainmailBootsRecipe;
 import me.trae.clans.recipe.types.chainmail.ChainmailChestplateRecipe;
 import me.trae.clans.recipe.types.chainmail.ChainmailHelmetRecipe;
 import me.trae.clans.recipe.types.chainmail.ChainmailLeggingsRecipe;
+import me.trae.clans.recipe.types.weapons.*;
 import me.trae.core.recipe.abstracts.AbstractRecipeManager;
 
 public class RecipeManager extends AbstractRecipeManager<Clans> {
@@ -45,5 +47,8 @@ public class RecipeManager extends AbstractRecipeManager<Clans> {
 
         addModule(new FireAxeRecipe(this));
         addModule(new PoisonDaggerRecipe(this));
+
+        addModule(new IronDoorRecipe(this));
+        addModule(new IronTrapDoorRecipe(this));
     }
 }

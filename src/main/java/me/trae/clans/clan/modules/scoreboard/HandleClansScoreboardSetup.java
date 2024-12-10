@@ -62,7 +62,7 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
                 if (getManager().energyEnabled && playerClan != null) {
                     addBlankLine();
 
-                    addCustomLine(ChatColor.YELLOW, "Clan Energy", String.format("<green>%s", playerClan.getEnergyRemainingString()));
+                    addCustomLine(ChatColor.YELLOW, "Clan Energy", playerClan.getEnergyRemainingString());
                 }
 
                 addBlankLine();

@@ -15,6 +15,7 @@ import me.trae.clans.preference.PreferenceManager;
 import me.trae.clans.quest.QuestManager;
 import me.trae.clans.recipe.RecipeManager;
 import me.trae.clans.shop.ShopManager;
+import me.trae.clans.tip.TipManager;
 import me.trae.clans.tnt.TntManager;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.clans.world.WorldManager;
@@ -41,6 +42,7 @@ public class Clans extends MiniPlugin {
         addManager(new QuestManager(this));
         addManager(new RecipeManager(this));
         addManager(new ShopManager(this));
+        addManager(new TipManager(this));
         addManager(new TntManager(this));
         addManager(new WorldManager(this));
         addManager(new WorldEventManager(this));

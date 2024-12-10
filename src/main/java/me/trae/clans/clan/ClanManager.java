@@ -417,7 +417,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         map.put("Territory", String.format("<yellow>%s", targetClan.getTerritoryString(this)));
 
         if (this.energyEnabled) {
-            map.put("Energy", String.format("<green>%s", targetClan.getEnergyRemainingString()));
+            map.put("Energy", targetClan.getEnergyRemainingString());
         }
 
         if (playerClan == targetClan || client.isAdministrating()) {
