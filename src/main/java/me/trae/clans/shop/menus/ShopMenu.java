@@ -29,4 +29,9 @@ public abstract class ShopMenu extends Menu<Clans, ShopManager> implements IShop
             });
         }
     }
+
+    @Override
+    public long getButtonClickDelay() {
+        return 25L;
+    }
 }
