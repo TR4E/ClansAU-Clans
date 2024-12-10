@@ -3,7 +3,6 @@ package me.trae.clans.clan;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.types.AdminClan;
-import me.trae.clans.config.Config;
 import me.trae.core.database.query.types.DeleteQuery;
 import me.trae.core.database.query.types.MultiCallbackQuery;
 import me.trae.core.database.query.types.SaveQuery;
@@ -14,20 +13,15 @@ import me.trae.core.database.repository.types.MultiLoadRepository;
 import me.trae.core.database.repository.types.UpdateRepository;
 import me.trae.core.utility.objects.EnumData;
 
-public class ClanRepository extends Repository<Clans, ClanManager, Config> implements ContainsRepository<String>, UpdateRepository<Clan, ClanProperty>, MultiLoadRepository {
+public class ClanRepository extends Repository<Clans, ClanManager> implements ContainsRepository<String>, UpdateRepository<Clan, ClanProperty>, MultiLoadRepository {
 
     public ClanRepository(final ClanManager manager) {
         super(manager, "Clans");
     }
 
     @Override
-    public Class<Config> getClassOfConfiguration() {
-        return Config.class;
-    }
-
-    @Override
     public boolean containsData(final String name) {
-        return this.getConfig().getYamlConfiguration().contains(name);
+        return this.containsIdentifier(name);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package me.trae.clans.fields;
 
 import me.trae.clans.Clans;
-import me.trae.clans.config.Config;
 import me.trae.clans.fields.data.FieldsBlock;
 import me.trae.clans.fields.data.enums.FieldsBlockProperty;
 import me.trae.core.database.query.Query;
@@ -14,24 +13,18 @@ import me.trae.core.database.repository.types.ContainsRepository;
 import me.trae.core.database.repository.types.MultiLoadRepository;
 import me.trae.core.database.repository.types.UpdateRepository;
 import me.trae.core.utility.UtilBlock;
-import me.trae.core.utility.UtilLocation;
 import me.trae.core.utility.objects.EnumData;
 import org.bukkit.Location;
 
-public class FieldsRepository extends Repository<Clans, FieldsManager, Config> implements ContainsRepository<Location>, UpdateRepository<FieldsBlock, FieldsBlockProperty>, MultiLoadRepository {
+public class FieldsRepository extends Repository<Clans, FieldsManager> implements ContainsRepository<Location>, UpdateRepository<FieldsBlock, FieldsBlockProperty>, MultiLoadRepository {
 
     public FieldsRepository(final FieldsManager manager) {
         super(manager, "Fields");
     }
 
     @Override
-    public Class<Config> getClassOfConfiguration() {
-        return Config.class;
-    }
-
-    @Override
     public boolean containsData(final Location location) {
-        return this.getConfig().getYamlConfiguration().contains(UtilLocation.locationToFile(location));
+        return this.containsIdentifier(UtilBlock.locationToFile(location));
     }
 
     @Override

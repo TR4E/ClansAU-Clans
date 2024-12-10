@@ -1,7 +1,6 @@
 package me.trae.clans.quest;
 
 import me.trae.clans.Clans;
-import me.trae.clans.config.Config;
 import me.trae.clans.quest.data.QuestData;
 import me.trae.clans.quest.data.enums.QuestDataProperty;
 import me.trae.core.database.query.Query;
@@ -20,20 +19,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class QuestRepository extends Repository<Clans, QuestManager, Config> implements ContainsRepository<UUID>, UpdateRepository<QuestData, QuestDataProperty>, SingleLoadRepository<UUID> {
+public class QuestRepository extends Repository<Clans, QuestManager> implements ContainsRepository<UUID>, UpdateRepository<QuestData, QuestDataProperty>, SingleLoadRepository<UUID> {
 
     public QuestRepository(final QuestManager manager) {
         super(manager, "Quests");
     }
 
     @Override
-    public Class<Config> getClassOfConfiguration() {
-        return Config.class;
-    }
-
-    @Override
     public boolean containsData(final UUID uuid) {
-        return this.getConfig().getYamlConfiguration().contains(uuid.toString());
+        return this.containsIdentifier(uuid.toString());
     }
 
     @Override
