@@ -13,7 +13,7 @@ import java.util.List;
 public abstract class ShopMenu extends Menu<Clans, ShopManager> implements IShopMenu {
 
     public ShopMenu(final ShopManager manager, final Player player, final ShopKeeper shopKeeper) {
-        super(manager, player, 54, String.format("%s Shop", shopKeeper.getDisplayName()));
+        super(manager, player, 54, shopKeeper.getDisplayName());
     }
 
     @Override

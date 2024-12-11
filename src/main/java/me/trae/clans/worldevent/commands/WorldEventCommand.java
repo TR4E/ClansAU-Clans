@@ -9,7 +9,12 @@ import me.trae.core.command.types.SubCommand;
 import me.trae.core.command.types.models.AnyCommandType;
 import me.trae.core.utility.UtilCommand;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.constants.CoreArgumentType;
 import org.bukkit.command.CommandSender;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class WorldEventCommand extends Command<Clans, WorldEventManager> implements AnyCommandType {
 
@@ -67,6 +72,15 @@ public class WorldEventCommand extends Command<Clans, WorldEventManager> impleme
             }
 
             worldEvent.start();
+        }
+
+        @Override
+        public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
+            if (args.length == 1) {
+                return CoreArgumentType.CUSTOM.apply(this.getModule().getManager().getModulesByClass(WorldEvent.class).stream().map(WorldEvent::getSlicedName).collect(Collectors.toList()), args[0]);
+            }
+
+            return Collections.emptyList();
         }
     }
 

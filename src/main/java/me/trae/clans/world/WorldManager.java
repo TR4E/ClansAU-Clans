@@ -3,6 +3,8 @@ package me.trae.clans.world;
 import me.trae.clans.Clans;
 import me.trae.clans.world.commands.ArmourCommand;
 import me.trae.clans.world.commands.DyeCommand;
+import me.trae.clans.world.commands.TrackCommand;
+import me.trae.clans.world.commands.WarpCommand;
 import me.trae.clans.world.modules.*;
 import me.trae.clans.world.modules.block.DisableBedrock;
 import me.trae.clans.world.modules.block.DisableContainerBlockInSky;
@@ -28,6 +30,8 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         // Commands
         addModule(new ArmourCommand(this));
         addModule(new DyeCommand(this));
+        addModule(new TrackCommand(this));
+        addModule(new WarpCommand(this));
 
         // Core Modules
         addModule(new DisableSaturation<>(this));

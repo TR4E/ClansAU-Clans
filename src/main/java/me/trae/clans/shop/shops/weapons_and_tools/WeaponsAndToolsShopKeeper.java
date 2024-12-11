@@ -8,7 +8,15 @@ import me.trae.clans.shop.shops.weapons_and_tools.items.FishingRodShopItem;
 import me.trae.clans.shop.shops.weapons_and_tools.items.tools.*;
 import me.trae.clans.shop.shops.weapons_and_tools.items.weapons.*;
 import me.trae.core.utility.UtilColor;
+import me.trae.core.utility.UtilLocation;
+import me.trae.core.utility.UtilWorld;
+import me.trae.core.utility.enums.DirectionType;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class WeaponsAndToolsShopKeeper extends ShopKeeper {
 
@@ -42,6 +50,19 @@ public class WeaponsAndToolsShopKeeper extends ShopKeeper {
 
     @Override
     public String getDisplayName() {
-        return UtilColor.bold(ChatColor.GREEN) + "Weapons / Tools";
+        return UtilColor.bold(ChatColor.GREEN) + "Weapons / Tools Shop";
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.VILLAGER;
+    }
+
+    @Override
+    public List<Location> getLocations() {
+        return Arrays.asList(
+                new Location(UtilWorld.getDefaultWorld(), -425.5D, 65.0D, 6.5D, UtilLocation.getYawByDirectionType(DirectionType.EAST), 0.0F),
+                new Location(UtilWorld.getDefaultWorld(), 425.5D, 65.0D, -6.5D, UtilLocation.getYawByDirectionType(DirectionType.WEST), 0.0F)
+        );
     }
 }

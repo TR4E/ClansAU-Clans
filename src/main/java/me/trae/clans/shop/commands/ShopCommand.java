@@ -4,7 +4,6 @@ import me.trae.clans.Clans;
 import me.trae.clans.shop.ShopKeeper;
 import me.trae.clans.shop.ShopManager;
 import me.trae.clans.shop.menus.ShopMenu;
-import me.trae.clans.shop.npc.ShopNPC;
 import me.trae.clans.shop.shops.resources.ResourcesShopKeeper;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
@@ -13,7 +12,6 @@ import me.trae.core.command.types.models.PlayerCommandType;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMenu;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class ShopCommand extends Command<Clans, ShopManager> implements PlayerCommandType {
@@ -35,10 +33,6 @@ public class ShopCommand extends Command<Clans, ShopManager> implements PlayerCo
             } catch (final Exception ignored) {
             }
         }
-
-        final ShopNPC shopNPC = new ShopNPC(EntityType.VILLAGER, player.getLocation(), shopKeeper);
-
-        shopNPC.spawn();
 
         final ShopKeeper finalShopKeeper = shopKeeper;
         UtilMenu.open(new ShopMenu(this.getManager(), player, finalShopKeeper) {

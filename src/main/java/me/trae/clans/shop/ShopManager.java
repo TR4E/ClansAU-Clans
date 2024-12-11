@@ -3,6 +3,7 @@ package me.trae.clans.shop;
 import me.trae.clans.Clans;
 import me.trae.clans.shop.commands.ShopCommand;
 import me.trae.clans.shop.interfaces.IShopManager;
+import me.trae.clans.shop.modules.LoadShopKeeperNpcOnServerStart;
 import me.trae.clans.shop.shops.armour.ArmourShopKeeper;
 import me.trae.clans.shop.shops.resources.ResourcesShopKeeper;
 import me.trae.clans.shop.shops.weapons_and_tools.WeaponsAndToolsShopKeeper;
@@ -18,6 +19,9 @@ public class ShopManager extends SpigotManager<Clans> implements IShopManager {
     public void registerModules() {
         // Commands
         addModule(new ShopCommand(this));
+
+        // Modules
+        addModule(new LoadShopKeeperNpcOnServerStart(this));
 
         // Shop Keepers
         addModule(new ArmourShopKeeper(this));

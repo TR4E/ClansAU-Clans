@@ -96,7 +96,7 @@ public class CrateCommand extends Command<Clans, CrateManager> implements AnyCom
             }
 
             if (args.length == 2) {
-                return CoreArgumentType.CUSTOM.apply(this.getModule().getManager().getModulesByClass(Crate.class).stream().map(Crate::getName).collect(Collectors.toList()), args[1]);
+                return CoreArgumentType.CUSTOM.apply(this.getModule().getManager().getModulesByClass(Crate.class).stream().map(Crate::getSlicedName).collect(Collectors.toList()), args[1]);
             }
 
             return Collections.emptyList();

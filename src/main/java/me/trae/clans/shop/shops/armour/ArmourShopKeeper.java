@@ -7,7 +7,16 @@ import me.trae.clans.shop.shops.armour.items.chestplate.*;
 import me.trae.clans.shop.shops.armour.items.helmet.*;
 import me.trae.clans.shop.shops.armour.items.leggings.*;
 import me.trae.core.utility.UtilColor;
+import me.trae.core.utility.UtilLocation;
+import me.trae.core.utility.UtilWorld;
+import me.trae.core.utility.enums.DirectionType;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ArmourShopKeeper extends ShopKeeper {
 
@@ -48,6 +57,19 @@ public class ArmourShopKeeper extends ShopKeeper {
 
     @Override
     public String getDisplayName() {
-        return UtilColor.bold(ChatColor.GREEN) + "Armour";
+        return UtilColor.bold(ChatColor.GREEN) + "Armour Shop";
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.VILLAGER;
+    }
+
+    @Override
+    public List<Location> getLocations() {
+        return Arrays.asList(
+                new Location(UtilWorld.getDefaultWorld(), -425.5D, 65.0D, 2.5D, UtilLocation.getYawByDirectionType(DirectionType.EAST), 0.0F),
+                new Location(UtilWorld.getDefaultWorld(), 425.5D, 65.0D, -2.5D, UtilLocation.getYawByDirectionType(DirectionType.WEST), 0.0F)
+        );
     }
 }

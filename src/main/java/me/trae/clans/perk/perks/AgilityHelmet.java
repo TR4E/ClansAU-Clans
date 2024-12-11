@@ -32,6 +32,7 @@ public class AgilityHelmet extends Perk<Clans, PerkManager> implements IAgilityH
     @Override
     public void registerSubModules() {
         addSubModule(new HandleAgilityHelmetActivate(this));
+        addSubModule(new HandleAgilityHelmetArmourChange(this));
         addSubModule(new HandleAgilityHelmetEquip(this));
         addSubModule(new HandleAgilityHelmetFallDamage(this));
         addSubModule(new HandleAgilityHelmetItemStackUpdate(this));
