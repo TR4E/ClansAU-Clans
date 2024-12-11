@@ -26,6 +26,7 @@ import me.trae.clans.clan.modules.energy.HandleClanEnergyUpdater;
 import me.trae.clans.clan.modules.pillage.HandleDominancePointsOnPlayerDeath;
 import me.trae.clans.clan.modules.pillage.HandlePillageAlerts;
 import me.trae.clans.clan.modules.pillage.HandlePillageUpdater;
+import me.trae.clans.clan.modules.protection.DisableProtectionTimerInSafeZones;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardSetup;
 import me.trae.clans.clan.modules.scoreboard.HandleClansScoreboardUpdate;
 import me.trae.clans.clan.modules.skill.HandleSkillFriendlyFireForSafeZones;
@@ -47,6 +48,7 @@ import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFireForSafeZones;
 import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFireForTeammates;
 import me.trae.clans.clan.modules.weapon.HandleWeaponLocation;
 import me.trae.clans.clan.modules.weapon.HandleWeaponPreActivate;
+import me.trae.clans.clan.modules.world.DisableBlockSpreadInAdminClanTerritory;
 import me.trae.clans.clan.modules.world.DisableLeavesDecayInAdminClanTerritory;
 import me.trae.clans.clan.modules.world.DisableNaturalCreatureSpawningInAdminClanTerritory;
 import me.trae.clans.clan.modules.world.DisableShootingArrowsInSafeZones;
@@ -153,6 +155,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandlePillageAlerts(this));
         addModule(new HandlePillageUpdater(this));
 
+        // Protection Modules
+        addModule(new DisableProtectionTimerInSafeZones(this));
+
         // Scoreboard Modules
         addModule(new HandleClansScoreboardSetup(this));
         addModule(new HandleClansScoreboardUpdate(this));
@@ -187,6 +192,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleWeaponPreActivate(this));
 
         // World Modules
+        addModule(new DisableBlockSpreadInAdminClanTerritory(this));
         addModule(new DisableLeavesDecayInAdminClanTerritory(this));
         addModule(new DisableNaturalCreatureSpawningInAdminClanTerritory(this));
         addModule(new DisableShootingArrowsInSafeZones(this));
@@ -434,6 +440,8 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             map.put("TNT Protected", targetClan.getTNTProtectionString(this, player));
         }
 
+        map.put("Points", UtilColor.bold(ChatColor.RED) + targetClan.getPoints());
+
         return map;
     }
 
@@ -444,7 +452,13 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public String getClanShortName(final Clan clan, final ClanRelation clanRelation) {
-        return clanRelation.getSuffix() + clan.getDisplayName();
+        ChatColor chatColor = clanRelation.getSuffix();
+
+        if (clan.isAdmin() && clanRelation == ClanRelation.NEUTRAL) {
+            chatColor = ChatColor.WHITE;
+        }
+
+        return chatColor + clan.getDisplayName();
     }
 
     @Override

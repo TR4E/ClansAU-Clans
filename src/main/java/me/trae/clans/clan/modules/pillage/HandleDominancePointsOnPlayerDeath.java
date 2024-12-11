@@ -100,6 +100,10 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
         pillagerClan.addPillage(new Pillage(pillageeClan));
         this.getManager().getRepository().updateData(pillagerClan, ClanProperty.PILLAGES);
 
+        // Add a point to Pillager Clan
+        pillagerClan.setPoints(pillagerClan.getPoints() + 1);
+        this.getManager().getRepository().updateData(pillagerClan, ClanProperty.POINTS);
+
         // Call PillageStartEvent
         UtilServer.callEvent(new PillageStartEvent(pillagerClan, pillageeClan));
     }

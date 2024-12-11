@@ -8,10 +8,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class IronHoeShopItem extends ShopItem<WeaponsAndToolsShopKeeper> {
 
-    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "2_000")
+    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "750")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "1_000")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "375")
     private int sellPrice;
 
     public IronHoeShopItem(final WeaponsAndToolsShopKeeper module) {

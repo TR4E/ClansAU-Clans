@@ -3,6 +3,7 @@ package me.trae.clans.clan;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.types.AdminClan;
+import me.trae.core.database.query.Query;
 import me.trae.core.database.query.types.DeleteQuery;
 import me.trae.core.database.query.types.MultiCallbackQuery;
 import me.trae.core.database.query.types.SaveQuery;
@@ -89,5 +90,10 @@ public class ClanRepository extends Repository<Clans, ClanManager> implements Co
         };
 
         this.addQuery(query);
+    }
+
+    @Override
+    public boolean isInform(final Query query) {
+        return !(query instanceof UpdateQuery<?>);
     }
 }

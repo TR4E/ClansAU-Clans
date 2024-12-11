@@ -42,6 +42,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     private int energy;
     private UUID founder;
     private Location home;
+    private int points;
 
     public Clan(final String name) {
         this.name = name;
@@ -79,12 +80,13 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
         data.getList(String.class, ClanProperty.ENEMIES).forEach(string -> this.addEnemy(new Enemy(string.split(":"))));
         data.getList(String.class, ClanProperty.PILLAGES).forEach(string -> this.addPillage(new Pillage(string.split(":"))));
 
-        this.created = data.get(Long.class, ClanProperty.CREATED);
-        this.lastOnline = data.get(Long.class, ClanProperty.LAST_ONLINE);
-        this.lastTNTed = data.get(Long.class, ClanProperty.LAST_TNTED);
-        this.energy = data.get(Integer.class, ClanProperty.ENERGY);
+        this.created = data.get(Long.class, ClanProperty.CREATED, 0L);
+        this.lastOnline = data.get(Long.class, ClanProperty.LAST_ONLINE, 0L);
+        this.lastTNTed = data.get(Long.class, ClanProperty.LAST_TNTED, 0L);
+        this.energy = data.get(Integer.class, ClanProperty.ENERGY, 0);
         this.founder = UUID.fromString(data.get(String.class, ClanProperty.FOUNDER));
         this.home = UtilLocation.fileToLocation(data.get(String.class, ClanProperty.HOME));
+        this.points = data.get(Integer.class, ClanProperty.POINTS, 0);
     }
 
     @Override
@@ -615,6 +617,16 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     }
 
     @Override
+    public int getPoints() {
+        return this.points;
+    }
+
+    @Override
+    public void setPoints(final int points) {
+        this.points = points;
+    }
+
+    @Override
     public List<ClanProperty> getProperties() {
         return Arrays.asList(ClanProperty.values());
     }
@@ -646,6 +658,8 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
                 return this.getFounder().toString();
             case HOME:
                 return UtilLocation.locationToFile(this.getHome());
+            case POINTS:
+                return this.getPoints();
             case ADMIN:
                 return this.isAdmin();
             case SAFE:

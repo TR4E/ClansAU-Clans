@@ -2,10 +2,13 @@ package me.trae.clans.gamer;
 
 import me.trae.clans.Clans;
 import me.trae.clans.gamer.commands.EconomyCommand;
+import me.trae.clans.gamer.commands.ProtectionCommand;
 import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.clans.gamer.interfaces.IGamerManager;
-import me.trae.clans.gamer.modules.HandleCoinsOnEntityDeath;
-import me.trae.clans.gamer.modules.HandleCoinsOnPlayerDeath;
+import me.trae.clans.gamer.modules.coins.HandleCoinsOnEntityDeath;
+import me.trae.clans.gamer.modules.coins.HandleCoinsOnPlayerDeath;
+import me.trae.clans.gamer.modules.protection.HandleProtectionDamage;
+import me.trae.clans.gamer.modules.protection.HandleProtectionUpdate;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.gamer.abstracts.AbstractGamerManager;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
@@ -18,6 +21,9 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
     @ConfigInject(type = Integer.class, path = "Starter-Coins-Amount", defaultValue = "5000")
     public int starterCoinsAmount;
 
+    @ConfigInject(type = Long.class, path = "Starter-Protection-Duration", defaultValue = "3_600_000")
+    public long starterProtectionDuration;
+
     public GamerManager(final Clans instance) {
         super(instance);
     }
@@ -28,10 +34,15 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
 
         // Commands
         addModule(new EconomyCommand(this));
+        addModule(new ProtectionCommand(this));
 
-        // Modules
+        // Coins Modules
         addModule(new HandleCoinsOnEntityDeath(this));
         addModule(new HandleCoinsOnPlayerDeath(this));
+
+        // Protection Modules
+        addModule(new HandleProtectionDamage(this));
+        addModule(new HandleProtectionUpdate(this));
     }
 
     @Override

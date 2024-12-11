@@ -16,6 +16,7 @@ import java.util.UUID;
 public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
 
     private int coins;
+    private long protection;
 
     public Gamer(final UUID uuid) {
         super(uuid);
@@ -24,13 +25,17 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
     public Gamer(final Player player) {
         this(player.getUniqueId());
 
-        this.coins = UtilPlugin.getInstance(Clans.class).getManagerByClass(GamerManager.class).starterCoinsAmount;
+        final GamerManager gamerManager = UtilPlugin.getInstance(Clans.class).getManagerByClass(GamerManager.class);
+
+        this.coins = gamerManager.starterCoinsAmount;
+        this.protection = gamerManager.starterProtectionDuration;
     }
 
     public Gamer(final EnumData<GamerProperty> data) {
         super(data);
 
-        this.coins = data.get(Integer.class, GamerProperty.COINS);
+        this.coins = data.get(Integer.class, GamerProperty.COINS, 0);
+        this.protection = data.get(Long.class, GamerProperty.PROTECTION, 0L);
     }
 
     @Override
@@ -54,14 +59,42 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
     }
 
     @Override
+    public long getProtection() {
+        return this.protection;
+    }
+
+    @Override
+    public void setProtection(final long protection) {
+        this.protection = protection;
+    }
+
+    @Override
+    public void addProtection(final long duration) {
+        this.setProtection(this.getProtection() + duration);
+    }
+
+    @Override
+    public void takeProtection(final long duration) {
+        this.setProtection(Math.max(0L, this.getProtection() - duration));
+    }
+
+    @Override
+    public boolean hasProtection() {
+        return this.getProtection() > 0L;
+    }
+
+    @Override
     public List<GamerProperty> getProperties() {
         return Arrays.asList(GamerProperty.values());
     }
 
     @Override
     public Object getValueByProperty(final GamerProperty property) {
-        if (property == GamerProperty.COINS) {
-            return this.getCoins();
+        switch (property) {
+            case COINS:
+                return this.getCoins();
+            case PROTECTION:
+                return this.getProtection();
         }
 
         return null;

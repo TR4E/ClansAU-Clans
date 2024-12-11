@@ -1,4 +1,4 @@
-package me.trae.clans.gamer.modules;
+package me.trae.clans.gamer.modules.coins;
 
 import me.trae.api.champions.role.events.RoleCheckEvent;
 import me.trae.api.death.events.CustomDeathEvent;

@@ -17,8 +17,8 @@ public class LoadShopKeeperNpcOnServerStart extends SpigotListener<Clans, ShopMa
     @EventHandler
     public void onServerStart(final ServerStartEvent event) {
         for (final ShopKeeper shopKeeper : this.getManager().getModulesByClass(ShopKeeper.class)) {
-            for (final ShopNPC shopNPC : shopKeeper.getNpcList()) {
-                shopNPC.spawn();
+            for (final ShopNPC npc : shopKeeper.getNpcList()) {
+                npc.spawn();
             }
         }
     }

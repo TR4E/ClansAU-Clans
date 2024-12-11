@@ -191,4 +191,8 @@ public interface IClan {
     boolean hasHome();
 
     String getHomeString();
+
+    int getPoints();
+
+    void setPoints(final int points);
 }
