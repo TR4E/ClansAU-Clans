@@ -34,6 +34,8 @@ public class DisableShootingArrowsInSafeZones extends SpigotListener<Clans, Clan
 
         event.setCancelled(true);
 
+        player.updateInventory();
+
         UtilMessage.message(player, "Clans", "You cannot shoot arrows in Safe Zones!");
     }
 }
