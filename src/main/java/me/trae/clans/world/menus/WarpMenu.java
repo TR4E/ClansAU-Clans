@@ -5,6 +5,8 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.world.WorldManager;
 import me.trae.clans.world.menus.buttons.*;
+import me.trae.core.Core;
+import me.trae.core.client.ClientManager;
 import me.trae.core.menu.Menu;
 import me.trae.core.utility.UtilColor;
 import me.trae.core.utility.UtilJava;
@@ -81,5 +83,19 @@ public class WarpMenu extends Menu<Clans, WorldManager> {
                 });
             }
         });
+
+        // Fields
+        if (this.getManager().getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+            UtilJava.call(clanManager.getClanByName("Fields"), clan -> {
+                if (clan != null && clan.hasHome()) {
+                    this.addButton(new FieldsWarpButton(this) {
+                        @Override
+                        public Clan getClan() {
+                            return clan;
+                        }
+                    });
+                }
+            });
+        }
     }
 }

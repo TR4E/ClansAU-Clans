@@ -37,11 +37,11 @@ public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCo
         // Admin Commands
         addSubModule(new AllyCommand(this));
         addSubModule(new EnemyCommand(this));
-        addSubModule(new InviteCommand(this));
-        addSubModule(new KickCommand(this));
         addSubModule(new NeutralCommand(this));
         addSubModule(new TrustCommand(this));
         addSubModule(new UnTrustCommand(this));
+        addSubModule(new InviteCommand(this));
+        addSubModule(new KickCommand(this));
         addSubModule(new ClaimCommand(this));
         addSubModule(new DeleteHomeCommand(this));
         addSubModule(new SetHomeCommand(this));
