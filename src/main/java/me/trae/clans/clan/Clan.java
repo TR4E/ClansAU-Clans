@@ -38,8 +38,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     private final LinkedHashMap<String, Enemy> enemies = new LinkedHashMap<>();
     private final LinkedHashMap<String, Pillage> pillages = new LinkedHashMap<>();
 
-    private long created, lastOnline, lastTNTed;
-    private int energy;
+    private long created, lastOnline, lastTNTed, energy;
     private UUID founder;
     private Location home;
     private int points;
@@ -83,7 +82,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
         this.created = data.get(Long.class, ClanProperty.CREATED, 0L);
         this.lastOnline = data.get(Long.class, ClanProperty.LAST_ONLINE, 0L);
         this.lastTNTed = data.get(Long.class, ClanProperty.LAST_TNTED, 0L);
-        this.energy = data.get(Integer.class, ClanProperty.ENERGY, 0);
+        this.energy = data.get(Long.class, ClanProperty.ENERGY, 0L);
         this.founder = UUID.fromString(data.get(String.class, ClanProperty.FOUNDER));
         this.home = UtilLocation.fileToLocation(data.get(String.class, ClanProperty.HOME));
         this.points = data.get(Integer.class, ClanProperty.POINTS, 0);
@@ -546,36 +545,22 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     }
 
     @Override
-    public int getEnergy() {
+    public long getEnergy() {
         return this.energy;
     }
 
     @Override
-    public void setEnergy(final int energy) {
+    public void setEnergy(final long energy) {
         this.energy = energy;
     }
 
     @Override
-    public long getEnergyDuration() {
-        return (long) ((this.getEnergy() / this.getEnergyDepletionRatio()) * 3600000L);
-    }
-
-    @Override
-    public double getEnergyDepletionRatio() {
-        return this.getTerritory().size() * 25.0D;
-    }
-
-    @Override
     public String getEnergyRemainingString() {
-        if (!(UtilPlugin.getInstance(Clans.class).getManagerByClass(ClanManager.class).energyEnabled)) {
-            return "<red>Disabled";
-        }
-
         if (this.isAdmin() || !(this.hasTerritory())) {
             return "<green>Unlimited";
         }
 
-        return UtilString.format("<green>%s", UtilTime.getTime(this.getEnergyDuration()));
+        return UtilString.format("<green>%s", UtilTime.getTime(this.getEnergy()));
     }
 
     @Override

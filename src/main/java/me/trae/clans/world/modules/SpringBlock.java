@@ -4,6 +4,8 @@ import me.trae.api.damage.events.damage.CustomPreDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
 import me.trae.core.Core;
+import me.trae.core.antihack.AntiHackManager;
+import me.trae.core.antihack.types.Speed;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.item.events.ItemUpdateEvent;

@@ -110,8 +110,8 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Boolean.class, path = "Energy-Enabled", defaultValue = "true")
     public boolean energyEnabled;
 
-    @ConfigInject(type = Integer.class, path = "Default-Energy", defaultValue = "2400")
-    public int defaultEnergy;
+    @ConfigInject(type = Long.class, path = "Default-Energy", defaultValue = "345_600_000")
+    public long defaultEnergy;
 
     @ConfigInject(type = Boolean.class, path = "SOTW", defaultValue = "false")
     public boolean sotw;

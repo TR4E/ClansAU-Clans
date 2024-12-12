@@ -94,11 +94,19 @@ public interface SupplyCrateComponent extends Updater {
 
             final Block block = data.getLocation().getBlock();
 
+            if (!(block.getState() instanceof Chest)) {
+                return;
+            }
+
             block.setType(this.getChestMaterial());
 
             UtilJava.cast(CraftChest.class, block.getState()).getTileEntity().a(this.getDisplayName());
 
             UtilServer.runTaskLater(Clans.class, false, 5L, () -> {
+                if (!(block.getState() instanceof Chest)) {
+                    return;
+                }
+
                 if (block.getType() != this.getChestMaterial()) {
                     return;
                 }
@@ -115,7 +123,7 @@ public interface SupplyCrateComponent extends Updater {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if (block.getType() != SupplyCrateComponent.this.getChestMaterial()) {
+                        if (!(block.getState() instanceof Chest) || block.getType() != SupplyCrateComponent.this.getChestMaterial()) {
                             this.cancel();
                             return;
                         }
@@ -141,7 +149,7 @@ public interface SupplyCrateComponent extends Updater {
                 }.runTaskTimer(UtilPlugin.getInstance(Clans.class), 0L, 5L);
 
                 UtilServer.runTaskLater(Clans.class, false, this.getChestRemoveDuration() / 50L, () -> {
-                    if (block.getType() != this.getChestMaterial()) {
+                    if (!(block.getState() instanceof Chest) || block.getType() != SupplyCrateComponent.this.getChestMaterial()) {
                         return;
                     }
 

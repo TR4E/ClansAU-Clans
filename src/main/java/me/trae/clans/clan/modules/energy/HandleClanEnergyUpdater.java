@@ -22,10 +22,11 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
     @ConfigInject(type = Long.class, path = "Warning-Duration", defaultValue = "300_000")
     private long warningDuration;
 
-    @ConfigInject(type = Double.class, path = "Warning-Threshold", defaultValue = "30.0")
-    private double warningThreshold;
+    @ConfigInject(type = Long.class, path = "Warning-Threshold", defaultValue = "21_600_000")
+    private long warningThreshold;
 
-    private long checkSystemTime, warningSystemTime;
+    private long checkSystemTime = System.currentTimeMillis();
+    private long warningSystemTime = System.currentTimeMillis();
 
     public HandleClanEnergyUpdater(final ClanManager manager) {
         super(manager);
@@ -55,7 +56,7 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
     }
 
     private void handleWarning(final Clan clan) {
-        if (clan.getEnergyDuration() >= this.warningThreshold * 60_000L) {
+        if (clan.getEnergy() >= this.warningThreshold) {
             return;
         }
 
@@ -71,20 +72,21 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
     }
 
     private void handleCheck(final Clan clan) {
-        final int depletion = (int) (clan.getEnergyDepletionRatio() / 12);
-
-        clan.setEnergy(clan.getEnergy() - depletion);
+        clan.setEnergy(clan.getEnergy() - this.checkDuration);
         this.getManager().getRepository().updateData(clan, ClanProperty.ENERGY);
 
         if (clan.getEnergy() <= 0L) {
-            this.getManager().disbandClan(clan);
-
             for (final Player targetPlayer : UtilServer.getOnlinePlayers()) {
                 final ClanRelation clanRelation = this.getManager().getClanRelationByClan(this.getManager().getClanByPlayer(targetPlayer), clan);
 
                 UtilMessage.simpleMessage(targetPlayer, "Clans", "<var> has been disbanded due to no energy left!", Collections.singletonList(this.getManager().getClanFullName(clan, clanRelation)));
             }
-        } else if (clan.getEnergy() - depletion <= 0) {
+
+            this.getManager().disbandClan(clan);
+            return;
+        }
+
+        if (clan.getEnergy() - this.checkDuration <= 0) {
             this.getManager().messageClan(clan, "Clans", "If you do not buy more energy, your clan will disband in 5 minutes.", null, null);
         }
     }
