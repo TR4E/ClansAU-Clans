@@ -174,6 +174,10 @@ public interface IClan {
 
     void setEnergy(final long energy);
 
+    long getEnergyDuration();
+
+    double getEnergyDepletionRatio();
+
     String getEnergyRemainingString();
 
     UUID getFounder();

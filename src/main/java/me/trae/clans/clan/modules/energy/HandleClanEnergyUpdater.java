@@ -8,6 +8,7 @@ import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.ClanUpdaterEvent;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +17,7 @@ import java.util.Collections;
 
 public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> {
 
-    @ConfigInject(type = Long.class, path = "Check-Duration", defaultValue = "300_000")
+    @ConfigInject(type = Long.class, path = "Check-Duration", defaultValue = "60_000")
     private long checkDuration;
 
     @ConfigInject(type = Long.class, path = "Warning-Duration", defaultValue = "300_000")
@@ -72,8 +73,11 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
     }
 
     private void handleCheck(final Clan clan) {
-        clan.setEnergy(clan.getEnergy() - this.checkDuration);
+        final long depletion = clan.getEnergyDuration() / 60;
+
+        clan.setEnergy(clan.getEnergy() - depletion);
         this.getManager().getRepository().updateData(clan, ClanProperty.ENERGY);
+        clan.getOnlineMembers().keySet().forEach(player -> UtilServer.callEvent(new ScoreboardUpdateEvent(player)));
 
         if (clan.getEnergy() <= 0L) {
             for (final Player targetPlayer : UtilServer.getOnlinePlayers()) {
@@ -83,11 +87,6 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
             }
 
             this.getManager().disbandClan(clan);
-            return;
-        }
-
-        if (clan.getEnergy() - this.checkDuration <= 0) {
-            this.getManager().messageClan(clan, "Clans", "If you do not buy more energy, your clan will disband in 5 minutes.", null, null);
         }
     }
 }

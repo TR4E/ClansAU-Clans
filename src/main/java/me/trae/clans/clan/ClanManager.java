@@ -727,6 +727,16 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
         clan.getOnlineMembers().keySet().forEach(player -> UtilServer.callEvent(new ScoreboardUpdateEvent(player)));
 
+        for (final Chunk territoryChunk : clan.getTerritoryChunks()) {
+            UtilChunk.getChunkEntities(Player.class, territoryChunk).forEach(player -> {
+                if (clan.isMemberByPlayer(player)) {
+                    return;
+                }
+
+                UtilServer.callEvent(new ScoreboardUpdateEvent(player));
+            });
+        }
+
         this.removeClan(clan);
         this.getRepository().deleteData(clan);
     }

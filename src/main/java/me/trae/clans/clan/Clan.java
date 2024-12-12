@@ -555,12 +555,22 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     }
 
     @Override
+    public long getEnergyDuration() {
+        return (long) ((this.getEnergy() / this.getEnergyDepletionRatio()) * 3_600_000L);
+    }
+
+    @Override
+    public double getEnergyDepletionRatio() {
+        return this.getTerritory().size() * 3_600_000L;
+    }
+
+    @Override
     public String getEnergyRemainingString() {
         if (this.isAdmin() || !(this.hasTerritory())) {
             return "<green>Unlimited";
         }
 
-        return UtilString.format("<green>%s", UtilTime.getTime(this.getEnergy()));
+        return UtilString.format("<green>%s", UtilTime.getTime(this.getEnergyDuration()));
     }
 
     @Override
