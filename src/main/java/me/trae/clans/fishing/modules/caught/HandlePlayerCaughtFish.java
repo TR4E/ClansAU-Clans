@@ -7,6 +7,7 @@ import me.trae.clans.fishing.events.PlayerFishingCaughtEvent;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.item.ItemBuilder;
+import me.trae.core.utility.UtilMessage;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -37,6 +38,11 @@ public class HandlePlayerCaughtFish extends SpigotListener<Clans, FishingManager
         int bigCatchWeight = this.getManager().getModuleByClass(HandleFishingCaughtWeight.class).bigCatchWeight;
 
         int weight = event.getWeight();
+        if (!(event.isInFields())) {
+            weight = weight / 3;
+
+            UtilMessage.simpleMessage(event.getPlayer(), "Fishing", "It is recommended to fish at <white>Fields</white> for better luck.");
+        }
 
         if (event.isFishingFrenzy()) {
             final double frenzyChance = this.frenzyLuckPercentage / 100.0;

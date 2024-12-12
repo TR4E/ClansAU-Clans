@@ -46,6 +46,10 @@ public class HandlePlayerCaughtMob extends SpigotListener<Clans, FishingManager>
             return;
         }
 
+        if (!(event.isInFields())) {
+            return;
+        }
+
         EntityType entityType = this.ENTITY_TYPES.get(UtilMath.getRandomNumber(Integer.class, 0, this.ENTITY_TYPES.size()));
 
         if (event.isChance(1, 100, 90)) {

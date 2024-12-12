@@ -53,6 +53,10 @@ public class HandlePlayerCaughtLegendary extends SpigotListener<Clans, FishingMa
             return;
         }
 
+        if (!(event.isInFields())) {
+            return;
+        }
+
         final Legendary<?, ?, ?> legendary = WeaponRegistry.getRandomWeaponByClass(Legendary.class);
 
         event.setCaughtItemStack(legendary.getFinalBuilder().toItemStack());
