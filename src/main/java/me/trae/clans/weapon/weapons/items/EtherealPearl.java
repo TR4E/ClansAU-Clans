@@ -125,7 +125,7 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
     }
 
     private void onLeftClick(final Player player) {
-        final Throwable throwable = new Throwable(this.getAbilityName(ActionType.LEFT_CLICK), this.getItemStack(), player, -1L, player.getLocation().getDirection().multiply(this.itemVelocity));
+        final Throwable throwable = new Throwable(this.getAbilityName(ActionType.LEFT_CLICK), this.getItemStack(), player, -1L, player.getEyeLocation().getDirection().multiply(this.itemVelocity));
 
         this.getInstance(Core.class).getManagerByClass(ThrowableManager.class).addThrowable(throwable);
 

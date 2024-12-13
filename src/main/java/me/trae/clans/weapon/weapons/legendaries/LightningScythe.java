@@ -47,7 +47,7 @@ public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, Weapo
     @ConfigInject(type = Integer.class, path = "Take-Durability", defaultValue = "5")
     private int takeDurability;
 
-    @ConfigInject(type = Boolean.class, path = "Friendly-Fire", defaultValue = "true")
+    @ConfigInject(type = Boolean.class, path = "Friendly-Fire", defaultValue = "false")
     private boolean friendlyFire;
 
     public LightningScythe(final WeaponManager manager) {
@@ -127,9 +127,9 @@ public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, Weapo
             }
 
             if (targetEntity instanceof Player) {
-                final WeaponFriendlyFireEvent weaponFriendlyFireEvent = new WeaponFriendlyFireEvent(this, player, UtilJava.cast(Player.class, targetEntity));
-                UtilServer.callEvent(weaponFriendlyFireEvent);
-                if (weaponFriendlyFireEvent.isCancelled()) {
+                final WeaponFriendlyFireEvent friendlyFireEvent = new WeaponFriendlyFireEvent(this, player, UtilJava.cast(Player.class, targetEntity));
+                UtilServer.callEvent(friendlyFireEvent);
+                if (friendlyFireEvent.isCancelled()) {
                     continue;
                 }
 
@@ -138,7 +138,7 @@ public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, Weapo
                         continue;
                     }
 
-                    if (!(weaponFriendlyFireEvent.isVulnerable())) {
+                    if (!(friendlyFireEvent.isVulnerable())) {
                         continue;
                     }
                 }

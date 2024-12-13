@@ -49,6 +49,7 @@ public class VotingCrate extends Crate {
         // Legendaries Loot
         addSubModule(new AlligatorsToothLoot(this, 0.06D));
         addSubModule(new DwarvenPickaxeLoot(this, 0.06D));
+        addSubModule(new FarmingRakeLoot(this, 0.06D));
         addSubModule(new GiantsBroadswordLoot(this, 0.06D));
         addSubModule(new HyperAxeLoot(this, 0.06D));
         addSubModule(new LightningScytheLoot(this, 0.06D));

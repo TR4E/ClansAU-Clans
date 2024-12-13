@@ -122,7 +122,7 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
         }
 
         event.setDamage(this.damage);
-        event.setKnockback(this.knockback);
+        event.setKnockback(this.knockback * 10);
     }
 
     @EventHandler(priority = EventPriority.LOW)

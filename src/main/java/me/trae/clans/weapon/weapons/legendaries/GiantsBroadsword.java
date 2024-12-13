@@ -46,7 +46,7 @@ public class GiantsBroadsword extends Legendary<Clans, WeaponManager, WeaponData
                 "",
                 UtilString.pair("<gray>Damage", String.format("<yellow>%s", this.damage)),
                 UtilString.pair("<gray>Ability", "<yellow>Bonus Damage"),
-                UtilString.pair("<gray>Passive", "<yellow>Slow Attack Speed")
+                UtilString.pair("<gray>Passive", "<yellow>Slow Attack Speed"),
         };
     }
 
