@@ -556,12 +556,17 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
     @Override
     public long getEnergyDuration() {
-        return (long) ((this.getEnergy() / this.getEnergyDepletionRatio()) * 3_600_000L);
+        return (long) (this.getEnergy() / this.getEnergyDepletionRatio());
     }
 
     @Override
     public double getEnergyDepletionRatio() {
-        return this.getTerritory().size() * 3_600_000L;
+        return this.getTerritory().size();
+    }
+
+    @Override
+    public void updateEnergy() {
+        this.setEnergy(this.getEnergy() - Math.round(this.getEnergyDepletionRatio()));
     }
 
     @Override

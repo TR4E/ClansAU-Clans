@@ -95,6 +95,10 @@ public class UnClaimCommand extends ClanSubCommand implements EventContainer<Cla
         territoryClan.removeTerritory(chunk);
         this.getModule().getManager().getRepository().updateData(territoryClan, ClanProperty.TERRITORY);
 
+        if (!(territoryClan.hasTerritory())) {
+            this.getModule().getManager().resetEnergy(territoryClan);
+        }
+
         UtilJava.call(territoryClan.getHome(), home -> {
             if (home != null && home.getChunk() == chunk) {
                 territoryClan.setHome(null);

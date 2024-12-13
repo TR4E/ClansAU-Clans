@@ -73,9 +73,7 @@ public class HandleClanEnergyUpdater extends SpigotListener<Clans, ClanManager> 
     }
 
     private void handleCheck(final Clan clan) {
-        final long depletion = clan.getEnergyDuration() / 60;
-
-        clan.setEnergy(clan.getEnergy() - depletion);
+        clan.updateEnergy();
         this.getManager().getRepository().updateData(clan, ClanProperty.ENERGY);
         clan.getOnlineMembers().keySet().forEach(player -> UtilServer.callEvent(new ScoreboardUpdateEvent(player)));
 

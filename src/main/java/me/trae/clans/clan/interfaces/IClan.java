@@ -178,6 +178,8 @@ public interface IClan {
 
     double getEnergyDepletionRatio();
 
+    void updateEnergy();
+
     String getEnergyRemainingString();
 
     UUID getFounder();

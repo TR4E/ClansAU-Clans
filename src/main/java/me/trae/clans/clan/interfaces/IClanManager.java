@@ -109,5 +109,7 @@ public interface IClanManager {
 
     void unOutlineChunk(final Clan clan, final Chunk chunk);
 
+    void resetEnergy(final Clan clan);
+
     void disbandClan(final Clan clan);
 }

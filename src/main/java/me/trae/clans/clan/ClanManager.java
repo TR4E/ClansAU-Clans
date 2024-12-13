@@ -699,6 +699,12 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     }
 
     @Override
+    public void resetEnergy(final Clan clan) {
+        clan.setEnergy(this.defaultEnergy);
+        this.getRepository().updateData(clan, ClanProperty.ENERGY);
+    }
+
+    @Override
     public void disbandClan(final Clan clan) {
         for (final Player player : clan.getOnlineMembers().keySet()) {
             this.removeClanChat(player);

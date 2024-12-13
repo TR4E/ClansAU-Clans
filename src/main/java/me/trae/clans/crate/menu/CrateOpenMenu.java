@@ -7,7 +7,9 @@ import me.trae.clans.crate.loot.Loot;
 import me.trae.clans.crate.menu.interfaces.ICrateMenu;
 import me.trae.core.menu.Button;
 import me.trae.core.menu.Menu;
+import me.trae.core.utility.UtilColor;
 import me.trae.core.utility.objects.SoundCreator;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -17,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public abstract class CrateOpenMenu extends Menu<Clans, CrateManager> implements ICrateMenu {
 
     public CrateOpenMenu(final CrateManager manager, final Player player, final Crate crate) {
-        super(manager, player, InventoryType.DISPENSER, String.format("Opening %s", crate.getDisplayName()));
+        super(manager, player, InventoryType.DISPENSER, UtilColor.bold(ChatColor.WHITE) + String.format("Opening %s", crate.getDisplayName()));
     }
 
     @Override

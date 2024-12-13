@@ -8,7 +8,13 @@ import me.trae.core.framework.types.frame.SpigotUpdater;
 import me.trae.core.updater.annotations.Update;
 import me.trae.core.utility.UtilServer;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class HandleClanUpdater extends SpigotUpdater<Clans, ClanManager> {
+
+    private List<Clan> CACHE;
 
     public HandleClanUpdater(final ClanManager manager) {
         super(manager);
@@ -16,7 +22,13 @@ public class HandleClanUpdater extends SpigotUpdater<Clans, ClanManager> {
 
     @Update(delay = 100L)
     public void onUpdater() {
-        for (final Clan clan : this.getManager().getClans().values()) {
+        final Collection<Clan> clanList = this.getManager().getClans().values();
+
+        if (this.CACHE == null || this.CACHE.size() != clanList.size()) {
+            this.CACHE = new ArrayList<>(clanList);
+        }
+
+        for (final Clan clan : this.CACHE) {
             UtilServer.callEvent(new ClanUpdaterEvent(clan));
         }
     }

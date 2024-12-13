@@ -82,6 +82,8 @@ public class UnClaimAllCommand extends ClanSubCommand implements EventContainer<
         clan.getTerritory().clear();
         this.getModule().getManager().getRepository().updateData(clan, ClanProperty.TERRITORY);
 
+        this.getModule().getManager().resetEnergy(clan);
+
         clan.setHome(null);
         this.getModule().getManager().getRepository().updateData(clan, ClanProperty.HOME);
 
