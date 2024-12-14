@@ -69,6 +69,11 @@ public class DisbandCommand extends ClanSubCommand implements EventContainer<Cla
                 return false;
             }
 
+            if (clan.getEnemies().values().stream().anyMatch(enemy -> enemy.getDominancePoints() > 10)) {
+                UtilMessage.message(player, "Clans", "You cannot disband the clan when you are about to be dominated!");
+                return false;
+            }
+
             if (clan.isBeingPillaged(this.getModule().getManager())) {
                 UtilMessage.message(player, "Clans", "You cannot disband the clan while being conquered by another clan!");
                 return false;
