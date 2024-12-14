@@ -19,7 +19,7 @@ public class HandleSkillFriendlyFireForSafeZones extends SpigotListener<Clans, C
             return;
         }
 
-        if (!(this.getManager().isSafeByLocation(event.getPlayer().getLocation()))) {
+        if (!(this.getManager().isSafeByLocation(event.getTarget().getLocation()))) {
             return;
         }
 

@@ -86,7 +86,6 @@ public class DisableSafeZoneDamage extends SpigotListener<Clans, ClanManager> {
             }
         }
 
-
         event.setCancelled(true);
 
         UtilMessage.simpleMessage(damager, "Clans", "You cannot harm <var>.", Collections.singletonList(event.getDamageeName()));
