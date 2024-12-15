@@ -21,7 +21,7 @@ public abstract class WarpButton extends Button<WarpMenu> implements IWarpButton
             return;
         }
 
-        final Teleport teleport = new Teleport(0L, player, this.getClan().getHome()) {
+        final Teleport teleport = new Teleport(0L, player, this.getLocation()) {
             @Override
             public void onTeleport(final Player player) {
             }

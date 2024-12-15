@@ -1,6 +1,6 @@
 package me.trae.clans.shop.interfaces;
 
-import me.trae.clans.shop.npc.ShopNPC;
+import me.trae.clans.shop.npc.ShopKeeperNPC;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
@@ -14,5 +14,5 @@ public interface IShopKeeper {
 
     List<Location> getLocations();
 
-    List<ShopNPC> getNpcList();
+    List<ShopKeeperNPC> getNpcList();
 }

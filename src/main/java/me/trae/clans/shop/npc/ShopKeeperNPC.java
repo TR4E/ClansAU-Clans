@@ -4,22 +4,23 @@ import me.trae.clans.Clans;
 import me.trae.clans.shop.ShopKeeper;
 import me.trae.clans.shop.ShopManager;
 import me.trae.clans.shop.menus.ShopMenu;
-import me.trae.clans.shop.npc.interfaces.IShopNPC;
+import me.trae.clans.shop.npc.interfaces.IShopKeeperNPC;
 import me.trae.core.npc.CustomNPC;
 import me.trae.core.npc.models.ClickableNPC;
+import me.trae.core.npc.models.LookCloseNPC;
+import me.trae.core.npc.models.SilentSoundNPC;
 import me.trae.core.utility.UtilMenu;
 import me.trae.core.utility.UtilPlugin;
 import me.trae.core.utility.enums.ClickType;
-import net.citizensnpcs.trait.LookClose;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-public class ShopNPC extends CustomNPC implements ClickableNPC, IShopNPC {
+public class ShopKeeperNPC extends CustomNPC implements ClickableNPC, LookCloseNPC, SilentSoundNPC, IShopKeeperNPC {
 
     private final ShopKeeper shopKeeper;
 
-    public ShopNPC(final EntityType entityType, final Location location, final ShopKeeper shopKeeper) {
+    public ShopKeeperNPC(final EntityType entityType, final Location location, final ShopKeeper shopKeeper) {
         super(entityType, location);
 
         this.shopKeeper = shopKeeper;
@@ -31,11 +32,6 @@ public class ShopNPC extends CustomNPC implements ClickableNPC, IShopNPC {
     }
 
     @Override
-    public void onSpawn() {
-        this.getNPC().getOrAddTrait(LookClose.class).lookClose(true);
-    }
-
-    @Override
     public void onClick(final Player player, final ClickType clickType) {
         if (clickType != ClickType.RIGHT) {
             return;
@@ -44,7 +40,7 @@ public class ShopNPC extends CustomNPC implements ClickableNPC, IShopNPC {
         UtilMenu.open(new ShopMenu(UtilPlugin.getInstance(Clans.class).getManagerByClass(ShopManager.class), player, this.getShopKeeper()) {
             @Override
             public ShopKeeper getShopKeeper() {
-                return ShopNPC.this.getShopKeeper();
+                return ShopKeeperNPC.this.getShopKeeper();
             }
         });
     }

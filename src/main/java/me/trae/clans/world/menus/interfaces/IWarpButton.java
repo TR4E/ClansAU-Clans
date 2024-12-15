@@ -1,8 +1,8 @@
 package me.trae.clans.world.menus.interfaces;
 
-import me.trae.clans.clan.Clan;
+import org.bukkit.Location;
 
 public interface IWarpButton {
 
-    Clan getClan();
+    Location getLocation();
 }
