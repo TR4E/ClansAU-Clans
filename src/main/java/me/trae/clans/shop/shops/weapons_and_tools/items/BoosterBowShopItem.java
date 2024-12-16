@@ -1,12 +1,11 @@
 package me.trae.clans.shop.shops.weapons_and_tools.items;
 
-import me.trae.clans.shop.ShopItem;
+import me.trae.clans.shop.models.WeaponShopItem;
 import me.trae.clans.shop.shops.weapons_and_tools.WeaponsAndToolsShopKeeper;
 import me.trae.core.config.annotations.ConfigInject;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import me.trae.core.weapon.registry.WeaponRegistry;
 
-public class BowShopItem extends ShopItem<WeaponsAndToolsShopKeeper> {
+public class BoosterBowShopItem extends WeaponShopItem<WeaponsAndToolsShopKeeper> {
 
     @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "300")
     private int buyPrice;
@@ -14,13 +13,13 @@ public class BowShopItem extends ShopItem<WeaponsAndToolsShopKeeper> {
     @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "150")
     private int sellPrice;
 
-    public BowShopItem(final WeaponsAndToolsShopKeeper module) {
-        super(module, new ItemStack(Material.BOW));
+    public BoosterBowShopItem(final WeaponsAndToolsShopKeeper module) {
+        super(module, WeaponRegistry.getWeaponByName("BoosterBow"));
     }
 
     @Override
     public int getSlot() {
-        return 45;
+        return 36;
     }
 
     @Override

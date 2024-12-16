@@ -20,12 +20,17 @@ public class HandleClanUpdater extends SpigotUpdater<Clans, ClanManager> {
         super(manager);
     }
 
-    @Update(delay = 100L)
+    @Update(delay = 200L)
     public void onUpdater() {
         final Collection<Clan> clanList = this.getManager().getClans().values();
 
-        if (this.CACHE == null || this.CACHE.size() != clanList.size()) {
+        if (this.CACHE == null) {
             this.CACHE = new ArrayList<>(clanList);
+        } else {
+            if (this.CACHE.size() != clanList.size()) {
+                this.CACHE.clear();
+                this.CACHE.addAll(clanList);
+            }
         }
 
         for (final Clan clan : this.CACHE) {

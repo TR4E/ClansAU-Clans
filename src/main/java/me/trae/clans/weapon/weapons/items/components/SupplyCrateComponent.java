@@ -94,10 +94,6 @@ public interface SupplyCrateComponent extends Updater {
 
             final Block block = data.getLocation().getBlock();
 
-            if (!(block.getState() instanceof Chest)) {
-                return;
-            }
-
             block.setType(this.getChestMaterial());
 
             UtilJava.cast(CraftChest.class, block.getState()).getTileEntity().a(this.getDisplayName());

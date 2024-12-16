@@ -3,12 +3,14 @@ package me.trae.clans.shop.shops.weapons_and_tools;
 import me.trae.clans.shop.ShopKeeper;
 import me.trae.clans.shop.ShopManager;
 import me.trae.clans.shop.shops.weapons_and_tools.items.ArrowShopItem;
-import me.trae.clans.shop.shops.weapons_and_tools.items.BowShopItem;
+import me.trae.clans.shop.shops.weapons_and_tools.items.BoosterBowShopItem;
 import me.trae.clans.shop.shops.weapons_and_tools.items.FishingRodShopItem;
+import me.trae.clans.shop.shops.weapons_and_tools.items.StandardBowShopItem;
 import me.trae.clans.shop.shops.weapons_and_tools.items.tools.*;
 import me.trae.clans.shop.shops.weapons_and_tools.items.weapons.*;
 import me.trae.core.utility.UtilColor;
 import me.trae.core.utility.UtilLocation;
+import me.trae.core.utility.UtilPlugin;
 import me.trae.core.utility.UtilWorld;
 import me.trae.core.utility.enums.DirectionType;
 import org.bukkit.ChatColor;
@@ -44,7 +46,10 @@ public class WeaponsAndToolsShopKeeper extends ShopKeeper {
 
         // Other
         addSubModule(new ArrowShopItem(this));
-        addSubModule(new BowShopItem(this));
+        addSubModule(new StandardBowShopItem(this));
+        if (UtilPlugin.isInstance("Champions")) {
+            addSubModule(new BoosterBowShopItem(this));
+        }
         addSubModule(new FishingRodShopItem(this));
     }
 
