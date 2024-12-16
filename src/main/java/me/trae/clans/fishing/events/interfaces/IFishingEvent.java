@@ -16,7 +16,7 @@ public interface IFishingEvent extends IPlayerEvent {
     FishHook getHook();
 
     default boolean isFishingFrenzy() {
-        return UtilPlugin.getInstance(Clans.class).getManagerByClass(WorldEventManager.class).isActiveWorldEvent(FishingFrenzy.class);
+        return UtilPlugin.getInstanceByClass(Clans.class).getManagerByClass(WorldEventManager.class).isActiveWorldEvent(FishingFrenzy.class);
     }
 
     default boolean isInFields() {
@@ -24,6 +24,6 @@ public interface IFishingEvent extends IPlayerEvent {
             return false;
         }
 
-        return UtilPlugin.getInstance(Clans.class).getManagerByClass(FieldsManager.class).isInFields(this.getHook().getLocation());
+        return UtilPlugin.getInstanceByClass(Clans.class).getManagerByClass(FieldsManager.class).isInFields(this.getHook().getLocation());
     }
 }

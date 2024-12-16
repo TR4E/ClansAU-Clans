@@ -25,7 +25,7 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
     public Gamer(final Player player) {
         this(player.getUniqueId());
 
-        final GamerManager gamerManager = UtilPlugin.getInstance(Clans.class).getManagerByClass(GamerManager.class);
+        final GamerManager gamerManager = UtilPlugin.getInstanceByClass(Clans.class).getManagerByClass(GamerManager.class);
 
         this.coins = gamerManager.starterCoinsAmount;
         this.protection = gamerManager.starterProtectionDuration;

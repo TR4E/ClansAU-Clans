@@ -1,6 +1,5 @@
 package me.trae.clans.perk.commands;
 
-import me.trae.champions.weapon.types.ChampionsPvPWeapon;
 import me.trae.clans.Clans;
 import me.trae.clans.perk.PerkManager;
 import me.trae.core.Core;
@@ -46,7 +45,7 @@ public class RepairCommand extends Command<Clans, PerkManager> implements PerkCo
         }
 
         final Weapon<?, ?, ?> weapon = this.getInstance(Core.class).getManagerByClass(WeaponManager.class).getWeaponByItemStack(itemStack);
-        if (weapon != null && !(weapon instanceof ChampionsPvPWeapon)) {
+        if (weapon != null && !(weapon.isChampionsWeapon())) {
             UtilMessage.message(player, "Repair", "You cannot repair that item!");
             return;
         }

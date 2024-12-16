@@ -21,6 +21,10 @@ public abstract class ShopMenu extends Menu<Clans, ShopManager> implements IShop
         final List<ShopItem> shopItemList = this.getShopKeeper().getSubModulesByClass(ShopItem.class);
 
         for (final ShopItem<?> shopItem : shopItemList) {
+            if (!(shopItem.isEnabled())) {
+                continue;
+            }
+
             addButton(new ShopButton(this, shopItem) {
                 @Override
                 public ShopItem<?> getShopItem() {

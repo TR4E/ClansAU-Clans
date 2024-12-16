@@ -51,7 +51,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
         this(name);
 
         this.created = System.currentTimeMillis();
-        this.energy = UtilPlugin.getInstance(Clans.class).getManagerByClass(ClanManager.class).defaultEnergy;
+        this.energy = UtilPlugin.getInstanceByClass(Clans.class).getManagerByClass(ClanManager.class).defaultEnergy;
         this.founder = player.getUniqueId();
 
         this.addMember(new Member(player, MemberRole.LEADER));
@@ -224,7 +224,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     public String getMembersString(final Player receiverPlayer) {
         final List<String> list = new ArrayList<>();
 
-        final VanishManager vanishManager = UtilPlugin.getInstance(Core.class).getManagerByClass(VanishManager.class);
+        final VanishManager vanishManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(VanishManager.class);
 
         for (final Member member : this.getMembers().values()) {
             final ChatColor chatColor = (member.isOnline() && vanishManager.canSeeByPlayer(member.getOnlinePlayer(), receiverPlayer) ? ChatColor.GREEN : ChatColor.RED);
@@ -455,7 +455,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
     @Override
     public boolean isOnline(final Player receiverPlayer) {
-        final VanishManager vanishManager = UtilPlugin.getInstance(Core.class).getManagerByClass(VanishManager.class);
+        final VanishManager vanishManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(VanishManager.class);
 
         return this.getMembers().values().stream().filter(Member::isOnline).anyMatch(member -> vanishManager.canSeeByPlayer(member.getOnlinePlayer(), receiverPlayer));
     }

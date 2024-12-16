@@ -42,7 +42,7 @@ public interface SupplyCrateComponent extends Updater {
     void fillChest(final Inventory inventory);
 
     default void startSupplyCrate(final Block block, final Material material) {
-        final BlockRestoreManager blockRestoreManager = UtilPlugin.getInstance(Core.class).getManagerByClass(BlockRestoreManager.class);
+        final BlockRestoreManager blockRestoreManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(BlockRestoreManager.class);
 
         final String blockRestoreName = String.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation()));
 
@@ -61,7 +61,7 @@ public interface SupplyCrateComponent extends Updater {
             return;
         }
 
-        final BlockRestoreManager blockRestoreManager = UtilPlugin.getInstance(Core.class).getManagerByClass(BlockRestoreManager.class);
+        final BlockRestoreManager blockRestoreManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(BlockRestoreManager.class);
 
         final String blockRestoreName = String.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation()));
 
@@ -142,7 +142,7 @@ public interface SupplyCrateComponent extends Updater {
 
                         this.cancel();
                     }
-                }.runTaskTimer(UtilPlugin.getInstance(Clans.class), 0L, 5L);
+                }.runTaskTimer(UtilPlugin.getInstanceByClass(Clans.class), 0L, 5L);
 
                 UtilServer.runTaskLater(Clans.class, false, this.getChestRemoveDuration() / 50L, () -> {
                     if (!(block.getState() instanceof Chest) || block.getType() != SupplyCrateComponent.this.getChestMaterial()) {

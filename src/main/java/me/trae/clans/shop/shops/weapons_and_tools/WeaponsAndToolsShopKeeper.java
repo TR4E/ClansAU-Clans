@@ -47,7 +47,7 @@ public class WeaponsAndToolsShopKeeper extends ShopKeeper {
         // Other
         addSubModule(new ArrowShopItem(this));
         addSubModule(new StandardBowShopItem(this));
-        if (UtilPlugin.isInstance("Champions")) {
+        if (UtilPlugin.isInstanceByName("Champions")) {
             addSubModule(new BoosterBowShopItem(this));
         }
         addSubModule(new FishingRodShopItem(this));

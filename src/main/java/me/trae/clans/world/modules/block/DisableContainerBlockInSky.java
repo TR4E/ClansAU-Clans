@@ -44,7 +44,7 @@ public class DisableContainerBlockInSky extends SpigotListener<Clans, WorldManag
         }
 
         if (player != null) {
-            if (UtilPlugin.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+            if (UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
                 return false;
             }
         }

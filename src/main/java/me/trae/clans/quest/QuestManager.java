@@ -32,7 +32,7 @@ public class QuestManager extends SpigotManager<Clans> implements RepositoryCont
         addModule(new HandleQuestUpdater(this));
 
         // Quests
-        if (UtilPlugin.isInstance("Champions")) {
+        if (UtilPlugin.isInstanceByName("Champions")) {
             addModule(new KillAssassins(this));
             addModule(new KillBrutes(this));
             addModule(new KillKnights(this));

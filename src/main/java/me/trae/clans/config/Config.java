@@ -7,6 +7,6 @@ import me.trae.core.utility.UtilPlugin;
 public class Config extends AbstractConfig {
 
     public Config(final String folderName, final String name) {
-        super(UtilPlugin.getInstance(Clans.class), folderName, name);
+        super(UtilPlugin.getInstanceByClass(Clans.class), folderName, name);
     }
 }

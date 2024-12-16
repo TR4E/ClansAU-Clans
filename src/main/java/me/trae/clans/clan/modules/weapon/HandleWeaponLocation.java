@@ -19,8 +19,14 @@ public class HandleWeaponLocation extends SpigotListener<Clans, ClanManager> {
             return;
         }
 
-        if (this.getManager().canCast(event.getLocation())) {
-            return;
+        if (event.getPlayer() != null) {
+            if (this.getManager().canCast(event.getPlayer())) {
+                return;
+            }
+        } else {
+            if (this.getManager().canCast(event.getLocation())) {
+                return;
+            }
         }
 
         event.setCancelled(true);

@@ -33,11 +33,15 @@ public class ShopKeeperNPC extends CustomNPC implements ClickableNPC, LookCloseN
 
     @Override
     public void onClick(final Player player, final ClickType clickType) {
+        if (!(this.getShopKeeper().isEnabled())) {
+            return;
+        }
+
         if (clickType != ClickType.RIGHT) {
             return;
         }
 
-        UtilMenu.open(new ShopMenu(UtilPlugin.getInstance(Clans.class).getManagerByClass(ShopManager.class), player, this.getShopKeeper()) {
+        UtilMenu.open(new ShopMenu(UtilPlugin.getInstanceByClass(Clans.class).getManagerByClass(ShopManager.class), player, this.getShopKeeper()) {
             @Override
             public ShopKeeper getShopKeeper() {
                 return ShopKeeperNPC.this.getShopKeeper();

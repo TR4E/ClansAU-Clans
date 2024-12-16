@@ -5,6 +5,7 @@ import me.trae.clans.Clans;
 import me.trae.clans.perk.perks.AgilityHelmet;
 import me.trae.core.framework.types.frame.SpigotSubUpdater;
 import me.trae.core.updater.annotations.Update;
+import me.trae.core.utility.UtilPlugin;
 import me.trae.core.utility.UtilServer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -33,7 +34,13 @@ public class HandleAgilityHelmetUpdater extends SpigotSubUpdater<Clans, AgilityH
                     UtilRole.playEffect(player, "Agility", true);
                 }
             } else {
-                this.getModule().getActive().remove(player.getUniqueId());
+                if (this.getModule().getActive().containsKey(player.getUniqueId())) {
+                    this.getModule().getActive().remove(player.getUniqueId());
+
+                    if (!(UtilPlugin.isInstanceByName("Champions"))) {
+                        UtilRole.playEffect(player, "None", false);
+                    }
+                }
             }
         }
 

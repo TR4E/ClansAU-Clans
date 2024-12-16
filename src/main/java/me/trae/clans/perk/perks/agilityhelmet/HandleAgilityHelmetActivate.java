@@ -1,17 +1,12 @@
 package me.trae.clans.perk.perks.agilityhelmet;
 
 import me.trae.api.champions.skill.events.SkillPreActivateEvent;
-import me.trae.champions.Champions;
-import me.trae.champions.effect.EffectManager;
-import me.trae.champions.effect.types.Silenced;
 import me.trae.clans.Clans;
 import me.trae.clans.perk.perks.AgilityHelmet;
 import me.trae.core.config.annotations.ConfigInject;
+import me.trae.core.effect.Effect;
 import me.trae.core.framework.types.frame.SpigotSubListener;
-import me.trae.core.utility.UtilBlock;
-import me.trae.core.utility.UtilLeap;
-import me.trae.core.utility.UtilMessage;
-import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.*;
 import me.trae.core.world.events.PlayerItemInteractEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -93,9 +88,13 @@ public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, Agilit
             return false;
         }
 
-        if (this.getInstance(Champions.class).getManagerByClass(EffectManager.class).getModuleByClass(Silenced.class).isUserByEntity(player)) {
-            UtilMessage.simpleMessage(player, this.getModule().getName(), "You cannot use <green><var></green> while silenced.", Collections.singletonList(this.LEAP_ABILITY_NAME));
-            return false;
+        if (UtilPlugin.isInstanceByName("Champions")) {
+            final Effect<?, ?> silenced = UtilJava.cast(Effect.class, UtilPlugin.getInstanceByName("Champions").getManagerByName("Effect Manager").getModuleByName("Silenced"));
+
+            if (silenced.isUserByEntity(player)) {
+                UtilMessage.simpleMessage(player, this.getModule().getName(), "You cannot use <green><var></green> while silenced.", Collections.singletonList(this.LEAP_ABILITY_NAME));
+                return false;
+            }
         }
 
         return true;
