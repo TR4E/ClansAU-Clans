@@ -437,6 +437,7 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
             }
 
             gamerList.sort(Comparator.comparingInt(Gamer::getCoins));
+            Collections.reverse(gamerList);
 
             UtilMessage.simpleMessage(sender, "Economy", "Showing Top 10 Balances:");
 

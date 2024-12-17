@@ -33,7 +33,7 @@ public class HandlePrePlayerFish extends SpigotListener<Clans, FishingManager> {
 
         final Entity caught = event.getCaught();
 
-        if (caught instanceof LivingEntity) {
+        if (event.getState() == PlayerFishEvent.State.CAUGHT_ENTITY && caught instanceof LivingEntity) {
             caught.setVelocity(player.getLocation().getDirection().normalize().multiply(-1.0D));
             return;
         }

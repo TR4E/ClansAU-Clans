@@ -8,7 +8,9 @@ import me.trae.clans.gamer.interfaces.IGamerManager;
 import me.trae.clans.gamer.modules.coins.HandleCoinsOnEntityDeath;
 import me.trae.clans.gamer.modules.coins.HandleCoinsOnPlayerDeath;
 import me.trae.clans.gamer.modules.protection.HandleProtectionDamage;
+import me.trae.clans.gamer.modules.protection.HandleProtectionSkillFriendlyFire;
 import me.trae.clans.gamer.modules.protection.HandleProtectionUpdate;
+import me.trae.clans.gamer.modules.protection.HandleProtectionWeaponFriendlyFire;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.gamer.abstracts.AbstractGamerManager;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
@@ -42,7 +44,9 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
 
         // Protection Modules
         addModule(new HandleProtectionDamage(this));
+        addModule(new HandleProtectionSkillFriendlyFire(this));
         addModule(new HandleProtectionUpdate(this));
+        addModule(new HandleProtectionWeaponFriendlyFire(this));
     }
 
     @Override

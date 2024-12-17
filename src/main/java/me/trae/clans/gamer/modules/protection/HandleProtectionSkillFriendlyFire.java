@@ -1,15 +1,15 @@
-package me.trae.clans.clan.modules.skill;
+package me.trae.clans.gamer.modules.protection;
 
 import me.trae.api.champions.skill.events.SkillFriendlyFireEvent;
 import me.trae.clans.Clans;
-import me.trae.clans.clan.ClanManager;
+import me.trae.clans.gamer.GamerManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-public class HandleSkillFriendlyFireForSafeZones extends SpigotListener<Clans, ClanManager> {
+public class HandleProtectionSkillFriendlyFire extends SpigotListener<Clans, GamerManager> {
 
-    public HandleSkillFriendlyFireForSafeZones(final ClanManager manager) {
+    public HandleProtectionSkillFriendlyFire(final GamerManager manager) {
         super(manager);
     }
 
@@ -19,7 +19,7 @@ public class HandleSkillFriendlyFireForSafeZones extends SpigotListener<Clans, C
             return;
         }
 
-        if (!(this.getManager().isSafeByPlayer(event.getTarget()))) {
+        if (!(this.getManager().getGamerByPlayer(event.getTarget()).hasProtection())) {
             return;
         }
 
