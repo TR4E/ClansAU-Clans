@@ -37,6 +37,9 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
     @ConfigInject(type = Long.class, path = "Chest-Opened-Duration", defaultValue = "10_000")
     public long chestOpenedDuration;
 
+    @ConfigInject(type = Boolean.class, path = "Remove-Chest-Opener-On-New-Opener", defaultValue = "true")
+    private boolean removeChestOpenerOnNewOpener;
+
     private SupplyCrateData DATA;
 
     public long chestLockedSystemTime;
@@ -68,6 +71,10 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
 
     @Override
     public void addChestOpener(final Player player) {
+        if (this.removeChestOpenerOnNewOpener) {
+            this.getChestOpenerMap().clear();
+        }
+
         this.getChestOpenerMap().put(player.getUniqueId(), System.currentTimeMillis());
     }
 

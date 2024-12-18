@@ -69,6 +69,6 @@ public class HandleCoinsOnEntityDeath extends SpigotListener<Clans, GamerManager
         this.getManager().getRepository().updateData(killerGamer, GamerProperty.COINS);
         UtilServer.callEvent(new ScoreboardUpdateEvent(killer));
 
-        UtilMessage.simpleMessage(killer, "Coins", "You gained <gold><var></gold> from killing a <yellow><var></yellow>.", Arrays.asList(UtilString.toDollar(coins), entity.getName()));
+        UtilMessage.simpleMessage(killer, "Coins", "You collected <gold><var></gold> from killing a <yellow><var></yellow>.", Arrays.asList(UtilString.toDollar(coins), entity.getName()));
     }
 }
