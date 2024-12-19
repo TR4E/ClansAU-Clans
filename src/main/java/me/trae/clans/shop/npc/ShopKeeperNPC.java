@@ -9,11 +9,13 @@ import me.trae.core.npc.CustomNPC;
 import me.trae.core.npc.models.ClickableNPC;
 import me.trae.core.npc.models.LookCloseNPC;
 import me.trae.core.npc.models.SilentSoundNPC;
+import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMenu;
 import me.trae.core.utility.UtilPlugin;
 import me.trae.core.utility.enums.ClickType;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 public class ShopKeeperNPC extends CustomNPC implements ClickableNPC, LookCloseNPC, SilentSoundNPC, IShopKeeperNPC {
@@ -29,6 +31,11 @@ public class ShopKeeperNPC extends CustomNPC implements ClickableNPC, LookCloseN
     @Override
     public String getDisplayName() {
         return this.getShopKeeper().getDisplayName();
+    }
+
+    @Override
+    public void onSpawn() {
+        this.getShopKeeper().updateNPC(this, UtilJava.cast(LivingEntity.class, this.getNPC().getEntity()));
     }
 
     @Override

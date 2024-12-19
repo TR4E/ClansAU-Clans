@@ -52,7 +52,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
         }
 
         if (!(gamer.hasCoins(this.getBuyPriceByAmount(amount)))) {
-            UtilMessage.simpleMessage(player, "Shop", "You insufficient funds to purchase <green><var>x</green> of <green><var></green>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped()));
+            UtilMessage.simpleMessage(player, "Shop", "You have insufficient funds to purchase <green><var>x</green> of <green><var></green>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped()));
             return false;
         }
 

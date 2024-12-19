@@ -2,6 +2,7 @@ package me.trae.clans.shop.shops.weapons_and_tools;
 
 import me.trae.clans.shop.ShopKeeper;
 import me.trae.clans.shop.ShopManager;
+import me.trae.clans.shop.npc.ShopKeeperNPC;
 import me.trae.clans.shop.shops.weapons_and_tools.items.ArrowShopItem;
 import me.trae.clans.shop.shops.weapons_and_tools.items.BoosterBowShopItem;
 import me.trae.clans.shop.shops.weapons_and_tools.items.FishingRodShopItem;
@@ -15,7 +16,10 @@ import me.trae.core.utility.UtilWorld;
 import me.trae.core.utility.enums.DirectionType;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +64,7 @@ public class WeaponsAndToolsShopKeeper extends ShopKeeper {
 
     @Override
     public EntityType getEntityType() {
-        return EntityType.VILLAGER;
+        return EntityType.ZOMBIE;
     }
 
     @Override
@@ -69,5 +73,10 @@ public class WeaponsAndToolsShopKeeper extends ShopKeeper {
                 new Location(UtilWorld.getDefaultWorld(), -425.5D, 65.0D, 6.5D, UtilLocation.getYawByDirectionType(DirectionType.EAST), 0.0F),
                 new Location(UtilWorld.getDefaultWorld(), 425.5D, 65.0D, -6.5D, UtilLocation.getYawByDirectionType(DirectionType.WEST), 0.0F)
         );
+    }
+
+    @Override
+    public void updateNPC(final ShopKeeperNPC npc, final LivingEntity entity) {
+        entity.getEquipment().setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
     }
 }

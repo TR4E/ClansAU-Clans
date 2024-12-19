@@ -20,7 +20,7 @@ public class HandleClanUpdater extends SpigotUpdater<Clans, ClanManager> {
         super(manager);
     }
 
-    @Update(delay = 200L)
+    @Update(delay = 250L)
     public void onUpdater() {
         final Collection<Clan> clanList = this.getManager().getClans().values();
 
