@@ -33,7 +33,7 @@ public class HandleCoinsOnPlayerDeath extends SpigotListener<Clans, GamerManager
         super(manager);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onCustomDeath(final CustomDeathEvent event) {
         if (!(event.getEntity() instanceof Player)) {
             return;
