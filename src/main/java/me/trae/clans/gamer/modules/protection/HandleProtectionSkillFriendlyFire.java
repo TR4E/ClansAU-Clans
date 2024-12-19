@@ -2,6 +2,7 @@ package me.trae.clans.gamer.modules.protection;
 
 import me.trae.api.champions.skill.events.SkillFriendlyFireEvent;
 import me.trae.clans.Clans;
+import me.trae.clans.gamer.Gamer;
 import me.trae.clans.gamer.GamerManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import org.bukkit.event.EventHandler;
@@ -19,7 +20,12 @@ public class HandleProtectionSkillFriendlyFire extends SpigotListener<Clans, Gam
             return;
         }
 
-        if (!(this.getManager().getGamerByPlayer(event.getTarget()).hasProtection())) {
+        final Gamer gamer = this.getManager().getGamerByPlayer(event.getTarget());
+        if (gamer == null) {
+            return;
+        }
+
+        if (!(gamer.hasProtection())) {
             return;
         }
 

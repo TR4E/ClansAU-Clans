@@ -1,6 +1,7 @@
 package me.trae.clans.gamer.modules.protection;
 
 import me.trae.clans.Clans;
+import me.trae.clans.gamer.Gamer;
 import me.trae.clans.gamer.GamerManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.weapon.events.WeaponFriendlyFireEvent;
@@ -19,7 +20,12 @@ public class HandleProtectionWeaponFriendlyFire extends SpigotListener<Clans, Ga
             return;
         }
 
-        if (!(this.getManager().getGamerByPlayer(event.getTarget()).hasProtection())) {
+        final Gamer gamer = this.getManager().getGamerByPlayer(event.getTarget());
+        if (gamer == null) {
+            return;
+        }
+
+        if (!(gamer.hasProtection())) {
             return;
         }
 

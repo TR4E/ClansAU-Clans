@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWeaponData> implements Listener {
 
-    @ConfigInject(type = Float.class, path = "Energy-Needed", defaultValue = "30.0")
+    @ConfigInject(type = Float.class, path = "Energy-Needed", defaultValue = "20.0")
     private float energyNeeded;
 
     @ConfigInject(type = Float.class, path = "Energy-Using", defaultValue = "3.0")
