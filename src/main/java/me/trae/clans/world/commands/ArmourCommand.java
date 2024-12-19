@@ -37,7 +37,7 @@ public class ArmourCommand extends Command<Clans, WorldManager> implements Playe
         final int requiredAmount = 24;
 
         if (!(UtilItem.contains(player, itemStack, requiredAmount))) {
-            UtilMessage.simpleMessage(player, "Armour", "You have insufficient <yellow><var></yellow> to craft <green><var></green> Armour.", Arrays.asList(UtilString.clean(itemStack.getType().name()), materialType.getName()));
+            UtilMessage.simpleMessage(player, "Armour", "You have insufficient <yellow><var></yellow> to craft <green><var> Armour</green>.", Arrays.asList(UtilString.clean(itemStack.getType().name()), materialType.getName()));
             return;
         }
 
@@ -49,7 +49,7 @@ public class ArmourCommand extends Command<Clans, WorldManager> implements Playe
             UtilItem.insert(player, armourItemStack);
         }
 
-        UtilMessage.simpleMessage(player, "Armour", "You crafted <green><var></green> Armour from <yellow><var>x <var></yellow>.", Arrays.asList(materialType.getName(), String.valueOf(requiredAmount), UtilString.clean(itemStack.getType().name())));
+        UtilMessage.simpleMessage(player, "Armour", "You crafted <green><var> Armour</green> from <yellow><var>x <var></yellow>.", Arrays.asList(materialType.getName(), String.valueOf(requiredAmount), UtilString.clean(itemStack.getType().name())));
     }
 
     private ArmourMaterialType getArmourMaterialType(final Material material) {

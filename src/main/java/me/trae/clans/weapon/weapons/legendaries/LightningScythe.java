@@ -144,7 +144,7 @@ public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, Weapo
                 }
             }
 
-            UtilDamage.damage(targetEntity, player, EntityDamageEvent.DamageCause.LIGHTNING, this.damage, this.getDisplayName(), 1L);
+            UtilDamage.damage(targetEntity, player, EntityDamageEvent.DamageCause.CUSTOM, this.damage, this.getDisplayName(), 1L);
         }
     }
 

@@ -114,8 +114,8 @@ public class ProtectionCommand extends Command<Clans, GamerManager> implements A
 
             final String durationString = UtilTime.getTime(duration);
 
-            UtilMessage.simpleMessage(sender, "Protection", "You gave <green><var></green> to <yellow><var></yellow>.", Arrays.asList(durationString, targetPlayer.getName()));
-            UtilMessage.simpleMessage(targetPlayer, "Protection", "<yellow><var></yellow> gave you <green><var></green>.", Arrays.asList(sender.getName(), durationString));
+            UtilMessage.simpleMessage(sender, "Protection", "You gave <green><var></green> of protection to <yellow><var></yellow>.", Arrays.asList(durationString, targetPlayer.getName()));
+            UtilMessage.simpleMessage(targetPlayer, "Protection", "<yellow><var></yellow> gave you <green><var></green> of protection.", Arrays.asList(sender.getName(), durationString));
         }
 
         @Override
@@ -180,8 +180,8 @@ public class ProtectionCommand extends Command<Clans, GamerManager> implements A
             if (targetGamer.hasProtection()) {
                 final String durationString = UtilTime.getTime(duration);
 
-                UtilMessage.simpleMessage(sender, "Protection", "You gave <green><var></green> to <yellow><var></yellow>.", Arrays.asList(durationString, targetPlayer.getName()));
-                UtilMessage.simpleMessage(targetPlayer, "Protection", "<yellow><var></yellow> gave you <green><var></green>.", Arrays.asList(sender.getName(), durationString));
+                UtilMessage.simpleMessage(sender, "Protection", "You took away <green><var></green> of protection from <yellow><var></yellow>.", Arrays.asList(durationString, targetPlayer.getName()));
+                UtilMessage.simpleMessage(targetPlayer, "Protection", "<yellow><var></yellow> took away <green><var></green> of your protection.", Arrays.asList(sender.getName(), durationString));
             } else {
                 UtilMessage.simpleMessage(sender, "Protection", "You took away protection from <yellow><var></yellow>.", Collections.singletonList(targetPlayer.getName()));
                 UtilMessage.simpleMessage(targetPlayer, "Protection", "<yellow><var></yellow> took away your protection.", Collections.singletonList(sender.getName()));
@@ -274,7 +274,7 @@ public class ProtectionCommand extends Command<Clans, GamerManager> implements A
             playerGamer.setProtection(0L);
             this.getModule().getManager().getRepository().updateData(playerGamer, GamerProperty.PROTECTION);
 
-            UtilMessage.message(player, "Protection", "You took away your protection!");
+            UtilMessage.message(player, "Protection", "You took away your protection, be careful!");
         }
     }
 }
