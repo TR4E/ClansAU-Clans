@@ -7,6 +7,7 @@ import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.effect.Effect;
 import me.trae.core.framework.types.frame.SpigotSubListener;
 import me.trae.core.utility.*;
+import me.trae.core.utility.enums.PluginType;
 import me.trae.core.world.events.PlayerItemInteractEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -88,8 +89,8 @@ public class HandleAgilityHelmetActivate extends SpigotSubListener<Clans, Agilit
             return false;
         }
 
-        if (UtilPlugin.isInstanceByName("Champions")) {
-            final Effect<?, ?> silenced = UtilJava.cast(Effect.class, UtilPlugin.getInstanceByName("Champions").getManagerByName("Effect Manager").getModuleByName("Silenced"));
+        if (UtilPlugin.isPluginByType(PluginType.CHAMPIONS)) {
+            final Effect<?, ?> silenced = UtilJava.cast(Effect.class, UtilPlugin.getInstanceByType(PluginType.CHAMPIONS).getManagerByName("Effect Manager").getModuleByName("Silenced"));
 
             if (silenced.isUserByEntity(player)) {
                 UtilMessage.simpleMessage(player, this.getModule().getName(), "You cannot use <green><var></green> while silenced.", Collections.singletonList(this.LEAP_ABILITY_NAME));

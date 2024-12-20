@@ -50,7 +50,7 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
     public void onClick(final Player player, final ClickType clickType) {
         int amount = 1;
 
-        if (clickType.isShiftClick()) {
+        if (clickType.isShiftClick() && this.getShopItem().canStack()) {
             amount = 64;
         }
 

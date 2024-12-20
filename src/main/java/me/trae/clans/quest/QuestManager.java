@@ -13,7 +13,6 @@ import me.trae.clans.quest.quests.mining.MineGold;
 import me.trae.clans.quest.quests.mining.MineIron;
 import me.trae.core.database.repository.containers.RepositoryContainer;
 import me.trae.core.framework.SpigotManager;
-import me.trae.core.utility.UtilPlugin;
 
 public class QuestManager extends SpigotManager<Clans> implements RepositoryContainer<QuestRepository> {
 
@@ -32,13 +31,11 @@ public class QuestManager extends SpigotManager<Clans> implements RepositoryCont
         addModule(new HandleQuestUpdater(this));
 
         // Quests
-        if (UtilPlugin.isInstanceByName("Champions")) {
-            addModule(new KillAssassins(this));
-            addModule(new KillBrutes(this));
-            addModule(new KillKnights(this));
-            addModule(new KillMages(this));
-            addModule(new KillRangers(this));
-        }
+        addModule(new KillAssassins(this));
+        addModule(new KillBrutes(this));
+        addModule(new KillKnights(this));
+        addModule(new KillMages(this));
+        addModule(new KillRangers(this));
 
         addModule(new MineDiamonds(this));
         addModule(new MineEmeralds(this));

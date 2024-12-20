@@ -14,6 +14,7 @@ import me.trae.core.utility.UtilLocation;
 import me.trae.core.utility.UtilPlugin;
 import me.trae.core.utility.UtilWorld;
 import me.trae.core.utility.enums.DirectionType;
+import me.trae.core.utility.enums.PluginType;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,6 +44,7 @@ public class WeaponsAndToolsShopKeeper extends ShopKeeper {
         // Weapons
         addSubModule(new DiamondAxeShopItem(this));
         addSubModule(new DiamondSwordShopItem(this));
+        addSubModule(new FireAxeShopItem(this));
         addSubModule(new GoldAxeShopItem(this));
         addSubModule(new GoldSwordShopItem(this));
         addSubModule(new IronAxeShopItem(this));
@@ -51,7 +53,7 @@ public class WeaponsAndToolsShopKeeper extends ShopKeeper {
         // Other
         addSubModule(new ArrowShopItem(this));
         addSubModule(new StandardBowShopItem(this));
-        if (UtilPlugin.isInstanceByName("Champions")) {
+        if (UtilPlugin.isPluginByType(PluginType.CHAMPIONS)) {
             addSubModule(new BoosterBowShopItem(this));
         }
         addSubModule(new FishingRodShopItem(this));

@@ -9,6 +9,7 @@ import me.trae.core.Core;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.recharge.RechargeManager;
 import me.trae.core.utility.*;
+import me.trae.core.utility.enums.PluginType;
 import me.trae.core.weapon.data.WeaponData;
 import me.trae.core.weapon.types.CustomItem;
 import org.bukkit.Material;
@@ -72,7 +73,7 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
     }
 
     private boolean canActivate(final Player player) {
-        if (UtilPlugin.isInstanceByName("Champions") && this.classRequired) {
+        if (UtilPlugin.isPluginByType(PluginType.CHAMPIONS) && this.classRequired) {
             if (UtilServer.getEvent(new RoleCheckEvent(player)).getRole() == null) {
                 return false;
             }
