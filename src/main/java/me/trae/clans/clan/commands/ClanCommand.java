@@ -3,6 +3,7 @@ package me.trae.clans.clan.commands;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
+import me.trae.clans.clan.commands.subcommands.EnergyCommand;
 import me.trae.clans.clan.commands.subcommands.*;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
@@ -48,6 +49,7 @@ public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCo
         addSubModule(new UnClaimCommand(this));
 
         // Member/Recruit Commands
+        addSubModule(new EnergyCommand(this));
         addSubModule(new HomeCommand(this));
         addSubModule(new LeaveCommand(this));
 

@@ -15,6 +15,7 @@ import me.trae.core.Core;
 import me.trae.core.database.containers.DataContainer;
 import me.trae.core.database.query.constants.DefaultProperty;
 import me.trae.core.utility.*;
+import me.trae.core.utility.enums.TimeUnit;
 import me.trae.core.utility.objects.EnumData;
 import me.trae.core.vanish.VanishManager;
 import org.bukkit.ChatColor;
@@ -556,12 +557,12 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
     @Override
     public long getEnergyDuration() {
-        return (long) (this.getEnergy() / this.getEnergyDepletionRatio());
+        return (long) (this.getEnergy() / this.getEnergyDepletionRatio() * TimeUnit.MINUTES.getDuration());
     }
 
     @Override
     public double getEnergyDepletionRatio() {
-        return this.getTerritory().size();
+        return this.getTerritory().size() * TimeUnit.MINUTES.getDuration();
     }
 
     @Override

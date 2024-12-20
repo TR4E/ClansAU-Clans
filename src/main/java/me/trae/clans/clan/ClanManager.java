@@ -4,6 +4,7 @@ import me.trae.api.combat.CombatManager;
 import me.trae.api.damage.utility.UtilDamage;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.commands.ClanCommand;
+import me.trae.clans.clan.commands.EnergyCommand;
 import me.trae.clans.clan.commands.MassClaimCommand;
 import me.trae.clans.clan.commands.chat.AllyChatCommand;
 import me.trae.clans.clan.commands.chat.ClanChatCommand;
@@ -113,6 +114,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Long.class, path = "Default-Energy", defaultValue = "345_600_000")
     public long defaultEnergy;
 
+    @ConfigInject(type = Double.class, path = "Cost-Per-Energy", defaultValue = "5.0")
+    public double costPerEnergy;
+
     @ConfigInject(type = Boolean.class, path = "SOTW", defaultValue = "false")
     public boolean sotw;
 
@@ -127,6 +131,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     public void registerModules() {
         // Commands
         addModule(new ClanCommand(this));
+        addModule(new EnergyCommand(this));
         addModule(new MassClaimCommand(this));
 
         // Chat Commands
