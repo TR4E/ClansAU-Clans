@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class WorldEventCommand extends Command<Clans, WorldEventManager> implements AnyCommandType {
 
     public WorldEventCommand(final WorldEventManager manager) {
-        super(manager, "worldevent", new String[]{"we"}, Rank.ADMIN);
+        super(manager, "worldevent", new String[]{"event", "events"}, Rank.ADMIN);
     }
 
     @Override

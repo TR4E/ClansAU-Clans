@@ -212,6 +212,10 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
         });
 
         for (final ActiveCustomItem<?, ?, ?> activeCustomItem : WeaponRegistry.getWeaponsByClass(ActiveCustomItem.class)) {
+            if (!(activeCustomItem.isObtainable())) {
+                continue;
+            }
+
             if (UtilMath.getRandomNumber(Integer.class, 0, 15) < 5) {
                 continue;
             }

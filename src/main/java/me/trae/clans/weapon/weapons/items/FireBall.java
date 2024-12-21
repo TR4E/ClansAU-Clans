@@ -53,7 +53,7 @@ public class FireBall extends ActiveCustomItem<Clans, WeaponManager, FireBallDat
     private boolean fireballIncendiary;
 
     public FireBall(final WeaponManager manager) {
-        super(manager, new ItemStack(Material.FIREBALL), ActionType.LEFT_CLICK);
+        super(manager, new ItemStack(Material.FIREBALL), ActionType.RIGHT_CLICK);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class FireBall extends ActiveCustomItem<Clans, WeaponManager, FireBallDat
                 "When impacted on entities, they will",
                 "launch in mid air.",
                 "",
-                UtilString.pair("<gray>Left-Click", "<yellow>Launch"),
+                UtilString.pair("<gray>Right-Click", "<yellow>Launch"),
         };
     }
 
