@@ -12,6 +12,7 @@ import me.trae.core.gamer.Gamer;
 import me.trae.core.perk.Perk;
 import me.trae.core.perk.types.TitanRank;
 import me.trae.core.recharge.RechargeManager;
+import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilString;
 import me.trae.core.weapon.Weapon;
@@ -55,12 +56,12 @@ public class RepairCommand extends Command<Clans, PerkManager> implements PerkCo
             return;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, true))) {
+        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, true, true))) {
             return;
         }
 
         itemStack.setDurability((short) 0);
 
-        UtilMessage.simpleMessage(player, "Repair", "You repaired <yellow><var></yellow>.", Collections.singletonList(UtilString.clean(itemStack.getType().name())));
+        UtilMessage.simpleMessage(player, "Repair", "You repaired <yellow><var></yellow>.", Collections.singletonList(UtilItem.getDisplayName(itemStack)));
     }
 }

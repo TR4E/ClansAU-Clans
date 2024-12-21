@@ -7,6 +7,7 @@ import me.trae.clans.shop.shops.weapons_and_tools.items.ArrowShopItem;
 import me.trae.clans.shop.shops.weapons_and_tools.items.BoosterBowShopItem;
 import me.trae.clans.shop.shops.weapons_and_tools.items.FishingRodShopItem;
 import me.trae.clans.shop.shops.weapons_and_tools.items.StandardBowShopItem;
+import me.trae.clans.shop.shops.weapons_and_tools.items.customitems.*;
 import me.trae.clans.shop.shops.weapons_and_tools.items.tools.*;
 import me.trae.clans.shop.shops.weapons_and_tools.items.weapons.*;
 import me.trae.core.utility.UtilColor;
@@ -33,6 +34,16 @@ public class WeaponsAndToolsShopKeeper extends ShopKeeper {
 
     @Override
     public void registerSubModules() {
+        // Custom Items
+        addSubModule(new EnergyAppleShopItem(this));
+        addSubModule(new EtherealPearlShopItem(this));
+        if (UtilPlugin.isPluginByType(PluginType.CHAMPIONS)) {
+            addSubModule(new ExtinguishingPotionShopItem(this));
+            addSubModule(new GravityBombShopItem(this));
+            addSubModule(new IncendiaryGrenadeShopItem(this));
+            addSubModule(new ThrowingWebShopItem(this));
+        }
+
         // Tools
         addSubModule(new DiamondHoeShopItem(this));
         addSubModule(new DiamondPickaxeShopItem(this));

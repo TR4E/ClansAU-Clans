@@ -24,6 +24,7 @@ public class WeaponManager extends AbstractWeaponManager<Clans> {
         addModule(new EnergyApple(this));
         addModule(new EtherealPearl(this));
         addModule(new FireAxe(this));
+        addModule(new FireBall(this));
         addModule(new HealingPotion(this));
         addModule(new PoisonDagger(this));
         addModule(new SupplyCrate(this));

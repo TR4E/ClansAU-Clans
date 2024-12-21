@@ -7,7 +7,6 @@ import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.energy.EnergyManager;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilString;
-import me.trae.core.utility.UtilTime;
 import me.trae.core.utility.enums.ActionType;
 import me.trae.core.utility.objects.SoundCreator;
 import me.trae.core.weapon.data.WeaponData;
@@ -54,8 +53,6 @@ public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponDa
                 String.format("Instantly restores <green>%s</green> energy", energyGain),
                 "",
                 UtilString.pair("<gray>Right-Click", "<yellow>Consume"),
-                "",
-                UtilString.pair("<gray>Recharge", String.format("<green>%s", UtilTime.getTime(this.recharge)))
         };
     }
 

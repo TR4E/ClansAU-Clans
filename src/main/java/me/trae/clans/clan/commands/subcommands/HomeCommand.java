@@ -119,7 +119,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
 
             @Override
             public void onTeleport(final Player player) {
-                HomeCommand.this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true);
+                HomeCommand.this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true, true);
 
                 UtilMessage.message(player, "Clans", "You teleported to Clan Home.");
             }
