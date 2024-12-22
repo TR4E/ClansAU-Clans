@@ -31,9 +31,9 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
         this.CLIENT_MANAGER = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
         this.SERVER_MANAGER = this.getInstanceByClass(Core.class).getManagerByClass(ServerManager.class);
 
-        this.CLAN_MANAGER = this.getInstanceByClass().getManagerByClass(ClanManager.class);
-        this.GAMER_MANAGER = this.getInstanceByClass().getManagerByClass(GamerManager.class);
-        this.WORLD_EVENT_MANAGER = this.getInstanceByClass().getManagerByClass(WorldEventManager.class);
+        this.CLAN_MANAGER = this.getInstance().getManagerByClass(ClanManager.class);
+        this.GAMER_MANAGER = this.getInstance().getManagerByClass(GamerManager.class);
+        this.WORLD_EVENT_MANAGER = this.getInstance().getManagerByClass(WorldEventManager.class);
 
     }
 

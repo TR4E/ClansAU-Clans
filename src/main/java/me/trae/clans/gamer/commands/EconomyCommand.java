@@ -429,7 +429,7 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
 
         @Override
         public void execute(final CommandSender sender, final String[] args) {
-            final List<Gamer> gamerList = new ArrayList<>(this.getInstanceByClass().getManagerByClass(GamerManager.class).getGamers().values());
+            final List<Gamer> gamerList = new ArrayList<>(this.getInstance().getManagerByClass(GamerManager.class).getGamers().values());
 
             if (gamerList.isEmpty()) {
                 UtilMessage.message(sender, "Economy", "Could not find any Top Balances!");

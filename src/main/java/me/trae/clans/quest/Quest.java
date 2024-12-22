@@ -84,7 +84,7 @@ public abstract class Quest extends SpigotModule<Clans, QuestManager> implements
         if (this instanceof CoinsQuestReward) {
             final int coins = UtilJava.cast(CoinsQuestReward.class, this).getCoins();
 
-            this.getInstanceByClass().getManagerByClass(GamerManager.class).giveCoins(player, coins);
+            this.getInstance().getManagerByClass(GamerManager.class).giveCoins(player, coins);
         }
 
         if (this instanceof ItemQuestReward) {

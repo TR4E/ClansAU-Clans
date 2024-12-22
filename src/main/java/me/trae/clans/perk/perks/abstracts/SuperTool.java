@@ -70,7 +70,7 @@ public abstract class SuperTool extends Perk<Clans, PerkManager> implements ISup
             return;
         }
 
-        if (!(this.getInstanceByClass().getManagerByClass(PreferenceManager.class).getModuleByClass(SuperToolActivation.class).getUserByPlayer(player).getValue())) {
+        if (!(this.getInstance().getManagerByClass(PreferenceManager.class).getModuleByClass(SuperToolActivation.class).getUserByPlayer(player).getValue())) {
             return;
         }
 
@@ -94,7 +94,7 @@ public abstract class SuperTool extends Perk<Clans, PerkManager> implements ISup
     }
 
     private boolean canBreakBlock(final Player player, final Block block) {
-        final Clan territoryClan = this.getInstanceByClass().getManagerByClass(ClanManager.class).getClanByLocation(block.getLocation());
+        final Clan territoryClan = this.getInstance().getManagerByClass(ClanManager.class).getClanByLocation(block.getLocation());
         if (territoryClan == null || !(territoryClan.isMemberByPlayer(player))) {
             return false;
         }

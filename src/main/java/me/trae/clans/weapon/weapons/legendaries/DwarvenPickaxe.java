@@ -124,7 +124,7 @@ public class DwarvenPickaxe extends Legendary<Clans, WeaponManager, WeaponData> 
             return false;
         }
 
-        final Clan territoryClan = this.getInstanceByClass().getManagerByClass(ClanManager.class).getClanByLocation(block.getLocation());
+        final Clan territoryClan = this.getInstance().getManagerByClass(ClanManager.class).getClanByLocation(block.getLocation());
         if (territoryClan == null || !(territoryClan.isMemberByPlayer(player))) {
             return false;
         }

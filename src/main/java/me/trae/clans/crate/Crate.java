@@ -44,7 +44,7 @@ public abstract class Crate extends SpigotModule<Clans, CrateManager> implements
     public Loot getRandomLoot() {
         final List<Loot> list = this.getSubModulesByClass(Loot.class);
 
-        if (this.getInstanceByClass().getManagerByClass(ClanManager.class).eotw) {
+        if (this.getInstance().getManagerByClass(ClanManager.class).eotw) {
             return list.get(UtilMath.getRandomNumber(Integer.class, 0, list.size()));
         }
 

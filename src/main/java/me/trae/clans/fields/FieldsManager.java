@@ -127,7 +127,7 @@ public class FieldsManager extends SpigotManager<Clans> implements IFieldsManage
 
     @Override
     public boolean isInFields(final Location location) {
-        final Clan territoryClan = this.getInstanceByClass().getManagerByClass(ClanManager.class).getClanByLocation(location);
+        final Clan territoryClan = this.getInstance().getManagerByClass(ClanManager.class).getClanByLocation(location);
         if (territoryClan == null) {
             return false;
         }

@@ -51,7 +51,7 @@ public class HandleFieldsClanEnergyLoot extends SpigotListener<Clans, FieldsMana
         }
 
         String displayName = null;
-        if (this.getInstanceByClass().getManagerByClass(ClanManager.class).energyEnabled) {
+        if (this.getInstance().getManagerByClass(ClanManager.class).energyEnabled) {
             displayName = "Clan Energy";
         }
 
@@ -102,7 +102,7 @@ public class HandleFieldsClanEnergyLoot extends SpigotListener<Clans, FieldsMana
 
         range *= itemStack.getAmount();
 
-        final ClanManager clanManager = this.getInstanceByClass().getManagerByClass(ClanManager.class);
+        final ClanManager clanManager = this.getInstance().getManagerByClass(ClanManager.class);
 
         final Clan playerClan = clanManager.getClanByPlayer(player);
         if (playerClan == null) {
