@@ -7,6 +7,7 @@ import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.clans.gamer.interfaces.IGamerManager;
 import me.trae.clans.gamer.modules.coins.HandleCoinsOnEntityDeath;
 import me.trae.clans.gamer.modules.coins.HandleCoinsOnPlayerDeath;
+import me.trae.clans.gamer.modules.coins.HandleOnlineRewardCoins;
 import me.trae.clans.gamer.modules.protection.HandleProtectionDamage;
 import me.trae.clans.gamer.modules.protection.HandleProtectionSkillFriendlyFire;
 import me.trae.clans.gamer.modules.protection.HandleProtectionUpdate;
@@ -41,6 +42,7 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
         // Coins Modules
         addModule(new HandleCoinsOnEntityDeath(this));
         addModule(new HandleCoinsOnPlayerDeath(this));
+        addModule(new HandleOnlineRewardCoins(this));
 
         // Protection Modules
         addModule(new HandleProtectionDamage(this));
