@@ -25,7 +25,7 @@ public class WarpMenu extends Menu<Clans, WorldManager> {
 
     @Override
     public void fillPage(final Player player) {
-        final Client client = this.getManager().getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player);
+        final Client client = this.getManager().getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player);
 
         for (final WarpType warpType : WarpType.values()) {
             if (warpType.showForAdministrating() && !(client.isAdministrating())) {
@@ -46,7 +46,7 @@ public class WarpMenu extends Menu<Clans, WorldManager> {
         }
 
         // Clan Home
-        UtilJava.call(this.getManager().getInstance().getManagerByClass(ClanManager.class).getClanByPlayer(player), clan -> {
+        UtilJava.call(this.getManager().getInstanceByClass().getManagerByClass(ClanManager.class).getClanByPlayer(player), clan -> {
             if (clan != null && clan.hasHome()) {
                 this.addButton(new WarpButton(this, 4, new ItemStack(Material.BED)) {
                     @Override

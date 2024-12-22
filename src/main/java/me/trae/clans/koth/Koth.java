@@ -108,7 +108,7 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
             return;
         }
 
-        final Clan fieldsClan = this.getInstance().getManagerByClass(ClanManager.class).getClanByName("Fields");
+        final Clan fieldsClan = this.getInstanceByClass().getManagerByClass(ClanManager.class).getClanByName("Fields");
         if (fieldsClan == null) {
             return;
         }
@@ -192,7 +192,7 @@ public class Koth extends SpigotModule<Clans, KothManager> implements IKoth {
 
     @Override
     public void fillChest(final Inventory inventory) {
-        final boolean eotw = this.getInstance().getManagerByClass(ClanManager.class).eotw;
+        final boolean eotw = this.getInstanceByClass().getManagerByClass(ClanManager.class).eotw;
 
         for (final Material material : Arrays.asList(Material.EMERALD_BLOCK, Material.DIAMOND_BLOCK, Material.IRON_BLOCK, Material.GOLD_BLOCK)) {
             final int amount = UtilMath.getRandomNumber(Integer.class, 16, 32 * (eotw ? 2 : 1));

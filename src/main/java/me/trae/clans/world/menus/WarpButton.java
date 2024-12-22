@@ -27,6 +27,6 @@ public abstract class WarpButton extends Button<WarpMenu> implements IWarpButton
             }
         };
 
-        this.getMenu().getManager().getInstance(Core.class).getManagerByClass(CountdownManager.class).addCountdown(teleport);
+        this.getMenu().getManager().getInstanceByClass(Core.class).getManagerByClass(CountdownManager.class).addCountdown(teleport);
     }
 }

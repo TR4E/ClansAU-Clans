@@ -127,7 +127,7 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
 
         final Player player = event.getPlayer();
 
-        final Client client = this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player);
+        final Client client = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player);
         if (client == null) {
             return;
         }
@@ -161,7 +161,7 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
             return false;
         }
 
-        final ClanManager clanManager = this.getInstance().getManagerByClass(ClanManager.class);
+        final ClanManager clanManager = this.getInstanceByClass().getManagerByClass(ClanManager.class);
 
         if (clanManager.getClanByLocation(block.getLocation()) != null) {
             UtilMessage.message(player, this.getName(), "Supply Crates may only be called in the Wilderness.");
@@ -177,7 +177,7 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
             return false;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, true))) {
+        if (!(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, true))) {
             return false;
         }
 
@@ -186,7 +186,7 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
 
     @Override
     public void fillChest(final Inventory inventory) {
-        final boolean eotw = this.getInstance().getManagerByClass(ClanManager.class).eotw;
+        final boolean eotw = this.getInstanceByClass().getManagerByClass(ClanManager.class).eotw;
 
         if (eotw) {
             for (final Legendary<?, ?, ?> legendary : WeaponRegistry.getWeaponsByClass(Legendary.class)) {

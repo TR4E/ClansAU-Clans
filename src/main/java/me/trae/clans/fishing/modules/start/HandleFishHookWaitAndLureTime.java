@@ -40,7 +40,7 @@ public class HandleFishHookWaitAndLureTime extends SpigotListener<Clans, Fishing
             return;
         }
 
-        if (this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(event.getPlayer()).isAdministrating()) {
+        if (this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(event.getPlayer()).isAdministrating()) {
             event.setWaitTime(1000L, 5000L);
             return;
         }

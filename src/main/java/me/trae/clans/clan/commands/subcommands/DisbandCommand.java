@@ -58,7 +58,7 @@ public class DisbandCommand extends ClanSubCommand implements EventContainer<Cla
                 return false;
             }
 
-            if (this.getInstance(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
+            if (this.getInstanceByClass(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
                 UtilMessage.message(player, "Clans", "You cannot disband the clan while in combat!");
                 return false;
             }

@@ -42,7 +42,7 @@ public class HandleCrateOpen extends SpigotListener<Clans, CrateManager> {
             return;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, "Open Crate", 250L, false))) {
+        if (!(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, "Open Crate", 250L, false))) {
             return;
         }
 

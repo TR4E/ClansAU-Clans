@@ -126,7 +126,7 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
             return;
         }
 
-        if (this.getInstance(Core.class).getManagerByClass(RechargeManager.class).isCooling(damager, this.getName(), false)) {
+        if (this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).isCooling(damager, this.getName(), false)) {
             return;
         }
 
@@ -162,7 +162,7 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
             return;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(damager, this.getName(), this.recharge, true))) {
+        if (!(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(damager, this.getName(), this.recharge, true))) {
             return;
         }
 

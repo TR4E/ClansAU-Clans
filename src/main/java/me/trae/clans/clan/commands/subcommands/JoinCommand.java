@@ -75,7 +75,7 @@ public class JoinCommand extends ClanSubCommand implements EventContainer<ClanJo
             if (!(clan.isRequested(RequestType.INVITATION, player.getUniqueId().toString()))) {
                 UtilMessage.simpleMessage(player, "Clans", "You have not been invited to <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(clan, ClanRelation.NEUTRAL)));
 
-                if (this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, String.format("JoinAttempt-%s", clan.getName()), 300_000L, false)) {
+                if (this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, String.format("JoinAttempt-%s", clan.getName()), 300_000L, false)) {
                     this.getModule().getManager().messageClan(clan, "Clans", "<var> tried to join the Clan, but is not invited.", Collections.singletonList(ClanRelation.NEUTRAL.getSuffix() + player.getName()), null);
                 }
 

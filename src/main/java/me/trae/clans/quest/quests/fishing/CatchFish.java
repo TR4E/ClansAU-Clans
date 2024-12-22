@@ -34,7 +34,7 @@ public class CatchFish extends Quest implements FishingQuest {
 
     @Override
     public boolean canCatch(final Player player) {
-        final Clan territoryClan = this.getInstance(Clans.class).getManagerByClass(ClanManager.class).getClanByLocation(player.getLocation());
+        final Clan territoryClan = this.getInstanceByClass(Clans.class).getManagerByClass(ClanManager.class).getClanByLocation(player.getLocation());
         if (territoryClan == null || !(territoryClan.getName().equals("Fields"))) {
             return false;
         }

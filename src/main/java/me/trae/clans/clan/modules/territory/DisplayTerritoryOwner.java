@@ -111,7 +111,7 @@ public class DisplayTerritoryOwner extends SpigotListener<Clans, ClanManager> {
         final Clan playerClan = this.getManager().getClanByPlayer(player);
 
         if (this.titleEnabled) {
-            final PreferenceData<Boolean> data = this.getInstance().getManagerByClass(PreferenceManager.class).getModuleByClass(DisplayTerritoryTitleBar.class).getUserByPlayer(player);
+            final PreferenceData<Boolean> data = this.getInstanceByClass().getManagerByClass(PreferenceManager.class).getModuleByClass(DisplayTerritoryTitleBar.class).getUserByPlayer(player);
             if (data == null || data.getValue()) {
                 final Pair<String, String> pair = this.getManager().getTerritoryClanNameForTitle(playerClan, territoryClan, location);
 

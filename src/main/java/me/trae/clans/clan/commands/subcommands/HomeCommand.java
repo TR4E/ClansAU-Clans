@@ -20,7 +20,6 @@ import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHomeEvent> {
 
@@ -82,7 +81,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
                 }
             }
 
-            return !(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).isCooling(player, this.RECHARGE_NAME, true));
+            return !(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).isCooling(player, this.RECHARGE_NAME, true));
         }
 
         return true;
@@ -101,7 +100,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
 
         final Player player = event.getPlayer();
 
-        final CountdownManager countdownManager = this.getInstance(Core.class).getManagerByClass(CountdownManager.class);
+        final CountdownManager countdownManager = this.getInstanceByClass(Core.class).getManagerByClass(CountdownManager.class);
 
         final Teleport oldTeleport = UtilJava.cast(Teleport.class, countdownManager.getCountdownByPlayer(player));
         if (oldTeleport != null && oldTeleport.getType().equals("Clan Home")) {
@@ -135,7 +134,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
 
             @Override
             public boolean canTeleport(final Player player) {
-                if (HomeCommand.this.getInstance(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
+                if (HomeCommand.this.getInstanceByClass(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
                     UtilMessage.message(player, "Clans", "You cannot teleport to Clan Home while in Combat!");
                     return false;
                 }
@@ -145,7 +144,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
 
             @Override
             public void onTeleport(final Player player) {
-                HomeCommand.this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true, true);
+                HomeCommand.this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true, true);
 
                 UtilMessage.message(player, "Clans", "You teleported to Clan Home.");
             }

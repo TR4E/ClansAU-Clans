@@ -93,7 +93,7 @@ public class DwarvenPickaxe extends Legendary<Clans, WeaponManager, WeaponData> 
             return;
         }
 
-        final EnergyManager energyManager = this.getInstance(Core.class).getManagerByClass(EnergyManager.class);
+        final EnergyManager energyManager = this.getInstanceByClass(Core.class).getManagerByClass(EnergyManager.class);
 
         if (!(this.isUserByPlayer(player))) {
             if (energyManager.isExhausted(player, this.getName(), this.energyNeeded, true)) {
@@ -124,7 +124,7 @@ public class DwarvenPickaxe extends Legendary<Clans, WeaponManager, WeaponData> 
             return false;
         }
 
-        final Clan territoryClan = this.getInstance().getManagerByClass(ClanManager.class).getClanByLocation(block.getLocation());
+        final Clan territoryClan = this.getInstanceByClass().getManagerByClass(ClanManager.class).getClanByLocation(block.getLocation());
         if (territoryClan == null || !(territoryClan.isMemberByPlayer(player))) {
             return false;
         }

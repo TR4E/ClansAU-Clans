@@ -45,7 +45,7 @@ public class RepairCommand extends Command<Clans, PerkManager> implements PerkCo
             return;
         }
 
-        final Weapon<?, ?, ?> weapon = this.getInstance(Core.class).getManagerByClass(WeaponManager.class).getWeaponByItemStack(itemStack);
+        final Weapon<?, ?, ?> weapon = this.getInstanceByClass(Core.class).getManagerByClass(WeaponManager.class).getWeaponByItemStack(itemStack);
         if (weapon != null && !(weapon.isChampionsWeapon())) {
             UtilMessage.message(player, "Repair", "You cannot repair that item!");
             return;
@@ -56,7 +56,7 @@ public class RepairCommand extends Command<Clans, PerkManager> implements PerkCo
             return;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, true, true))) {
+        if (!(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, true, true))) {
             return;
         }
 

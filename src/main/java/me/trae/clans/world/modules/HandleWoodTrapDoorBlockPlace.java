@@ -34,7 +34,7 @@ public class HandleWoodTrapDoorBlockPlace extends SpigotListener<Clans, WorldMan
 
         final Player player = event.getPlayer();
 
-        if (this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+        if (this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
             return;
         }
 

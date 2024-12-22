@@ -40,8 +40,8 @@ public class TrackCommand extends Command<Clans, WorldManager> implements Player
     public TrackCommand(final WorldManager manager) {
         super(manager, "track", new String[]{"find", "locate"}, Rank.DEFAULT);
 
-        this.CLIENT_MANAGER = this.getInstance(Core.class).getManagerByClass(ClientManager.class);
-        this.VANISH_MANAGER = this.getInstance(Core.class).getManagerByClass(VanishManager.class);
+        this.CLIENT_MANAGER = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
+        this.VANISH_MANAGER = this.getInstanceByClass(Core.class).getManagerByClass(VanishManager.class);
     }
 
     @Override

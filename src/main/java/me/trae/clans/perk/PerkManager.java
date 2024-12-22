@@ -30,6 +30,6 @@ public class PerkManager extends AbstractPerkManager<Clans, DonationManager> {
 
     @Override
     public DonationManager getDonationManager() {
-        return this.getInstance(Clans.class).getManagerByClass(DonationManager.class);
+        return this.getInstanceByClass(Clans.class).getManagerByClass(DonationManager.class);
     }
 }

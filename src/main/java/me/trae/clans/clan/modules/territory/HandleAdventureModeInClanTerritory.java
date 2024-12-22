@@ -93,7 +93,7 @@ public class HandleAdventureModeInClanTerritory extends SpigotListener<Clans, Cl
     }
 
     private void handleGamemode(final Player player, final Location location) {
-        final Client client = this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player);
+        final Client client = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player);
 
         final Clan playerClan = this.getManager().getClanByPlayer(player);
         final Clan territoryClan = this.getManager().getClanByLocation(location);

@@ -57,7 +57,7 @@ public class HandleFarmingZones extends SpigotListener<Clans, FarmingManager> {
             return;
         }
 
-        if (this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+        if (this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
             return;
         }
 

@@ -83,7 +83,7 @@ public class HyperAxe extends Legendary<Clans, WeaponManager, WeaponData> implem
             return;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(EnergyManager.class).use(player, this.getName(), this.energy, true))) {
+        if (!(this.getInstanceByClass(Core.class).getManagerByClass(EnergyManager.class).use(player, this.getName(), this.energy, true))) {
             event.setCancelled(true);
             return;
         }
@@ -116,7 +116,7 @@ public class HyperAxe extends Legendary<Clans, WeaponManager, WeaponData> implem
             return;
         }
 
-        if (this.getInstance(Core.class).getManagerByClass(EnergyManager.class).isExhausted(player, this.getName(), this.energy, false)) {
+        if (this.getInstanceByClass(Core.class).getManagerByClass(EnergyManager.class).isExhausted(player, this.getName(), this.energy, false)) {
             event.setCancelled(true);
             return;
         }

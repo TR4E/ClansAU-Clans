@@ -54,7 +54,7 @@ public class HandleKothChestPlayerOpen extends SpigotListener<Clans, KothManager
             return;
         }
 
-        if (this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+        if (this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
             return;
         }
 

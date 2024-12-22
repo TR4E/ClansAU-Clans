@@ -97,7 +97,7 @@ public class HandleIronDoorInteract extends SpigotListener<Clans, WorldManager> 
             return;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, "Door Knock", this.delay, false))) {
+        if (!(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, "Door Knock", this.delay, false))) {
             return;
         }
 

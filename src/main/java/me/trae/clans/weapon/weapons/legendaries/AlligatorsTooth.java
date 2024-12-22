@@ -112,7 +112,7 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
                 player.removePotionEffect(potionEffectType);
             }
 
-            this.getInstance(Core.class).getManagerByClass(EffectManager.class).getModuleByClass(NoFall.class).addUser(new EffectData(player, 3000L) {
+            this.getInstanceByClass(Core.class).getManagerByClass(EffectManager.class).getModuleByClass(NoFall.class).addUser(new EffectData(player, 3000L) {
                 @Override
                 public boolean isRemoveOnAction() {
                     return true;
@@ -133,7 +133,7 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
 
         new SoundCreator(Sound.SWIM, 0.8F, 1.5F).play(player.getLocation());
 
-        UtilJava.call(this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player), client -> {
+        UtilJava.call(this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player), client -> {
             double strength = this.strength;
 
             if (client.isAdministrating()) {

@@ -132,7 +132,7 @@ public class FireBall extends ActiveCustomItem<Clans, WeaponManager, FireBallDat
 
         final Player player = Bukkit.getPlayer(data.getUUID());
 
-        final NoFall effect = this.getInstance(Core.class).getManagerByClass(EffectManager.class).getModuleByClass(NoFall.class);
+        final NoFall effect = this.getInstanceByClass(Core.class).getManagerByClass(EffectManager.class).getModuleByClass(NoFall.class);
 
         for (final LivingEntity targetEntity : UtilEntity.getNearbyEntities(LivingEntity.class, event.getLocation(), this.distance)) {
             effect.addUser(new EffectData(targetEntity, 5_000L) {

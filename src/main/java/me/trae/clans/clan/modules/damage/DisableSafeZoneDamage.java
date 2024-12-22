@@ -101,14 +101,14 @@ public class DisableSafeZoneDamage extends SpigotListener<Clans, ClanManager> {
             return false;
         }
 
-        final ClientManager clientManager = this.getInstance(Core.class).getManagerByClass(ClientManager.class);
+        final ClientManager clientManager = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
 
         if (clientManager.getClientByPlayer(damager).isAdministrating()) {
             return false;
         }
 
         if (!(clientManager.getClientByPlayer(damagee).isAdministrating())) {
-            final CombatManager combatManager = this.getInstance(Core.class).getManagerByClass(CombatManager.class);
+            final CombatManager combatManager = this.getInstanceByClass(Core.class).getManagerByClass(CombatManager.class);
 
             final boolean damageeInCombat = combatManager.isCombatByPlayer(damagee);
             final boolean damagerInCombat = combatManager.isCombatByPlayer(damager);

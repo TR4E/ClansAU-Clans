@@ -66,7 +66,7 @@ public class SpringBlock extends SpigotListener<Clans, WorldManager> {
             return;
         }
 
-        if (!(this.getInstance(Core.class).getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, false))) {
+        if (!(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, this.getName(), this.recharge, false))) {
             return;
         }
 

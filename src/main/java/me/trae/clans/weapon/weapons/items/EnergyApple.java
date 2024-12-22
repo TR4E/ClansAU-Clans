@@ -58,7 +58,7 @@ public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponDa
 
     @Override
     public void onActivate(final Player player, final ActionType actionType) {
-        this.getInstance(Core.class).getManagerByClass(EnergyManager.class).regenerate(player, this.energyGain);
+        this.getInstanceByClass(Core.class).getManagerByClass(EnergyManager.class).regenerate(player, this.energyGain);
 
         new SoundCreator(Sound.EAT).play(player.getLocation());
 
@@ -71,7 +71,7 @@ public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponDa
             return false;
         }
 
-        if (player.getExp() >= this.getInstance(Core.class).getManagerByClass(EnergyManager.class).MAX_ENERGY) {
+        if (player.getExp() >= this.getInstanceByClass(Core.class).getManagerByClass(EnergyManager.class).MAX_ENERGY) {
             UtilMessage.message(player, this.getAbilityName(), "You are already full of energy.");
             return false;
         }

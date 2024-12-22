@@ -33,6 +33,6 @@ public class CoinsLoot extends Loot implements ICoinsLoot {
 
     @Override
     public Consumer<Player> getConsumer() {
-        return (player -> this.getInstance().getManagerByClass(GamerManager.class).giveCoins(player, this.getCoins()));
+        return (player -> this.getInstanceByClass().getManagerByClass(GamerManager.class).giveCoins(player, this.getCoins()));
     }
 }

@@ -115,7 +115,7 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
         }
 
         if (actionType == ActionType.LEFT_CLICK) {
-            if (this.getInstance(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
+            if (this.getInstanceByClass(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
                 UtilMessage.simpleMessage(player, "Item", "You cannot use <green><var></green> while in combat.", Collections.singletonList(this.getAbilityName(actionType)));
                 return false;
             }
@@ -127,11 +127,11 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
     private void onLeftClick(final Player player) {
         final Throwable throwable = new Throwable(this.getAbilityName(ActionType.LEFT_CLICK), this.getItemStack(), player, -1L, player.getEyeLocation(), player.getEyeLocation().getDirection().multiply(this.itemVelocity));
 
-        this.getInstance(Core.class).getManagerByClass(ThrowableManager.class).addThrowable(throwable);
+        this.getInstanceByClass(Core.class).getManagerByClass(ThrowableManager.class).addThrowable(throwable);
 
         throwable.getItem().setPassenger(player);
 
-        this.getInstance(Core.class).getManagerByClass(EffectManager.class).getModuleByClass(NoFall.class).addUser(new EffectData(player) {
+        this.getInstanceByClass(Core.class).getManagerByClass(EffectManager.class).getModuleByClass(NoFall.class).addUser(new EffectData(player) {
             @Override
             public boolean isRemoveOnAction() {
                 return true;

@@ -74,7 +74,7 @@ public class ClaimCommand extends ClanSubCommand implements EventContainer<ClanC
                 return false;
             }
 
-            final ClientManager clientManager = this.getInstance(Core.class).getManagerByClass(ClientManager.class);
+            final ClientManager clientManager = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
 
             for (final Player nearbyPlayer : UtilChunk.getChunkEntities(Player.class, chunk)) {
                 final Clan nearbyPlayerClan = this.getModule().getManager().getClanByPlayer(nearbyPlayer);

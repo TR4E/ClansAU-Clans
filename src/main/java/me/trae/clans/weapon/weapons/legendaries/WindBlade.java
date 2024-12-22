@@ -92,7 +92,7 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
 
         new SoundCreator(Sound.FIZZ, 0.5F, 1.5F).play(player.getLocation());
 
-        UtilJava.call(this.getInstance(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player), client -> {
+        UtilJava.call(this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player), client -> {
             double strength = this.strength;
 
             if (client.isAdministrating()) {
