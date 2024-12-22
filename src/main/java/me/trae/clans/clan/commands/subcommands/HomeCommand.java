@@ -14,9 +14,13 @@ import me.trae.core.countdown.CountdownManager;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.recharge.RechargeManager;
 import me.trae.core.teleport.Teleport;
+import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHomeEvent> {
 
@@ -95,7 +99,17 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
             return;
         }
 
-        this.getInstance(Core.class).getManagerByClass(CountdownManager.class).addCountdown(this.getTeleport(event.getPlayer(), event.getClan()));
+        final Player player = event.getPlayer();
+
+        final CountdownManager countdownManager = this.getInstance(Core.class).getManagerByClass(CountdownManager.class);
+
+        final Teleport oldTeleport = UtilJava.cast(Teleport.class, countdownManager.getCountdownByPlayer(player));
+        if (oldTeleport != null && oldTeleport.getType().equals("Clan Home")) {
+            UtilMessage.message(player, "Clans", "You are already attempting to teleport to Clan Home!");
+            return;
+        }
+
+        countdownManager.addCountdown(this.getTeleport(player, event.getClan()));
     }
 
     private Teleport getTeleport(final Player player, final Clan playerClan) {
@@ -107,6 +121,18 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
         }
 
         return new Teleport(duration, player, playerClan.getHome()) {
+            @Override
+            public void onInitial(final Player player) {
+                if (this.getDuration() > 0L) {
+                    UtilMessage.simpleMessage(player, "Teleport", "Teleporting to <white><var></white> in <green><var></green>.", Arrays.asList(this.getType(), this.getDurationString()));
+                }
+            }
+
+            @Override
+            public String getType() {
+                return "Clan Home";
+            }
+
             @Override
             public boolean canTeleport(final Player player) {
                 if (HomeCommand.this.getInstance(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {

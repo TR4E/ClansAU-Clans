@@ -1,10 +1,7 @@
 package me.trae.clans.world;
 
 import me.trae.clans.Clans;
-import me.trae.clans.world.commands.ArmourCommand;
-import me.trae.clans.world.commands.DyeCommand;
-import me.trae.clans.world.commands.TrackCommand;
-import me.trae.clans.world.commands.WarpCommand;
+import me.trae.clans.world.commands.*;
 import me.trae.clans.world.modules.*;
 import me.trae.clans.world.modules.block.DisableBedrock;
 import me.trae.clans.world.modules.block.DisableContainerBlockInSky;
@@ -14,7 +11,6 @@ import me.trae.clans.world.modules.interaction.item.DisableBoneMealInteract;
 import me.trae.clans.world.modules.interaction.item.DisableDrinkingPotions;
 import me.trae.clans.world.modules.interaction.item.HandleFlintAndSteelInteract;
 import me.trae.clans.world.modules.restriction.DisableCreeperExplosionBlockDamage;
-import me.trae.clans.world.modules.HandleFireballExplosion;
 import me.trae.core.world.abstracts.AbstractWorldManager;
 import me.trae.core.world.modules.shared.DisableSaturation;
 import me.trae.core.world.modules.shared.DisableWeather;
@@ -31,6 +27,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         // Commands
         addModule(new ArmourCommand(this));
         addModule(new DyeCommand(this));
+        addModule(new LocationsCommand(this));
         addModule(new TrackCommand(this));
         addModule(new WarpCommand(this));
 
@@ -65,7 +62,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         // Clans Modules
         addModule(new DisableBucketInteraction(this));
         addModule(new DisableHopperMoveItem(this));
-        addModule(new FasterNighttimeCycle(this));
+        addModule(new HandleWorldTime(this));
         addModule(new HandleDropFallingBlock(this));
         addModule(new HandleIronDoorInteract(this));
         addModule(new HandleWoodDoorBlockPlace(this));

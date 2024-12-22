@@ -135,7 +135,7 @@ public class FireBall extends ActiveCustomItem<Clans, WeaponManager, FireBallDat
         final NoFall effect = this.getInstance(Core.class).getManagerByClass(EffectManager.class).getModuleByClass(NoFall.class);
 
         for (final LivingEntity targetEntity : UtilEntity.getNearbyEntities(LivingEntity.class, event.getLocation(), this.distance)) {
-            effect.addUser(new EffectData(targetEntity) {
+            effect.addUser(new EffectData(targetEntity, 5_000L) {
                 @Override
                 public boolean isRemoveOnAction() {
                     return true;
