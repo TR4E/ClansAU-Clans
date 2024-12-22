@@ -30,6 +30,11 @@ public class ClanChatCommand extends Command<Clans, ClanManager> implements Chat
     }
 
     @Override
+    public boolean showInHelpCommand() {
+        return false;
+    }
+
+    @Override
     public ChatColor getUsageChatColor() {
         return MemberRole.RECRUIT.getChatColor();
     }

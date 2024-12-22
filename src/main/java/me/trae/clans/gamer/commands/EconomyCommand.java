@@ -21,9 +21,9 @@ import java.util.*;
 public class EconomyCommand extends Command<Clans, GamerManager> implements AnyCommandType {
 
     public EconomyCommand(final GamerManager manager) {
-        super(manager, "economy", new String[]{"eco", "balance", "bal", "coins", "gold", "money"}, Rank.DEFAULT);
+        super(manager, "economy", new String[]{"eco", "balance", "bal", "coins", "money", "dollars", "dollar", "gold"}, Rank.DEFAULT);
 
-        for (final String label : Arrays.asList("pay", "sendcoins")) {
+        for (final String label : Arrays.asList("pay", "sendcoins", "sendmoney", "sendgold")) {
             this.addShortcut(label, "pay");
         }
     }

@@ -20,7 +20,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 public class QuestManager extends SpigotManager<Clans> implements IQuestManager, RepositoryContainer<QuestRepository> {
 
