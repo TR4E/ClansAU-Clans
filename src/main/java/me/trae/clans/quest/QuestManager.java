@@ -2,6 +2,7 @@ package me.trae.clans.quest;
 
 import me.trae.clans.Clans;
 import me.trae.clans.quest.commands.QuestCommand;
+import me.trae.clans.quest.interfaces.IQuestManager;
 import me.trae.clans.quest.modules.HandleQuestUpdater;
 import me.trae.clans.quest.modules.data.HandleLoadQuestDataOnPlayerJoin;
 import me.trae.clans.quest.modules.data.HandleRemoveQuestDataOnPlayerQuit;
@@ -13,8 +14,15 @@ import me.trae.clans.quest.quests.mining.MineGold;
 import me.trae.clans.quest.quests.mining.MineIron;
 import me.trae.core.database.repository.containers.RepositoryContainer;
 import me.trae.core.framework.SpigotManager;
+import me.trae.core.utility.UtilMessage;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-public class QuestManager extends SpigotManager<Clans> implements RepositoryContainer<QuestRepository> {
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+public class QuestManager extends SpigotManager<Clans> implements IQuestManager, RepositoryContainer<QuestRepository> {
 
     public QuestManager(final Clans instance) {
         super(instance);
@@ -48,5 +56,27 @@ public class QuestManager extends SpigotManager<Clans> implements RepositoryCont
     @Override
     public Class<QuestRepository> getClassOfRepository() {
         return QuestRepository.class;
+    }
+
+    @Override
+    public void resetQuests() {
+        final Set<Player> players = new HashSet<>();
+
+        for (final Quest quest : this.getModulesByClass(Quest.class)) {
+            quest.getUsers().values().removeIf(data -> {
+                final Player player = Bukkit.getPlayer(data.getUUID());
+                if (player != null) {
+                    players.add(player);
+                }
+
+                return true;
+            });
+        }
+
+        this.getRepository().getCollection().drop();
+
+        for (final Player player : players) {
+            UtilMessage.message(player, "Quest", "Your daily quests have been reset.");
+        }
     }
 }
