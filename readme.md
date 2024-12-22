@@ -91,7 +91,7 @@ The Clans plugin is an advanced Minecraft plugin designed to create a dynamic an
 ### Core
 - This plugin works as an extension of the Core, relying on its infrastructure for core functionality.
 
-### [Champions-API](https://github.com/TR4E/Champions-API)
+### [Champions-API](https://github.com/TR4E/ClansAU-Champions-API)
 - Provides integration capabilities between Champions and other child plugins, such as Clans, allowing seamless interaction between systems.
 
 <br>
