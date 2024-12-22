@@ -195,8 +195,10 @@ public class EtherealPearl extends ActiveCustomItem<Clans, WeaponManager, Weapon
                     location,
                     (float) location.getX() + 0.5F,
                     (float) (location.getY() - 1.0F + random.nextDouble() * 2.0F),
-                    (float) location.getZ(), (float) random.nextGaussian(),
-                    0.0F, (float) random.nextGaussian(),
+                    (float) location.getZ(),
+                    (float) random.nextGaussian(),
+                    0.0F,
+                    (float) random.nextGaussian(),
                     0.1F,
                     2
             );
