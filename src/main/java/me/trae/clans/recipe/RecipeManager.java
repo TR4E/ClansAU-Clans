@@ -23,6 +23,7 @@ public class RecipeManager extends AbstractRecipeManager<Clans> {
         addModule(new DisableBoatRecipe(this));
         addModule(new DisableBrewingStandRecipe(this));
         addModule(new DisableCompassRecipe(this));
+        addModule(new DisableDarkPrismarineRecipe(this));
         addModule(new DisableDispenserRecipe(this));
         addModule(new DisableDropperRecipe(this));
         addModule(new DisableEnchantedGoldenAppleRecipe(this));
