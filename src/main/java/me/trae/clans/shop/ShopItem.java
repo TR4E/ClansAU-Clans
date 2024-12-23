@@ -46,11 +46,6 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
 
     @Override
     public boolean canBuy(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
-        if (!(this.hasBuyPrice())) {
-            UtilMessage.message(player, "Shop", "You cannot buy this item!");
-            return false;
-        }
-
         if (!(gamer.hasCoins(this.getBuyPriceByAmount(amount)))) {
             UtilMessage.simpleMessage(player, "Shop", "You have insufficient funds to purchase <green><var>x</green> of <green><var></green>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped()));
             return false;
@@ -61,11 +56,6 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
 
     @Override
     public boolean canSell(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
-        if (!(this.hasSellPrice())) {
-            UtilMessage.message(player, "Shop", "You cannot sell this item!");
-            return false;
-        }
-
         if (!(UtilItem.contains(player, this.getItemStack(), 1))) {
             UtilMessage.simpleMessage(player, "Shop", "You do not own <green><var>x</green> of <green><var></green> to sell.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped()));
             return false;

@@ -7,10 +7,10 @@ import me.trae.core.weapon.registry.WeaponRegistry;
 
 public class EtherealPearlShopItem extends CustomItemShopItem<WeaponsAndToolsShopKeeper> {
 
-    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "5_000")
+    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "2_500")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "0")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "1_000")
     private int sellPrice;
 
     public EtherealPearlShopItem(final WeaponsAndToolsShopKeeper module) {

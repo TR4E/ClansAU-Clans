@@ -7,7 +7,7 @@ import me.trae.core.weapon.registry.WeaponRegistry;
 
 public class ThrowingWebShopItem extends CustomItemShopItem<WeaponsAndToolsShopKeeper> {
 
-    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "5_000")
+    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "2_000")
     private int buyPrice;
 
     @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "0")

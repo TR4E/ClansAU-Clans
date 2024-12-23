@@ -4,6 +4,7 @@ import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.item.ItemBuilder;
 import me.trae.core.item.events.ItemUpdateEvent;
 import me.trae.core.utility.UtilBlock;
 import org.bukkit.Material;
@@ -46,10 +47,16 @@ public class WaterBlock extends SpigotListener<Clans, WorldManager> {
 
     @EventHandler
     public void onItemUpdate(final ItemUpdateEvent event) {
-        if (event.getBuilder().getItemStack().getType() != this.getMaterial()) {
+        final ItemBuilder builder = event.getBuilder();
+
+        if (builder.getItemStack().getType() != this.getMaterial()) {
             return;
         }
 
-        event.getBuilder().setDisplayName(this.getName());
+        builder.setDisplayName(this.getName());
+
+        builder.setLore(new String[]{
+                "Transforms into Water upon placement."
+        });
     }
 }

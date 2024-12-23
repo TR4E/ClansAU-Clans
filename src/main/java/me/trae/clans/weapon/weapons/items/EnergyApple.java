@@ -50,7 +50,7 @@ public class EnergyApple extends ActiveCustomItem<Clans, WeaponManager, WeaponDa
         final String energyGain = String.valueOf(this.energyGain);
 
         return new String[]{
-                String.format("Instantly restores <green>%s</green> energy", energyGain),
+                String.format("Instantly restores %s energy", energyGain),
                 "",
                 UtilString.pair("<gray>Right-Click", "<yellow>Consume"),
         };

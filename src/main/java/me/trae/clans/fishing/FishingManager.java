@@ -41,10 +41,9 @@ public class FishingManager extends SpigotManager<Clans> implements IFishingMana
         addModule(new HandleFishingCaughtWeight(this));
 
         addModule(new HandlePlayerCaughtFish(this));
+        addModule(new HandlePlayerCaughtItem(this));
         addModule(new HandlePlayerCaughtLegendary(this));
         addModule(new HandlePlayerCaughtMob(this));
-
-        addModule(new HandlePlayerCaughtFish(this));
 
         // Start Modules
         addModule(new HandleFishHookRainInfluenced(this));

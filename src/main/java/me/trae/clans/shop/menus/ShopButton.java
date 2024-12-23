@@ -5,6 +5,7 @@ import me.trae.clans.gamer.GamerManager;
 import me.trae.clans.shop.ShopItem;
 import me.trae.clans.shop.menus.interfaces.IShopButton;
 import me.trae.core.menu.Button;
+import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.objects.SoundCreator;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -31,16 +32,32 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
             spacing = true;
         }
 
-        final List<String> list = Arrays.asList(this.getShopItem().getDescription());
+        ShopItem<?> shopItem = this.getShopItem();
+
+        final List<String> list = Arrays.asList(shopItem.getDescription());
 
         if (!(list.isEmpty())) {
+            final String strikeLine = UtilMessage.strikeLine(list);
+
             if (spacing) {
-                for (int i = 0; i < 2; i++) {
-                    lore.add(" ");
-                }
+                lore.add(" ");
+
+                lore.add(strikeLine);
             }
 
             lore.addAll(list);
+
+            if (shopItem.hasBuyPrice() || shopItem.hasSellPrice()) {
+                lore.add(" ");
+            }
+
+            if (shopItem.hasBuyPrice()) {
+                lore.add("<green><bold>Left-Click to Buy!");
+            }
+
+            if (shopItem.hasSellPrice()) {
+                lore.add("<red><bold>Right-Click to Sell!");
+            }
         }
 
         return lore.toArray(new String[0]);
@@ -74,6 +91,12 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
     private void buy(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
         final ShopItem<?> shopItem = this.getShopItem();
 
+        if (!(shopItem.hasBuyPrice())) {
+            new SoundCreator(Sound.ITEM_BREAK, 1.0F, 0.8F).play(player);
+            UtilMessage.message(player, "Shop", "You cannot buy this item!");
+            return;
+        }
+
         if (!(shopItem.canBuy(player, gamerManager, gamer, amount))) {
             new SoundCreator(Sound.ITEM_BREAK, 1.0F, 0.6F).play(player);
             return;
@@ -87,6 +110,12 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
     private void sell(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
         final ShopItem<?> shopItem = this.getShopItem();
 
+        if (!(shopItem.hasSellPrice())) {
+            new SoundCreator(Sound.ITEM_BREAK, 1.0F, 0.8F).play(player);
+            UtilMessage.message(player, "Shop", "You cannot sell this item!");
+            return;
+        }
+
         if (!(shopItem.canSell(player, gamerManager, gamer, amount))) {
             new SoundCreator(Sound.ITEM_BREAK, 1.0F, 0.6F).play(player);
             return;
@@ -94,6 +123,6 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
 
         shopItem.sell(player, gamerManager, gamer, amount);
 
-        new SoundCreator(Sound.NOTE_PLING, 1.0F, 2.0F).play(player);
+        new SoundCreator(Sound.NOTE_PLING, 1.0F, 1.5F).play(player);
     }
 }

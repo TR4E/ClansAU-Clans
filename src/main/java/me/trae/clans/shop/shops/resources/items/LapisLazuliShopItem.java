@@ -3,24 +3,25 @@ package me.trae.clans.shop.shops.resources.items;
 import me.trae.clans.shop.ShopItem;
 import me.trae.clans.shop.shops.resources.ResourcesShopKeeper;
 import me.trae.core.config.annotations.ConfigInject;
+import me.trae.core.item.constants.ItemConstants;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class LeatherShopItem extends ShopItem<ResourcesShopKeeper> {
+public class LapisLazuliShopItem extends ShopItem<ResourcesShopKeeper> {
 
-    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "1_000")
+    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "500")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "500")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "100")
     private int sellPrice;
 
-    public LeatherShopItem(final ResourcesShopKeeper module) {
-        super(module, new ItemStack(Material.LEATHER));
+    public LapisLazuliShopItem(final ResourcesShopKeeper module) {
+        super(module, ItemConstants.LAPIS_LAZULI);
     }
 
     @Override
     public int getSlot() {
-        return 7;
+        return 8;
     }
 
     @Override

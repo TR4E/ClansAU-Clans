@@ -6,21 +6,21 @@ import me.trae.core.config.annotations.ConfigInject;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class LeatherShopItem extends ShopItem<ResourcesShopKeeper> {
+public class ClassCustomizationShopItem extends ShopItem<ResourcesShopKeeper> {
 
-    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "1_000")
+    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "100_000")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "500")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "50_000")
     private int sellPrice;
 
-    public LeatherShopItem(final ResourcesShopKeeper module) {
-        super(module, new ItemStack(Material.LEATHER));
+    public ClassCustomizationShopItem(final ResourcesShopKeeper module) {
+        super(module, new ItemStack(Material.ENCHANTMENT_TABLE));
     }
 
     @Override
     public int getSlot() {
-        return 7;
+        return 49;
     }
 
     @Override

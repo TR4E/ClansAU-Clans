@@ -6,6 +6,7 @@ import me.trae.clans.world.WorldManager;
 import me.trae.core.Core;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.item.ItemBuilder;
 import me.trae.core.item.events.ItemUpdateEvent;
 import me.trae.core.recharge.RechargeManager;
 import me.trae.core.utility.UtilBlock;
@@ -106,10 +107,17 @@ public class SpringBlock extends SpigotListener<Clans, WorldManager> {
 
     @EventHandler
     public void onItemUpdate(final ItemUpdateEvent event) {
-        if (event.getBuilder().getItemStack().getType() != this.getMaterial()) {
+        final ItemBuilder builder = event.getBuilder();
+
+        if (builder.getItemStack().getType() != this.getMaterial()) {
             return;
         }
 
-        event.getBuilder().setDisplayName(this.getName());
+        builder.setDisplayName(this.getName());
+
+        builder.setLore(new String[]{
+                "Stand on this block and right-click",
+                "it to launch yourself upwards."
+        });
     }
 }

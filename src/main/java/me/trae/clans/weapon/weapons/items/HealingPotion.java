@@ -11,6 +11,7 @@ import me.trae.core.utility.enums.ActionType;
 import me.trae.core.utility.objects.SoundCreator;
 import me.trae.core.weapon.data.WeaponData;
 import me.trae.core.weapon.types.ActiveCustomItem;
+import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -61,6 +62,8 @@ public class HealingPotion extends ActiveCustomItem<Clans, WeaponManager, Weapon
     @Override
     public void onActivate(final Player player, final ActionType actionType) {
         UtilEntity.givePotionEffect(player, PotionEffectType.REGENERATION, this.amplifier, this.duration);
+
+        player.getWorld().playEffect(player.getEyeLocation(), Effect.HEART, 1);
 
         new SoundCreator(Sound.DRINK).play(player.getLocation());
 
