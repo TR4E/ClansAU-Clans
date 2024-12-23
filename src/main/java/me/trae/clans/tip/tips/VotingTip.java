@@ -5,19 +5,14 @@ import me.trae.clans.tip.TipManager;
 import me.trae.core.tip.abstracts.Tip;
 import org.bukkit.entity.Player;
 
-public class ExampleTip extends Tip<Clans, TipManager> {
+public class VotingTip extends Tip<Clans, TipManager> {
 
-    public ExampleTip(final TipManager manager) {
+    public VotingTip(final TipManager manager) {
         super(manager);
     }
 
     @Override
     public String getText(final Player player) {
-        return "This is an Example Tip!";
-    }
-
-    @Override
-    public boolean canReceive(final Player player) {
-        return super.canReceive(player);
+        return "Vote daily to receive a <yellow>Voting Crate</yellow>! (<green>/vote</green>)";
     }
 }

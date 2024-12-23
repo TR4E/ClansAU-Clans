@@ -22,10 +22,10 @@ import java.util.Arrays;
 public class HandleFarmingZones extends SpigotListener<Clans, FarmingManager> {
 
     @ConfigInject(type = Integer.class, path = "Max-Y", defaultValue = "60")
-    private int maxY;
+    public int maxY;
 
     @ConfigInject(type = Integer.class, path = "Min-Y", defaultValue = "44")
-    private int minY;
+    public int minY;
 
     public HandleFarmingZones(final FarmingManager manager) {
         super(manager);
