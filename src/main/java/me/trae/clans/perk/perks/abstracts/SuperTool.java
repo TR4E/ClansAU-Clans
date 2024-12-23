@@ -7,10 +7,13 @@ import me.trae.clans.perk.PerkManager;
 import me.trae.clans.perk.perks.abstracts.interfaces.ISuperTool;
 import me.trae.clans.preference.PreferenceManager;
 import me.trae.clans.preference.types.SuperToolActivation;
+import me.trae.core.Core;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.perk.Perk;
 import me.trae.core.utility.UtilBlock;
 import me.trae.core.utility.UtilItem;
+import me.trae.core.weapon.Weapon;
+import me.trae.core.weapon.WeaponManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -63,6 +66,11 @@ public abstract class SuperTool extends Perk<Clans, PerkManager> implements ISup
         }
 
         if (itemStack.getType() != this.getMaterial()) {
+            return;
+        }
+
+        final Weapon<?, ?, ?> weapon = this.getInstanceByClass(Core.class).getManagerByClass(WeaponManager.class).getWeaponByItemStack(itemStack);
+        if (weapon != null && !(weapon.isChampionsWeapon())) {
             return;
         }
 

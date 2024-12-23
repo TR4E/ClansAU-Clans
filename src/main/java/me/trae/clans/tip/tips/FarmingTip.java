@@ -17,6 +17,6 @@ public class FarmingTip extends Tip<Clans, TipManager> {
     public String getText(final Player player) {
         final HandleFarmingZones module = this.getInstance().getManagerByClass(FarmingManager.class).getModuleByClass(HandleFarmingZones.class);
 
-        return String.format("The farming levels are between <white>%s</white> and <white>%s</white> Y.", module.minY, module.maxY);
+        return String.format("The farming levels are between <yellow>%s</yellow> and <yellow>%s</yellow> Y.", module.minY, module.maxY);
     }
 }
