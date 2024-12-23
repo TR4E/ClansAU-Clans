@@ -11,7 +11,7 @@ public class DiamondShopItem extends ShopItem<ResourcesShopKeeper> {
     @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "1_000")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "500")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "250")
     private int sellPrice;
 
     public DiamondShopItem(final ResourcesShopKeeper module) {

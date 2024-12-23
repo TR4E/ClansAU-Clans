@@ -1,4 +1,4 @@
-package me.trae.clans.shop.shops.building.items;
+package me.trae.clans.shop.shops.building.items.blocks;
 
 import me.trae.clans.shop.ShopItem;
 import me.trae.clans.shop.shops.building.BuildingShopKeeper;
@@ -6,21 +6,21 @@ import me.trae.core.config.annotations.ConfigInject;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class StoneBrickShopItem extends ShopItem<BuildingShopKeeper> {
+public class GlassShopItem extends ShopItem<BuildingShopKeeper> {
 
     @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "100")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "50")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "10")
     private int sellPrice;
 
-    public StoneBrickShopItem(final BuildingShopKeeper module) {
-        super(module, new ItemStack(Material.SMOOTH_BRICK));
+    public GlassShopItem(final BuildingShopKeeper module) {
+        super(module, new ItemStack(Material.GLASS));
     }
 
     @Override
     public int getSlot() {
-        return 0;
+        return 36;
     }
 
     @Override

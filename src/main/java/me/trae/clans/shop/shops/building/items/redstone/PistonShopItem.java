@@ -1,26 +1,26 @@
-package me.trae.clans.shop.shops.resources.items.gems;
+package me.trae.clans.shop.shops.building.items.redstone;
 
 import me.trae.clans.shop.ShopItem;
-import me.trae.clans.shop.shops.resources.ResourcesShopKeeper;
+import me.trae.clans.shop.shops.building.BuildingShopKeeper;
 import me.trae.core.config.annotations.ConfigInject;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class RedstoneShopItem extends ShopItem<ResourcesShopKeeper> {
+public class PistonShopItem extends ShopItem<BuildingShopKeeper> {
 
-    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "1_000")
+    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "3_000")
     private int buyPrice;
 
     @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "250")
     private int sellPrice;
 
-    public RedstoneShopItem(final ResourcesShopKeeper module) {
-        super(module, new ItemStack(Material.REDSTONE));
+    public PistonShopItem(final BuildingShopKeeper module) {
+        super(module, new ItemStack(Material.PISTON_BASE));
     }
 
     @Override
     public int getSlot() {
-        return 3;
+        return 43;
     }
 
     @Override

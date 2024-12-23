@@ -11,7 +11,7 @@ public class GoldBlockShopItem extends ShopItem<ResourcesShopKeeper> {
     @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "9_000")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "4_500")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "2_250")
     private int sellPrice;
 
     public GoldBlockShopItem(final ResourcesShopKeeper module) {

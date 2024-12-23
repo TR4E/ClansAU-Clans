@@ -2,22 +2,25 @@ package me.trae.clans.shop.shops.resources;
 
 import me.trae.clans.shop.ShopKeeper;
 import me.trae.clans.shop.ShopManager;
+import me.trae.clans.shop.npc.ShopKeeperNPC;
 import me.trae.clans.shop.shops.resources.items.CompassShopItem;
 import me.trae.clans.shop.shops.resources.items.LeatherShopItem;
 import me.trae.clans.shop.shops.resources.items.TntShopItem;
-import me.trae.clans.shop.shops.resources.items.WaterBlockShopItem;
 import me.trae.clans.shop.shops.resources.items.currency.FiftyThousandDiscShopItem;
 import me.trae.clans.shop.shops.resources.items.currency.HundredThousandDiscShopItem;
 import me.trae.clans.shop.shops.resources.items.currency.OneMillionDiscShopItem;
 import me.trae.clans.shop.shops.resources.items.gem_blocks.*;
 import me.trae.clans.shop.shops.resources.items.gems.*;
 import me.trae.core.utility.UtilColor;
+import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilLocation;
 import me.trae.core.utility.UtilWorld;
 import me.trae.core.utility.enums.DirectionType;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Villager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +55,6 @@ public class ResourcesShopKeeper extends ShopKeeper {
         addSubModule(new EmeraldShopItem(this));
 
         addSubModule(new LeatherShopItem(this));
-        addSubModule(new WaterBlockShopItem(this));
 
         addSubModule(new CompassShopItem(this));
         addSubModule(new TntShopItem(this));
@@ -74,5 +76,10 @@ public class ResourcesShopKeeper extends ShopKeeper {
                 new Location(UtilWorld.getDefaultWorld(), -425.5D, 65.0D, -2.5D, UtilLocation.getYawByDirectionType(DirectionType.EAST), 0.0F),
                 new Location(UtilWorld.getDefaultWorld(), 425.5D, 65.0D, 2.5D, UtilLocation.getYawByDirectionType(DirectionType.WEST), 0.0F)
         );
+    }
+
+    @Override
+    public void updateNPC(final ShopKeeperNPC npc, final LivingEntity entity) {
+        UtilJava.cast(Villager.class, entity).setProfession(Villager.Profession.LIBRARIAN);
     }
 }

@@ -1,21 +1,21 @@
-package me.trae.clans.shop.shops.building.items;
+package me.trae.clans.shop.shops.farming.items.item_seeds;
 
 import me.trae.clans.shop.ShopItem;
-import me.trae.clans.shop.shops.building.BuildingShopKeeper;
+import me.trae.clans.shop.shops.farming.FarmingShopKeeper;
 import me.trae.core.config.annotations.ConfigInject;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class DirtShopItem extends ShopItem<BuildingShopKeeper> {
+public class CocoaBeansShopItem extends ShopItem<FarmingShopKeeper> {
 
     @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "50")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "25")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "30")
     private int sellPrice;
 
-    public DirtShopItem(final BuildingShopKeeper module) {
-        super(module, new ItemStack(Material.DIRT));
+    public CocoaBeansShopItem(final FarmingShopKeeper module) {
+        super(module, new ItemStack(Material.COCOA));
     }
 
     @Override
