@@ -32,7 +32,7 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
             spacing = true;
         }
 
-        ShopItem<?> shopItem = this.getShopItem();
+        final ShopItem<?> shopItem = this.getShopItem();
 
         final List<String> list = Arrays.asList(shopItem.getDescription());
 
@@ -52,11 +52,11 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
             }
 
             if (shopItem.hasBuyPrice()) {
-                lore.add("<green><bold>Left-Click to Buy!");
+                lore.add("<bold>» <green><bold>Left-Click to Buy!");
             }
 
             if (shopItem.hasSellPrice()) {
-                lore.add("<red><bold>Right-Click to Sell!");
+                lore.add("<bold>» <red><bold>Right-Click to Sell!");
             }
         }
 
