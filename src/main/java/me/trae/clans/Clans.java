@@ -8,6 +8,7 @@ import me.trae.clans.farming.FarmingManager;
 import me.trae.clans.fields.FieldsManager;
 import me.trae.clans.fishing.FishingManager;
 import me.trae.clans.gamer.GamerManager;
+import me.trae.clans.guide.GuideManager;
 import me.trae.clans.item.ItemManager;
 import me.trae.clans.koth.KothManager;
 import me.trae.clans.perk.PerkManager;
@@ -33,6 +34,7 @@ public class Clans extends MiniPlugin {
         addManager(new FieldsManager(this));
         addManager(new FishingManager(this));
         addManager(new GamerManager(this));
+        addManager(new GuideManager(this));
         addManager(new ItemManager(this));
         addManager(new WeaponManager(this));
         addManager(new KothManager(this));
