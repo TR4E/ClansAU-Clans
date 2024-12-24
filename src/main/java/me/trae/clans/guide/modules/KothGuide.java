@@ -19,7 +19,7 @@ public class KothGuide extends Guide<Clans, GuideManager> {
 
     @Override
     public String getDisplayName() {
-        return "Clans";
+        return "KoTH";
     }
 
     @Override

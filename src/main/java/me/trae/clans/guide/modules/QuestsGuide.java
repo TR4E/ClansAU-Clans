@@ -19,7 +19,7 @@ public class QuestsGuide extends Guide<Clans, GuideManager> {
 
     @Override
     public String getDisplayName() {
-        return "Clans";
+        return "Quests";
     }
 
     @Override
