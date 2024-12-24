@@ -8,10 +8,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class NetherStalkShopItem extends ShopItem<FarmingShopKeeper> {
 
-    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "100")
+    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "55")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "80")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "25")
     private int sellPrice;
 
     public NetherStalkShopItem(final FarmingShopKeeper module) {

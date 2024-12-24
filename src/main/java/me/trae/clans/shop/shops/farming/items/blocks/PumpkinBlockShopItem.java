@@ -8,10 +8,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class PumpkinBlockShopItem extends ShopItem<FarmingShopKeeper> {
 
-    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "360")
+    @ConfigInject(type = Integer.class, path = "Buy-Price", defaultValue = "70")
     private int buyPrice;
 
-    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "180")
+    @ConfigInject(type = Integer.class, path = "Sell-Price", defaultValue = "20")
     private int sellPrice;
 
     public PumpkinBlockShopItem(final FarmingShopKeeper module) {
