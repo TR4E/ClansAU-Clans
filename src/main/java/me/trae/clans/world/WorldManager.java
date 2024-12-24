@@ -11,6 +11,7 @@ import me.trae.clans.world.modules.interaction.item.DisableBoneMealInteract;
 import me.trae.clans.world.modules.interaction.item.DisableDrinkingPotions;
 import me.trae.clans.world.modules.interaction.item.HandleFlintAndSteelInteract;
 import me.trae.clans.world.modules.restriction.DisableCreeperExplosionBlockDamage;
+import me.trae.clans.world.modules.restriction.DisableMerchantInventory;
 import me.trae.core.world.abstracts.AbstractWorldManager;
 import me.trae.core.world.modules.shared.DisableSaturation;
 import me.trae.core.world.modules.shared.DisableWeather;
@@ -57,13 +58,14 @@ public class WorldManager extends AbstractWorldManager<Clans> {
 
         // Restriction Modules
         addModule(new DisableCreeperExplosionBlockDamage(this));
-        addModule(new HandleFireballExplosion(this));
+        addModule(new DisableMerchantInventory(this));
 
         // Clans Modules
         addModule(new DisableBucketInteraction(this));
         addModule(new DisableHopperMoveItem(this));
         addModule(new HandleWorldTime(this));
         addModule(new HandleDropFallingBlock(this));
+        addModule(new HandleFireballExplosion(this));
         addModule(new HandleIronDoorInteract(this));
         addModule(new HandleWoodDoorBlockPlace(this));
         addModule(new HandleWoodTrapDoorBlockPlace(this));
