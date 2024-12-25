@@ -19,29 +19,29 @@ public class FieldsGuide extends Guide<Clans, GuideManager> {
 
     @Override
     public String getDisplayName() {
-        return "Fields";
+        return "<white><bold>Fields";
     }
 
     @Override
     public String[] getDescription() {
         return new String[]{
-                "Fields is a massive area located at the center of the map, where players",
-                "can gather to mine ores and discover loot boxes. Mining these ores yields",
-                "smelted gems that can be used for various upgrades or trades.",
+                "<dark_gray>Fields is a massive area located at the center of the map, where players",
+                "<dark_gray>can gather to mine ores and discover loot boxes. Mining these ores yields",
+                "<dark_gray>smelted gems that can be used for various upgrades or trades.",
                 "",
-                "This zone is a known PvP hotspot, making it extremely dangerous for",
-                "unprepared players.",
+                "<gray>This zone is a known PvP hotspot, making it extremely dangerous for",
+                "<gray>unprepared players.",
                 "",
-                "Surprisingly, armor does not lose durability when taking damage here,",
-                "allowing for prolonged fights.",
+                "<gray>Surprisingly, armor does not lose durability when taking damage here,",
+                "<gray>allowing for prolonged fights.",
                 "",
-                "With its high rewards and fierce competition, Fields stands out as a hub",
-                "for thrill-seekers looking for more competitive action.",
+                "<gray>With its high rewards and fierce competition, Fields stands out as a hub",
+                "<gray>for thrill-seekers looking for more competitive action.",
                 "",
-                "Especially during the <bold>Mining Madness</bold> world event, when players",
-                "can earn double the loot and enjoy increased chances of finding rare items.",
+                "<gray>Especially during the <bold>Mining Madness<gray> world event, when players",
+                "<gray>can earn double the loot and enjoy increased chances of finding rare items.",
                 "",
-                "Every mined ore/block in fields, regenerate over time."
+                "<gray>Every mined ore/block in fields, regenerate over time."
         };
     }
 

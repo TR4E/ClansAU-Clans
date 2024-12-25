@@ -19,25 +19,25 @@ public class FishingGuide extends Guide<Clans, GuideManager> {
 
     @Override
     public String getDisplayName() {
-        return "Fishing";
+        return "<white><bold>Fishing";
     }
 
     @Override
     public String[] getDescription() {
         return new String[]{
-                "Lake is a fishing spot located at Fields, where players can cast",
-                "their lines and reel in fish, each uniquely weighted in pounds.",
+                "<dark_gray>Lake is a fishing spot located at Fields, where players can cast",
+                "<dark_gray>their lines and reel in fish, each uniquely weighted in pounds.",
                 "",
-                "Reeling in a catch might yield anything from common fish to rare items",
-                "lost by fishermen long ago.",
+                "<gray>Reeling in a catch might yield anything from common fish to rare items",
+                "<gray>lost by fishermen long ago.",
                 "",
-                "This watery zone can be surprisingly dangerous, as there's always a chance",
-                "to hook a hostile mob instead. Despite the risks, its unpredictable rewards",
-                "make the Lake a hotspot for anglers seeking bigger thrills.",
+                "<gray>This watery zone can be surprisingly dangerous, as there's always a chance",
+                "<gray>to hook a hostile mob instead. Despite the risks, its unpredictable rewards",
+                "<gray>make the Lake a hotspot for anglers seeking bigger thrills.",
                 "",
-                "During the <bold>Fishing Frenzy</bold> world event, fishing times are much",
-                "faster and the odds of obtaining rare items are greatly increased, making",
-                "the Lake even more enticing for adventurers."
+                "<gray>During the <green>Fishing Frenzy<gray> world event, fishing times are much",
+                "<gray>faster and the odds of obtaining rare items are greatly increased, making",
+                "<gray>the Lake even more enticing for adventurers."
         };
     }
 

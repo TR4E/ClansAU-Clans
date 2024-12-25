@@ -19,32 +19,32 @@ public class TntMechanicsGuide extends Guide<Clans, GuideManager> {
 
     @Override
     public String getDisplayName() {
-        return "TNT Mechanics";
+        return "<red><bold>TNT Mechanics";
     }
 
     @Override
     public String[] getDescription() {
         return new String[]{
-                "Custom TNT Mechanics enhance explosions with unique effects and",
-                "transformations, adding depth to gameplay.",
+                "<dark_gray>Custom TNT Mechanics enhance explosions with unique effects and",
+                "<dark_gray>transformations, adding depth to gameplay.",
                 "",
-                "Block Transformations:",
-                "When TNT detonates, affected blocks undergo a series of",
-                "transformations to create a cracked effect before being removed:",
-                "- Stone Brick → Cracked Stone Brick → Air",
-                "- Nether Brick → Netherrack → Air",
-                "- Quartz Block → Chiseled Quartz Block → Air",
-                "- Smooth Sandstone → Normal Sandstone → Air",
-                "- Smooth Red Sandstone → Normal Red Sandstone → Air",
-                "- Dark Prismarine → Prismarine Bricks → Prismarine → Air",
+                "<white>Block Transformations:",
+                "<gray>When TNT detonates, affected blocks undergo a series of",
+                "<gray>transformations to create a cracked effect before being removed:",
+                "<gold>• Stone Brick → Cracked Stone Brick → Air",
+                "<gold>• Nether Brick → Netherrack → Air",
+                "<gold>• Quartz Block → Chiseled Quartz Block → Air",
+                "<gold>• Smooth Sandstone → Normal Sandstone → Air",
+                "<gold>• Smooth Red Sandstone → Normal Red Sandstone → Air",
+                "<gold>• Dark Prismarine → Prismarine Bricks → Prismarine → Air",
                 "",
-                "Liquid Removal:",
-                "Explosions effectively remove all liquids within the blast radius,",
-                "altering the environment and strategic dynamics.",
+                "<white>Liquid Removal:",
+                "<gray>Explosions effectively remove all liquids within the blast radius,",
+                "<gray>altering the environment and strategic dynamics.",
                 "",
-                "These custom mechanics provide both aesthetic enhancements and",
-                "tactical advantages, making TNT usage more engaging and impactful",
-                "for players."
+                "<gray>These custom mechanics provide both aesthetic enhancements and",
+                "<gray>tactical advantages, making TNT usage more engaging and impactful",
+                "<gray>for players."
         };
     }
 

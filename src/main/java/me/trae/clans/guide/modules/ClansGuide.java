@@ -19,28 +19,29 @@ public class ClansGuide extends Guide<Clans, GuideManager> {
 
     @Override
     public String getDisplayName() {
-        return "Clans";
+        return "<aqua><bold>Clans";
     }
 
     @Override
     public String[] getDescription() {
         return new String[]{
-                "Inspired by the Factions Plugin.",
+                "<dark_gray>Inspired by the Factions Plugin.",
                 "",
-                "Clans enables players to form teams and work together to rise to the",
-                "top of the server. Clans can establish powerful alliances or ignite fierce",
-                "rivalries with one another.",
+                "<dark_gray>Clans enables players to form teams and work together to rise to the",
+                "<dark_gray>top of the server. Clans can establish powerful alliances or ignite fierce",
+                "<dark_gray>rivalries with one another.",
                 "",
-                "Alliances can form a mutual trust, granting both clans access to each other's doors and gates.",
+                "<gray>Alliances can form a mutual trust, granting both clans access to each other's doors and gates.",
                 "",
-                "What truly sets Clans apart is its method of territorial conquest. Instead of",
-                "relying on raw power, Clans features a Dominance system, where outscoring an enemy clan",
-                "in kills by a specific margin, grants the right to initiate an invasion. Both the invading",
-                "clan and the dominated clan then have a brief period to prepare for battle. During the invasion",
-                "the invading clan gains temporary access to the enemy's land, aiming to seize valuable resources",
-                "and eliminate any defenders. Once the invasion concludes, the land returns to its protected state.",
+                "<gray>What truly sets Clans apart is its method of territorial conquest. Instead of",
+                "<gray>relying on raw power, Clans features a Dominance system, where outscoring an enemy clan",
+                "<gray>in kills by a specific margin, grants the right to initiate an invasion. ",
+                "<gray>Both the invading clan and the dominated clan then have a brief period to prepare for battle.",
                 "",
-                "Though nothing prevents another future campaign of domination."
+                "<gray>During the invasion the invading clan gains temporary access to the enemy's land, aiming to seize valuable resources",
+                "<gray>and eliminate any defenders. Once the invasion concludes, the land returns to its protected state.",
+                "",
+                "<gray>Though nothing prevents another future campaign of domination."
 
         };
     }

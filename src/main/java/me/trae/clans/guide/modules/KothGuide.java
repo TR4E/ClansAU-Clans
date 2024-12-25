@@ -19,27 +19,27 @@ public class KothGuide extends Guide<Clans, GuideManager> {
 
     @Override
     public String getDisplayName() {
-        return "KoTH";
+        return "<light_purple><bold>KoTH";
     }
 
     @Override
     public String[] getDescription() {
         return new String[]{
-                "KoTH (King of the Hill) is a competitive mode where",
-                "clans vie for control of a designated area in the center",
-                "of Fields.",
+                "<dark_gray>KoTH (King of the Hill) is a competitive mode where",
+                "<dark_gray>clans vie for control of a designated area in the center",
+                "<dark_gray>of Fields.",
                 "",
-                "Through Territorial Battles, clans fight to dominate the hill",
-                "and earn valuable rewards for maintaining control.",
+                "<gray>Through Territorial Battles, clans fight to dominate the hill",
+                "<gray>and earn valuable rewards for maintaining control.",
                 "",
-                "Timed Events schedule these competitions, ensuring balanced",
-                "participation and continuous engagement among players.",
+                "<gray>Timed Events schedule these competitions, ensuring balanced",
+                "<gray>participation and continuous engagement among players.",
                 "",
-                "Exclusive Rewards are granted to winning clans, including unique",
-                "items and bonuses that enhance their status and capabilities.",
+                "<gray>Exclusive Rewards are granted to winning clans, including unique",
+                "<gray>items and bonuses that enhance their status and capabilities.",
                 "",
-                "KoTH fosters intense competition and strategic gameplay, making",
-                "it a favorite mode for clans aiming to prove their dominance."
+                "<gray>KoTH fosters intense competition and strategic gameplay, making",
+                "<gray>it a favorite mode for clans aiming to prove their dominance."
         };
     }
 

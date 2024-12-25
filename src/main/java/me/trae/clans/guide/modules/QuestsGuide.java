@@ -19,28 +19,28 @@ public class QuestsGuide extends Guide<Clans, GuideManager> {
 
     @Override
     public String getDisplayName() {
-        return "Quests";
+        return "<gold><bold>Quests";
     }
 
     @Override
     public String[] getDescription() {
         return new String[]{
-                "Quests enhance the gameplay experience by providing engaging objectives",
-                "and rewarding players for their achievements.",
+                "<dark_gray>Quests enhance the gameplay experience by providing engaging objectives",
+                "<dark_gray>and rewarding players for their achievements.",
                 "",
-                "Daily Challenges:",
-                "Every day, players receive a unique set of quests to complete,",
-                "ensuring fresh and varied goals. Daily tasks include activities such as:",
-                "- Killing 5 Assassins or Knights.",
-                "- Mining 10 different ores at Fields.",
-                "- Catching 15 fish at the Lake.",
+                "<white>Daily Challenges:",
+                "<gray>Every day, players receive a unique set of quests to complete,",
+                "<gray>ensuring fresh and varied goals. Daily tasks include activities such as:",
+                "<gold>• Killing 5 Assassins or Knights.",
+                "<gold>• Mining 10 different ores at Fields.",
+                "<gold>• Catching 15 fish at the Lake.",
                 "",
-                "Upon completing each quest, players earn valuable rewards,",
-                "including items, experience points, and exclusive bonuses.",
+                "<gray>Upon completing each quest, players earn valuable rewards,",
+                "<gray>including items, experience points, and exclusive bonuses.",
                 "",
-                "These daily quests encourage consistent participation,",
-                "allowing players to progress and gain rewards through regular",
-                "engagement and diverse challenges."
+                "<gray>These daily quests encourage consistent participation,",
+                "<gray>allowing players to progress and gain rewards through regular",
+                "<gray>engagement and diverse challenges."
         };
     }
 
