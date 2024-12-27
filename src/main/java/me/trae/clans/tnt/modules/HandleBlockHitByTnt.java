@@ -13,7 +13,7 @@ import org.bukkit.event.EventPriority;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HandleBlockHitByTNT extends SpigotListener<Clans, TntManager> {
+public class HandleBlockHitByTnt extends SpigotListener<Clans, TntManager> {
 
     private final Map<ReplacementBlock, ReplacementBlock> MAP = UtilJava.createMap(new HashMap<>(), map -> {
         // Stone Brick
@@ -42,7 +42,7 @@ public class HandleBlockHitByTNT extends SpigotListener<Clans, TntManager> {
         map.put(new ReplacementBlock(Material.PRISMARINE, 0), new ReplacementBlock(Material.AIR));
     });
 
-    public HandleBlockHitByTNT(final TntManager manager) {
+    public HandleBlockHitByTnt(final TntManager manager) {
         super(manager);
     }
 
