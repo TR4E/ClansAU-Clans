@@ -58,7 +58,7 @@ public class FarmingShopKeeper extends ShopKeeper {
 
     @Override
     public String getDisplayName() {
-        return UtilColor.bold(ChatColor.GREEN) + "Farming Shop";
+        return UtilColor.bold(ChatColor.GREEN) + "Farming";
     }
 
     @Override

@@ -72,7 +72,7 @@ public class WeaponsAndToolsShopKeeper extends ShopKeeper {
 
     @Override
     public String getDisplayName() {
-        return UtilColor.bold(ChatColor.GREEN) + "Weapons / Tools Shop";
+        return UtilColor.bold(ChatColor.GREEN) + "Weapons / Tools";
     }
 
     @Override

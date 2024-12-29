@@ -76,7 +76,7 @@ public class BuildingShopKeeper extends ShopKeeper {
 
     @Override
     public String getDisplayName() {
-        return UtilColor.bold(ChatColor.GREEN) + "Building Shop";
+        return UtilColor.bold(ChatColor.GREEN) + "Building";
     }
 
     @Override

@@ -63,7 +63,7 @@ public class ResourcesShopKeeper extends ShopKeeper {
 
     @Override
     public String getDisplayName() {
-        return UtilColor.bold(ChatColor.GREEN) + "Resources Shop";
+        return UtilColor.bold(ChatColor.GREEN) + "Resources";
     }
 
     @Override
