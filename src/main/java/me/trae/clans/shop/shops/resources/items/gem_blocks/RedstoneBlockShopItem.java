@@ -20,7 +20,7 @@ public class RedstoneBlockShopItem extends ShopItem<ResourcesShopKeeper> {
 
     @Override
     public int getSlot() {
-        return 12;
+        return 14;
     }
 
     @Override

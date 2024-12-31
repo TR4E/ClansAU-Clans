@@ -20,7 +20,7 @@ public class EmeraldShopItem extends ShopItem<ResourcesShopKeeper> {
 
     @Override
     public int getSlot() {
-        return 5;
+        return 3;
     }
 
     @Override
