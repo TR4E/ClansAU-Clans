@@ -4,6 +4,7 @@ import me.trae.api.combat.CombatManager;
 import me.trae.api.damage.utility.UtilDamage;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.commands.ClanCommand;
+import me.trae.clans.clan.commands.DominanceCommand;
 import me.trae.clans.clan.commands.EnergyCommand;
 import me.trae.clans.clan.commands.MassClaimCommand;
 import me.trae.clans.clan.commands.chat.AllyChatCommand;
@@ -131,6 +132,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     public void registerModules() {
         // Commands
         addModule(new ClanCommand(this));
+        addModule(new DominanceCommand(this));
         addModule(new EnergyCommand(this));
         addModule(new MassClaimCommand(this));
 

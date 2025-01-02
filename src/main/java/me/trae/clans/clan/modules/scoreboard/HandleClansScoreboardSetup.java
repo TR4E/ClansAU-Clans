@@ -34,7 +34,6 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
         this.CLAN_MANAGER = this.getInstance().getManagerByClass(ClanManager.class);
         this.GAMER_MANAGER = this.getInstance().getManagerByClass(GamerManager.class);
         this.WORLD_EVENT_MANAGER = this.getInstance().getManagerByClass(WorldEventManager.class);
-
     }
 
     @Override
@@ -48,8 +47,8 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
     }
 
     @Override
-    public ScoreboardBuilder getBuilder(final ScoreboardSetupEvent event) {
-        return new ClansScoreboardBuilder(event) {
+    public ScoreboardBuilder getBuilder(final ScoreboardSetupEvent setupEvent) {
+        return new ClansScoreboardBuilder(setupEvent) {
             @Override
             public ClientManager getClientManager() {
                 return CLIENT_MANAGER;

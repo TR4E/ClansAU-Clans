@@ -103,7 +103,6 @@ public class HandleAdventureModeInClanTerritory extends SpigotListener<Clans, Cl
         if (!(condition)) {
             condition = territoryClan != null && playerClan != null && (playerClan == territoryClan || playerClan.isPillageByClan(territoryClan));
             condition |= territoryClan == null || UtilClans.isFieldsClan(territoryClan);
-            condition |= client.isAdministrating();
         }
 
         if (condition) {

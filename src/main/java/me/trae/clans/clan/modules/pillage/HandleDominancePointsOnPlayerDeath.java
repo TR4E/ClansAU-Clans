@@ -10,6 +10,7 @@ import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.pillage.PillageStartEvent;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import org.bukkit.entity.Player;
@@ -52,7 +53,7 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
         }
 
         if (killerClanEnemy.getDominancePoints() >= (this.getManager().requiredPillagePoints - 1)) {
-            this.handlePillage(playerClan, killerClan, playerClanEnemy, killerClanEnemy);
+            UtilServer.callEvent(new PillageStartEvent(killerClan, playerClan));
             return;
         }
 
@@ -87,31 +88,28 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
         }
     }
 
-    private void handlePillage(final Clan pillageeClan, final Clan pillagerClan, final Enemy playerClanEnemy, final Enemy killerClanEnemy) {
-        // Remove Enemy from Player Clan
-        pillageeClan.removeEnemy(playerClanEnemy);
-        this.getManager().getRepository().updateData(pillageeClan, ClanProperty.ENEMIES);
-
-        // Remove Enemy from Killer Clan
-        pillagerClan.removeEnemy(killerClanEnemy);
-        this.getManager().getRepository().updateData(pillagerClan, ClanProperty.ENEMIES);
-
-        // Save Pillage to Killer Clan
-        pillagerClan.addPillage(new Pillage(pillageeClan));
-        this.getManager().getRepository().updateData(pillagerClan, ClanProperty.PILLAGES);
-
-        // Add a point to Pillager Clan
-        pillagerClan.setPoints(pillagerClan.getPoints() + 1);
-        this.getManager().getRepository().updateData(pillagerClan, ClanProperty.POINTS);
-
-        // Call PillageStartEvent
-        UtilServer.callEvent(new PillageStartEvent(pillagerClan, pillageeClan));
-    }
-
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPillageStart(final PillageStartEvent event) {
         final Clan pillagerClan = event.getClan();
         final Clan pillageeClan = event.getTarget();
+
+        UtilJava.call(() -> {
+            // Remove Enemy from Player Clan
+            pillageeClan.removeEnemy(pillageeClan.getEnemyByClan(pillagerClan));
+            this.getManager().getRepository().updateData(pillageeClan, ClanProperty.ENEMIES);
+
+            // Remove Enemy from Killer Clan
+            pillagerClan.removeEnemy(pillagerClan.getEnemyByClan(pillageeClan));
+            this.getManager().getRepository().updateData(pillagerClan, ClanProperty.ENEMIES);
+
+            // Save Pillage to Killer Clan
+            pillagerClan.addPillage(new Pillage(pillageeClan));
+            this.getManager().getRepository().updateData(pillagerClan, ClanProperty.PILLAGES);
+
+            // Add a point to Pillager Clan
+            pillagerClan.setPoints(pillagerClan.getPoints() + 1);
+            this.getManager().getRepository().updateData(pillagerClan, ClanProperty.POINTS);
+        });
 
         for (final Player targetPlayer : UtilServer.getOnlinePlayers()) {
             final Clan targetPlayerClan = this.getManager().getClanByPlayer(targetPlayer);
