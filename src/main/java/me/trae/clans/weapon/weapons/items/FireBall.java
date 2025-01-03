@@ -67,6 +67,11 @@ public class FireBall extends ActiveCustomItem<Clans, WeaponManager, FireBallDat
     }
 
     @Override
+    public boolean isObtainable() {
+        return false;
+    }
+
+    @Override
     public String[] getDescription() {
         return new String[]{
                 "Launch a fireball.",
