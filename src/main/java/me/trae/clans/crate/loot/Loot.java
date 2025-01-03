@@ -40,7 +40,7 @@ public abstract class Loot extends SpigotSubModule<Clans, Crate> implements ILoo
 
     @Override
     public ItemBuilder getItemBuilder() {
-        return new ItemBuilder(UtilItem.updateItemStack(this.getItemStack()), this.getDisplayName());
+        return new ItemBuilder(UtilItem.updateItemStack(this.getItemStack()), this.getDisplayName(), this.getLore());
     }
 
     @Override

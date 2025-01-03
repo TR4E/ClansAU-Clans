@@ -4,6 +4,7 @@ import me.trae.core.item.ItemBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public interface ILoot {
@@ -13,6 +14,10 @@ public interface ILoot {
     double getChance();
 
     String getDisplayName();
+
+    default List<String> getLore() {
+        return null;
+    }
 
     ItemBuilder getItemBuilder();
 
