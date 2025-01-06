@@ -2,6 +2,8 @@ package me.trae.clans.world.modules;
 
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
+import me.trae.core.Core;
+import me.trae.core.client.ClientManager;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.item.ItemBuilder;
@@ -13,7 +15,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class WaterBlock extends SpigotListener<Clans, WorldManager> {
+public class
+WaterBlock extends SpigotListener<Clans, WorldManager> {
 
     @ConfigInject(type = String.class, path = "Material", defaultValue = "LAPIS_BLOCK")
     private String material;
@@ -35,6 +38,10 @@ public class WaterBlock extends SpigotListener<Clans, WorldManager> {
         final Block block = event.getBlock();
 
         if (block.getType() != this.getMaterial()) {
+            return;
+        }
+
+        if (this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(event.getPlayer()).isAdministrating()) {
             return;
         }
 

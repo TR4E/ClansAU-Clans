@@ -227,7 +227,12 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
         final VanishManager vanishManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(VanishManager.class);
 
-        for (final Member member : this.getMembers().values()) {
+        final List<Member> memberList = new ArrayList<>(this.getMembers().values());
+
+        memberList.sort(Comparator.comparingInt(member -> member.getRole().ordinal()));
+        Collections.reverse(memberList);
+
+        for (final Member member : memberList) {
             final ChatColor chatColor = (member.isOnline() && vanishManager.canSeeByPlayer(member.getOnlinePlayer(), receiverPlayer) ? ChatColor.GREEN : ChatColor.RED);
             final String name = UtilPlayer.getPlayerNameByUUID(member.getUUID());
 
