@@ -39,6 +39,8 @@ public class HandleClanTerritoryBlockPlace extends SpigotListener<Clans, ClanMan
 
         event.setCancelled(true);
 
+        player.updateInventory();
+
         UtilMessage.simpleMessage(player, "Clans", "You cannot place <green><var></green> in <var>.", Arrays.asList(UtilBlock.getDisplayName(block), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
     }
 }

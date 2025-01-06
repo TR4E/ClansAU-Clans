@@ -1,6 +1,7 @@
 package me.trae.clans.weapon;
 
 import me.trae.clans.Clans;
+import me.trae.clans.weapon.modules.DisableCurrencyDiscJukeboxInteraction;
 import me.trae.clans.weapon.weapons.items.*;
 import me.trae.clans.weapon.weapons.items.currency.FiftyThousandDisc;
 import me.trae.clans.weapon.weapons.items.currency.HundredThousandDisc;
@@ -16,6 +17,9 @@ public class WeaponManager extends AbstractWeaponManager<Clans> {
 
     @Override
     public void registerModules() {
+        // Modules
+        addModule(new DisableCurrencyDiscJukeboxInteraction(this));
+
         // Items
         addModule(new FiftyThousandDisc(this));
         addModule(new HundredThousandDisc(this));

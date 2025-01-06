@@ -7,11 +7,11 @@ import me.trae.clans.clan.enums.AccessType;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilBlock;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.enums.ActionType;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Arrays;
@@ -28,13 +28,14 @@ public class HandleClanTerritoryBlockInteract extends SpigotListener<Clans, Clan
             return;
         }
 
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+        final Block block = event.getClickedBlock();
+
+        final ActionType actionType = ActionType.getByAction(event.getAction());
+        if (actionType == null) {
             return;
         }
 
-        final Block block = event.getClickedBlock();
-
-        if (!(this.isValid(block))) {
+        if (!(this.isValid(block, actionType))) {
             return;
         }
 
@@ -55,10 +56,28 @@ public class HandleClanTerritoryBlockInteract extends SpigotListener<Clans, Clan
 
         event.setCancelled(true);
 
-        UtilMessage.simpleMessage(player, "Clans", "You cannot use <green><var></green> in <var>.", Arrays.asList(UtilBlock.getDisplayName(block), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
+        player.updateInventory();
+
+        if (this.isInform(block)) {
+            UtilMessage.simpleMessage(player, "Clans", "You cannot use <green><var></green> in <var>.", Arrays.asList(UtilBlock.getDisplayName(block), this.getManager().getClanName(territoryClan, this.getManager().getClanRelationByClan(playerClan, territoryClan))));
+        }
     }
 
-    private boolean isValid(final Block block) {
-        return UtilBlock.isUsable(block.getType()) || UtilBlock.isContainer(block.getType());
+    private boolean isValid(final Block block, final ActionType actionType) {
+        if (UtilBlock.isFence(block.getType())) {
+            return true;
+        }
+
+        if (actionType == ActionType.RIGHT_CLICK) {
+            if (UtilBlock.isContainer(block.getType())) {
+                return true;
+            }
+        }
+
+        return UtilBlock.isUsableByActionType(block.getType(), actionType);
+    }
+
+    private boolean isInform(final Block block) {
+        return !(UtilBlock.isFence(block.getType()));
     }
 }
