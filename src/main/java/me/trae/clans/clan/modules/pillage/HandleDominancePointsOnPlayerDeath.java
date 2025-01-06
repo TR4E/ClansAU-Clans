@@ -1,5 +1,6 @@
 package me.trae.clans.clan.modules.pillage;
 
+import me.trae.api.damage.events.PlayerSuicideEvent;
 import me.trae.api.death.events.CustomDeathEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
@@ -9,6 +10,7 @@ import me.trae.clans.clan.data.Pillage;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.pillage.PillageStartEvent;
+import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
@@ -20,6 +22,9 @@ import org.bukkit.event.EventPriority;
 import java.util.Arrays;
 
 public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, ClanManager> {
+
+    @ConfigInject(type = Boolean.class, path = "Gain-On-Suicide", defaultValue = "true")
+    private boolean gainOnSuicide;
 
     public HandleDominancePointsOnPlayerDeath(final ClanManager manager) {
         super(manager);
@@ -41,6 +46,28 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
         final Clan playerClan = this.getManager().getClanByPlayer(player);
         final Clan killerClan = this.getManager().getClanByPlayer(killer);
 
+        this.handleDeath(playerClan, killerClan);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerSuicide(final PlayerSuicideEvent event) {
+        if (!(this.gainOnSuicide)) {
+            return;
+        }
+
+        if (event.isCancelled()) {
+            return;
+        }
+
+        final Player player = event.getPlayer();
+
+        final Clan playerClan = this.getManager().getClanByPlayer(player);
+        final Clan territoryClan = this.getManager().getClanByLocation(player.getLocation());
+
+        this.handleDeath(playerClan, territoryClan);
+    }
+
+    private void handleDeath(final Clan playerClan, final Clan killerClan) {
         if (playerClan == null || killerClan == null) {
             return;
         }
