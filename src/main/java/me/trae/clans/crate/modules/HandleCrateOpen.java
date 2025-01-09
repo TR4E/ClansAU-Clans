@@ -8,7 +8,9 @@ import me.trae.core.Core;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.recharge.RechargeManager;
 import me.trae.core.utility.UtilItem;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMenu;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.enums.ActionType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -56,5 +58,7 @@ public class HandleCrateOpen extends SpigotListener<Clans, CrateManager> {
                 return finalCrate;
             }
         });
+
+        UtilLogger.log(Clans.class, "Crates", "Opened", UtilString.format("%s opened a %s", player.getName(), crate.getName()));
     }
 }

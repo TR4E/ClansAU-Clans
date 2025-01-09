@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -10,7 +11,9 @@ import me.trae.clans.clan.events.command.MemberKickEvent;
 import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
@@ -121,5 +124,7 @@ public class KickCommand extends ClanSubCommand implements EventContainer<Member
         UtilMessage.simpleMessage(target.getPlayer(), "Clans", "<var> kicked you from the Clan.", Collections.singletonList(ClanRelation.NEUTRAL.getSuffix() + player.getName()));
 
         this.getModule().getManager().messageClan(clan, "Clans", "<var> kicked <var> from the Clan.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), ClanRelation.NEUTRAL.getSuffix() + target.getName()), Collections.singletonList(player.getUniqueId()));
+
+        UtilLogger.log(Clans.class, "Clans", "Kicks", UtilString.format("%s has kicked %s from %s", player.getName(), target.getName(), this.getModule().getManager().getClanFullName(clan, null)));
     }
 }

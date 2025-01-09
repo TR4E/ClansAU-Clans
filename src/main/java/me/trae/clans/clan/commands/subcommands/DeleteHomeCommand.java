@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -9,7 +10,9 @@ import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.command.ClanDeleteHomeEvent;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
@@ -83,5 +86,7 @@ public class DeleteHomeCommand extends ClanSubCommand implements EventContainer<
         UtilMessage.simpleMessage(player, "Clans", "You deleted the Clan Home.");
 
         this.getModule().getManager().messageClan(clan, "Clans", "<var> has deleted the Clan Home.", Collections.singletonList(ClanRelation.SELF.getSuffix() + player.getName()), Collections.singletonList(player.getUniqueId()));
+
+        UtilLogger.log(Clans.class, "Clans", "Homes", UtilString.format("%s (%s) has deleted the Clan Home", this.getModule().getManager().getClanFullName(clan, null), player.getName()));
     }
 }

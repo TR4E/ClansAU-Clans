@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -10,8 +11,11 @@ import me.trae.clans.clan.events.command.ClanSetHomeEvent;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilLocation;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -86,5 +90,7 @@ public class SetHomeCommand extends ClanSubCommand implements EventContainer<Cla
         UtilMessage.simpleMessage(player, "Clans", "You set the Clan Home at <var>.", Collections.singletonList(clan.getHomeString()));
 
         this.getModule().getManager().messageClan(clan, "Clans", "<var> has set the Clan Home at <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), clan.getHomeString()), Collections.singletonList(player.getUniqueId()));
+
+        UtilLogger.log(Clans.class, "Clans", "Homes", UtilString.format("%s (%s) has set the Clan Home at %s", this.getModule().getManager().getClanFullName(clan, null), player.getName(), ChatColor.stripColor(UtilLocation.locationToFullString(clan.getHome()))));
     }
 }

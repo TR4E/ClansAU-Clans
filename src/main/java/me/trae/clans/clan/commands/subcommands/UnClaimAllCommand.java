@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -9,7 +10,9 @@ import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.command.ClanUnClaimAllEvent;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
@@ -90,5 +93,7 @@ public class UnClaimAllCommand extends ClanSubCommand implements EventContainer<
         UtilMessage.message(player, "Clans", "You un-claimed all territory.");
 
         this.getModule().getManager().messageClan(clan, "Clans", "<var> has un-claimed all territory.", Collections.singletonList(ClanRelation.SELF.getSuffix() + player.getName()), Collections.singletonList(player.getUniqueId()));
+
+        UtilLogger.log(Clans.class, "Clans", "Territory", UtilString.format("%s (%s) has un-claimed all land", this.getModule().getManager().getClanFullName(clan, null), player.getName()));
     }
 }

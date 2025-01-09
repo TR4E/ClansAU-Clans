@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -11,7 +12,9 @@ import me.trae.clans.clan.events.command.ClanEnemyEvent;
 import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
@@ -126,6 +129,8 @@ public class EnemyCommand extends ClanSubCommand implements EventContainer<ClanE
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has waged war with <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(targetClan, ClanRelation.ENEMY)), Collections.singletonList(player.getUniqueId()));
         this.getModule().getManager().messageClan(targetClan, "Clans", "<var> has waged war with your Clan.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, ClanRelation.ENEMY)), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Enemies", UtilString.format("%s (%s) has waged war with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 
     private void handleEnemy(final Clan playerClan, final Clan targetClan) {

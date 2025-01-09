@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -12,8 +13,10 @@ import me.trae.clans.clan.events.command.ClanAllyEvent;
 import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
@@ -147,7 +150,7 @@ public class AllyCommand extends ClanSubCommand implements EventContainer<ClanAl
         final Clan targetClan = event.getTarget();
 
         if (client.isAdministrating()) {
-            this.forceAlliance(playerClan, targetClan);
+            this.forceAlliance(player, playerClan, targetClan);
         } else {
             this.acceptAlliance(player, playerClan, targetClan);
         }
@@ -173,6 +176,8 @@ public class AllyCommand extends ClanSubCommand implements EventContainer<ClanAl
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has requested an alliance with <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(targetClan, ClanRelation.NEUTRAL)), Collections.singletonList(player.getUniqueId()));
         this.getModule().getManager().messageClan(targetClan, "Clans", "<var> has requested an alliance with your Clan.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, ClanRelation.NEUTRAL)), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Requests", UtilString.format("%s (%s) has requested an alliance with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 
     private void acceptAlliance(final Player player, final Clan playerClan, final Clan targetClan) {
@@ -182,12 +187,16 @@ public class AllyCommand extends ClanSubCommand implements EventContainer<ClanAl
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has accepted an alliance with <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(targetClan, ClanRelation.ALLIANCE)), Collections.singletonList(player.getUniqueId()));
         this.getModule().getManager().messageClan(targetClan, "Clans", "<var> has accepted an alliance with your Clan.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, ClanRelation.ALLIANCE)), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Alliances", UtilString.format("%s (%s) has accepted an alliance with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 
-    private void forceAlliance(final Clan playerClan, final Clan targetClan) {
+    private void forceAlliance(final Player player, final Clan playerClan, final Clan targetClan) {
         this.handleAlliance(playerClan, targetClan);
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "You are now allies with <var>.", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, ClanRelation.ALLIANCE)), null);
         this.getModule().getManager().messageClan(targetClan, "Clans", "You are now allies with <var>.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, ClanRelation.ALLIANCE)), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Alliances", UtilString.format("%s (%s) has forced an alliance with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 }

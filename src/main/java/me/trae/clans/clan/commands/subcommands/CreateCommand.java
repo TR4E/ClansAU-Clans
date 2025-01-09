@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -10,6 +11,7 @@ import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.UtilString;
@@ -123,5 +125,7 @@ public class CreateCommand extends ClanSubCommand implements EventContainer<Clan
 
             UtilMessage.simpleMessage(target, "Clans", "<var> formed <var>.", Arrays.asList(clanRelation.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(clan, clanRelation)));
         }
+
+        UtilLogger.log(Clans.class, "Clans", "Creations", UtilString.format("%s formed %s", player.getName(), this.getModule().getManager().getClanFullName(clan, null)));
     }
 }

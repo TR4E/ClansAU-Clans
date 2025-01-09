@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -11,7 +12,9 @@ import me.trae.clans.clan.events.command.ClanTrustEvent;
 import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
@@ -130,11 +133,12 @@ public class TrustCommand extends ClanSubCommand implements EventContainer<ClanT
 
         final Clan playerClan = event.getClan();
         final Clan targetClan = event.getTarget();
+        final Player player = event.getPlayer();
 
         if (event.getClient().isAdministrating()) {
-            this.forceTrust(playerClan, targetClan);
+            this.forceTrust(player, playerClan, targetClan);
         } else {
-            this.acceptTrust(event.getPlayer(), playerClan, targetClan);
+            this.acceptTrust(player, playerClan, targetClan);
         }
     }
 
@@ -146,6 +150,8 @@ public class TrustCommand extends ClanSubCommand implements EventContainer<ClanT
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has requested to trust with <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(targetClan, ClanRelation.ALLIANCE)), Collections.singletonList(player.getUniqueId()));
         this.getModule().getManager().messageClan(targetClan, "Clans", "<var> has requested to trust with your Clan.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, ClanRelation.ALLIANCE)), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Requests", UtilString.format("%s (%s) has requested to trust with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 
     private void acceptTrust(final Player player, final Clan playerClan, final Clan targetClan) {
@@ -155,13 +161,17 @@ public class TrustCommand extends ClanSubCommand implements EventContainer<ClanT
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has accepted to trust with <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(targetClan, ClanRelation.TRUSTED_ALLIANCE)), Collections.singletonList(player.getUniqueId()));
         this.getModule().getManager().messageClan(targetClan, "Clans", "<var> has accepted to trust with your Clan.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, ClanRelation.TRUSTED_ALLIANCE)), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Trusted", UtilString.format("%s (%s) has accepted to trust with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 
-    private void forceTrust(final Clan playerClan, final Clan targetClan) {
+    private void forceTrust(final Player player, final Clan playerClan, final Clan targetClan) {
         this.handleTrust(playerClan, targetClan);
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "You are now trusted with <var>.", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, ClanRelation.TRUSTED_ALLIANCE)), null);
         this.getModule().getManager().messageClan(targetClan, "Clans", "You are now trusted with <var>.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, ClanRelation.TRUSTED_ALLIANCE)), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Trusted", UtilString.format("%s (%s) has forced to trust with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 
     private void handleTrust(final Clan playerClan, final Clan targetClan) {

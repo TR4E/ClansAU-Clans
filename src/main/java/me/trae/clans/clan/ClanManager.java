@@ -454,7 +454,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public String getClanFullName(final Clan clan, final ClanRelation clanRelation) {
-        return clanRelation.getSuffix() + String.format("%s %s", clan.getType(), clan.getDisplayName());
+        return (clanRelation != null ? clanRelation.getSuffix() : "") + String.format("%s %s", clan.getType(), clan.getDisplayName());
     }
 
     @Override

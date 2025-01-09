@@ -5,10 +5,7 @@ import me.trae.clans.fishing.FishingManager;
 import me.trae.clans.fishing.events.PlayerFishingCaughtEvent;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.player.events.PlayerDisplayNameEvent;
-import me.trae.core.utility.UtilFirework;
-import me.trae.core.utility.UtilMessage;
-import me.trae.core.utility.UtilServer;
-import me.trae.core.utility.UtilVelocity;
+import me.trae.core.utility.*;
 import org.bukkit.FireworkEffect;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -60,5 +57,7 @@ public class HandleFishingCaughtReceive extends SpigotListener<Clans, FishingMan
                 UtilMessage.simpleMessage(targetPlayer, event.getInformPrefix(), "<var> has caught <var>", Arrays.asList(playerDisplayNameEvent.getPlayerName(), caughtName));
             }
         }
+
+        UtilLogger.log(Clans.class, "Fishing", "Caught", UtilString.format("%s has caught %s", caughtName));
     }
 }

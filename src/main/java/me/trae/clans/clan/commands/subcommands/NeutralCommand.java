@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -11,7 +12,9 @@ import me.trae.clans.clan.events.command.ClanNeutralEvent;
 import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
@@ -147,7 +150,7 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
         final Clan targetClan = event.getTarget();
 
         if (playerClan.isAllianceByClan(targetClan) || client.isAdministrating()) {
-            this.forceNeutrality(playerClan, targetClan);
+            this.forceNeutrality(player, playerClan, targetClan);
         } else {
             this.acceptNeutrality(player, playerClan, targetClan);
         }
@@ -161,6 +164,8 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has requested neutrality with <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(targetClan, this.getModule().getManager().getClanRelationByClan(playerClan, targetClan))), Collections.singletonList(player.getUniqueId()));
         this.getModule().getManager().messageClan(targetClan, "Clans", "<var> has requested neutrality with your Clan.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, this.getModule().getManager().getClanRelationByClan(targetClan, playerClan))), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Requests", UtilString.format("%s (%s) has requested neutrality with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 
     private void acceptNeutrality(final Player player, final Clan playerClan, final Clan targetClan) {
@@ -170,13 +175,17 @@ public class NeutralCommand extends ClanSubCommand implements EventContainer<Cla
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has accepted neutrality with <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), this.getModule().getManager().getClanFullName(targetClan, ClanRelation.NEUTRAL)), Collections.singletonList(player.getUniqueId()));
         this.getModule().getManager().messageClan(targetClan, "Clans", "<var> has accepted neutrality with your Clan.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, ClanRelation.NEUTRAL)), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Neutrals", UtilString.format("%s (%s) has accepted neutrality with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 
-    private void forceNeutrality(final Clan playerClan, final Clan targetClan) {
+    private void forceNeutrality(final Player player, final Clan playerClan, final Clan targetClan) {
         this.handleNeutral(playerClan, targetClan);
 
         this.getModule().getManager().messageClan(playerClan, "Clans", "You are now neutral with <var>.", Collections.singletonList(this.getModule().getManager().getClanFullName(targetClan, ClanRelation.NEUTRAL)), null);
         this.getModule().getManager().messageClan(targetClan, "Clans", "You are now neutral with <var>.", Collections.singletonList(this.getModule().getManager().getClanFullName(playerClan, ClanRelation.NEUTRAL)), null);
+
+        UtilLogger.log(Clans.class, "Clans", "Neutrals", UtilString.format("%s (%s) has forced neutrality with %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(targetClan, null)));
     }
 
     private void handleNeutral(final Clan playerClan, final Clan targetClan) {

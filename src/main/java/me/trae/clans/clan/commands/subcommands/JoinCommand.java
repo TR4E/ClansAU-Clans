@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -13,8 +14,10 @@ import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.recharge.RechargeManager;
+import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
@@ -110,5 +113,7 @@ public class JoinCommand extends ClanSubCommand implements EventContainer<ClanJo
         UtilMessage.simpleMessage(player, "Clans", "You joined <var>.", Collections.singletonList(this.getModule().getManager().getClanShortName(clan, ClanRelation.SELF)));
 
         this.getModule().getManager().messageClan(clan, "Clans", "<var> has joined the Clan.", Collections.singletonList(ClanRelation.SELF.getSuffix() + player.getName()), Collections.singletonList(player.getUniqueId()));
+
+        UtilLogger.log(Clans.class, "Clans", "Joins", UtilString.format("%s has joined %s", player.getName(), this.getModule().getManager().getClanFullName(clan, null)));
     }
 }

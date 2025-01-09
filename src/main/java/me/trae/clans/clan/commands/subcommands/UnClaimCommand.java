@@ -1,5 +1,6 @@
 package me.trae.clans.clan.commands.subcommands;
 
+import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
@@ -9,10 +10,9 @@ import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.command.ClanUnClaimEvent;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
-import me.trae.core.utility.UtilChunk;
-import me.trae.core.utility.UtilJava;
-import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.*;
 import me.trae.core.utility.containers.EventContainer;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 
@@ -110,11 +110,15 @@ public class UnClaimCommand extends ClanSubCommand implements EventContainer<Cla
             UtilMessage.simpleMessage(player, "Clans", "You un-claimed territory at <var>.", Collections.singletonList(UtilChunk.chunkToString(chunk)));
 
             this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has un-claimed territory at <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), UtilChunk.chunkToString(chunk)), Collections.singletonList(player.getUniqueId()));
+
+            UtilLogger.log(Clans.class, "Clans", "Territory", UtilString.format("%s (%s) has un-claimed land at %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), ChatColor.stripColor(UtilChunk.chunkToString(chunk))));
         } else {
             UtilMessage.simpleMessage(player, "Clans", "You un-claimed territory at <var> from <var>.", Arrays.asList(UtilChunk.chunkToString(chunk), this.getModule().getManager().getClanName(territoryClan, this.getModule().getManager().getClanRelationByClan(playerClan, territoryClan))));
 
             this.getModule().getManager().messageClan(playerClan, "Clans", "<var> has un-claimed territory at <var> from <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), UtilChunk.chunkToString(chunk), this.getModule().getManager().getClanName(territoryClan, this.getModule().getManager().getClanRelationByClan(playerClan, territoryClan))), Collections.singletonList(player.getUniqueId()));
             this.getModule().getManager().messageClan(territoryClan, "Clans", "<var> has un-claimed territory at <var> from your Clan.", Arrays.asList(this.getModule().getManager().getClanRelationByClan(territoryClan, playerClan).getSuffix() + player.getName(), UtilChunk.chunkToString(chunk)), null);
+
+            UtilLogger.log(Clans.class, "Clans", "Territory", UtilString.format("%s (%s) has un-claimed land from %s at %s", this.getModule().getManager().getClanFullName(playerClan, null), player.getName(), this.getModule().getManager().getClanFullName(territoryClan, null), ChatColor.stripColor(UtilChunk.chunkToString(chunk))));
         }
     }
 }
