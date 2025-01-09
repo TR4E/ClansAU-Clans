@@ -56,6 +56,6 @@ public class HandleFishingWaitTimeUpdater extends SpigotListener<Clans, FishingM
 
         final long remaining = UtilTime.getRemaining(systemTime, duration);
 
-        UtilTitle.sendActionBar(player, UtilMath.getProgressBar(duration, remaining, 14.0D, '-', ChatColor.GREEN, ChatColor.GRAY));
+        UtilTitle.sendActionBar(player, UtilMath.getProgressBar(remaining, duration, 14.0D, '-', '-', ChatColor.GREEN, ChatColor.GRAY));
     }
 }
