@@ -74,7 +74,7 @@ public class CreateCommand extends ClanSubCommand implements EventContainer<Clan
             return false;
         }
 
-        if (UtilString.hasSymbols(name)) {
+        if (UtilString.hasSymbols(name) || !(UtilString.hasValidCharacters(name))) {
             UtilMessage.message(player, "Clans", "You cannot have special characters in your Clan name!");
             return false;
         }
