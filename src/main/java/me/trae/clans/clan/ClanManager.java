@@ -83,7 +83,9 @@ import java.util.stream.Collectors;
 
 public class ClanManager extends SpigotManager<Clans> implements IClanManager, RepositoryContainer<ClanRepository> {
 
-    private final Map<String, Clan> CLANS = new HashMap<>();
+    private final Map<String, Clan> CLANS_BY_NAME = new HashMap<>();
+    private final Map<UUID, Clan> CLANS_BY_UUID = new HashMap<>();
+    private final Map<Chunk, Clan> CLANS_BY_CHUNK = new HashMap<>();
 
     @ConfigInject(type = Long.class, path = "Chunk-Outline-Duration", defaultValue = "300_000")
     private long chunkOutlineDuration;
@@ -216,7 +218,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public Map<String, Clan> getClans() {
-        return this.CLANS;
+        return this.CLANS_BY_NAME;
     }
 
     @Override
@@ -236,10 +238,21 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public Clan getClanByUUID(final UUID uuid) {
+        if (this.CLANS_BY_UUID.containsKey(uuid)) {
+            final Clan clan = this.CLANS_BY_UUID.get(uuid);
+            if (clan != null && clan.isMemberByUUID(uuid)) {
+                return clan;
+            }
+
+            this.CLANS_BY_UUID.remove(uuid);
+        }
+
         for (final Clan clan : this.getClans().values()) {
             if (!(clan.isMemberByUUID(uuid))) {
                 continue;
             }
+
+            this.CLANS_BY_UUID.put(uuid, clan);
 
             return clan;
         }
@@ -254,10 +267,21 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public Clan getClanByChunk(final Chunk chunk) {
+        if (this.CLANS_BY_CHUNK.containsKey(chunk)) {
+            final Clan clan = this.CLANS_BY_CHUNK.get(chunk);
+            if (clan != null && clan.isTerritoryByChunk(chunk)) {
+                return clan;
+            }
+
+            this.CLANS_BY_CHUNK.remove(chunk);
+        }
+
         for (final Clan clan : this.getClans().values()) {
             if (!(clan.isTerritoryByChunk(chunk))) {
                 continue;
             }
+
+            this.CLANS_BY_CHUNK.put(chunk, clan);
 
             return clan;
         }
