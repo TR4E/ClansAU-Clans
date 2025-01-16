@@ -2,7 +2,6 @@ package me.trae.clans.world.commands;
 
 import me.trae.clans.Clans;
 import me.trae.clans.world.WorldManager;
-import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
 import me.trae.core.client.enums.Rank;
@@ -17,6 +16,7 @@ import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilPlayer;
 import me.trae.core.utility.UtilString;
 import me.trae.core.utility.UtilWorld;
+import me.trae.core.utility.injectors.annotations.Inject;
 import me.trae.core.vanish.VanishManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -32,16 +32,16 @@ public class TrackCommand extends Command<Clans, WorldManager> implements Player
 
     private final Map<Player, Player> TRACKER_MAP = new HashMap<>();
 
-    private final ClientManager CLIENT_MANAGER;
-    private final VanishManager VANISH_MANAGER;
+    @Inject
+    private ClientManager clientManager;
+
+    @Inject
+    private VanishManager vanishManager;
 
     private final Material MATERIAL = Material.COMPASS;
 
     public TrackCommand(final WorldManager manager) {
         super(manager, "track", new String[]{"find", "locate"}, Rank.DEFAULT);
-
-        this.CLIENT_MANAGER = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
-        this.VANISH_MANAGER = this.getInstanceByClass(Core.class).getManagerByClass(VanishManager.class);
     }
 
     @Override
@@ -101,11 +101,11 @@ public class TrackCommand extends Command<Clans, WorldManager> implements Player
     }
 
     private boolean isValid(final Player player, final Player targetPlayer) {
-        if (this.CLIENT_MANAGER.getClientByPlayer(targetPlayer).isAdministrating()) {
+        if (this.clientManager.getClientByPlayer(targetPlayer).isAdministrating()) {
             return false;
         }
 
-        if (!(this.VANISH_MANAGER.canSeeByPlayer(targetPlayer, player))) {
+        if (!(this.vanishManager.canSeeByPlayer(targetPlayer, player))) {
             return false;
         }
 

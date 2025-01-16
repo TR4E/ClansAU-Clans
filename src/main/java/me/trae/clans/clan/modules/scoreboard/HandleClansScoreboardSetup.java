@@ -5,45 +5,33 @@ import me.trae.clans.clan.ClanManager;
 import me.trae.clans.gamer.GamerManager;
 import me.trae.clans.scoreboard.ClansScoreboardBuilder;
 import me.trae.clans.worldevent.WorldEventManager;
-import me.trae.core.Core;
 import me.trae.core.client.ClientManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.scoreboard.ScoreboardBuilder;
 import me.trae.core.scoreboard.containers.ScoreboardContainer;
 import me.trae.core.scoreboard.events.ScoreboardSetupEvent;
 import me.trae.core.server.ServerManager;
+import me.trae.core.utility.injectors.annotations.Inject;
 
 public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManager> implements ScoreboardContainer {
 
-    private ClientManager CLIENT_MANAGER;
-    private ServerManager SERVER_MANAGER;
+    @Inject
+    private ClientManager clientManager;
 
-    private ClanManager CLAN_MANAGER;
-    private GamerManager GAMER_MANAGER;
-    private WorldEventManager WORLD_EVENT_MANAGER;
+    @Inject
+    private ServerManager serverManager;
+
+    @Inject
+    private ClanManager clanManager;
+
+    @Inject
+    private GamerManager gamerManager;
+
+    @Inject
+    private WorldEventManager worldEventManager;
 
     public HandleClansScoreboardSetup(final ClanManager manager) {
         super(manager);
-    }
-
-    @Override
-    public void onInitialize() {
-        this.CLIENT_MANAGER = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
-        this.SERVER_MANAGER = this.getInstanceByClass(Core.class).getManagerByClass(ServerManager.class);
-
-        this.CLAN_MANAGER = this.getInstance().getManagerByClass(ClanManager.class);
-        this.GAMER_MANAGER = this.getInstance().getManagerByClass(GamerManager.class);
-        this.WORLD_EVENT_MANAGER = this.getInstance().getManagerByClass(WorldEventManager.class);
-    }
-
-    @Override
-    public void onShutdown() {
-        this.CLIENT_MANAGER = null;
-        this.SERVER_MANAGER = null;
-
-        this.CLAN_MANAGER = null;
-        this.GAMER_MANAGER = null;
-        this.WORLD_EVENT_MANAGER = null;
     }
 
     @Override
@@ -51,27 +39,27 @@ public class HandleClansScoreboardSetup extends SpigotListener<Clans, ClanManage
         return new ClansScoreboardBuilder(setupEvent) {
             @Override
             public ClientManager getClientManager() {
-                return CLIENT_MANAGER;
+                return clientManager;
             }
 
             @Override
             public ServerManager getServerManager() {
-                return SERVER_MANAGER;
+                return serverManager;
             }
 
             @Override
             public ClanManager getClanManager() {
-                return CLAN_MANAGER;
+                return clanManager;
             }
 
             @Override
             public GamerManager getGamerManager() {
-                return GAMER_MANAGER;
+                return gamerManager;
             }
 
             @Override
             public WorldEventManager getWorldEventManager() {
-                return WORLD_EVENT_MANAGER;
+                return worldEventManager;
             }
         };
     }
