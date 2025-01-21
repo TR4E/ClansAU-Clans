@@ -1,6 +1,7 @@
 package me.trae.clans.clan.modules.chat;
 
 import me.trae.clans.Clans;
+import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.core.framework.types.frame.SpigotListener;
@@ -21,7 +22,10 @@ public class HandleClansPlayerDisplayNameFormat extends SpigotListener<Clans, Cl
         final OfflinePlayer player = event.getOfflinePlayer();
         final Player target = event.getTarget();
 
-        final ClanRelation clanRelation = this.getManager().getClanRelationByClan(this.getManager().getClanByPlayer(target), this.getManager().getClanByUUID(player.getUniqueId()));
+        final Clan playerClan = this.getManager().getClanByUUID(player.getUniqueId());
+        final Clan targetClan = this.getManager().getClanByPlayer(target);
+
+        final ClanRelation clanRelation = this.getManager().getClanRelationByClan(targetClan, playerClan);
 
         event.setPlayerName(clanRelation.getSuffix() + player.getName());
     }
