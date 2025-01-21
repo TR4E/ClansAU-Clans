@@ -1,5 +1,6 @@
 package me.trae.clans.clan.modules.pillage;
 
+import me.trae.api.combat.events.PlayerClickCombatNpcEvent;
 import me.trae.api.damage.events.PlayerSuicideEvent;
 import me.trae.api.death.events.CustomDeathEvent;
 import me.trae.clans.Clans;
@@ -15,6 +16,7 @@ import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,6 +27,9 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
 
     @ConfigInject(type = Boolean.class, path = "Gain-On-Suicide", defaultValue = "true")
     private boolean gainOnSuicide;
+
+    @ConfigInject(type = Boolean.class, path = "Gain-On-Combat-Log", defaultValue = "true")
+    private boolean gainOnCombatLog;
 
     public HandleDominancePointsOnPlayerDeath(final ClanManager manager) {
         super(manager);
@@ -65,6 +70,21 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
         final Clan territoryClan = this.getManager().getClanByLocation(player.getLocation());
 
         this.handleDeath(playerClan, territoryClan);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerClickCombatNpc(final PlayerClickCombatNpcEvent event) {
+        if (!(this.gainOnCombatLog)) {
+            return;
+        }
+
+        final Player player = event.getPlayer();
+        final OfflinePlayer target = event.getTarget();
+
+        final Clan killedClan = this.getManager().getClanByUUID(target.getUniqueId());
+        final Clan killerClan = this.getManager().getClanByPlayer(player);
+
+        this.handleDeath(killedClan, killerClan);
     }
 
     private void handleDeath(final Clan playerClan, final Clan killerClan) {
