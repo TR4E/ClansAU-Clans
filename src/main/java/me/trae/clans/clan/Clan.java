@@ -39,7 +39,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     private final LinkedHashMap<String, Enemy> enemies = new LinkedHashMap<>();
     private final LinkedHashMap<String, Pillage> pillages = new LinkedHashMap<>();
 
-    private long created, lastOnline, lastTNTed, energy;
+    private long created, lastOnline, lastTNTed, lastPillaged, energy;
     private UUID founder;
     private Location home;
     private int points;
@@ -83,6 +83,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
         this.created = data.get(Long.class, ClanProperty.CREATED, 0L);
         this.lastOnline = data.get(Long.class, ClanProperty.LAST_ONLINE, 0L);
         this.lastTNTed = data.get(Long.class, ClanProperty.LAST_TNTED, 0L);
+        this.lastPillaged = data.get(Long.class, ClanProperty.LAST_PILLAGED, 0L);
         this.energy = data.get(Long.class, ClanProperty.ENERGY, 0L);
         this.founder = UUID.fromString(data.get(String.class, ClanProperty.FOUNDER));
         this.home = UtilLocation.fileToLocation(data.get(String.class, ClanProperty.HOME));
@@ -551,6 +552,21 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     }
 
     @Override
+    public long getLastPillaged() {
+        return this.lastPillaged;
+    }
+
+    @Override
+    public void setLastPillaged(final long lastPillaged) {
+        this.lastPillaged = lastPillaged;
+    }
+
+    @Override
+    public boolean hasLastPillaged() {
+        return this.getLastPillaged() > 0L;
+    }
+
+    @Override
     public long getEnergy() {
         return this.energy;
     }
@@ -658,6 +674,8 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
                 return this.getLastOnline();
             case LAST_TNTED:
                 return this.getLastTNTed();
+            case LAST_PILLAGED:
+                return this.getLastPillaged();
             case ENERGY:
                 return this.getEnergy();
             case FOUNDER:

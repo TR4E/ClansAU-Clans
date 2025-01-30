@@ -16,6 +16,7 @@ import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.UtilTime;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -78,6 +79,10 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
             return;
         }
 
+        if (event.isCancelled()) {
+            return;
+        }
+
         final Player player = event.getPlayer();
         final OfflinePlayer target = event.getTarget();
 
@@ -96,6 +101,12 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
         final Enemy killerClanEnemy = killerClan.getEnemyByClan(playerClan);
 
         if (playerClanEnemy == null || killerClanEnemy == null) {
+            return;
+        }
+
+        if (playerClan.hasLastPillaged() && !(UtilTime.elapsed(playerClan.getLastPillaged(), this.getManager().pillageCooldown))) {
+            this.getManager().messageClan(killerClan, "Clans", "You gained no dominance as the enemy clan is on cooldown.", null, null);
+            this.getManager().messageClan(killerClan, "Clans", "You lost no dominance your clan is on cooldown.", null, null);
             return;
         }
 
@@ -156,6 +167,10 @@ public class HandleDominancePointsOnPlayerDeath extends SpigotListener<Clans, Cl
             // Add a point to Pillager Clan
             pillagerClan.setPoints(pillagerClan.getPoints() + 1);
             this.getManager().getRepository().updateData(pillagerClan, ClanProperty.POINTS);
+
+            // Add a pillage cooldown to Pillagee Clan
+            pillageeClan.setLastPillaged(System.currentTimeMillis());
+            this.getManager().getRepository().updateData(pillageeClan, ClanProperty.LAST_PILLAGED);
         });
 
         for (final Player targetPlayer : UtilServer.getOnlinePlayers()) {

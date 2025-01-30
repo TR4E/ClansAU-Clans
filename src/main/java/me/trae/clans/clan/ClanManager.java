@@ -93,6 +93,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Long.class, path = "Pillage-Length", defaultValue = "600_000")
     public long pillageLength;
 
+    @ConfigInject(type = Long.class, path = "Pillage-Cooldown", defaultValue = "43_200_000")
+    public long pillageCooldown;
+
     @ConfigInject(type = Long.class, path = "TNT-Protection-Duration", defaultValue = "1_800_000")
     public long tntProtectionDuration;
 

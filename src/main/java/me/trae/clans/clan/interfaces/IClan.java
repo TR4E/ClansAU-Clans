@@ -170,6 +170,12 @@ public interface IClan {
 
     String getTNTProtectionString(final ClanManager manager, final Player receiverPlayer);
 
+    long getLastPillaged();
+
+    void setLastPillaged(final long lastPillaged);
+
+    boolean hasLastPillaged();
+
     long getEnergy();
 
     void setEnergy(final long energy);
