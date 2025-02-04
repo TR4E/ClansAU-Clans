@@ -25,7 +25,7 @@ public class HealingPotion extends ActiveCustomItem<Clans, WeaponManager, Weapon
     @ConfigInject(type = Long.class, path = "Recharge", defaultValue = "25_000")
     private long recharge;
 
-    @ConfigInject(type = Integer.class, path = "Amplifier", defaultValue = "2")
+    @ConfigInject(type = Integer.class, path = "Amplifier", defaultValue = "3")
     private int amplifier;
 
     @ConfigInject(type = Long.class, path = "Duration", defaultValue = "4000")
