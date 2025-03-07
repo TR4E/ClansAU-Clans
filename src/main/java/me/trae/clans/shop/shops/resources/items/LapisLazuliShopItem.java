@@ -4,8 +4,6 @@ import me.trae.clans.shop.ShopItem;
 import me.trae.clans.shop.shops.resources.ResourcesShopKeeper;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.item.constants.ItemConstants;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 public class LapisLazuliShopItem extends ShopItem<ResourcesShopKeeper> {
 
