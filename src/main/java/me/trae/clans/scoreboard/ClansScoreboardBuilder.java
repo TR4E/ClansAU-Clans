@@ -23,14 +23,14 @@ public abstract class ClansScoreboardBuilder extends ScoreboardBuilder implement
     public String getTeamKey(final Player targetPlayer) {
         final Clan targetClan = this.getClanManager().getClanByPlayer(targetPlayer);
         if (targetClan != null) {
-            return String.format("!%s", targetClan.getName());
+            return UtilString.format("!%s", targetClan.getName());
         }
 
         final Client targetClient = this.getClientManager().getClientByPlayer(targetPlayer);
 
         final int ordinal = Rank.values().length - targetClient.getRank().ordinal();
 
-        return String.format("@%s", ordinal);
+        return UtilString.format("@%s", ordinal);
     }
 
     @Override
@@ -57,7 +57,7 @@ public abstract class ClansScoreboardBuilder extends ScoreboardBuilder implement
         UtilJava.call(this.getGamerManager().getGamerByPlayer(player), gamer -> {
             if (gamer != null) {
                 addBlankLine();
-                addCustomLine(ChatColor.YELLOW, "Coins", String.format("<gold>%s", gamer.getCoinsString()));
+                addCustomLine(ChatColor.YELLOW, "Coins", UtilString.format("<gold>%s", gamer.getCoinsString()));
             }
         });
 
@@ -81,7 +81,7 @@ public abstract class ClansScoreboardBuilder extends ScoreboardBuilder implement
 
         final String clanName = UtilString.trim(playerClan.getDisplayName(), 11);
 
-        return String.format("%s %s", clanRelation.getPrefix() + clanName, clanRelation.getSuffix());
+        return UtilString.format("%s %s", clanRelation.getPrefix() + clanName, clanRelation.getSuffix());
     }
 
     @Override
@@ -103,13 +103,13 @@ public abstract class ClansScoreboardBuilder extends ScoreboardBuilder implement
         String dominancePointsString = "<white>0";
 
         if (enemyByPlayerClan.getDominancePoints() > 0) {
-            dominancePointsString = String.format("<red>-%s", enemyByPlayerClan.getDominancePoints());
+            dominancePointsString = UtilString.format("<red>-%s", enemyByPlayerClan.getDominancePoints());
         }
 
         if (enemyByTargetPlayerClan.getDominancePoints() > 0) {
-            dominancePointsString = String.format("<green>+%s", enemyByTargetPlayerClan.getDominancePoints());
+            dominancePointsString = UtilString.format("<green>+%s", enemyByTargetPlayerClan.getDominancePoints());
         }
 
-        return String.format(" <gray>(%s<gray>)", dominancePointsString);
+        return UtilString.format(" <gray>(%s<gray>)", dominancePointsString);
     }
 }

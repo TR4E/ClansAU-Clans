@@ -35,13 +35,13 @@ public class DyeCommand extends Command<Clans, WorldManager> implements PlayerCo
 
         if (!(this.canUpdateItemStack(itemStack))) {
             UtilMessage.message(player, "Dye", "You are not holding a valid Material!");
-            UtilMessage.simpleMessage(player, "Dye", "Available Materials: [<var><reset>]", Collections.singletonList(this.MATERIALS.stream().map(material -> String.format("<yellow>%s", UtilString.clean(material.name()))).collect(Collectors.joining("<gray>, "))));
+            UtilMessage.simpleMessage(player, "Dye", "Available Materials: [<var><reset>]", Collections.singletonList(this.MATERIALS.stream().map(material -> UtilString.format("<yellow>%s", UtilString.clean(material.name()))).collect(Collectors.joining("<gray>, "))));
             return;
         }
 
         if (args.length == 0) {
             UtilMessage.message(player, "Dye", "You did not input a Color.");
-            UtilMessage.simpleMessage(player, "Dye", "Available Colors: [<var><reset>]", Collections.singletonList(Arrays.stream(DyeColor.values()).map(dyeColor -> String.format("<yellow>%s", UtilString.clean(dyeColor.name()))).collect(Collectors.joining("<gray>, "))));
+            UtilMessage.simpleMessage(player, "Dye", "Available Colors: [<var><reset>]", Collections.singletonList(Arrays.stream(DyeColor.values()).map(dyeColor -> UtilString.format("<yellow>%s", UtilString.clean(dyeColor.name()))).collect(Collectors.joining("<gray>, "))));
             return;
         }
 

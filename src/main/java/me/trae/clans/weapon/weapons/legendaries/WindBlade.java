@@ -70,9 +70,9 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
                 "it is rumoured the Wind Blade",
                 "grants it's owner flight.",
                 "",
-                UtilString.pair("<gray>Damage", String.format("<yellow>%s", this.damage)),
-                UtilString.pair("<gray>Ability", String.format("<yellow>%s", this.getAbilityName())),
-                UtilString.pair("<gray>Knockback", String.format("<yellow>%s", (this.knockback * 100) + "%"))
+                UtilString.pair("<gray>Damage", UtilString.format("<yellow>%s", this.damage)),
+                UtilString.pair("<gray>Ability", UtilString.format("<yellow>%s", this.getAbilityName())),
+                UtilString.pair("<gray>Knockback", UtilString.format("<yellow>%s", (this.knockback * 100) + "%"))
         };
     }
 

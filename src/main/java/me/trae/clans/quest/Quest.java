@@ -11,6 +11,7 @@ import me.trae.core.framework.SpigotModule;
 import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilString;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -54,7 +55,7 @@ public abstract class Quest extends SpigotModule<Clans, QuestManager> implements
 
     @Override
     public String getDisplayName() {
-        return this.getName().replace(" ", String.format(" %s ", this.getMaxProgress()));
+        return this.getName().replace(" ", UtilString.format(" %s ", this.getMaxProgress()));
     }
 
     @Override

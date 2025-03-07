@@ -45,7 +45,7 @@ public class HandleFishingCaughtReceive extends SpigotListener<Clans, FishingMan
         String caughtName = event.getCaughtName();
 
         if (!(event.isCaughtFish())) {
-            caughtName = String.format("a %s", caughtName);
+            caughtName = UtilString.format("a %s", caughtName);
         }
 
         if (!(event.isBroadcastInform())) {

@@ -6,6 +6,7 @@ import me.trae.core.framework.SpigotModule;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.UtilTitle;
 import me.trae.core.utility.objects.SoundCreator;
 import org.bukkit.Sound;
@@ -22,7 +23,7 @@ public abstract class WorldEvent extends SpigotModule<Clans, WorldEventManager> 
 
     @Override
     public String getDisplayName() {
-        return String.format("<green>%s", this.getName());
+        return UtilString.format("<green>%s", this.getName());
     }
 
     @Override

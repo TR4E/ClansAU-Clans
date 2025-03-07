@@ -3,6 +3,7 @@ package me.trae.clans.quest.quests.mining;
 import me.trae.clans.quest.Quest;
 import me.trae.clans.quest.QuestManager;
 import me.trae.clans.quest.models.types.MiningQuest;
+import me.trae.core.utility.UtilString;
 import org.bukkit.Material;
 
 public class MineIron extends Quest implements MiningQuest {
@@ -15,7 +16,7 @@ public class MineIron extends Quest implements MiningQuest {
     public String[] getDescription() {
         return new String[]{
                 "To complete this quest, you",
-                String.format("have to <gold>%s</gold> in <bold>Fields</bold>.", this.getMaxProgress())
+                UtilString.format("have to <gold>%s</gold> in <bold>Fields</bold>.", this.getMaxProgress())
         };
     }
 

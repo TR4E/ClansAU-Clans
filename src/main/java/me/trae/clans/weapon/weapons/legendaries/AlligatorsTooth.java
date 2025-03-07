@@ -71,7 +71,7 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
 
     @Override
     public String[] getDescription() {
-        final String damage = String.format("%s (+%s in water)", this.damage, this.damageAdditionInWater);
+        final String damage = UtilString.format("%s (+%s in water)", this.damage, this.damageAdditionInWater);
 
         return new String[]{
                 "A blade forged from hundreds of",
@@ -79,8 +79,8 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
                 "it's owner to swim with great speed,",
                 "able to catch any prey.",
                 "",
-                UtilString.pair("<gray>Damage", String.format("<yellow>%s", damage)),
-                UtilString.pair("<gray>Ability", String.format("<yellow>%s", this.getAbilityName())),
+                UtilString.pair("<gray>Damage", UtilString.format("<yellow>%s", damage)),
+                UtilString.pair("<gray>Ability", UtilString.format("<yellow>%s", this.getAbilityName())),
                 UtilString.pair("<gray>Passive", "<yellow>Water Breathing")
         };
     }

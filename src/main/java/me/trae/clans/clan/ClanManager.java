@@ -453,8 +453,8 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             map.put("Founder", targetClan.getFounderString());
         }
 
-        map.put("Age", String.format("<yellow>%s", targetClan.getCreatedString()));
-        map.put("Territory", String.format("<yellow>%s", targetClan.getTerritoryString(this)));
+        map.put("Age", UtilString.format("<yellow>%s", targetClan.getCreatedString()));
+        map.put("Territory", UtilString.format("<yellow>%s", targetClan.getTerritoryString(this)));
 
         if (this.energyEnabled) {
             map.put("Energy", targetClan.getEnergyRemainingString());
@@ -481,7 +481,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public String getClanFullName(final Clan clan, final ClanRelation clanRelation) {
-        return (clanRelation != null ? clanRelation.getSuffix() : "") + String.format("%s %s", clan.getType(), clan.getDisplayName());
+        return (clanRelation != null ? clanRelation.getSuffix() : "") + UtilString.format("%s %s", clan.getType(), clan.getDisplayName());
     }
 
     @Override
@@ -526,7 +526,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
                 } else if (territoryClan.isEnemyByClan(playerClan)) {
                     description = territoryClan.getShortDominanceString(playerClan);
                 } else if (playerClan.isPillageByClan(territoryClan)) {
-                    description = String.format("<green>%s", UtilTime.getTime(UtilTime.getRemaining(playerClan.getPillageByClan(territoryClan).getSystemTime(), this.pillageLength)));
+                    description = UtilString.format("<green>%s", UtilTime.getTime(UtilTime.getRemaining(playerClan.getPillageByClan(territoryClan).getSystemTime(), this.pillageLength)));
                 }
             }
 
@@ -542,7 +542,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         }
 
         if (!(description.isEmpty())) {
-            description = String.format(" <gray>(%s<gray>)", description);
+            description = UtilString.format(" <gray>(%s<gray>)", description);
         }
 
         return chatColor + name + description;

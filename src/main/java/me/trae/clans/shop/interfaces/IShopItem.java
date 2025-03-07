@@ -26,7 +26,7 @@ public interface IShopItem {
     }
 
     default String getBuyPriceString(final int amount) {
-        return String.format("<gold>%s", UtilString.toDollar(this.getBuyPriceByAmount(amount)));
+        return UtilString.format("<gold>%s", UtilString.toDollar(this.getBuyPriceByAmount(amount)));
     }
 
     int getSellPrice();
@@ -40,7 +40,7 @@ public interface IShopItem {
     }
 
     default String getSellPriceString(final int amount) {
-        return String.format("<gold>%s", UtilString.toDollar(this.getSellPriceByAmount(amount)));
+        return UtilString.format("<gold>%s", UtilString.toDollar(this.getSellPriceByAmount(amount)));
     }
 
     default boolean canStack() {

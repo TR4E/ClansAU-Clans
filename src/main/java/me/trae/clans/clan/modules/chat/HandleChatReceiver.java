@@ -6,6 +6,7 @@ import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.core.chat.events.ChatReceiveEvent;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.utility.UtilString;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -33,6 +34,6 @@ public class HandleChatReceiver extends SpigotListener<Clans, ClanManager> {
 
         final ClanRelation clanRelation = this.getManager().getClanRelationByClan(targetClan, playerClan);
 
-        event.setPlayerName(String.format("%s %s", clanRelation.getPrefix() + playerClan.getDisplayName(), clanRelation.getSuffix() + player.getName()));
+        event.setPlayerName(UtilString.format("%s %s", clanRelation.getPrefix() + playerClan.getDisplayName(), clanRelation.getSuffix() + player.getName()));
     }
 }

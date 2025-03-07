@@ -76,8 +76,8 @@ public class LightningScythe extends ActiveLegendary<Clans, WeaponManager, Weapo
                 "to call the power of the gods",
                 "and strike lightning on your enemies.",
                 "",
-                UtilString.pair("<gray>Damage", String.format("<yellow>%s (AoE)", this.damage)),
-                UtilString.pair("<gray>Ability", String.format("<yellow>%s", this.getAbilityName()))
+                UtilString.pair("<gray>Damage", UtilString.format("<yellow>%s (AoE)", this.damage)),
+                UtilString.pair("<gray>Ability", UtilString.format("<yellow>%s", this.getAbilityName()))
         };
     }
 

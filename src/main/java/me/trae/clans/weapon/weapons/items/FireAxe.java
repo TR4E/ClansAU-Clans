@@ -44,7 +44,7 @@ public class FireAxe extends CustomItem<Clans, WeaponManager, WeaponData> implem
         return new String[]{
                 "Ignite enemies on fire.",
                 "",
-                UtilString.pair("<gray>Damage", String.format("<yellow>%s", this.damage)),
+                UtilString.pair("<gray>Damage", UtilString.format("<yellow>%s", this.damage)),
                 UtilString.pair("<gray>Passive", "<yellow>Fire Attack")
         };
     }

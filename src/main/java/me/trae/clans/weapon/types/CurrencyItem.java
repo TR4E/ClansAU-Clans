@@ -3,6 +3,7 @@ package me.trae.clans.weapon.types;
 import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.clans.weapon.types.interfaces.ICurrencyItem;
+import me.trae.core.utility.UtilString;
 import me.trae.core.weapon.data.WeaponData;
 import me.trae.core.weapon.types.CustomItem;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +21,7 @@ public abstract class CurrencyItem extends CustomItem<Clans, WeaponManager, Weap
 
     @Override
     public String getDisplayName() {
-        return String.format("<gold>%s", this.getCurrencyItemType().getDisplayName());
+        return UtilString.format("<gold>%s", this.getCurrencyItemType().getDisplayName());
     }
 
     @Override

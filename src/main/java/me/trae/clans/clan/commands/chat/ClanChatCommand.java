@@ -12,6 +12,7 @@ import me.trae.core.command.types.Command;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.ChatTypeContainer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -63,10 +64,10 @@ public class ClanChatCommand extends Command<Clans, ClanManager> implements Chat
         if (spy) {
             final Clan playerClan = this.getManager().getClanByPlayer(player);
 
-            displayName = String.format("%s %s", playerClan.getDisplayName(), displayName);
+            displayName = UtilString.format("%s %s", playerClan.getDisplayName(), displayName);
         }
 
-        return String.format("%s %s", ClanRelation.SELF.getSuffix() + displayName, ClanRelation.SELF.getPrefix() + message);
+        return UtilString.format("%s %s", ClanRelation.SELF.getSuffix() + displayName, ClanRelation.SELF.getPrefix() + message);
     }
 
     @Override

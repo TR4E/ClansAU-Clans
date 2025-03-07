@@ -8,6 +8,7 @@ import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.item.ItemBuilder;
 import me.trae.core.utility.UtilMessage;
+import me.trae.core.utility.UtilString;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -57,7 +58,7 @@ public class HandlePlayerCaughtFish extends SpigotListener<Clans, FishingManager
 
         event.setCaughtType("Fish");
 
-        event.setCaughtName(String.format("<green>%sx Pound <gray>of <green>%s", weight, fishName.getName()));
+        event.setCaughtName(UtilString.format("<green>%sx Pound <gray>of <green>%s", weight, fishName.getName()));
 
         if (weight > bigCatchWeight) {
             event.setInformPrefix("Big Catch");

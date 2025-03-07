@@ -44,7 +44,7 @@ public interface SupplyCrateComponent extends Updater {
     default void startSupplyCrate(final Block block, final Material material) {
         final BlockRestoreManager blockRestoreManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(BlockRestoreManager.class);
 
-        final String blockRestoreName = String.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation()));
+        final String blockRestoreName = UtilString.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation()));
 
         blockRestoreManager.addBlockRestore(new BlockRestore(blockRestoreName, block, Material.BEACON, (byte) 0, this.getDuration()));
 
@@ -63,7 +63,7 @@ public interface SupplyCrateComponent extends Updater {
 
         final BlockRestoreManager blockRestoreManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(BlockRestoreManager.class);
 
-        final String blockRestoreName = String.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation()));
+        final String blockRestoreName = UtilString.format("%s-%s", this.getName(), UtilBlock.locationToFile(block.getLocation()));
 
         for (final BlockRestore blockRestore : blockRestoreManager.getListOfBlockRestoreByName(blockRestoreName)) {
             blockRestore.restore();

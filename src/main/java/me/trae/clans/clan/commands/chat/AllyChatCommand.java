@@ -13,6 +13,7 @@ import me.trae.core.command.types.Command;
 import me.trae.core.gamer.Gamer;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.ChatTypeContainer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -73,7 +74,7 @@ public class AllyChatCommand extends Command<Clans, ClanManager> implements Chat
     public String getFormat(final Player player, final Client client, final Gamer gamer, final String message, final boolean spy) {
         final Clan playerClan = this.getManager().getClanByPlayer(player);
 
-        return String.format("%s %s %s", ClanRelation.ALLIANCE.getPrefix() + playerClan.getDisplayName(), player.getName(), ClanRelation.ALLIANCE.getSuffix() + message);
+        return UtilString.format("%s %s %s", ClanRelation.ALLIANCE.getPrefix() + playerClan.getDisplayName(), player.getName(), ClanRelation.ALLIANCE.getSuffix() + message);
     }
 
     @Override

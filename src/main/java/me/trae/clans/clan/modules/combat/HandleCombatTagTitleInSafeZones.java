@@ -5,6 +5,7 @@ import me.trae.api.combat.events.CombatUpdaterEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.clan.ClanManager;
 import me.trae.core.framework.types.frame.SpigotListener;
+import me.trae.core.utility.UtilString;
 import me.trae.core.utility.UtilTitle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,6 +31,6 @@ public class HandleCombatTagTitleInSafeZones extends SpigotListener<Clans, ClanM
             return;
         }
 
-        UtilTitle.sendTitle(player, " ", String.format("<red>Unsafe for <green>%s", combat.getRemainingString()), false, 1000L);
+        UtilTitle.sendTitle(player, " ", UtilString.format("<red>Unsafe for <green>%s", combat.getRemainingString()), false, 1000L);
     }
 }

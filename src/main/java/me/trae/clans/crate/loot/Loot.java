@@ -10,6 +10,7 @@ import me.trae.core.player.events.PlayerDisplayNameEvent;
 import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.UtilString;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -53,9 +54,9 @@ public abstract class Loot extends SpigotSubModule<Clans, Crate> implements ILoo
             final ItemStack itemStack = this.getItemStack();
 
             if (itemStack.getAmount() > 1) {
-                displayName = String.format("<yellow>%sx <gray>of %s", itemStack.getAmount(), displayName);
+                displayName = UtilString.format("<yellow>%sx <gray>of %s", itemStack.getAmount(), displayName);
             } else {
-                displayName = String.format("a %s", displayName);
+                displayName = UtilString.format("a %s", displayName);
             }
         }
 

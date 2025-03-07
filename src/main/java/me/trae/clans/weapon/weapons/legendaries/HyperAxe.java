@@ -52,10 +52,10 @@ public class HyperAxe extends Legendary<Clans, WeaponManager, WeaponData> implem
                 "Rumoured to attack foes 500% faster",
                 "than any other weapon known to man.",
                 "",
-                UtilString.pair("<gray>Damage", String.format("<yellow>%s", this.damage)),
+                UtilString.pair("<gray>Damage", UtilString.format("<yellow>%s", this.damage)),
                 UtilString.pair("<gray>Ability", "<yellow>Hyper Speed"),
                 UtilString.pair("<gray>Passive", "<yellow>Hyper Attack"),
-                UtilString.pair("<gray>Knockback", String.format("<yellow>%s", this.knockback > 0.0D ? (this.knockback * 100) + "%" : "None"))
+                UtilString.pair("<gray>Knockback", UtilString.format("<yellow>%s", this.knockback > 0.0D ? (this.knockback * 100) + "%" : "None"))
         };
     }
 

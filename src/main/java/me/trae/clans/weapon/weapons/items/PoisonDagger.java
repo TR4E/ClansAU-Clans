@@ -67,7 +67,7 @@ public class PoisonDagger extends CustomItem<Clans, WeaponManager, WeaponData> i
         return new String[]{
                 "Infect enemies with Slowness and Poison.",
                 "",
-                UtilString.pair("<gray>Damage", String.format("<yellow>%s", this.damage)),
+                UtilString.pair("<gray>Damage", UtilString.format("<yellow>%s", this.damage)),
                 UtilString.pair("<gray>Ability", "<yellow>Infect")
         };
     }

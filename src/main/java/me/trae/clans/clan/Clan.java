@@ -149,10 +149,10 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     @Override
     public String getTerritoryString(final ClanManager manager) {
         if (this.isAdmin()) {
-            return String.format("%s/∞", this.getTerritory().size());
+            return UtilString.format("%s/∞", this.getTerritory().size());
         }
 
-        return String.format("%s/%s", this.getTerritory().size(), this.getMaxClaims(manager));
+        return UtilString.format("%s/%s", this.getTerritory().size(), this.getMaxClaims(manager));
     }
 
     @Override
@@ -237,7 +237,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             final ChatColor chatColor = (member.isOnline() && vanishManager.canSeeByPlayer(member.getOnlinePlayer(), receiverPlayer) ? ChatColor.GREEN : ChatColor.RED);
             final String name = UtilPlayer.getPlayerNameByUUID(member.getUUID());
 
-            list.add(String.format("<yellow>%s<gray>.%s", member.getRole().getPrefix(), chatColor + name));
+            list.add(UtilString.format("<yellow>%s<gray>.%s", member.getRole().getPrefix(), chatColor + name));
         }
 
         return String.join("<white>, ", list);
@@ -345,7 +345,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
 
             String dominanceString = (this == receiverClan ? receiverClan.getDominanceString(enemyClan) : "");
             if (!(dominanceString.isEmpty())) {
-                dominanceString = String.format(" %s", dominanceString);
+                dominanceString = UtilString.format(" %s", dominanceString);
             }
 
             list.add(clanRelation.getSuffix() + enemyClan.getDisplayName() + dominanceString);
@@ -363,7 +363,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
         final Enemy thisEnemy = this.getEnemyByClan(receiverClan);
         final Enemy receiverEnemy = receiverClan.getEnemyByClan(this);
 
-        return String.format("<green>%s<gray>:<red>%s", thisEnemy.getDominancePoints(), receiverEnemy.getDominancePoints());
+        return UtilString.format("<green>%s<gray>:<red>%s", thisEnemy.getDominancePoints(), receiverEnemy.getDominancePoints());
     }
 
     @Override
@@ -373,7 +373,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             return "";
         }
 
-        return String.format("<gray>(%s<gray>)", dominanceString);
+        return UtilString.format("<gray>(%s<gray>)", dominanceString);
     }
 
     @Override
@@ -540,11 +540,11 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             }
 
             if (this.getLastTNTed() > 0L && !(UtilTime.elapsed(this.getLastTNTed(), manager.tntProtectionDuration))) {
-                return String.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), manager.tntProtectionDuration)));
+                return UtilString.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), manager.tntProtectionDuration)));
             }
 
             if (this.getLastOnline() > 0L && !(UtilTime.elapsed(this.getLastOnline(), manager.lastOnlineTntProtectionDuration))) {
-                return String.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), manager.lastOnlineTntProtectionDuration)));
+                return UtilString.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), manager.lastOnlineTntProtectionDuration)));
             }
         }
 
@@ -611,7 +611,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             return "<red>N/A";
         }
 
-        return String.format("<yellow>%s", UtilPlayer.getPlayerNameByUUID(this.getFounder()));
+        return UtilString.format("<yellow>%s", UtilPlayer.getPlayerNameByUUID(this.getFounder()));
     }
 
     @Override
@@ -659,7 +659,7 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
             case TERRITORY:
                 return this.getTerritory();
             case REQUESTS:
-                return this.getRequests().entrySet().stream().map(entry -> entry.getValue().entrySet().stream().map(entry2 -> String.format("%s:%s:%s", entry.getKey().name(), entry2.getKey(), entry2.getValue())).collect(Collectors.joining(""))).collect(Collectors.toList());
+                return this.getRequests().entrySet().stream().map(entry -> entry.getValue().entrySet().stream().map(entry2 -> UtilString.format("%s:%s:%s", entry.getKey().name(), entry2.getKey(), entry2.getValue())).collect(Collectors.joining(""))).collect(Collectors.toList());
             case MEMBERS:
                 return this.getMembers().values().stream().map(Member::toString).collect(Collectors.toList());
             case ALLIANCES:

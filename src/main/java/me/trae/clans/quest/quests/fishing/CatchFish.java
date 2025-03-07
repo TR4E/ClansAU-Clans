@@ -6,6 +6,7 @@ import me.trae.clans.clan.ClanManager;
 import me.trae.clans.quest.Quest;
 import me.trae.clans.quest.QuestManager;
 import me.trae.clans.quest.models.types.FishingQuest;
+import me.trae.core.utility.UtilString;
 import org.bukkit.entity.Player;
 
 public class CatchFish extends Quest implements FishingQuest {
@@ -18,7 +19,7 @@ public class CatchFish extends Quest implements FishingQuest {
     public String[] getDescription() {
         return new String[]{
                 "To complete this quest, you",
-                String.format("have to <gold>%s</gold> in <bold>Fields</bold>.", this.getDisplayName())
+                UtilString.format("have to <gold>%s</gold> in <bold>Fields</bold>.", this.getDisplayName())
         };
     }
 

@@ -31,7 +31,7 @@ public abstract class EnergyButton extends Button<EnergyMenu> implements IEnergy
     @Override
     public String[] getLore() {
         return new String[]{
-                UtilString.pair("<gray>Cost", String.format("<gold>%s", UtilString.toDollar(this.getCost())))
+                UtilString.pair("<gray>Cost", UtilString.format("<gold>%s", UtilString.toDollar(this.getCost())))
         };
     }
 

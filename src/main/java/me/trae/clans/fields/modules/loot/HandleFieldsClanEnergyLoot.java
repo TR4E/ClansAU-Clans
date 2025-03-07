@@ -11,10 +11,7 @@ import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.item.ItemBuilder;
 import me.trae.core.item.constants.ItemConstants;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
-import me.trae.core.utility.UtilItem;
-import me.trae.core.utility.UtilMath;
-import me.trae.core.utility.UtilServer;
-import me.trae.core.utility.UtilTitle;
+import me.trae.core.utility.*;
 import me.trae.core.utility.objects.SoundCreator;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -116,6 +113,6 @@ public class HandleFieldsClanEnergyLoot extends SpigotListener<Clans, FieldsMana
 
         UtilServer.callEvent(new ScoreboardUpdateEvent(player));
 
-        UtilTitle.sendActionBar(player, String.format("<light_purple>+%s Clan Energy", range));
+        UtilTitle.sendActionBar(player, UtilString.format("<light_purple>+%s Clan Energy", range));
     }
 }

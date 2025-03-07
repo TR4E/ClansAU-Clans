@@ -205,7 +205,7 @@ public class SupplyCrate extends CustomItem<Clans, WeaponManager, WeaponData> im
 
         UtilJava.call(ArmourMaterialType.getRandom(), armourMaterialType -> {
             for (final ArmourSlotType armourSlotType : ArmourSlotType.values()) {
-                final Material material = Material.valueOf(String.format("%s_%s", armourMaterialType.name(), armourSlotType.name()));
+                final Material material = Material.valueOf(UtilString.format("%s_%s", armourMaterialType.name(), armourSlotType.name()));
 
                 inventory.addItem(UtilItem.updateItemStack(new ItemStack(material)));
             }

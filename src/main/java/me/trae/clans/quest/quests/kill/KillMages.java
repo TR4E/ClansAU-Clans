@@ -6,6 +6,7 @@ import me.trae.clans.quest.Quest;
 import me.trae.clans.quest.QuestManager;
 import me.trae.clans.quest.models.types.KillQuest;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.UtilString;
 import org.bukkit.entity.Player;
 
 public class KillMages extends Quest implements KillQuest<Player> {
@@ -23,7 +24,7 @@ public class KillMages extends Quest implements KillQuest<Player> {
     public String[] getDescription() {
         return new String[]{
                 "To complete this quest, you",
-                String.format("have to <gold>%s</gold>", this.getDisplayName())
+                UtilString.format("have to <gold>%s</gold>", this.getDisplayName())
         };
     }
 
