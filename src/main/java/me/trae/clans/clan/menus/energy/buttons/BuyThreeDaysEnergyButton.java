@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 public class BuyThreeDaysEnergyButton extends EnergyButton {
 
     public BuyThreeDaysEnergyButton(final EnergyMenu menu) {
-        super(menu, 6, new ItemStack(Material.EMERALD));
+        super(menu, 6, new ItemStack(Material.EMERALD_BLOCK));
     }
 
     @Override

@@ -11,6 +11,7 @@ import me.trae.clans.clan.events.command.ClanDisbandEvent;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.recharge.RechargeManager;
 import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
@@ -109,5 +110,7 @@ public class DisbandCommand extends ClanSubCommand implements EventContainer<Cla
         this.getModule().getManager().disbandClan(clan);
 
         UtilLogger.log(Clans.class, "Clans", "Deletions", UtilString.format("%s has disbanded %s", player.getName(), this.getModule().getManager().getClanFullName(clan, null)));
+
+        this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, "Clan Create", this.getModule().getManager().clanCreateRecharge, true);
     }
 }

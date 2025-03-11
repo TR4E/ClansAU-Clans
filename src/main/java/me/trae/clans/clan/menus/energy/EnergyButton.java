@@ -17,6 +17,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+
 public abstract class EnergyButton extends Button<EnergyMenu> implements IEnergyButton {
 
     public EnergyButton(final EnergyMenu menu, final int slot, final ItemStack itemStack) {
@@ -37,6 +39,10 @@ public abstract class EnergyButton extends Button<EnergyMenu> implements IEnergy
 
     @Override
     public void onClick(final Player player, final ClickType clickType) {
+        if (!(Arrays.asList(ClickType.LEFT, ClickType.SHIFT_LEFT).contains(clickType))) {
+            return;
+        }
+
         final GamerManager gamerManager = this.getMenu().getInstance().getManagerByClass(GamerManager.class);
 
         final Gamer gamer = gamerManager.getGamerByPlayer(player);

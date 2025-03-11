@@ -90,6 +90,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Long.class, path = "Chunk-Outline-Duration", defaultValue = "300_000")
     private long chunkOutlineDuration;
 
+    @ConfigInject(type = Long.class, path = "Clan-Create-Recharge", defaultValue = "300_000")
+    public long clanCreateRecharge;
+
     @ConfigInject(type = Long.class, path = "Pillage-Length", defaultValue = "600_000")
     public long pillageLength;
 
@@ -243,7 +246,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     public Clan getClanByUUID(final UUID uuid) {
         if (this.CLANS_BY_UUID.containsKey(uuid)) {
             final Clan clan = this.CLANS_BY_UUID.get(uuid);
-            if (clan != null && clan.isMemberByUUID(uuid)) {
+            if (clan != null && clan.isMemberByUUID(uuid) && this.isClanByName(clan.getName())) {
                 return clan;
             }
 
@@ -272,7 +275,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     public Clan getClanByChunk(final Chunk chunk) {
         if (this.CLANS_BY_CHUNK.containsKey(chunk)) {
             final Clan clan = this.CLANS_BY_CHUNK.get(chunk);
-            if (clan != null && clan.isTerritoryByChunk(chunk)) {
+            if (clan != null && clan.isTerritoryByChunk(chunk) && this.isClanByName(clan.getName())) {
                 return clan;
             }
 

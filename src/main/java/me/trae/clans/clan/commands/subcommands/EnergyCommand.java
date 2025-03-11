@@ -3,6 +3,7 @@ package me.trae.clans.clan.commands.subcommands;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
+import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.menus.energy.EnergyMenu;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
@@ -19,6 +20,11 @@ public class EnergyCommand extends ClanSubCommand {
     @Override
     public String getDescription() {
         return "Buy Clan Energy";
+    }
+
+    @Override
+    public MemberRole getRequiredMemberRole() {
+        return MemberRole.RECRUIT;
     }
 
     @Override

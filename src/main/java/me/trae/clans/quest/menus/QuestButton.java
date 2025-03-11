@@ -66,7 +66,7 @@ public abstract class QuestButton extends EmptyButton<QuestMenu> implements IQue
                 return UtilString.format("<red>%s/%s", data.getProgress(), this.getQuest().getMaxProgress());
             }
 
-            return "<yellow>0";
+            return "<yellow>None";
         });
 
         list.add(UtilString.pair("<gray>Progress", progress));

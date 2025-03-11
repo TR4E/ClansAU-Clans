@@ -7,10 +7,12 @@ import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.command.ClanCreateEvent;
 import me.trae.clans.clan.types.AdminClan;
+import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.gamer.Gamer;
+import me.trae.core.recharge.RechargeManager;
 import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
@@ -98,6 +100,10 @@ public class CreateCommand extends ClanSubCommand implements EventContainer<Clan
                 UtilMessage.simpleMessage(player, "Clans", "Clan name is too short! Minimum Length is <yellow><var></yellow>!", Collections.singletonList(String.valueOf(minNameLength)));
                 return false;
             }
+        }
+
+        if (this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).isCooling(player, "Clan Create", true)) {
+            return false;
         }
 
         return true;
