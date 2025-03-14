@@ -97,7 +97,7 @@ public class ClanCommand extends Command<Clans, ClanManager> implements PlayerCo
             return;
         }
 
-        if (!(client.isAdministrating()) && targetClan.isAdmin()) {
+        if (!(client.isAdministrating()) && targetClan.isAdmin() && !(targetClan.isMemberByPlayer(player))) {
             UtilMessage.message(player, "Clans", "You cannot view Admin Clans!");
             return;
         }
