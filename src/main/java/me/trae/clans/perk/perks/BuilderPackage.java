@@ -4,8 +4,10 @@ import me.trae.clans.Clans;
 import me.trae.clans.perk.PerkManager;
 import me.trae.core.client.Client;
 import me.trae.core.perk.Perk;
+import me.trae.core.utility.UtilInventory;
 import me.trae.core.utility.UtilItem;
 import me.trae.core.utility.UtilJava;
+import me.trae.core.utility.UtilMessage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -48,10 +50,20 @@ public class BuilderPackage extends Perk<Clans, PerkManager> {
     }
 
     @Override
+    public boolean canReceive(final Player player, final Client client) {
+        if (!(UtilInventory.isEmpty(player.getInventory()))) {
+            UtilMessage.message(player, this.getName(), "You must have an empty inventory to claim!");
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public String[] getDescription() {
         return new String[]{
-                "Claim a bundle of blocks at the start of every",
-                "new map"
+                "Claim a bundle of items at the start of",
+                "every new map"
         };
     }
 }
