@@ -6,8 +6,12 @@ import me.trae.clans.perk.commands.CraftCommand;
 import me.trae.clans.perk.commands.RepairCommand;
 import me.trae.clans.perk.perks.*;
 import me.trae.core.perk.abstracts.AbstractPerkManager;
+import me.trae.core.utility.injectors.annotations.Inject;
 
 public class PerkManager extends AbstractPerkManager<Clans, DonationManager> {
+
+    @Inject
+    private DonationManager donationManager;
 
     public PerkManager(final Clans instance) {
         super(instance);
@@ -30,6 +34,6 @@ public class PerkManager extends AbstractPerkManager<Clans, DonationManager> {
 
     @Override
     public DonationManager getDonationManager() {
-        return this.getInstanceByClass(Clans.class).getManagerByClass(DonationManager.class);
+        return this.donationManager;
     }
 }

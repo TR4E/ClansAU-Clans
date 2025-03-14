@@ -56,7 +56,6 @@ import me.trae.clans.clan.modules.world.DisableNaturalCreatureSpawningInAdminCla
 import me.trae.clans.clan.modules.world.DisableShootingArrowsInSafeZones;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.clans.utility.UtilClans;
-import me.trae.core.Core;
 import me.trae.core.blockrestore.BlockRestoreManager;
 import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
@@ -67,6 +66,7 @@ import me.trae.core.gamer.Gamer;
 import me.trae.core.gamer.GamerManager;
 import me.trae.core.scoreboard.events.ScoreboardUpdateEvent;
 import me.trae.core.utility.*;
+import me.trae.core.utility.injectors.annotations.Inject;
 import me.trae.core.utility.objects.Pair;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -86,6 +86,18 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     private final Map<String, Clan> CLANS_BY_NAME = new HashMap<>();
     private final Map<UUID, Clan> CLANS_BY_UUID = new HashMap<>();
     private final Map<Chunk, Clan> CLANS_BY_CHUNK = new HashMap<>();
+
+    @Inject
+    private ClientManager clientManager;
+
+    @Inject
+    private GamerManager gamerManager;
+
+    @Inject
+    private BlockRestoreManager blockRestoreManager;
+
+    @Inject
+    private CombatManager combatManager;
 
     @ConfigInject(type = Long.class, path = "Chunk-Outline-Duration", defaultValue = "300_000")
     private long chunkOutlineDuration;
@@ -363,7 +375,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
                 return;
             }
 
-            final Client client = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).searchClient(sender, name, false);
+            final Client client = this.clientManager.searchClient(sender, name, false);
             if (client == null) {
                 return;
             }
@@ -385,9 +397,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public Client searchMember(final CommandSender sender, final Clan clan, final String name, final boolean inform) {
-        final ClientManager clientManager = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
-
-        final List<Client> list = clan.getMembers().values().stream().map(member -> clientManager.getClientByUUID(member.getUUID())).collect(Collectors.toList());
+        final List<Client> list = clan.getMembers().values().stream().map(member -> this.clientManager.getClientByUUID(member.getUUID())).collect(Collectors.toList());
 
         final List<Predicate<Client>> predicates = Arrays.asList(
                 (client -> client.getName().equalsIgnoreCase(name)),
@@ -602,7 +612,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @Override
     public boolean hasAccess(final Player player, final Clan playerClan, final Clan territoryClan, final AccessType accessType) {
         if (territoryClan != null) {
-            if (this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+            if (this.clientManager.getClientByPlayer(player).isAdministrating()) {
                 return true;
             }
 
@@ -655,7 +665,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public boolean canCast(final Player player) {
-        if (this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+        if (this.clientManager.getClientByPlayer(player).isAdministrating()) {
             return true;
         }
 
@@ -692,7 +702,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             return true;
         }
 
-        if (this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
+        if (this.clientManager.getClientByPlayer(player).isAdministrating()) {
             return true;
         }
 
@@ -700,7 +710,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
             return false;
         }
 
-        if (this.getInstanceByClass(Core.class).getManagerByClass(CombatManager.class).isCombatByPlayer(player)) {
+        if (this.combatManager.isCombatByPlayer(player)) {
             return false;
         }
 
@@ -709,7 +719,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public void removeClanChat(final Player player) {
-        final Gamer gamer = this.getInstanceByClass(Core.class).getManagerByClass(GamerManager.class).getGamerByPlayer(player);
+        final Gamer gamer = this.gamerManager.getGamerByPlayer(player);
         if (gamer == null) {
             return;
         }
@@ -723,16 +733,12 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
     @Override
     public void outlineChunk(final Clan clan, final Chunk chunk) {
-        final BlockRestoreManager blockRestoreManager = this.getInstanceByClass(Core.class).getManagerByClass(BlockRestoreManager.class);
-
-        blockRestoreManager.outlineChunk(clan.getName(), chunk, Material.GLOWSTONE, (byte) 0, this.chunkOutlineDuration, true);
+        this.blockRestoreManager.outlineChunk(clan.getName(), chunk, Material.GLOWSTONE, (byte) 0, this.chunkOutlineDuration, true);
     }
 
     @Override
     public void unOutlineChunk(final Clan clan, final Chunk chunk) {
-        final BlockRestoreManager blockRestoreManager = this.getInstanceByClass(Core.class).getManagerByClass(BlockRestoreManager.class);
-
-        blockRestoreManager.unOutlineChunk(clan.getName(), chunk);
+        this.blockRestoreManager.unOutlineChunk(clan.getName(), chunk);
     }
 
     @Override

@@ -4,12 +4,12 @@ import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.utility.UtilClans;
-import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.injectors.annotations.Inject;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -27,6 +27,9 @@ import java.util.UUID;
 public class HandleAdventureModeInClanTerritory extends SpigotListener<Clans, ClanManager> {
 
     private final Set<UUID> PLAYERS = new HashSet<>();
+
+    @Inject
+    private ClientManager clientManager;
 
     public HandleAdventureModeInClanTerritory(final ClanManager manager) {
         super(manager);
@@ -93,7 +96,7 @@ public class HandleAdventureModeInClanTerritory extends SpigotListener<Clans, Cl
     }
 
     private void handleGamemode(final Player player, final Location location) {
-        final Client client = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player);
+        final Client client = this.clientManager.getClientByPlayer(player);
 
         final Clan playerClan = this.getManager().getClanByPlayer(player);
         final Clan territoryClan = this.getManager().getClanByLocation(location);

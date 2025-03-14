@@ -4,12 +4,12 @@ import me.trae.api.damage.events.damage.CustomDamageEvent;
 import me.trae.api.damage.events.damage.CustomPreDamageEvent;
 import me.trae.clans.Clans;
 import me.trae.clans.weapon.WeaponManager;
-import me.trae.core.Core;
 import me.trae.core.client.ClientManager;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilString;
 import me.trae.core.utility.UtilVelocity;
+import me.trae.core.utility.injectors.annotations.Inject;
 import me.trae.core.utility.objects.SoundCreator;
 import me.trae.core.weapon.data.types.ChannelWeaponData;
 import me.trae.core.weapon.types.ChannelLegendary;
@@ -24,6 +24,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWeaponData> implements Listener {
+
+    @Inject
+    private ClientManager clientManager;
 
     @ConfigInject(type = Float.class, path = "Energy-Needed", defaultValue = "20.0")
     private float energyNeeded;
@@ -92,7 +95,7 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
 
         new SoundCreator(Sound.FIZZ, 0.5F, 1.5F).play(player.getLocation());
 
-        UtilJava.call(this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player), client -> {
+        UtilJava.call(this.clientManager.getClientByPlayer(player), client -> {
             double strength = this.strength;
 
             if (client.isAdministrating()) {
