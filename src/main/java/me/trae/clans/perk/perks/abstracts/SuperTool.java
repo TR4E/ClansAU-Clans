@@ -27,7 +27,7 @@ import org.bukkit.inventory.ItemStack;
 public abstract class SuperTool extends Perk<Clans, PerkManager> implements ISuperTool, Listener {
 
     @ConfigInject(type = String.class, path = "Material", defaultValue = "")
-    private final String material;
+    private String material;
 
     @ConfigInject(type = Integer.class, path = "Take-Durability", defaultValue = "1")
     private int takeDurability;
@@ -46,6 +46,11 @@ public abstract class SuperTool extends Perk<Clans, PerkManager> implements ISup
         }
 
         return this.getDefaultMaterial();
+    }
+
+    @Override
+    public void onConfigurationFieldValueReset(final String name) {
+        this.material = this.getDefaultMaterial().name();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
