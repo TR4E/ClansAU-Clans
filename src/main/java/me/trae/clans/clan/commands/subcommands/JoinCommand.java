@@ -18,10 +18,12 @@ import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.UtilString;
+import me.trae.core.utility.constants.CoreArgumentType;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
+import java.util.List;
 
 public class JoinCommand extends ClanSubCommand implements EventContainer<ClanJoinEvent> {
 
@@ -87,6 +89,17 @@ public class JoinCommand extends ClanSubCommand implements EventContainer<ClanJo
         }
 
         return true;
+    }
+
+    @Override
+    public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
+        if (clan != null) {
+            if (args.length == 1) {
+                return CoreArgumentType.PLAYERS.apply(player, args[0]);
+            }
+        }
+
+        return Collections.emptyList();
     }
 
     @Override
