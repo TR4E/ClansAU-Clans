@@ -32,14 +32,14 @@ public class HandleAgilityHelmetUpdater extends SpigotSubUpdater<Clans, AgilityH
 
                 if (!(this.getModule().getActive().get(player.getUniqueId()))) {
                     this.getModule().getActive().put(player.getUniqueId(), true);
-                    UtilRole.playEffect(player, "Agility", true);
+                    UtilRole.playEffect(player, "Agility");
                 }
             } else {
                 if (this.getModule().getActive().containsKey(player.getUniqueId())) {
                     this.getModule().getActive().remove(player.getUniqueId());
 
                     if (!(UtilPlugin.isPluginByType(PluginType.CHAMPIONS))) {
-                        UtilRole.playEffect(player, "None", false);
+                        UtilRole.playEffect(player, "None");
                     }
                 }
             }
