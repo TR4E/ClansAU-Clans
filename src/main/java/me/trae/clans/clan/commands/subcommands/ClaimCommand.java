@@ -8,7 +8,6 @@ import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.events.command.ClanClaimEvent;
-import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
 import me.trae.core.gamer.Gamer;
@@ -17,6 +16,7 @@ import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
+import me.trae.core.utility.injectors.annotations.Inject;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
@@ -25,6 +25,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class ClaimCommand extends ClanSubCommand implements EventContainer<ClanClaimEvent> {
+
+    @Inject
+    private ClientManager clientManager;
 
     public ClaimCommand(final ClanCommand command) {
         super(command, "claim");
@@ -78,13 +81,13 @@ public class ClaimCommand extends ClanSubCommand implements EventContainer<ClanC
                 return false;
             }
 
-            final ClientManager clientManager = this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
-
             for (final Player nearbyPlayer : UtilChunk.getChunkEntities(Player.class, chunk)) {
                 final Clan nearbyPlayerClan = this.getModule().getManager().getClanByPlayer(nearbyPlayer);
 
-                if (nearbyPlayerClan == clan || nearbyPlayerClan.isAllianceByClan(clan) || clientManager.getClientByPlayer(nearbyPlayer).isAdministrating()) {
-                    continue;
+                if (nearbyPlayerClan != null) {
+                    if (nearbyPlayerClan == clan || nearbyPlayerClan.isAllianceByClan(clan) || this.clientManager.getClientByPlayer(nearbyPlayer).isAdministrating()) {
+                        continue;
+                    }
                 }
 
                 UtilMessage.message(player, "Clans", "You cannot claim land containing enemies!");

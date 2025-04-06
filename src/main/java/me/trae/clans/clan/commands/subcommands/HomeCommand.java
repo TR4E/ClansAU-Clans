@@ -74,14 +74,16 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
         }
 
         if (!(client.isAdministrating())) {
+            final boolean isSpawnClan = UtilClans.isSpawnClan(this.getModule().getManager().getClanByLocation(player.getLocation()));
+
             if (this.spawnOnly) {
-                if (!(UtilClans.isSpawnClan(this.getModule().getManager().getClanByLocation(player.getLocation())))) {
+                if (!isSpawnClan) {
                     UtilMessage.simpleMessage(player, "Clans", "You can only teleport to Clan Home from <white>Spawn</white>!");
                     return false;
                 }
             }
 
-            return !(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).isCooling(player, this.RECHARGE_NAME, true));
+            return !(isSpawnClan) && !(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).isCooling(player, this.RECHARGE_NAME, true));
         }
 
         return true;
@@ -115,7 +117,9 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
         long duration = this.defaultDuration;
 
         final Clan territoryClan = this.getModule().getManager().getClanByLocation(player.getLocation());
-        if (territoryClan != null && (territoryClan.isMemberByPlayer(player) || UtilClans.isSpawnClan(territoryClan))) {
+        final boolean isSpawnClan = UtilClans.isSpawnClan(territoryClan);
+
+        if (territoryClan != null && (territoryClan.isMemberByPlayer(player) || isSpawnClan)) {
             duration = 0L;
         }
 
@@ -143,9 +147,14 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
             }
 
             @Override
-            public void onTeleport(final Player player) {
-                HomeCommand.this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true, true);
+            public void onPreTeleport(final Player player) {
+                if (!(isSpawnClan)) {
+                    HomeCommand.this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true, true);
+                }
+            }
 
+            @Override
+            public void onPostTeleport(final Player player) {
                 UtilMessage.message(player, "Clans", "You teleported to Clan Home.");
             }
         };

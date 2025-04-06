@@ -34,7 +34,7 @@ public class AlligatorsTooth extends ChannelLegendary<Clans, WeaponManager, Chan
     @ConfigInject(type = Float.class, path = "Energy-Needed", defaultValue = "30.0")
     private float energyNeeded;
 
-    @ConfigInject(type = Float.class, path = "Energy-Using", defaultValue = "1.4")
+    @ConfigInject(type = Float.class, path = "Energy-Using", defaultValue = "2.2")
     private float energyUsing;
 
     @ConfigInject(type = Double.class, path = "Damage", defaultValue = "7.0")

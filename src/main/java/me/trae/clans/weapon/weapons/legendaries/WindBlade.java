@@ -31,7 +31,7 @@ public class WindBlade extends ChannelLegendary<Clans, WeaponManager, ChannelWea
     @ConfigInject(type = Float.class, path = "Energy-Needed", defaultValue = "20.0")
     private float energyNeeded;
 
-    @ConfigInject(type = Float.class, path = "Energy-Using", defaultValue = "1.4")
+    @ConfigInject(type = Float.class, path = "Energy-Using", defaultValue = "2.4")
     private float energyUsing;
 
     @ConfigInject(type = Double.class, path = "Damage", defaultValue = "7.0")
