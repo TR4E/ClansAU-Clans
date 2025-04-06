@@ -47,6 +47,6 @@ public class UtilClans {
             return false;
         }
 
-        return territoryClan.getDisplayName().equals("Fields");
+        return territoryClan.getName().equals("Fields");
     }
 }

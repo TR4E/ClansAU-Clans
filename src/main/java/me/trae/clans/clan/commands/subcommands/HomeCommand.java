@@ -17,17 +17,27 @@ import me.trae.core.teleport.Teleport;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.containers.EventContainer;
+import me.trae.core.utility.injectors.annotations.Inject;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
 public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHomeEvent> {
 
-    @ConfigInject(type = Long.class, path = "Recharge", defaultValue = "600_000")
+    @Inject
+    private RechargeManager rechargeManager;
+
+    @ConfigInject(type = Long.class, path = "Recharge", defaultValue = "300_000")
     private long recharge;
 
-    @ConfigInject(type = Long.class, path = "Default-Duration", defaultValue = "30_000")
-    private long defaultDuration;
+    @ConfigInject(type = Long.class, path = "Wilderness-Duration", defaultValue = "30_000")
+    private long wildernessDuration;
+
+    @ConfigInject(type = Long.class, path = "Territory-Duration", defaultValue = "10_000")
+    private long territoryDuration;
+
+    @ConfigInject(type = Long.class, path = "Spawn-Duration", defaultValue = "0")
+    private long spawnDuration;
 
     @ConfigInject(type = Boolean.class, path = "Spawn-Only", defaultValue = "false")
     private boolean spawnOnly;
@@ -74,16 +84,21 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
         }
 
         if (!(client.isAdministrating())) {
-            final boolean isSpawnClan = UtilClans.isSpawnClan(this.getModule().getManager().getClanByLocation(player.getLocation()));
+            final Clan territoryClan = this.getModule().getManager().getClanByLocation(player.getLocation());
 
-            if (this.spawnOnly) {
-                if (!isSpawnClan) {
-                    UtilMessage.simpleMessage(player, "Clans", "You can only teleport to Clan Home from <white>Spawn</white>!");
+            final boolean isSpawnClan = UtilClans.isSpawnClan(territoryClan);
+            final boolean isTerritoryClan = territoryClan != null && territoryClan.isMemberByPlayer(player);
+
+            if (!(isSpawnClan) && this.spawnOnly) {
+                UtilMessage.simpleMessage(player, "Clans", "You can only teleport to Clan Home from <white>Spawn</white>!");
+                return false;
+            }
+
+            if (!(isSpawnClan && isTerritoryClan)) {
+                if (this.rechargeManager.isCooling(player, this.RECHARGE_NAME, true)) {
                     return false;
                 }
             }
-
-            return !(isSpawnClan) && !(this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).isCooling(player, this.RECHARGE_NAME, true));
         }
 
         return true;
@@ -114,13 +129,17 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
     }
 
     private Teleport getTeleport(final Player player, final Clan playerClan) {
-        long duration = this.defaultDuration;
+        long duration = this.wildernessDuration;
 
         final Clan territoryClan = this.getModule().getManager().getClanByLocation(player.getLocation());
-        final boolean isSpawnClan = UtilClans.isSpawnClan(territoryClan);
 
-        if (territoryClan != null && (territoryClan.isMemberByPlayer(player) || isSpawnClan)) {
-            duration = 0L;
+        final boolean isSpawnClan = UtilClans.isSpawnClan(territoryClan);
+        final boolean isTerritoryClan = territoryClan != null && territoryClan.isMemberByPlayer(player);
+
+        if (isSpawnClan) {
+            duration = this.spawnDuration;
+        } else if (isTerritoryClan) {
+            duration = this.territoryDuration;
         }
 
         return new Teleport(duration, player, playerClan.getHome()) {
@@ -148,7 +167,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
 
             @Override
             public void onPreTeleport(final Player player) {
-                if (!(isSpawnClan)) {
+                if (!(isSpawnClan && isTerritoryClan)) {
                     HomeCommand.this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true, true);
                 }
             }
