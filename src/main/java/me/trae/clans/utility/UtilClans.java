@@ -19,7 +19,7 @@ public class UtilClans {
             return false;
         }
 
-        return territoryClan.getDisplayName().toLowerCase().contains("spawn");
+        return territoryClan.getName().toLowerCase().endsWith("spawn");
     }
 
     public static boolean isShopsClan(final Clan territoryClan) {
@@ -35,7 +35,7 @@ public class UtilClans {
             return false;
         }
 
-        return territoryClan.getDisplayName().toLowerCase().contains("shops");
+        return territoryClan.getName().toLowerCase().endsWith("shops");
     }
 
     public static boolean isFieldsClan(final Clan territoryClan) {
@@ -47,6 +47,6 @@ public class UtilClans {
             return false;
         }
 
-        return territoryClan.getName().equals("Fields");
+        return territoryClan.getName().equalsIgnoreCase("Fields");
     }
 }

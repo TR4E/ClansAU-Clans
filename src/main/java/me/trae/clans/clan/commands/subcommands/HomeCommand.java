@@ -30,8 +30,8 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
     @ConfigInject(type = Long.class, path = "Recharge", defaultValue = "300_000")
     private long recharge;
 
-    @ConfigInject(type = Long.class, path = "Wilderness-Duration", defaultValue = "30_000")
-    private long wildernessDuration;
+    @ConfigInject(type = Long.class, path = "Default-Duration", defaultValue = "30_000")
+    private long defaultDuration;
 
     @ConfigInject(type = Long.class, path = "Territory-Duration", defaultValue = "10_000")
     private long territoryDuration;
@@ -94,7 +94,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
                 return false;
             }
 
-            if (!(isSpawnClan && isTerritoryClan)) {
+            if (!(isSpawnClan || isTerritoryClan)) {
                 if (this.rechargeManager.isCooling(player, this.RECHARGE_NAME, true)) {
                     return false;
                 }
@@ -129,7 +129,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
     }
 
     private Teleport getTeleport(final Player player, final Clan playerClan) {
-        long duration = this.wildernessDuration;
+        long duration = this.defaultDuration;
 
         final Clan territoryClan = this.getModule().getManager().getClanByLocation(player.getLocation());
 
@@ -167,7 +167,7 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
 
             @Override
             public void onPreTeleport(final Player player) {
-                if (!(isSpawnClan && isTerritoryClan)) {
+                if (!(isSpawnClan || isTerritoryClan)) {
                     HomeCommand.this.getInstanceByClass(Core.class).getManagerByClass(RechargeManager.class).add(player, HomeCommand.this.RECHARGE_NAME, HomeCommand.this.recharge, true, true);
                 }
             }
