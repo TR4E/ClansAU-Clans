@@ -12,7 +12,7 @@ public class HandleWorldEventUpdater extends SpigotUpdater<Clans, WorldEventMana
         super(manager);
     }
 
-    @Update(delay = 250L)
+    @Update(delay = 500L)
     public void onUpdater() {
         for (final WorldEvent worldEvent : this.getManager().getModulesByClass(WorldEvent.class)) {
             if (!(worldEvent.isActive())) {

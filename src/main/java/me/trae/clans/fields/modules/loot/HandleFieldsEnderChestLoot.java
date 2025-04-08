@@ -22,16 +22,16 @@ import java.util.List;
 
 public class HandleFieldsEnderChestLoot extends SpigotListener<Clans, FieldsManager> {
 
-    @ConfigInject(type = Integer.class, path = "Legendary-Min-Chance", defaultValue = "0")
+    @ConfigInject(type = Integer.class, path = "Legendary-Min-Chance", defaultValue = "1")
     private int legendaryMinChance;
 
     @ConfigInject(type = Integer.class, path = "Legendary-Max-Chance", defaultValue = "10_000")
     private int legendaryMaxChance;
 
-    @ConfigInject(type = Integer.class, path = "Legendary-Base-Chance", defaultValue = "9_950")
+    @ConfigInject(type = Integer.class, path = "Legendary-Base-Chance", defaultValue = "9_990")
     private int legendaryBaseChance;
 
-    @ConfigInject(type = Integer.class, path = "Legendary-Frenzy-Chance", defaultValue = "9_850")
+    @ConfigInject(type = Integer.class, path = "Legendary-Frenzy-Chance", defaultValue = "9_960")
     private int legendaryFrenzyChance;
 
     public HandleFieldsEnderChestLoot(final FieldsManager manager) {

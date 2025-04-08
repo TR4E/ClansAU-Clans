@@ -6,6 +6,7 @@ import me.trae.clans.worldevent.WorldEventManager;
 import me.trae.core.config.annotations.ConfigInject;
 import me.trae.core.framework.types.frame.SpigotUpdater;
 import me.trae.core.updater.annotations.Update;
+import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.UtilTime;
 
 import java.util.ArrayList;
@@ -26,9 +27,13 @@ public class HandleRandomWorldEventUpdater extends SpigotUpdater<Clans, WorldEve
         this.systemTime = System.currentTimeMillis();
     }
 
-    @Update(delay = 250L)
+    @Update(delay = 500L)
     public void onUpdater() {
         if (!(UtilTime.elapsed(this.systemTime, this.duration))) {
+            return;
+        }
+
+        if (UtilServer.getOnlinePlayers().isEmpty()) {
             return;
         }
 
