@@ -64,15 +64,15 @@ public class HandleFieldsBlockBreak extends SpigotListener<Clans, FieldsManager>
         fieldsBlock.setBroken(true);
         this.getManager().getRepository().updateData(fieldsBlock, FieldsBlockProperty.BROKEN);
 
-        this.handleLoot(block);
+        this.handleLoot(block, player);
 
         fieldsBlock.update(this.getManager());
 
         UtilItem.takeDurability(player, player.getEquipment().getItemInHand(), false, true);
     }
 
-    private void handleLoot(final Block block) {
-        final FieldsLootEvent event = new FieldsLootEvent(block.getType());
+    private void handleLoot(final Block block, final Player player) {
+        final FieldsLootEvent event = new FieldsLootEvent(block.getType(), player);
         UtilServer.callEvent(event);
 
         for (final ItemStack itemStack : event.getLoot()) {

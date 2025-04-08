@@ -21,8 +21,8 @@ public class HandlePlayerCaughtLegendary extends SpigotListener<Clans, FishingMa
     @ConfigInject(type = Integer.class, path = "Base-Chance", defaultValue = "9990")
     private int baseChance;
 
-    @ConfigInject(type = Integer.class, path = "Frenzy-Luck-Percentage", defaultValue = "3")
-    private int frenzyLuckPercentage;
+    @ConfigInject(type = Integer.class, path = "Frenzy-Luck-Chance", defaultValue = "9900")
+    private int frenzyLuckChance;
 
     @ConfigInject(type = Boolean.class, path = "Broadcast-Caught", defaultValue = "true")
     private boolean broadcastCaught;
@@ -41,13 +41,7 @@ public class HandlePlayerCaughtLegendary extends SpigotListener<Clans, FishingMa
             return;
         }
 
-        int baseChance = this.baseChance;
-
-        if (event.isFishingFrenzy()) {
-            final double frenzyChance = this.frenzyLuckPercentage / 100.0;
-
-            baseChance = (int) (this.maxChance - (this.maxChance * frenzyChance));
-        }
+        final int baseChance = event.isFishingFrenzy() ? this.frenzyLuckChance : this.baseChance;
 
         if (!(event.isChance(this.minChance, this.maxChance, baseChance))) {
             return;

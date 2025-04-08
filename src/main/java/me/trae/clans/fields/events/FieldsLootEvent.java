@@ -3,6 +3,7 @@ package me.trae.clans.fields.events;
 import me.trae.clans.fields.events.interfaces.IFieldsLootEvent;
 import me.trae.core.event.CustomEvent;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -11,12 +12,14 @@ import java.util.List;
 public class FieldsLootEvent extends CustomEvent implements IFieldsLootEvent {
 
     private final Material blockMaterial;
+    private final Player player;
 
     private List<ItemStack> loot;
     private int multiplier;
 
-    public FieldsLootEvent(final Material blockMaterial) {
+    public FieldsLootEvent(final Material blockMaterial, final Player player) {
         this.blockMaterial = blockMaterial;
+        this.player = player;
         this.loot = new ArrayList<>();
         this.multiplier = 1;
     }
@@ -24,6 +27,11 @@ public class FieldsLootEvent extends CustomEvent implements IFieldsLootEvent {
     @Override
     public Material getBlockMaterial() {
         return this.blockMaterial;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return this.player;
     }
 
     @Override

@@ -28,14 +28,14 @@ public class HandlePlayerCaughtItem extends SpigotListener<Clans, FishingManager
     @ConfigInject(type = Integer.class, path = "Base-Chance", defaultValue = "950")
     private int baseChance;
 
-    @ConfigInject(type = Integer.class, path = "Frenzy-Luck-Percentage", defaultValue = "10")
-    private int frenzyLuckPercentage;
+    @ConfigInject(type = Integer.class, path = "Frenzy-Luck-Chance", defaultValue = "850")
+    private int frenzyLuckChance;
 
     public HandlePlayerCaughtItem(final FishingManager manager) {
         super(manager);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerCaughtFish(final PlayerFishingCaughtEvent event) {
         if (event.isCancelled()) {
             return;
@@ -49,13 +49,7 @@ public class HandlePlayerCaughtItem extends SpigotListener<Clans, FishingManager
             return;
         }
 
-        int baseChance = this.baseChance;
-
-        if (event.isFishingFrenzy()) {
-            final double frenzyChance = this.frenzyLuckPercentage / 100.0;
-
-            baseChance = (int) (this.maxChance - (this.maxChance * frenzyChance));
-        }
+        final int baseChance = event.isFishingFrenzy() ? this.frenzyLuckChance : this.baseChance;
 
         if (!(event.isChance(this.minChance, this.maxChance, baseChance))) {
             return;
