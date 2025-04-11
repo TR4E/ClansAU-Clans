@@ -16,6 +16,7 @@ import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilPlayer;
 import me.trae.core.utility.UtilString;
 import me.trae.core.utility.UtilWorld;
+import me.trae.core.utility.constants.CoreArgumentType;
 import me.trae.core.utility.injectors.annotations.Inject;
 import me.trae.core.vanish.VanishManager;
 import org.bukkit.Material;
@@ -26,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TrackCommand extends Command<Clans, WorldManager> implements PlayerCommandType, Updater, Listener {
@@ -79,6 +81,15 @@ public class TrackCommand extends Command<Clans, WorldManager> implements Player
         this.TRACKER_MAP.put(player, targetPlayer);
 
         UtilMessage.simpleMessage(player, "Track", "You are now tracking <yellow><var></yellow>.", Collections.singletonList(targetPlayer.getName()));
+    }
+
+    @Override
+    public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final String[] args) {
+        if (args.length == 1) {
+            return CoreArgumentType.PLAYERS.apply(player, args[0]);
+        }
+
+        return Collections.emptyList();
     }
 
     private boolean canTrack(final Player player, final Player targetPlayer) {
