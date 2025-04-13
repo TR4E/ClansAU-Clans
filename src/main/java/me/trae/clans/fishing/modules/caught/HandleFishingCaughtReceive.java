@@ -6,7 +6,6 @@ import me.trae.clans.fishing.events.PlayerFishingCaughtEvent;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.player.events.PlayerDisplayNameEvent;
 import me.trae.core.utility.*;
-import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -59,6 +58,6 @@ public class HandleFishingCaughtReceive extends SpigotListener<Clans, FishingMan
             }
         }
 
-        UtilLogger.log(Clans.class, "Fishing", "Caught", UtilString.format("%s has caught %s", ChatColor.stripColor(caughtName)));
+        UtilLogger.log(Clans.class, "Fishing", "Caught", UtilString.format("%s has caught %s", player.getName(), UtilColor.stripColor(caughtName)));
     }
 }

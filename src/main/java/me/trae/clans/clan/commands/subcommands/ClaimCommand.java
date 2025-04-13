@@ -17,7 +17,6 @@ import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilString;
 import me.trae.core.utility.containers.EventContainer;
 import me.trae.core.utility.injectors.annotations.Inject;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 
@@ -144,6 +143,6 @@ public class ClaimCommand extends ClanSubCommand implements EventContainer<ClanC
 
         this.getModule().getManager().messageClan(clan, "Clans", "<var> has claimed land at <var>.", Arrays.asList(ClanRelation.SELF.getSuffix() + player.getName(), UtilChunk.chunkToString(chunk)), Collections.singletonList(player.getUniqueId()));
 
-        UtilLogger.log(Clans.class, "Clans", "Territory", UtilString.format("%s (%s) has claimed land at %s", this.getModule().getManager().getClanFullName(clan, null), player.getName(), ChatColor.stripColor(UtilChunk.chunkToString(chunk))));
+        UtilLogger.log(Clans.class, "Clans", "Territory", UtilString.format("%s (%s) has claimed land at %s", this.getModule().getManager().getClanFullName(clan, null), player.getName(), UtilChunk.chunkToFile(chunk)));
     }
 }

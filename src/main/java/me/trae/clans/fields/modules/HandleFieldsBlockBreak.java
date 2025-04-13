@@ -6,9 +6,10 @@ import me.trae.clans.fields.data.FieldsBlock;
 import me.trae.clans.fields.data.enums.FieldsBlockProperty;
 import me.trae.clans.fields.events.FieldsBlockBreakEvent;
 import me.trae.clans.fields.events.FieldsLootEvent;
+import me.trae.core.Core;
 import me.trae.core.framework.types.frame.SpigotListener;
-import me.trae.core.utility.UtilItem;
-import me.trae.core.utility.UtilServer;
+import me.trae.core.utility.*;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -69,6 +70,8 @@ public class HandleFieldsBlockBreak extends SpigotListener<Clans, FieldsManager>
         fieldsBlock.update(this.getManager());
 
         UtilItem.takeDurability(player, player.getEquipment().getItemInHand(), false, true);
+
+        UtilLogger.log(Clans.class, "Fields", "Broken", UtilString.format("%s broke %s at %s", player.getName(), UtilString.clean(block.getType().name()), UtilLocation.locationToFile(block.getLocation())));
     }
 
     private void handleLoot(final Block block, final Player player) {
