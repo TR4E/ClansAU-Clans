@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
 
-    private int coins;
+    private int coins, kills, deaths, blockBroken, blocksPlaced;
     private long protection;
 
     public Gamer(final UUID uuid) {
@@ -35,6 +35,10 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
         super(data);
 
         this.coins = data.get(Integer.class, GamerProperty.COINS, 0);
+        this.kills = data.get(Integer.class, GamerProperty.KILLS, 0);
+        this.deaths = data.get(Integer.class, GamerProperty.DEATHS, 0);
+        this.blockBroken = data.get(Integer.class, GamerProperty.BLOCKS_BROKEN, 0);
+        this.blocksPlaced = data.get(Integer.class, GamerProperty.BLOCKS_PLACED, 0);
         this.protection = data.get(Long.class, GamerProperty.PROTECTION, 0L);
     }
 
@@ -56,6 +60,46 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
     @Override
     public String getCoinsString() {
         return UtilString.toDollar(this.getCoins());
+    }
+
+    @Override
+    public int getKills() {
+        return this.kills;
+    }
+
+    @Override
+    public void setKills(final int kills) {
+        this.kills = kills;
+    }
+
+    @Override
+    public int getDeaths() {
+        return this.deaths;
+    }
+
+    @Override
+    public void setDeaths(final int deaths) {
+        this.deaths = deaths;
+    }
+
+    @Override
+    public int getBlocksBroken() {
+        return this.blockBroken;
+    }
+
+    @Override
+    public void setBlocksBroken(final int blocksBroken) {
+        this.blockBroken = blocksBroken;
+    }
+
+    @Override
+    public int getBlocksPlaced() {
+        return this.blocksPlaced;
+    }
+
+    @Override
+    public void setBlocksPlaced(final int blocksPlaced) {
+        this.blocksPlaced = blocksPlaced;
     }
 
     @Override
@@ -93,6 +137,14 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
         switch (property) {
             case COINS:
                 return this.getCoins();
+            case KILLS:
+                return this.getKills();
+            case DEATHS:
+                return this.getDeaths();
+            case BLOCKS_BROKEN:
+                return this.getBlocksBroken();
+            case BLOCKS_PLACED:
+                return this.getBlocksPlaced();
             case PROTECTION:
                 return this.getProtection();
         }

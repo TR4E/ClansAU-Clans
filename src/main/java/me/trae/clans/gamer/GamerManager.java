@@ -5,9 +5,13 @@ import me.trae.clans.gamer.commands.EconomyCommand;
 import me.trae.clans.gamer.commands.ProtectionCommand;
 import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.clans.gamer.interfaces.IGamerManager;
+import me.trae.clans.gamer.modules.HandleGamerDelayedSaves;
+import me.trae.clans.gamer.modules.blocks.HandleGamerBlockBreak;
+import me.trae.clans.gamer.modules.blocks.HandleGamerBlockPlace;
 import me.trae.clans.gamer.modules.coins.HandleCoinsOnEntityDeath;
 import me.trae.clans.gamer.modules.coins.HandleCoinsOnPlayerDeath;
 import me.trae.clans.gamer.modules.coins.HandleOnlineRewardCoins;
+import me.trae.clans.gamer.modules.death.HandleGamerPlayerDeath;
 import me.trae.clans.gamer.modules.protection.HandleProtectionDamage;
 import me.trae.clans.gamer.modules.protection.HandleProtectionSkillFriendlyFire;
 import me.trae.clans.gamer.modules.protection.HandleProtectionUpdate;
@@ -19,6 +23,11 @@ import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.objects.EnumData;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProperty, GamerRepository> implements IGamerManager {
 
     @ConfigInject(type = Integer.class, path = "Starter-Coins-Amount", defaultValue = "5000")
@@ -26,6 +35,8 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
 
     @ConfigInject(type = Long.class, path = "Starter-Protection-Duration", defaultValue = "3_600_000")
     public long starterProtectionDuration;
+
+    private final Map<Gamer, Set<GamerProperty>> DELAYED_SAVES = new HashMap<>();
 
     public GamerManager(final Clans instance) {
         super(instance);
@@ -39,16 +50,26 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
         addModule(new EconomyCommand(this));
         addModule(new ProtectionCommand(this));
 
+        // Blocks Modules
+        addModule(new HandleGamerBlockBreak(this));
+        addModule(new HandleGamerBlockPlace(this));
+
         // Coins Modules
         addModule(new HandleCoinsOnEntityDeath(this));
         addModule(new HandleCoinsOnPlayerDeath(this));
         addModule(new HandleOnlineRewardCoins(this));
+
+        // Death Modules
+        addModule(new HandleGamerPlayerDeath(this));
 
         // Protection Modules
         addModule(new HandleProtectionDamage(this));
         addModule(new HandleProtectionSkillFriendlyFire(this));
         addModule(new HandleProtectionUpdate(this));
         addModule(new HandleProtectionWeaponFriendlyFire(this));
+
+        // Other Modules
+        addModule(new HandleGamerDelayedSaves(this));
     }
 
     @Override
@@ -64,6 +85,20 @@ public class GamerManager extends AbstractGamerManager<Clans, Gamer, GamerProper
     @Override
     public Gamer createGamer(final EnumData<GamerProperty> data) {
         return new Gamer(data);
+    }
+
+    @Override
+    public Map<Gamer, Set<GamerProperty>> getDelayedSaves() {
+        return this.DELAYED_SAVES;
+    }
+
+    @Override
+    public void addDelayedSave(final Gamer gamer, final GamerProperty property) {
+        if (!(this.getDelayedSaves().containsKey(gamer))) {
+            this.getDelayedSaves().put(gamer, new HashSet<>());
+        }
+
+        this.getDelayedSaves().get(gamer).add(property);
     }
 
     @Override

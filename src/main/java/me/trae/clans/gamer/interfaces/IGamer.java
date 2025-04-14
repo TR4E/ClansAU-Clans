@@ -10,6 +10,22 @@ public interface IGamer {
 
     String getCoinsString();
 
+    int getKills();
+
+    void setKills(final int kills);
+
+    int getDeaths();
+
+    void setDeaths(final int deaths);
+
+    int getBlocksBroken();
+
+    void setBlocksBroken(final int blocksBroken);
+
+    int getBlocksPlaced();
+
+    void setBlocksPlaced(final int blocksPlaced);
+
     long getProtection();
 
     void setProtection(final long protection);
