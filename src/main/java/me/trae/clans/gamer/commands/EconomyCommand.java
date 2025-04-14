@@ -26,6 +26,8 @@ public class EconomyCommand extends Command<Clans, GamerManager> implements AnyC
         for (final String label : Arrays.asList("pay", "sendcoins", "sendmoney", "sendgold")) {
             this.addShortcut(label, "pay");
         }
+
+        this.addShortcut("baltop", "top");
     }
 
     @Override
