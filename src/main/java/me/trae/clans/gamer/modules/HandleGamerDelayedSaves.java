@@ -7,9 +7,12 @@ import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.core.framework.types.frame.SpigotListener;
 import me.trae.core.updater.annotations.Update;
 import me.trae.core.updater.interfaces.Updater;
+import me.trae.core.utility.UtilMessage;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HandleGamerDelayedSaves extends SpigotListener<Clans, GamerManager> implements Updater {
 
@@ -32,6 +35,8 @@ public class HandleGamerDelayedSaves extends SpigotListener<Clans, GamerManager>
 
     @Update(delay = 300_000L)
     public void onUpdater() {
+        final AtomicBoolean updated = new AtomicBoolean(false);
+
         this.getManager().getDelayedSaves().entrySet().removeIf(entry -> {
             final Gamer gamer = entry.getKey();
 
@@ -39,7 +44,13 @@ public class HandleGamerDelayedSaves extends SpigotListener<Clans, GamerManager>
                 this.getManager().getRepository().updateData(gamer, gamerProperty);
             }
 
+            updated.set(true);
+
             return true;
         });
+
+        if (updated.get()) {
+            UtilMessage.log("Gamer", "Updated Delayed Saves!");
+        }
     }
 }

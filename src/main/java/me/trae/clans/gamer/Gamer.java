@@ -4,14 +4,15 @@ import me.trae.clans.Clans;
 import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.clans.gamer.interfaces.IGamer;
 import me.trae.core.gamer.abstracts.AbstractGamer;
-import me.trae.core.utility.UtilPlugin;
-import me.trae.core.utility.UtilString;
+import me.trae.core.utility.*;
 import me.trae.core.utility.objects.EnumData;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
 
@@ -150,5 +151,22 @@ public class Gamer extends AbstractGamer<GamerProperty> implements IGamer {
         }
 
         return null;
+    }
+
+    @Override
+    public LinkedHashMap<String, String> getInformation() {
+        return UtilJava.createMap(new LinkedHashMap<>(), map -> {
+            map.put("Coins", UtilString.toDollar(this.getCoins()));
+
+            map.put("Kills", String.valueOf(this.getKills()));
+
+            map.put("Deaths", String.valueOf(this.getDeaths()));
+
+            map.put("Blocks Broken", String.valueOf(this.getBlocksBroken()));
+
+            map.put("Blocks Placed", String.valueOf(this.getBlocksPlaced()));
+
+            map.put("Protection", this.hasProtection() ? UtilTime.getTime(this.getProtection()) : "Expired");
+        });
     }
 }
