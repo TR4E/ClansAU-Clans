@@ -45,6 +45,7 @@ public class WorldManager extends AbstractWorldManager<Clans> {
         // Block Interaction
         addModule(new DisableAnvilInteraction(this));
         addModule(new DisableBeaconInteraction(this));
+        addModule(new DisableBedInteraction(this));
         addModule(new DisableBrewingStandInteraction(this));
         addModule(new DisableDispenserInteraction(this));
         addModule(new DisableEnchantmentTableInteraction(this));
