@@ -28,6 +28,7 @@ public class ProtectionCommand extends Command<Clans, GamerManager> implements A
 
     @Override
     public void registerSubModules() {
+        addSubModule(new SetCommand(this));
         addSubModule(new GiveCommand(this));
         addSubModule(new TakeCommand(this));
         addSubModule(new ResetCommand(this));
@@ -61,6 +62,71 @@ public class ProtectionCommand extends Command<Clans, GamerManager> implements A
         }
 
         UtilCommand.processSubCommand(this, sender, args);
+    }
+
+    private static class SetCommand extends SubCommand<Clans, ProtectionCommand> implements AnyCommandType {
+
+        public SetCommand(final ProtectionCommand module) {
+            super(module, "set", Rank.ADMIN);
+        }
+
+        @Override
+        public String getUsage() {
+            return super.getUsage() + " <player> <time>";
+        }
+
+        @Override
+        public String getDescription() {
+            return "Update Protection for a Player";
+        }
+
+        @Override
+        public void execute(final CommandSender sender, final String[] args) {
+            if (args.length == 0) {
+                UtilMessage.message(sender, "Protection", "You did not input a Player.");
+                return;
+            }
+
+            final Player targetPlayer = UtilPlayer.searchPlayer(sender, args[0], true);
+            if (targetPlayer == null) {
+                return;
+            }
+
+            if (args.length == 1) {
+                UtilMessage.message(sender, "Protection", "You did not input a Time.");
+                return;
+            }
+
+            final Optional<Long> durationOptional = UtilTime.getDurationByString(args[1]);
+            if (!(durationOptional.isPresent()) || durationOptional.get() <= 0L) {
+                UtilMessage.message(sender, "Protection", "You did not input a valid Time.");
+                return;
+            }
+
+            final long duration = durationOptional.get();
+
+            final Gamer targetGamer = this.getModule().getManager().getGamerByPlayer(targetPlayer);
+            if (targetGamer == null) {
+                return;
+            }
+
+            targetGamer.setProtection(duration);
+            this.getModule().getManager().getRepository().updateData(targetGamer, GamerProperty.PROTECTION);
+
+            final String durationString = UtilTime.getTime(duration);
+
+            UtilMessage.simpleMessage(sender, "Protection", "You updated the protection for <yellow><var></yellow> to <green><var></green>.", Arrays.asList(durationString, targetPlayer.getName()));
+            UtilMessage.simpleMessage(targetPlayer, "Protection", "<yellow><var></yellow> updated your protection to <green><var></green>.", Arrays.asList(sender.getName(), durationString));
+        }
+
+        @Override
+        public List<String> getTabCompletion(final CommandSender sender, final String[] args) {
+            if (args.length == 1) {
+                return CoreArgumentType.PLAYERS.apply(sender, args[0]);
+            }
+
+            return Collections.emptyList();
+        }
     }
 
     private static class GiveCommand extends SubCommand<Clans, ProtectionCommand> implements AnyCommandType {

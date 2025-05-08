@@ -93,7 +93,7 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
 
         if (!(shopItem.hasBuyPrice())) {
             new SoundCreator(Sound.ITEM_BREAK, 1.0F, 0.8F).play(player);
-            UtilMessage.message(player, "Shop", "You cannot buy this item!");
+            UtilMessage.message(player, "Shops", "You cannot buy this item!");
             return;
         }
 
@@ -112,7 +112,7 @@ public abstract class ShopButton extends Button<ShopMenu> implements IShopButton
 
         if (!(shopItem.hasSellPrice())) {
             new SoundCreator(Sound.ITEM_BREAK, 1.0F, 0.8F).play(player);
-            UtilMessage.message(player, "Shop", "You cannot sell this item!");
+            UtilMessage.message(player, "Shops", "You cannot sell this item!");
             return;
         }
 

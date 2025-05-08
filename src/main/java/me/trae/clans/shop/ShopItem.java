@@ -47,7 +47,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
     @Override
     public boolean canBuy(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
         if (!(gamer.hasCoins(this.getBuyPriceByAmount(amount)))) {
-            UtilMessage.simpleMessage(player, "Shop", "You have insufficient funds to purchase <green><var>x</green> of <green><var></green>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped()));
+            UtilMessage.simpleMessage(player, "Shops", "You have insufficient funds to purchase <green><var>x</green> of <green><var></green>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped()));
             return false;
         }
 
@@ -57,7 +57,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
     @Override
     public boolean canSell(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
         if (!(UtilItem.contains(player, this.getItemStack(), 1))) {
-            UtilMessage.simpleMessage(player, "Shop", "You do not own <green><var>x</green> of <green><var></green> to sell.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped()));
+            UtilMessage.simpleMessage(player, "Shops", "You do not own <green><var>x</green> of <green><var></green> to sell.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped()));
             return false;
         }
 
@@ -72,7 +72,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
         UtilItem.insert(player, this.toItemBuilder().toItemStack(amount));
         UtilServer.callEvent(new ScoreboardUpdateEvent(player));
 
-        UtilMessage.simpleMessage(player, "Shop", "You have purchased <green><var>x</green> of <green><var></green> for <gold><var></gold>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped(), this.getBuyPriceString(amount)));
+        UtilMessage.simpleMessage(player, "Shops", "You have purchased <green><var>x</green> of <green><var></green> for <gold><var></gold>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped(), this.getBuyPriceString(amount)));
     }
 
     @Override
@@ -91,7 +91,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
 
         UtilItem.remove(player, itemStack, amount);
 
-        UtilMessage.simpleMessage(player, "Shop", "You have sold <green><var>x</green> of <green><var></green> for <gold><var></gold>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped(), this.getSellPriceString(amount)));
+        UtilMessage.simpleMessage(player, "Shops", "You have sold <green><var>x</green> of <green><var></green> for <gold><var></gold>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped(), this.getSellPriceString(amount)));
     }
 
     @Override
