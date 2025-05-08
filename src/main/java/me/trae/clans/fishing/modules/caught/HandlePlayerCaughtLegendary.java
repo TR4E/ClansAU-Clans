@@ -18,10 +18,10 @@ public class HandlePlayerCaughtLegendary extends SpigotListener<Clans, FishingMa
     @ConfigInject(type = Integer.class, path = "Max-Chance", defaultValue = "10_000")
     private int maxChance;
 
-    @ConfigInject(type = Integer.class, path = "Base-Chance", defaultValue = "9_990")
+    @ConfigInject(type = Integer.class, path = "Base-Chance", defaultValue = "9_995")
     private int baseChance;
 
-    @ConfigInject(type = Integer.class, path = "Frenzy-Luck-Chance", defaultValue = "9_960")
+    @ConfigInject(type = Integer.class, path = "Frenzy-Luck-Chance", defaultValue = "9_980")
     private int frenzyLuckChance;
 
     @ConfigInject(type = Boolean.class, path = "Broadcast-Caught", defaultValue = "true")
