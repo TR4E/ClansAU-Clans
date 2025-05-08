@@ -5,6 +5,7 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
+import me.trae.clans.utility.UtilClans;
 import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.command.types.Command;
@@ -89,7 +90,7 @@ public class EnergyCommand extends Command<Clans, ClanManager> implements AnyCom
                 duration = 0L;
             }
 
-            targetClan.setEnergy(duration);
+            targetClan.setEnergy(UtilClans.formatClanEnergy(targetClan, duration));
             this.getModule().getManager().getRepository().updateData(targetClan, ClanProperty.ENERGY);
 
             targetClan.getOnlineMembers().keySet().forEach(memberPlayer -> UtilServer.callEvent(new ScoreboardUpdateEvent(memberPlayer)));
@@ -149,13 +150,14 @@ public class EnergyCommand extends Command<Clans, ClanManager> implements AnyCom
                 return;
             }
 
-            long duration = durationOptional.get();
+            final long duration = durationOptional.get();
 
             if (duration <= 0L) {
-                duration = 0L;
+                UtilMessage.message(sender, "Clan Energy", "You cannot give Zero Energy.");
+                return;
             }
 
-            targetClan.setEnergy(targetClan.getEnergy() + duration);
+            targetClan.setEnergy(targetClan.getEnergy() + UtilClans.formatClanEnergy(targetClan, duration));
             this.getModule().getManager().getRepository().updateData(targetClan, ClanProperty.ENERGY);
 
             targetClan.getOnlineMembers().keySet().forEach(memberPlayer -> UtilServer.callEvent(new ScoreboardUpdateEvent(memberPlayer)));
@@ -215,13 +217,14 @@ public class EnergyCommand extends Command<Clans, ClanManager> implements AnyCom
                 return;
             }
 
-            long duration = durationOptional.get();
+            final long duration = durationOptional.get();
 
             if (duration <= 0L) {
-                duration = 0L;
+                UtilMessage.message(sender, "Clan Energy", "You cannot take Zero Energy.");
+                return;
             }
 
-            targetClan.setEnergy(targetClan.getEnergy() - duration);
+            targetClan.setEnergy(targetClan.getEnergy() - UtilClans.formatClanEnergy(targetClan, duration));
             this.getModule().getManager().getRepository().updateData(targetClan, ClanProperty.ENERGY);
 
             targetClan.getOnlineMembers().keySet().forEach(memberPlayer -> UtilServer.callEvent(new ScoreboardUpdateEvent(memberPlayer)));

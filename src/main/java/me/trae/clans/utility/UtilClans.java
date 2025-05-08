@@ -3,6 +3,7 @@ package me.trae.clans.utility;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.utility.UtilJava;
+import me.trae.core.utility.enums.TimeUnit;
 
 public class UtilClans {
 
@@ -48,5 +49,18 @@ public class UtilClans {
         }
 
         return territoryClan.getName().equalsIgnoreCase("Fields");
+    }
+
+    public static long formatClanEnergy(final Clan clan, final long duration) {
+        final long millisPerMinute = TimeUnit.MINUTES.getDuration();
+        final double depletionRatio = clan.getEnergyDepletionRatio();
+
+        long rawEnergy = duration;
+
+        if (clan.hasTerritory()) {
+            rawEnergy = Math.round(((double) duration / millisPerMinute) * depletionRatio);
+        }
+
+        return rawEnergy;
     }
 }

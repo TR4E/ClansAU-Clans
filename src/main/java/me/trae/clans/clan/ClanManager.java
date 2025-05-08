@@ -138,6 +138,9 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
     @ConfigInject(type = Double.class, path = "Cost-Per-Energy", defaultValue = "5.0")
     public double costPerEnergy;
 
+    @ConfigInject(type = Boolean.class, path = "Reset-Energy-On-Un-Claim", defaultValue = "false")
+    public boolean resetEnergyOnUnClaim;
+
     @ConfigInject(type = Boolean.class, path = "SOTW", defaultValue = "false")
     public boolean sotw;
 
