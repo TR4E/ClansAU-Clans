@@ -50,10 +50,7 @@ import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFireForSafeZones;
 import me.trae.clans.clan.modules.weapon.HandleWeaponFriendlyFireForTeammates;
 import me.trae.clans.clan.modules.weapon.HandleWeaponLocation;
 import me.trae.clans.clan.modules.weapon.HandleWeaponPreActivate;
-import me.trae.clans.clan.modules.world.DisableBlockSpreadInAdminClanTerritory;
-import me.trae.clans.clan.modules.world.DisableLeavesDecayInAdminClanTerritory;
-import me.trae.clans.clan.modules.world.DisableNaturalCreatureSpawningInAdminClanTerritory;
-import me.trae.clans.clan.modules.world.DisableShootingArrowsInSafeZones;
+import me.trae.clans.clan.modules.world.*;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.clans.utility.UtilClans;
 import me.trae.core.blockrestore.BlockRestoreManager;
@@ -222,6 +219,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new HandleWeaponPreActivate(this));
 
         // World Modules
+        addModule(new DisableBlockFadeInAdminClanTerritory(this));
         addModule(new DisableBlockSpreadInAdminClanTerritory(this));
         addModule(new DisableLeavesDecayInAdminClanTerritory(this));
         addModule(new DisableNaturalCreatureSpawningInAdminClanTerritory(this));
