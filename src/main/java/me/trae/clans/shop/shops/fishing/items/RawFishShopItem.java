@@ -32,4 +32,9 @@ public class RawFishShopItem extends ShopItem<FishingShopKeeper> {
     public int getSellPrice() {
         return this.sellPrice;
     }
+
+    @Override
+    public boolean isSimilarWithItemMeta() {
+        return false;
+    }
 }

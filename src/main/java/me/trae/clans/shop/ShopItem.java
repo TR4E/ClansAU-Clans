@@ -56,7 +56,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
 
     @Override
     public boolean canSell(final Player player, final GamerManager gamerManager, final Gamer gamer, final int amount) {
-        if (!(UtilItem.contains(player, this.getItemStack(), 1))) {
+        if (!(UtilItem.contains(player, this.getItemStack(), 1, this.isSimilarWithItemMeta()))) {
             UtilMessage.simpleMessage(player, "Shops", "You do not own <green><var>x</green> of <green><var></green> to sell.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped()));
             return false;
         }
@@ -80,7 +80,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
         final ItemStack itemStack = this.toItemBuilder().toItemStack();
 
         if (amount == 64) {
-            amount = Math.min(64, UtilItem.getAmount(player, itemStack));
+            amount = Math.min(64, UtilItem.getAmount(player, itemStack, this.isSimilarWithItemMeta()));
         }
 
         final int sellPrice = this.getSellPriceByAmount(amount);
@@ -89,7 +89,7 @@ public abstract class ShopItem<M extends ShopKeeper> extends SpigotSubModule<Cla
         gamerManager.getRepository().updateData(gamer, GamerProperty.COINS);
         UtilServer.callEvent(new ScoreboardUpdateEvent(player));
 
-        UtilItem.remove(player, itemStack, amount);
+        UtilItem.remove(player, itemStack, amount, this.isSimilarWithItemMeta());
 
         UtilMessage.simpleMessage(player, "Shops", "You have sold <green><var>x</green> of <green><var></green> for <gold><var></gold>.", Arrays.asList(String.valueOf(amount), this.getDisplayNameStripped(), this.getSellPriceString(amount)));
     }

@@ -68,4 +68,8 @@ public interface IShopItem {
     }
 
     String[] getDescription();
+
+    default boolean isSimilarWithItemMeta() {
+        return true;
+    }
 }
