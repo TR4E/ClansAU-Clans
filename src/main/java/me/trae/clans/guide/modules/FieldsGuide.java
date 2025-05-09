@@ -38,7 +38,7 @@ public class FieldsGuide extends Guide<Clans, GuideManager> {
                 "<gray>With its high rewards and fierce competition, Fields stands out as a hub",
                 "<gray>for thrill-seekers looking for more competitive action.",
                 "",
-                "<gray>Especially during the <bold>Mining Madness<gray> world event, when players",
+                "<gray>Especially during the <green>Mining Madness<gray> world event, when players",
                 "<gray>can earn double the loot and enjoy increased chances of finding rare items.",
                 "",
                 "<gray>Every mined ore/block in fields, regenerate over time."

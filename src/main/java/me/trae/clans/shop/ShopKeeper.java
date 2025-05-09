@@ -7,7 +7,6 @@ import me.trae.clans.shop.npc.ShopKeeperNPC;
 import me.trae.core.framework.SpigotModule;
 import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMenu;
-import me.trae.core.utility.UtilPlugin;
 import me.trae.core.utility.enums.ClickType;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
