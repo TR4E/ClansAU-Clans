@@ -10,6 +10,7 @@ import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.enums.RequestType;
 import me.trae.clans.clan.events.command.ClanJoinEvent;
+import me.trae.clans.utility.constants.ClansArgumentType;
 import me.trae.core.Core;
 import me.trae.core.client.Client;
 import me.trae.core.gamer.Gamer;
@@ -18,7 +19,6 @@ import me.trae.core.utility.UtilLogger;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.UtilString;
-import me.trae.core.utility.constants.CoreArgumentType;
 import me.trae.core.utility.containers.EventContainer;
 import org.bukkit.entity.Player;
 
@@ -93,9 +93,9 @@ public class JoinCommand extends ClanSubCommand implements EventContainer<ClanJo
 
     @Override
     public List<String> getTabCompletion(final Player player, final Client client, final Gamer gamer, final Clan clan, final String[] args) {
-        if (clan != null) {
+        if (clan == null) {
             if (args.length == 1) {
-                return CoreArgumentType.PLAYERS.apply(player, args[0]);
+                return ClansArgumentType.ONLINE_CLANS.apply(player, args[0]);
             }
         }
 

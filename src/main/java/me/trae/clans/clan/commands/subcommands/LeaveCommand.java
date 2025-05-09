@@ -88,11 +88,12 @@ public class LeaveCommand extends ClanSubCommand implements EventContainer<Membe
 
         final Clan clan = event.getClan();
         final Player player = event.getPlayer();
+        final Client client = event.getClient();
 
         clan.removeMember(clan.getMemberByPlayer(player));
         this.getModule().getManager().getRepository().updateData(clan, ClanProperty.MEMBERS);
 
-        if (!(clan.isOnline())) {
+        if (!(clan.isOnline()) && !(client.isAdministrating())) {
             clan.setLastOnline(System.currentTimeMillis());
             this.getModule().getManager().getRepository().updateData(clan, ClanProperty.LAST_ONLINE);
         }

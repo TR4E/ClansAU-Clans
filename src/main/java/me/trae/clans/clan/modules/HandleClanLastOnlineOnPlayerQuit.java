@@ -4,6 +4,8 @@ import me.trae.clans.Clans;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.ClanProperty;
+import me.trae.core.Core;
+import me.trae.core.client.ClientManager;
 import me.trae.core.framework.types.frame.SpigotListener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +28,10 @@ public class HandleClanLastOnlineOnPlayerQuit extends SpigotListener<Clans, Clan
         }
 
         if (clan.getOnlineMembers().size() > 1) {
+            return;
+        }
+
+        if (this.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class).getClientByPlayer(player).isAdministrating()) {
             return;
         }
 

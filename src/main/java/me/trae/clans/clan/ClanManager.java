@@ -484,11 +484,11 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
 
         map.put("Members", targetClan.getMembersString(player));
 
-        if (!(targetClan.isAdmin())) {
-            map.put("TNT Protected", targetClan.getTNTProtectionString(this, player));
-        }
+        map.put("TNT Protected", targetClan.getTNTProtectionString(this));
 
-        map.put("Points", UtilColor.bold(ChatColor.RED) + targetClan.getPoints());
+        if (!(targetClan.isAdmin())) {
+            map.put("Points", UtilColor.bold(ChatColor.RED) + targetClan.getPoints());
+        }
 
         return map;
     }

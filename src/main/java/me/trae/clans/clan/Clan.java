@@ -9,9 +9,11 @@ import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.enums.RequestType;
+import me.trae.clans.clan.enums.TNTProtectionResult;
 import me.trae.clans.clan.interfaces.IClan;
 import me.trae.clans.clan.types.AdminClan;
 import me.trae.core.Core;
+import me.trae.core.client.ClientManager;
 import me.trae.core.database.containers.DataContainer;
 import me.trae.core.database.query.constants.DefaultProperty;
 import me.trae.core.utility.*;
@@ -463,8 +465,19 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     @Override
     public boolean isOnline(final Player receiverPlayer) {
         final VanishManager vanishManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(VanishManager.class);
+        final ClientManager clientManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
 
-        return this.getMembers().values().stream().filter(Member::isOnline).anyMatch(member -> vanishManager.canSeeByPlayer(member.getOnlinePlayer(), receiverPlayer));
+        return this.getMembers().values().stream().filter(Member::isOnline).anyMatch(member -> {
+            if (clientManager.getClientByPlayer(member.getOnlinePlayer()).isAdministrating()) {
+                return false;
+            }
+
+            if (vanishManager.canSeeByPlayer(member.getOnlinePlayer(), receiverPlayer)) {
+                return true;
+            }
+
+            return false;
+        });
     }
 
     @Override
@@ -514,36 +527,69 @@ public class Clan implements IClan, DataContainer<ClanProperty> {
     }
 
     @Override
-    public boolean isTNTProtected(final ClanManager manager) {
+    public TNTProtectionResult getTNTProtectionResult(final ClanManager manager) {
         if (this.isAdmin()) {
-            return true;
+            return TNTProtectionResult.ADMIN_CLAN;
         }
 
-        final String tntProtectionString = this.getTNTProtectionString(manager, null);
-
-        return tntProtectionString.contains("Yes");
-    }
-
-    @Override
-    public String getTNTProtectionString(final ClanManager manager, final Player receiverPlayer) {
         if (manager.sotw) {
-            return "<green>Yes, start of the world.";
+            return TNTProtectionResult.START_OF_THE_WORLD;
         }
 
         if (manager.eotw) {
-            return "<red>No, end of the world.";
+            return TNTProtectionResult.END_OF_THE_WORLD;
         }
 
         if (!(this.getMembers().isEmpty())) {
-            if (receiverPlayer != null ? this.isOnline(receiverPlayer) : this.isOnline()) {
-                return "<gold>No, members are online.";
+            final ClientManager clientManager = UtilPlugin.getInstanceByClass(Core.class).getManagerByClass(ClientManager.class);
+
+            final boolean noAdministratingMembers = this.getMembers().values().stream().filter(Member::isOnline).noneMatch(member -> clientManager.getClientByPlayer(member.getOnlinePlayer()).isAdministrating());
+
+            if (this.isOnline() && noAdministratingMembers) {
+                return TNTProtectionResult.MEMBERS_ONLINE;
             }
 
             if (this.getLastTNTed() > 0L && !(UtilTime.elapsed(this.getLastTNTed(), manager.tntProtectionDuration))) {
-                return UtilString.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), manager.tntProtectionDuration)));
+                return TNTProtectionResult.LAST_TNTED;
             }
 
-            if (this.getLastOnline() > 0L && !(UtilTime.elapsed(this.getLastOnline(), manager.lastOnlineTntProtectionDuration))) {
+            if (!(this.isOnline()) && this.getLastOnline() > 0L && !(UtilTime.elapsed(this.getLastOnline(), manager.lastOnlineTntProtectionDuration)) && noAdministratingMembers) {
+                return TNTProtectionResult.LAST_ONLINE;
+            }
+        }
+
+        return TNTProtectionResult.TNT_PROTECTED;
+    }
+
+    @Override
+    public boolean isTNTProtected(final ClanManager manager) {
+        switch (this.getTNTProtectionResult(manager)) {
+            case ADMIN_CLAN:
+            case START_OF_THE_WORLD:
+            case TNT_PROTECTED:
+                return true;
+        }
+
+        return false;
+
+    }
+
+    @Override
+    public String getTNTProtectionString(final ClanManager manager) {
+        switch (this.getTNTProtectionResult(manager)) {
+            case START_OF_THE_WORLD: {
+                return "<green>Yes, start of the world.";
+            }
+            case END_OF_THE_WORLD: {
+                return "<red>No, end of the world.";
+            }
+            case MEMBERS_ONLINE: {
+                return "<gold>No, members are online.";
+            }
+            case LAST_TNTED: {
+                return UtilString.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), manager.tntProtectionDuration)));
+            }
+            case LAST_ONLINE: {
                 return UtilString.format("<gold>No, %s until protection.", UtilTime.getTime(UtilTime.getRemaining(this.getLastOnline(), manager.lastOnlineTntProtectionDuration)));
             }
         }

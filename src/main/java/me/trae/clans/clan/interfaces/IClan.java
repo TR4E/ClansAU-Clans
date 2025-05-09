@@ -7,6 +7,7 @@ import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.data.Pillage;
 import me.trae.clans.clan.enums.RequestType;
+import me.trae.clans.clan.enums.TNTProtectionResult;
 import me.trae.clans.clan.types.AdminClan;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -166,9 +167,11 @@ public interface IClan {
 
     void setLastTNTed(final long lastTNTed);
 
+    TNTProtectionResult getTNTProtectionResult(final ClanManager manager);
+
     boolean isTNTProtected(final ClanManager manager);
 
-    String getTNTProtectionString(final ClanManager manager, final Player receiverPlayer);
+    String getTNTProtectionString(final ClanManager manager);
 
     long getLastPillaged();
 
