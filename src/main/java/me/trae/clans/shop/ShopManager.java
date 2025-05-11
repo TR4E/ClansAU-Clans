@@ -11,7 +11,15 @@ import me.trae.clans.shop.shops.fishing.FishingShopKeeper;
 import me.trae.clans.shop.shops.resources.ResourcesShopKeeper;
 import me.trae.clans.shop.shops.traveller.TravellerMerchant;
 import me.trae.clans.shop.shops.weapons_and_tools.WeaponsAndToolsShopKeeper;
+import me.trae.core.framework.Frame;
 import me.trae.core.framework.SpigotManager;
+import me.trae.core.utility.UtilJava;
+import org.bukkit.command.CommandSender;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class ShopManager extends SpigotManager<Clans> implements IShopManager {
 
@@ -37,5 +45,17 @@ public class ShopManager extends SpigotManager<Clans> implements IShopManager {
 
         // Traveller Merchant
         addModule(new TravellerMerchant(this));
+    }
+
+    @Override
+    public ShopKeeper searchShopKeeper(final CommandSender sender, final String name, final boolean inform) {
+        final List<Predicate<ShopKeeper>> predicates = Arrays.asList(
+                (shopKeeper -> shopKeeper.getSlicedName().equalsIgnoreCase(name)),
+                (shopKeeper -> shopKeeper.getSlicedName().toLowerCase().contains(name.toLowerCase()))
+        );
+
+        final Function<ShopKeeper, String> function = Frame::getSlicedName;
+
+        return UtilJava.search(this.getModulesByClass(ShopKeeper.class), predicates, null, function, "Shop Keeper Search", sender, name, inform);
     }
 }

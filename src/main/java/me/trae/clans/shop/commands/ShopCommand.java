@@ -4,14 +4,13 @@ import me.trae.clans.Clans;
 import me.trae.clans.shop.ShopKeeper;
 import me.trae.clans.shop.ShopManager;
 import me.trae.clans.shop.menus.ShopMenu;
-import me.trae.clans.shop.shops.resources.ResourcesShopKeeper;
 import me.trae.core.client.Client;
 import me.trae.core.client.enums.Rank;
 import me.trae.core.command.types.Command;
 import me.trae.core.command.types.models.PlayerCommandType;
 import me.trae.core.gamer.Gamer;
-import me.trae.core.utility.UtilJava;
 import me.trae.core.utility.UtilMenu;
+import me.trae.core.utility.UtilMessage;
 import org.bukkit.entity.Player;
 
 public class ShopCommand extends Command<Clans, ShopManager> implements PlayerCommandType {
@@ -22,23 +21,20 @@ public class ShopCommand extends Command<Clans, ShopManager> implements PlayerCo
 
     @Override
     public void execute(final Player player, final Client client, final Gamer gamer, final String[] args) {
-        ShopKeeper shopKeeper = this.getManager().getModuleByClass(ResourcesShopKeeper.class);
-
-        if (args.length == 1) {
-            try {
-                shopKeeper = UtilJava.cast(ShopKeeper.class, this.getManager().getModuleByName(args[0]));
-                if (shopKeeper == null) {
-                    return;
-                }
-            } catch (final Exception ignored) {
-            }
+        if (args.length == 0) {
+            UtilMessage.message(player, "Shop", "You did not input a Shop Keeper.");
+            return;
         }
 
-        final ShopKeeper finalShopKeeper = shopKeeper;
-        UtilMenu.open(new ShopMenu(this.getManager(), player, finalShopKeeper) {
+        final ShopKeeper shopKeeper = this.getManager().searchShopKeeper(player, args[0], true);
+        if (shopKeeper == null) {
+            return;
+        }
+
+        UtilMenu.open(new ShopMenu(this.getManager(), player, shopKeeper) {
             @Override
             public ShopKeeper getShopKeeper() {
-                return finalShopKeeper;
+                return shopKeeper;
             }
         });
     }
