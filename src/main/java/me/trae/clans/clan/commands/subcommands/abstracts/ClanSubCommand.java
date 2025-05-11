@@ -31,7 +31,7 @@ public abstract class ClanSubCommand extends SubCommand<Clans, ClanCommand> impl
     public ChatColor getUsageChatColor() {
         final MemberRole requiredMemberRole = this.getRequiredMemberRole();
 
-        return requiredMemberRole != null ? requiredMemberRole.getChatColor() : ChatColor.YELLOW;
+        return requiredMemberRole != null ? requiredMemberRole.getChatColor() : this.getRequiredRank().getChatColor();
     }
 
     @Override

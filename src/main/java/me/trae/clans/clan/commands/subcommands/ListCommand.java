@@ -23,12 +23,6 @@ public class ListCommand extends ClanSubCommand {
         super(module, "list", Rank.ADMIN);
     }
 
-
-    @Override
-    public ChatColor getUsageChatColor() {
-        return this.getRequiredMemberRole().getChatColor();
-    }
-
     @Override
     public String getDescription() {
         return "Show List of Clans";
