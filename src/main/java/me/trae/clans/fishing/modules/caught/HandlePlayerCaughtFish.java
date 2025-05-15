@@ -43,7 +43,7 @@ public class HandlePlayerCaughtFish extends SpigotListener<Clans, FishingManager
 
         int weight = event.getWeight();
         if (!(event.isInFields())) {
-            if (!(this.onlyInFields)) {
+            if (this.onlyInFields) {
                 UtilMessage.simpleMessage(event.getPlayer(), "Fishing", "You can only fish at <white>Fields</white>.");
                 return;
             }
