@@ -22,6 +22,9 @@ public class HandlePlayerCaughtFish extends SpigotListener<Clans, FishingManager
     @ConfigInject(type = Boolean.class, path = "Broadcast-Big-Caught", defaultValue = "true")
     private boolean broadcastBigCaught;
 
+    @ConfigInject(type = Boolean.class, path = "Fish-In-Wilderness", defaultValue = "true")
+    private boolean fishInWilderness;
+
     public HandlePlayerCaughtFish(final FishingManager manager) {
         super(manager);
     }
@@ -40,6 +43,11 @@ public class HandlePlayerCaughtFish extends SpigotListener<Clans, FishingManager
 
         int weight = event.getWeight();
         if (!(event.isInFields())) {
+            if (!(this.fishInWilderness)) {
+                UtilMessage.simpleMessage(event.getPlayer(), "Fishing", "You can only fish at <white>Fields</white>.");
+                return;
+            }
+
             weight = weight / 4;
 
             UtilMessage.simpleMessage(event.getPlayer(), "Fishing", "It is recommended to fish at <white>Fields</white> for better luck.");
