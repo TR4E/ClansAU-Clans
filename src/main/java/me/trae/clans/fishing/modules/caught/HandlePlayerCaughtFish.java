@@ -40,12 +40,12 @@ public class HandlePlayerCaughtFish extends SpigotListener<Clans, FishingManager
 
         int weight = event.getWeight();
         if (!(event.isInFields())) {
-            weight = weight / 3;
+            weight = weight / 4;
 
             UtilMessage.simpleMessage(event.getPlayer(), "Fishing", "It is recommended to fish at <white>Fields</white> for better luck.");
         }
 
-        if (event.isFishingFrenzy()) {
+        if (event.isFishingFrenzy() && event.isInFields()) {
             final double frenzyChance = this.frenzyLuckPercentage / 100.0;
 
             weight += (int) (weight * frenzyChance);
