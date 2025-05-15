@@ -223,6 +223,7 @@ public class ClanManager extends SpigotManager<Clans> implements IClanManager, R
         addModule(new DisableBlockSpreadInAdminClanTerritory(this));
         addModule(new DisableLeavesDecayInAdminClanTerritory(this));
         addModule(new DisableNaturalCreatureSpawningInAdminClanTerritory(this));
+        addModule(new DisablePistonAbuseInClanTerritory(this));
         addModule(new DisableShootingArrowsInSafeZones(this));
 
         // Modules
