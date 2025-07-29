@@ -16,7 +16,7 @@ public class MineIron extends Quest implements MiningQuest {
     public String[] getDescription() {
         return new String[]{
                 "To complete this quest, you",
-                UtilString.format("have to <gold>%s</gold> in <bold>Fields</bold>.", this.getMaxProgress())
+                UtilString.format("have to <gold>%s</gold> in <bold>Fields</bold>.", this.getDisplayName())
         };
     }
 
